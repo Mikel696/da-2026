@@ -507,6 +507,14 @@
    "id": "ia-generativa",
    "competencia": "IA generativa (LLM, ChatGPT, Copilot)",
    "icono": "🤖",
+   "disciplina": "IA",
+   "frase": "Una IA generativa es como un asistente nuevo, muy rápido y muy leído: te entrega un borrador en segundos, pero tú revisas cada dato antes de firmarlo.",
+   "usos": [
+    "Resumir un documento largo o un hilo de correos en cinco puntos.",
+    "Redactar el primer borrador de un procedimiento o de un correo a un cliente.",
+    "Revisar una tabla y señalar lo que se ve raro, para que tú lo compruebes."
+   ],
+   "portafolio": "Tu plantilla de encargo y un caso ficticio de un proceso antes y después de la IA, con el tiempo medido y quién revisa qué.",
    "queEs": "Herramientas como ChatGPT, Claude o Copilot que escriben, resumen y analizan a partir de un encargo en lenguaje natural. En estos puestos se pide saber encargarles bien, comprobar lo que producen y meterlas en un proceso de la empresa.",
    "pasos": [
     {
@@ -527,7 +535,71 @@
       "titulo": "Curso gratis: Inteligencia Artificial para todos (2026)",
       "canal": "EDteam",
       "url": "https://www.youtube.com/watch?v=DjshEwI6pVk"
-     }
+     },
+     "logro": "explicar con tus palabras qué es un modelo de lenguaje y por qué a veces inventa.",
+     "idea": {
+      "titulo": "Entiéndelo con algo conocido",
+      "columnas": [
+       "Algo que ya conoces",
+       "En la IA"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "El autocompletar del celular, que adivina la siguiente palabra",
+        "Un modelo de lenguaje: escribe el texto más probable, a una escala enorme"
+       ],
+       [
+        "Un practicante que leyó muchísimo pero no conoce tu empresa",
+        "Sabe mucho en general; de tu proceso sabe solo lo que tú le cuentes"
+       ],
+       [
+        "Alguien que responde muy seguro aunque no sepa",
+        "La alucinación: un dato inventado que suena bien"
+       ],
+       [
+        "Un asistente que además puede buscar o abrir un archivo",
+        "Un agente: una IA que usa herramientas"
+       ]
+      ]
+     },
+     "mira": "Mira la primera parte del curso: qué es la IA y cómo funcionan los modelos de lenguaje.",
+     "hazlo": [
+      "Haz el módulo de Microsoft Learn de esta estación (en español).",
+      "Pregúntale a una IA la TRM de ayer y compárala con la de datos.gov.co.",
+      "Escribe en el cuaderno, con tus palabras, qué es un modelo de lenguaje y por qué puede inventar."
+     ],
+     "comprueba": {
+      "texto": "Tu explicación sirve si alguien que no sabe de IA la entiende y dice:",
+      "valores": [
+       [
+        "Qué hace",
+        "escribe lo probable"
+       ],
+       [
+        "Por qué inventa",
+        "no siempre consulta una fuente"
+       ],
+       [
+        "Qué haces tú",
+        "verificar"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Creer que la IA busca la respuesta.",
+       "Si no tiene una herramienta de búsqueda, escribe lo más probable según lo que aprendió."
+      ],
+      [
+       "Tomar su seguridad como prueba.",
+       "Un tono seguro no es evidencia: un dato sin fuente no se usa."
+      ],
+      [
+       "Pegarle datos internos.",
+       "Lo que le escribes sale de tu equipo: practica con casos ficticios."
+      ]
+     ]
     },
     {
      "id": "ia-generativa-2",
@@ -547,7 +619,75 @@
       "modulo": "17-IA",
       "url": "pages/ai-dojo.html",
       "texto": "AI Dojo · cinturón Blanco (Encargar)"
-     }
+     },
+     "logro": "escribir un encargo con contexto, formato y criterio de éxito, y guardarlo como plantilla.",
+     "idea": {
+      "titulo": "Entiéndelo con algo que ya haces",
+      "columnas": [
+       "Cuando le delegas a un compañero",
+       "Cuando le encargas a la IA"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Le explicas para qué es y quién lo va a leer",
+        "Contexto: «Es para un analista nuevo que no conoce el proceso»"
+       ],
+       [
+        "Le muestras cómo lo quieres",
+        "Formato: «Tabla con paso, responsable y tiempo»"
+       ],
+       [
+        "Le dices cuándo está bien hecho",
+        "Criterio de éxito: «Máximo 10 pasos y sin jerga»"
+       ],
+       [
+        "Le dices «pregúntame si algo no está claro»",
+        "«Antes de empezar, hazme las preguntas que necesites»"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: los cursos de Anthropic y las misiones del AI Dojo enseñan haciendo.",
+     "hazlo": [
+      "Haz en el AI Dojo las misiones del cinturón Blanco, de «El mismo encargo, dos veces» a «Tu primera plantilla».",
+      "Llena la plantilla de abajo para documentar un proceso ficticio.",
+      "Prueba el mismo encargo con plantilla y sin ella, y pega las dos respuestas en el cuaderno."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "Contexto: [para qué es y quién lo va a leer]\nTarea: [qué necesito, en una frase]\nDatos: [lo que te paso; usa solo esto]\nFormato: [tabla, lista o correo, y qué tan largo]\nCriterio de éxito: [cómo sé que quedó bien]\nAntes de empezar, hazme las preguntas que necesites."
+     },
+     "comprueba": {
+      "texto": "Compara las dos respuestas. La que salió con plantilla debería:",
+      "valores": [
+       [
+        "Formato",
+        "el que pediste"
+       ],
+       [
+        "Preguntas",
+        "te hizo alguna"
+       ],
+       [
+        "Retoques",
+        "menos"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Encargos de una línea.",
+       "«Hazme un procedimiento» deja que la IA adivine todo: dale contexto y formato."
+      ],
+      [
+       "No decir cuándo está bien.",
+       "Sin criterio de éxito no sabes si aceptar o devolver el resultado."
+      ],
+      [
+       "Empezar de cero cada vez.",
+       "Guarda el encargo como plantilla y cambia solo lo que varía."
+      ]
+     ]
     },
     {
      "id": "ia-generativa-3",
@@ -562,7 +702,58 @@
       "url": "pages/ai-dojo.html",
       "texto": "AI Dojo · cinturón Amarillo (Verificar)"
      },
-     "practica": "Haz las misiones del cinturón Amarillo (de «Caza tu primera alucinación» a «La escalera aplicada»). Después pide un resumen de un documento público y marca cada afirmación como comprobada o no."
+     "practica": "Haz las misiones del cinturón Amarillo (de «Caza tu primera alucinación» a «La escalera aplicada»). Después pide un resumen de un documento público y marca cada afirmación como comprobada o no.",
+     "logro": "marcar cada afirmación de una respuesta como comprobada o no, antes de usarla.",
+     "idea": {
+      "titulo": "Entiéndelo con tu trabajo",
+      "columnas": [
+       "En una conciliación",
+       "Con una respuesta de IA"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "No das por buena una partida sin su soporte",
+        "No das por bueno un dato sin su fuente"
+       ],
+       [
+        "Marcas cada partida: cruzada o abierta",
+        "Marcas cada afirmación: comprobada, falsa o sin fuente"
+       ],
+       [
+        "Una diferencia se investiga, no se esconde",
+        "Una alucinación se corrige o se borra"
+       ],
+       [
+        "Que el total cuadre no prueba cada partida",
+        "Que el texto suene bien no prueba que sea cierto"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: el cinturón Amarillo del AI Dojo trae misiones para cazar alucinaciones.",
+     "hazlo": [
+      "Haz en el AI Dojo las misiones del cinturón Amarillo, de «Caza tu primera alucinación» a «La escalera aplicada».",
+      "Pide a una IA el resumen de un documento público, por ejemplo la descripción de un conjunto de datos.gov.co.",
+      "Copia el resumen en el cuaderno y marca cada afirmación: comprobada, falsa o sin fuente."
+     ],
+     "comprueba": {
+      "texto": "Tu resumen queda con una marca en cada afirmación y el enlace de la fuente con que la comprobaste.",
+      "nota": "Si todas salieron comprobadas, revisa otra vez las cifras, las fechas y los nombres: es donde más se equivoca."
+     },
+     "errores": [
+      [
+       "Revisar solo lo que suena raro.",
+       "Lo peligroso es lo que suena razonable: revisa cifras, fechas y nombres."
+      ],
+      [
+       "Pedirle a la misma IA que se revise.",
+       "Puede repetir el error: contrasta con la fuente."
+      ],
+      [
+       "Aceptarla porque te dio la razón.",
+       "Si solo confirma lo que dijiste, pídele que busque qué está mal."
+      ]
+     ]
     },
     {
      "id": "ia-generativa-4",
@@ -577,7 +768,71 @@
       "url": "pages/ai-dojo.html",
       "texto": "AI Dojo · cinturón Naranja (Elegir)"
      },
-     "practica": "Haz las misiones del cinturón Naranja y termina con «Tu tabla personal, versión 1»: qué IA usas para qué tarea y por qué."
+     "practica": "Haz las misiones del cinturón Naranja y termina con «Tu tabla personal, versión 1»: qué IA usas para qué tarea y por qué.",
+     "logro": "decidir qué IA usar para cada tipo de tarea, con una prueba tuya.",
+     "idea": {
+      "titulo": "Entiéndelo con herramientas de trabajo",
+      "columnas": [
+       "Tipo de tarea",
+       "Qué buscar en la herramienta"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Redactar o resumir texto",
+        "Un asistente de chat general"
+       ],
+       [
+        "Trabajar sobre tus documentos",
+        "Que puedas adjuntarlos y que diga de dónde saca cada dato"
+       ],
+       [
+        "Tareas simples que se repiten mucho",
+        "Un modelo pequeño y rápido"
+       ],
+       [
+        "Código o fórmulas",
+        "Que pueda ejecutar o probar lo que escribe"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: el cinturón Naranja del AI Dojo compara herramientas con la misma tarea.",
+     "hazlo": [
+      "Haz en el AI Dojo las misiones del cinturón Naranja.",
+      "Da la misma tarea a dos IA distintas y compara en una tabla: calidad, tiempo y errores.",
+      "Termina «Tu tabla personal, versión 1» y pégala en el cuaderno."
+     ],
+     "comprueba": {
+      "texto": "Tu tabla personal está lista si tiene:",
+      "valores": [
+       [
+        "Tareas",
+        "5 o más"
+       ],
+       [
+        "Herramienta",
+        "una por tarea"
+       ],
+       [
+        "Razón",
+        "una por fila"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Usar una sola IA para todo.",
+       "Cada una tiene puntos fuertes: compáralas con la misma tarea."
+      ],
+      [
+       "Comparar con tareas distintas.",
+       "Si cambias la tarea, no sabes si ganó la herramienta o el encargo."
+      ],
+      [
+       "Decidir por la publicidad.",
+       "Decide con tu propia prueba y anota el resultado."
+      ]
+     ]
     },
     {
      "id": "ia-generativa-5",
@@ -592,7 +847,72 @@
       "proveedor": "Microsoft Learn (en español)",
       "url": "https://learn.microsoft.com/es-es/training/paths/get-started-ai-apps-agents/"
      },
-     "practica": "Toma un proceso repetitivo (caso ficticio o público), describe cómo es hoy y cómo sería con IA, y estima el tiempo ahorrado con una cuenta que puedas explicar."
+     "practica": "Toma un proceso repetitivo (caso ficticio o público), describe cómo es hoy y cómo sería con IA, y estima el tiempo ahorrado con una cuenta que puedas explicar.",
+     "logro": "ubicar dónde entra la IA en un proceso y calcular el tiempo que ahorra con una cuenta que puedas explicar.",
+     "idea": {
+      "titulo": "Entiéndelo con un proceso (ficticio)",
+      "columnas": [
+       "Paso de hoy",
+       "Con IA"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Leer 40 correos para saber qué pide cada uno",
+        "La IA los clasifica; tú revisas los dudosos"
+       ],
+       [
+        "Escribir el resumen semanal desde cero",
+        "La IA hace el borrador; tú lo corriges"
+       ],
+       [
+        "Decidir si una diferencia es un error",
+        "Sigue siendo tuyo"
+       ],
+       [
+        "40 correos × 2 min = 80 min",
+        "40 × 0,5 min + 10 min de revisión = 30 min"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: el módulo de Microsoft Learn explica qué es una aplicación o un agente de IA dentro de una empresa.",
+     "hazlo": [
+      "Haz el módulo de Microsoft Learn de esta estación.",
+      "Elige un proceso repetitivo ficticio y escribe sus pasos de hoy con el tiempo de cada uno.",
+      "Marca dónde entra la IA y quién revisa, y calcula el antes y el después."
+     ],
+     "comprueba": {
+      "texto": "En el ejemplo ficticio de la tabla, la cuenta da:",
+      "valores": [
+       [
+        "Antes",
+        "80 min"
+       ],
+       [
+        "Después",
+        "30 min"
+       ],
+       [
+        "Ahorro",
+        "50 min"
+       ]
+      ],
+      "nota": "En tu caso, los minutos deben salir de cronometrar, no de suponer."
+     },
+     "errores": [
+      [
+       "Contar el ahorro sin la revisión.",
+       "El tiempo de revisar lo que hace la IA también cuenta."
+      ],
+      [
+       "Inventar los minutos.",
+       "Cronometra al menos una vez: un número sin medición no se presenta."
+      ],
+      [
+       "Sacar a la persona de las decisiones.",
+       "Lo que tiene consecuencias (pagar, rechazar) lo aprueba alguien."
+      ]
+     ]
     }
    ]
   },
@@ -698,6 +1018,14 @@
    "id": "power-automate",
    "competencia": "Power Automate / Power Platform",
    "icono": "⚡",
+   "disciplina": "Automatización",
+   "frase": "Power Automate es dejarle a alguien instrucciones exactas, «cuando llegue esto, haz aquello», y que las cumpla cada vez sin cansarse.",
+   "usos": [
+    "Guardar solos los adjuntos de ciertos correos en una carpeta.",
+    "Pedir y registrar aprobaciones (gastos, accesos) sin perseguir a nadie por chat.",
+    "Repetir clics en programas del PC que no tienen otra forma de conectarse."
+   ],
+   "portafolio": "Un flujo de escritorio que ordena archivos por mes y el diseño de una aprobación de gastos ficticia, con lo que pasa si se rechaza.",
    "queEs": "La herramienta de Microsoft para automatizar sin programar: flujos en la nube (correos, aprobaciones, archivos) y flujos de escritorio que repiten clics en el PC. La versión de escritorio funciona en Windows 10 y 11 con una cuenta Microsoft (según los requisitos que publica Microsoft).",
    "pasos": [
     {
@@ -718,7 +1046,75 @@
       "titulo": "Introducción a POWER AUTOMATE 🚀 (antes FLOW) | Creamos 3️⃣ Flujos!",
       "canal": "Martín Gesualdo",
       "url": "https://www.youtube.com/watch?v=s0uDnQmlIbs"
-     }
+     },
+     "logro": "reconocer qué tareas de tu semana pueden convertirse en un flujo.",
+     "idea": {
+      "titulo": "Entiéndelo con una frase de tu día",
+      "columnas": [
+       "Frase de tu día",
+       "Parte del flujo"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "«Cuando llega un correo con factura…»",
+        "Desencadenador: lo que arranca el flujo"
+       ],
+       [
+        "«…guardo el adjunto en la carpeta…»",
+        "Una acción"
+       ],
+       [
+        "«…y le aviso a contabilidad»",
+        "Otra acción"
+       ],
+       [
+        "Cosas en la nube: correo, Teams, SharePoint",
+        "Flujo de nube"
+       ],
+       [
+        "Clics en programas instalados en el PC",
+        "Flujo de escritorio"
+       ]
+      ]
+     },
+     "mira": "Mira cómo arma los 3 flujos del video y fíjate en qué es el desencadenador de cada uno.",
+     "hazlo": [
+      "Haz el módulo «Introducción a Power Automate» de Microsoft Learn.",
+      "Lista 5 tareas de tu semana que se repiten, sin datos internos.",
+      "Escribe cada una como «cuando pasa X, haz Y» y marca si sería de nube o de escritorio."
+     ],
+     "comprueba": {
+      "texto": "Tu lista está lista si tiene:",
+      "valores": [
+       [
+        "Tareas",
+        "5"
+       ],
+       [
+        "Escritas como",
+        "cuando… haz…"
+       ],
+       [
+        "Tipo",
+        "nube o escritorio"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Elegir tareas que cambian cada vez.",
+       "Si cada caso es distinto y exige criterio, no es un buen flujo."
+      ],
+      [
+       "Olvidar el desencadenador.",
+       "Todo flujo empieza por algo: un correo, una hora o un botón."
+      ],
+      [
+       "Automatizar un proceso con errores.",
+       "El flujo repite los errores más rápido: arréglalo primero."
+      ]
+     ]
     },
     {
      "id": "power-automate-2",
@@ -733,7 +1129,71 @@
       "proveedor": "Microsoft Learn (en español)",
       "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/install"
      },
-     "practica": "Instálalo, abre la grabadora y graba un flujo corto cualquiera. Anota aquí qué grabaste y qué te sorprendió."
+     "practica": "Instálalo, abre la grabadora y graba un flujo corto cualquiera. Anota aquí qué grabaste y qué te sorprendió.",
+     "logro": "tener Power Automate para escritorio funcionando y grabar un flujo corto.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "Lo que ya conoces",
+       "En Power Automate para escritorio"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "La grabadora de macros de Excel",
+        "La grabadora: anota tus clics como pasos"
+       ],
+       [
+        "Un programa que instalas",
+        "Se instala en Windows y se entra con tu cuenta Microsoft"
+       ],
+       [
+        "Una macro guardada",
+        "Un flujo guardado en tu cuenta"
+       ],
+       [
+        "Editar la macro después",
+        "Cada paso grabado se puede editar o borrar"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la guía de instalación de Microsoft Learn (en español) lo explica paso a paso.",
+     "hazlo": [
+      "Sigue la guía de instalación de Microsoft Learn. Si necesitas cuenta Microsoft, la creas tú.",
+      "Crea un flujo nuevo y abre la grabadora.",
+      "Graba algo corto, como abrir el Bloc de notas y escribir una línea, y anota en el cuaderno qué pasos quedaron."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha si al ejecutar el flujo se repite lo que grabaste:",
+      "valores": [
+       [
+        "Instalado",
+        "sí"
+       ],
+       [
+        "Flujo grabado",
+        "1"
+       ],
+       [
+        "Pasos anotados",
+        "todos"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Grabar con prisa.",
+       "Cada clic de más queda grabado: graba despacio y borra lo que sobre."
+      ],
+      [
+       "Instalarlo en un equipo del trabajo sin permiso.",
+       "Usa tu PC personal o pide autorización a sistemas."
+      ],
+      [
+       "Mover ventanas mientras corre.",
+       "El flujo hace clic donde estaban las cosas: deja la pantalla quieta."
+      ]
+     ]
     },
     {
      "id": "power-automate-3",
@@ -753,7 +1213,75 @@
       "titulo": "Automatiza EXCEL con Power Automate Desktop",
       "canal": "Firbot Academy",
       "url": "https://www.youtube.com/watch?v=Q7mQXPiGWp4"
-     }
+     },
+     "logro": "hacer un flujo que ordena archivos en carpetas por mes.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que harías a mano",
+      "columnas": [
+       "A mano",
+       "La acción en Power Automate para escritorio"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Mirar qué PDF hay en la carpeta",
+        "Obtener archivos de la carpeta (filtro *.pdf)"
+       ],
+       [
+        "Repetir con cada archivo",
+        "Para cada"
+       ],
+       [
+        "Crear la carpeta del mes",
+        "Crear carpeta"
+       ],
+       [
+        "Arrastrar el archivo a esa carpeta",
+        "Mover archivos"
+       ]
+      ]
+     },
+     "mira": "El video arma un flujo de escritorio con Excel. El tuyo usa las mismas piezas (variables y un bucle), pero con archivos.",
+     "hazlo": [
+      "Haz el ejercicio «Crear flujos de escritorio» de Microsoft Learn.",
+      "Crea una carpeta de prueba con 3 PDF cualquiera y arma ahí el flujo de abajo.",
+      "Ejecútalo y comprueba que los 3 PDF quedaron dentro de la carpeta del mes."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "1. Obtener fecha y hora actual              → %FechaActual%\n2. Convertir fecha y hora en texto          → formato yyyy-MM → %Mes%\n3. Crear carpeta                             → Prueba\\%Mes%\n4. Obtener archivos de la carpeta            → Prueba, filtro *.pdf → %Archivos%\n5. Para cada %Archivo% en %Archivos%\n6.     Mover archivos                        → %Archivo% a Prueba\\%Mes%\n7. Fin"
+     },
+     "comprueba": {
+      "texto": "Después de ejecutarlo:",
+      "valores": [
+       [
+        "PDF movidos",
+        "3"
+       ],
+       [
+        "Carpeta",
+        "la del mes actual, como 2026-11"
+       ],
+       [
+        "Errores",
+        "0"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Probar con tus archivos reales la primera vez.",
+       "Usa una carpeta de prueba: un error podría mover lo que no querías."
+      ],
+      [
+       "Variables sin %.",
+       "En Power Automate las variables van entre signos de porcentaje: %Mes%."
+      ],
+      [
+       "Mover sin filtro.",
+       "Sin *.pdf movería todos los archivos de la carpeta."
+      ]
+     ]
     },
     {
      "id": "power-automate-4",
@@ -768,7 +1296,75 @@
       "proveedor": "Microsoft Learn (en español)",
       "url": "https://learn.microsoft.com/es-es/power-automate/modern-approvals"
      },
-     "practica": "Diseña una aprobación de gastos ficticia: quién la pide, quién aprueba, qué pasa si se rechaza y a quién se avisa."
+     "practica": "Diseña una aprobación de gastos ficticia: quién la pide, quién aprueba, qué pasa si se rechaza y a quién se avisa.",
+     "logro": "diseñar una aprobación con su camino del sí y del no.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que pasa hoy",
+      "columnas": [
+       "Hoy, por chat o correo",
+       "Con un flujo de aprobación"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Alguien pide el gasto por chat",
+        "Un formulario dispara el flujo"
+       ],
+       [
+        "Persigues al jefe para que responda",
+        "Le llega una tarjeta para aprobar o rechazar"
+       ],
+       [
+        "Nadie sabe en qué va",
+        "El flujo guarda el resultado y la fecha"
+       ],
+       [
+        "Si dice que no, se pierde en el chat",
+        "Si rechaza, se avisa a quien pidió, con el motivo"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: el módulo de Microsoft Learn arma y prueba un flujo de aprobación completo.",
+     "hazlo": [
+      "Lee el módulo de Microsoft Learn de esta estación.",
+      "Diseña una aprobación de gastos ficticia: quién pide, quién aprueba, qué pasa si se rechaza y a quién se avisa.",
+      "Si tu cuenta te deja crear flujos de nube, constrúyelo; si no, déjalo dibujado en el cuaderno."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "Desencadenador: cuando se envía el formulario de gasto\nAcción: Iniciar y esperar una aprobación (aprueba: jefe del área)\nCondición: ¿la respuesta es «Aprobar»?\n  Sí → registrar el gasto como aprobado y avisar a quien lo pidió\n  No → avisar a quien lo pidió, con el comentario del aprobador"
+     },
+     "comprueba": {
+      "texto": "Tu diseño está completo si dice:",
+      "valores": [
+       [
+        "Quién pide",
+        "1 rol"
+       ],
+       [
+        "Quién aprueba",
+        "1 rol"
+       ],
+       [
+        "Si rechaza",
+        "qué pasa y a quién se avisa"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Olvidar el camino del no.",
+       "Si nadie se entera del rechazo, la solicitud queda colgada."
+      ],
+      [
+       "Un aprobador que nunca responde.",
+       "Define qué pasa si no contesta en un plazo."
+      ],
+      [
+       "Pedir que aprueben sin datos.",
+       "La tarjeta debe mostrar monto, motivo y quién lo pide."
+      ]
+     ]
     },
     {
      "id": "power-automate-5",
@@ -783,7 +1379,57 @@
       "proveedor": "Microsoft Learn (en español)",
       "url": "https://learn.microsoft.com/es-es/credentials/certifications/power-platform-fundamentals/"
      },
-     "practica": "Marca qué temas de la guía de estudio ya dominas y cuáles te faltan. Con eso decides si te presentas al examen."
+     "practica": "Marca qué temas de la guía de estudio ya dominas y cuáles te faltan. Con eso decides si te presentas al examen.",
+     "logro": "saber qué hace cada pieza de Power Platform y qué te falta para la certificación PL-900.",
+     "idea": {
+      "titulo": "Entiéndelo en una frase por pieza",
+      "columnas": [
+       "Pieza",
+       "Para qué sirve"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Power Apps",
+        "Hacer apps sencillas (formularios, registros) casi sin programar"
+       ],
+       [
+        "Power Automate",
+        "Automatizar tareas y aprobaciones"
+       ],
+       [
+        "Power BI",
+        "Tableros e informes"
+       ],
+       [
+        "Dataverse",
+        "La base de datos donde esas piezas guardan y comparten información"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la página de la certificación en Microsoft Learn trae la guía de estudio.",
+     "hazlo": [
+      "Abre la guía de estudio de PL-900 en Microsoft Learn.",
+      "Marca cada tema: lo domino, lo vi o me falta.",
+      "Con esa lista decide si te presentas al examen y anota la fecha."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha cuando el cuaderno tiene tus tres listas y la decisión con su fecha."
+     },
+     "errores": [
+      [
+       "Estudiar sin la guía.",
+       "La guía dice exactamente qué evalúan: úsala como lista de chequeo."
+      ],
+      [
+       "Confundir las piezas.",
+       "Power Apps es la app; Power Automate, lo que pasa detrás; Dataverse, dónde se guarda."
+      ],
+      [
+       "Confiar en fechas o precios de memoria.",
+       "Revisa la página oficial el día que decidas."
+      ]
+     ]
     }
    ]
   },
@@ -791,6 +1437,14 @@
    "id": "rpa",
    "competencia": "RPA (UiPath, Automation Anywhere)",
    "icono": "🦾",
+   "disciplina": "Automatización",
+   "frase": "Un robot de RPA es un empleado digital que usa tus programas igual que tú: mira la pantalla, hace clic, copia y pega, sin cansarse.",
+   "usos": [
+    "Pasar datos de un sistema viejo, sin API, a un Excel todos los días.",
+    "Llenar formularios repetidos con los datos de una hoja.",
+    "Descargar reportes de un portal a la misma hora cada mañana."
+   ],
+   "portafolio": "Un robot de punta a punta (correos de prueba → montos → Excel) con su documentación y el tiempo medido antes y después.",
    "queEs": "Robots de software que usan las aplicaciones como lo haría una persona: abren pantallas, copian, pegan y llenan formularios. Sirven cuando un sistema no tiene API. UiPath y Automation Anywhere aparecen en vacantes de la muestra.",
    "pasos": [
     {
@@ -811,7 +1465,67 @@
       "titulo": "UiPath vs Power Automate vs Blue Prism vs Automation Anywhere",
       "canal": "Camilo Duarte",
       "url": "https://www.youtube.com/watch?v=eaYM9upFFJw"
-     }
+     },
+     "logro": "saber cuándo conviene un robot y cuándo una integración por API.",
+     "idea": {
+      "titulo": "Entiéndelo comparando",
+      "columnas": [
+       "Integración por API",
+       "Robot de RPA"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Un sistema le pide datos a otro por una puerta hecha para eso",
+        "El robot entra por la pantalla, como una persona"
+       ],
+       [
+        "Rápida y estable",
+        "Se rompe si cambia la pantalla"
+       ],
+       [
+        "Necesita que el sistema tenga API",
+        "Sirve cuando no hay API"
+       ],
+       [
+        "Corre sin nadie al lado",
+        "Atendido: con una persona al lado; desatendido: solo"
+       ]
+      ]
+     },
+     "mira": "El video compara las 4 herramientas de RPA más usadas. Fíjate en qué dice de cuándo conviene cada una.",
+     "hazlo": [
+      "Mira el video.",
+      "De tus tareas repetitivas (ruta de Power Automate, estación 1), elige 2 buenas para un robot.",
+      "Explica en el cuaderno por qué: ¿hay API?, ¿la pantalla cambia poco?, ¿los pasos son siempre iguales?"
+     ],
+     "comprueba": {
+      "texto": "Tu respuesta está completa si tiene:",
+      "valores": [
+       [
+        "Tareas elegidas",
+        "2"
+       ],
+       [
+        "Preguntas respondidas",
+        "3 por tarea"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Usar un robot cuando hay API.",
+       "El robot es el último recurso: la API es más estable."
+      ],
+      [
+       "Elegir procesos que cambian a menudo.",
+       "Cada cambio de pantalla rompe el robot."
+      ],
+      [
+       "Olvidar las excepciones.",
+       "Piensa qué hace el robot cuando algo no está donde lo espera."
+      ]
+     ]
     },
     {
      "id": "rpa-2",
@@ -826,7 +1540,71 @@
       "proveedor": "Microsoft Learn (en español)",
       "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/introduction"
      },
-     "practica": "Graba un robot que abra un sitio público, copie un dato y lo pegue en Excel."
+     "practica": "Graba un robot que abra un sitio público, copie un dato y lo pegue en Excel.",
+     "logro": "hacer un robot que copia un dato de una página web y lo escribe en Excel.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que harías tú",
+      "columnas": [
+       "Lo que harías tú",
+       "Lo que hace el robot"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Abrir el navegador en una página",
+        "Iniciar el navegador con la dirección"
+       ],
+       [
+        "Leer un dato de la pantalla",
+        "Extraer datos de la página web"
+       ],
+       [
+        "Abrir Excel",
+        "Iniciar Excel"
+       ],
+       [
+        "Escribir el dato en una celda",
+        "Escribir en la hoja de cálculo de Excel"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: el módulo de Microsoft Learn presenta los flujos de escritorio, que también son RPA.",
+     "hazlo": [
+      "Haz el módulo de Microsoft Learn de esta estación.",
+      "Elige una página pública con un dato que cambie cada día y arma el robot que lo copia a Excel.",
+      "Córrelo dos veces y comprueba que escribe el dato correcto."
+     ],
+     "comprueba": {
+      "texto": "El robot funciona si:",
+      "valores": [
+       [
+        "Dato en Excel",
+        "el que muestra la página"
+       ],
+       [
+        "Ejecuciones",
+        "2"
+       ],
+       [
+        "Clics tuyos",
+        "0"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Falta la extensión del navegador.",
+       "Para manejar Edge o Chrome, Power Automate para escritorio necesita su extensión instalada."
+      ],
+      [
+       "La página cambió.",
+       "Si mueven el dato de lugar, el robot no lo encuentra: vuelve a señalarlo."
+      ],
+      [
+       "Excel abierto con otro archivo.",
+       "El robot puede escribir en el libro equivocado: que abra su propio archivo."
+      ]
+     ]
     },
     {
      "id": "rpa-3",
@@ -846,7 +1624,71 @@
       "titulo": "Curso Gratis RPA con Uipath Completo",
       "canal": "Camilo Duarte",
       "url": "https://www.youtube.com/watch?v=Y32U_k83Kl8"
-     }
+     },
+     "logro": "reconocer las piezas de UiPath y su equivalente en lo que ya conoces.",
+     "idea": {
+      "titulo": "Entiéndelo con Power Automate para escritorio",
+      "columnas": [
+       "En Power Automate para escritorio",
+       "En UiPath Studio"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Un flujo",
+        "Un proceso"
+       ],
+       [
+        "Una lista de acciones en orden",
+        "Una secuencia (Sequence)"
+       ],
+       [
+        "Condiciones y saltos",
+        "Un diagrama de flujo (Flowchart)"
+       ],
+       [
+        "El manejo de errores del flujo",
+        "La actividad Try Catch"
+       ]
+      ]
+     },
+     "mira": "Sigue en el video la parte de instalación y la primera secuencia. Lo demás lo verás en la academia.",
+     "hazlo": [
+      "Crea tu cuenta en UiPath Academy (la creas tú) y empieza la ruta para principiantes.",
+      "Termina el primer curso de esa ruta.",
+      "Anota en el cuaderno los 3 conceptos que más te sirvieron y su equivalente en Power Automate."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha cuando tienes:",
+      "valores": [
+       [
+        "Curso terminado",
+        "1"
+       ],
+       [
+        "Conceptos",
+        "3"
+       ],
+       [
+        "Equivalencias",
+        "3"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Saltarse los ejercicios.",
+       "UiPath se aprende haciendo: cada lección trae práctica."
+      ],
+      [
+       "Una secuencia gigante.",
+       "Divide el robot en partes pequeñas que puedas probar por separado."
+      ],
+      [
+       "No manejar errores.",
+       "Sin Try Catch, el primer imprevisto detiene todo el robot."
+      ]
+     ]
     },
     {
      "id": "rpa-4",
@@ -865,7 +1707,67 @@
       "titulo": "¿Qué es Automation Anywhere?",
       "canal": "Camilo Duarte",
       "url": "https://www.youtube.com/watch?v=bnTeQUDNYQo"
-     }
+     },
+     "logro": "comparar UiPath, Automation Anywhere y Power Automate con tu propia práctica.",
+     "idea": {
+      "titulo": "Entiéndelo con UiPath",
+      "columnas": [
+       "En UiPath",
+       "En Automation Anywhere"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "UiPath Studio, donde armas el robot",
+        "Automation 360: armas el bot desde el navegador"
+       ],
+       [
+        "Orchestrator, donde se administran los robots",
+        "Control Room"
+       ],
+       [
+        "UiPath Academy",
+        "Automation Anywhere University"
+       ],
+       [
+        "Robot",
+        "Bot"
+       ]
+      ]
+     },
+     "mira": "El video presenta Automation Anywhere. Fíjate en qué cambia respecto a UiPath.",
+     "hazlo": [
+      "Mira el video.",
+      "Explora Automation Anywhere University y anota qué necesitas para practicar (cuenta, instalación).",
+      "Haz en el cuaderno una tabla con las tres herramientas: qué necesitas para practicar y qué te pareció más fácil."
+     ],
+     "comprueba": {
+      "texto": "Tu tabla está lista si tiene:",
+      "valores": [
+       [
+        "Herramientas",
+        "3"
+       ],
+       [
+        "Columnas",
+        "qué necesitas y qué tan fácil fue"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Comparar por la publicidad.",
+       "Compara con lo que te pasó a ti al practicar."
+      ],
+      [
+       "Aprender las tres a la vez.",
+       "Domina una y después mira en qué se parecen las otras."
+      ],
+      [
+       "Olvidar las licencias.",
+       "Anota si lo que usaste para practicar serviría en una empresa; revísalo en la página oficial."
+      ]
+     ]
     },
     {
      "id": "rpa-5",
@@ -880,7 +1782,75 @@
       "url": "jobs.html#linkedin",
       "texto": "Ver vacantes de automatización en 5-JOB"
      },
-     "practica": "Automatiza un proceso ficticio completo (leer correos de prueba, sacar montos y llenar un Excel). Documenta el antes y el después con el tiempo medido."
+     "practica": "Automatiza un proceso ficticio completo (leer correos de prueba, sacar montos y llenar un Excel). Documenta el antes y el después con el tiempo medido.",
+     "logro": "automatizar un proceso completo y demostrar con números cuánto ahorra.",
+     "idea": {
+      "titulo": "Entiéndelo por fases",
+      "columnas": [
+       "Fase",
+       "Qué haces"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Diseñar antes de grabar",
+        "Dibuja el proceso y sus excepciones"
+       ],
+       [
+        "Medir el antes",
+        "Cronometra hacerlo a mano 3 veces"
+       ],
+       [
+        "Construir y probar",
+        "Con correos de prueba, no reales"
+       ],
+       [
+        "Medir el después",
+        "Cronometra el robot y cuenta los errores"
+       ],
+       [
+        "Documentar",
+        "Ficha: qué hace, cuándo corre y qué hacer si falla"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio. Antes de construir, mira en 5-JOB qué herramientas piden las vacantes de automatización.",
+     "hazlo": [
+      "Escribe 5 correos de prueba con montos.",
+      "Arma el robot: leer los correos, sacar los montos y llenar un Excel.",
+      "Documenta el antes y el después con el tiempo medido."
+     ],
+     "comprueba": {
+      "texto": "Tu proceso de punta a punta está listo si:",
+      "valores": [
+       [
+        "Correos procesados",
+        "5"
+       ],
+       [
+        "Montos correctos",
+        "5"
+       ],
+       [
+        "Antes y después",
+        "medidos"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Empezar a grabar sin diseño.",
+       "Sin el dibujo del proceso olvidarás las excepciones."
+      ],
+      [
+       "No medir el antes.",
+       "Sin ese número no puedes mostrar el ahorro."
+      ],
+      [
+       "Documentar al final, de memoria.",
+       "Escribe la ficha mientras construyes."
+      ]
+     ]
     }
    ]
   },
@@ -988,6 +1958,14 @@
    "id": "n8n",
    "competencia": "n8n, Zapier o Make",
    "icono": "🔗",
+   "disciplina": "Automatización",
+   "frase": "n8n, Zapier y Make son fichas de Lego para conectar aplicaciones: cada ficha hace una cosa y, al unirlas, el trabajo pasa solo de una a otra.",
+   "usos": [
+    "Cada mañana, traer un dato de una API y guardarlo en una hoja.",
+    "Cuando entra un formulario, crear una fila y avisar por correo.",
+    "Guardar los adjuntos de ciertos correos en una carpeta."
+   ],
+   "portafolio": "Un flujo que trae la TRM cada mañana a una hoja, hecho en n8n y en Make, con un aviso cuando la API falla.",
    "queEs": "Herramientas para conectar aplicaciones y automatizar tareas uniendo bloques: cuando llega un correo, guarda el adjunto; cuando entra un formulario, crea una fila y avisa. Zapier y Make funcionan en la nube; n8n también se puede instalar en un equipo propio.",
    "pasos": [
     {
@@ -1008,7 +1986,71 @@
       "titulo": "¿Qué es Zapier? Descubre cómo automatizar tus tareas con esta herramienta",
       "canal": "Sergio Calderón",
       "url": "https://www.youtube.com/watch?v=Dwx23iPwTRI"
-     }
+     },
+     "logro": "dibujar cualquier automatización como disparador, pasos y final.",
+     "idea": {
+      "titulo": "Entiéndelo con tareas de tu semana",
+      "columnas": [
+       "Tarea",
+       "Disparador → pasos → final"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Cada mañana anoto la TRM",
+        "A las 8 a. m. → pedirla a la API → escribirla en la hoja"
+       ],
+       [
+        "Cuando llega un formulario, lo paso a Excel",
+        "Formulario nuevo → crear fila → avisar"
+       ],
+       [
+        "Guardo los adjuntos de ciertos correos",
+        "Correo con adjunto → guardar en carpeta → marcar como leído"
+       ],
+       [
+        "¿Dónde corre?",
+        "Zapier y Make, en la nube; n8n, en la nube o instalado en un equipo"
+       ]
+      ]
+     },
+     "mira": "El video explica Zapier con disparadores y acciones. Es la misma idea en las tres herramientas.",
+     "hazlo": [
+      "Mira el video.",
+      "Elige 3 tareas repetitivas.",
+      "Dibuja en el cuaderno, para cada una, qué la dispara, qué pasos sigue y dónde termina."
+     ],
+     "comprueba": {
+      "texto": "Tus dibujos están completos si cada uno tiene:",
+      "valores": [
+       [
+        "Tareas",
+        "3"
+       ],
+       [
+        "Disparador",
+        "1 por tarea"
+       ],
+       [
+        "Final",
+        "claro"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Empezar por la herramienta.",
+       "Primero el dibujo; la herramienta es lo de menos."
+      ],
+      [
+       "Disparadores vagos.",
+       "«Cuando haya algo» no sirve; «cada día a las 8» o «cuando llegue un correo de X», sí."
+      ],
+      [
+       "Pasar datos sensibles por cualquier servicio.",
+       "Todo lo que conectas pasa por los servidores de esa herramienta."
+      ]
+     ]
     },
     {
      "id": "n8n-2",
@@ -1028,7 +2070,63 @@
       "titulo": "Introducción a N8N, automatiza tus flujos de trabajo",
       "canal": "midudev",
       "url": "https://www.youtube.com/watch?v=yP0PM-fpnXo"
-     }
+     },
+     "logro": "hacer en n8n un flujo que trae la TRM cada mañana a una hoja.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que harías tú",
+      "columnas": [
+       "Lo que harías tú",
+       "El nodo en n8n"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Cada mañana a las 8",
+        "Schedule Trigger"
+       ],
+       [
+        "Pedir la TRM a datos.gov.co",
+        "HTTP Request (GET a la API)"
+       ],
+       [
+        "Quedarte con la fecha y el valor",
+        "Edit Fields (Set)"
+       ],
+       [
+        "Anotarla en la hoja",
+        "Google Sheets: agregar una fila"
+       ]
+      ]
+     },
+     "mira": "Fíjate en cómo el video prueba cada nodo por separado antes de seguir con el siguiente.",
+     "hazlo": [
+      "Sigue la guía «Build your first workflow» de n8n (la cuenta la creas tú).",
+      "Arma los 4 nodos de la tabla; en HTTP Request usa la dirección de abajo.",
+      "Prueba cada nodo por separado y mira qué datos salen antes de pasar al siguiente."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "https://www.datos.gov.co/resource/32sa-8pi3.json?$order=vigenciadesde DESC&$limit=1"
+     },
+     "comprueba": {
+      "texto": "Después de ejecutarlo, tu hoja tiene una fila nueva con la fecha y el valor. El 25-nov-2026 habría quedado así:",
+      "salidaEjemplo": "2026-11-25 | 3592.03",
+      "nota": "Tu valor será el del día en que lo corras."
+     },
+     "errores": [
+      [
+       "No probar nodo por nodo.",
+       "Si falla al final, no sabrás cuál de los 4 pasos fue."
+      ],
+      [
+       "El valor llega como texto.",
+       "La API lo manda entre comillas: conviértelo a número si vas a hacer cuentas."
+      ],
+      [
+       "Olvidar activarlo.",
+       "Un flujo guardado pero inactivo no corre a las 8."
+      ]
+     ]
     },
     {
      "id": "n8n-3",
@@ -1048,7 +2146,71 @@
       "titulo": "Aprende a utilizar MAKE para AUTOMATIZAR PROCESOS con IA [Curso express]",
       "canal": "Juan Echeverria",
       "url": "https://www.youtube.com/watch?v=Mnfzklo2CVw"
-     }
+     },
+     "logro": "hacer el mismo flujo en Make y comparar las dos herramientas.",
+     "idea": {
+      "titulo": "Entiéndelo con n8n",
+      "columnas": [
+       "En n8n",
+       "En Make"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Flujo (workflow)",
+        "Escenario"
+       ],
+       [
+        "Nodo",
+        "Módulo"
+       ],
+       [
+        "Usar un dato de un paso anterior",
+        "Mapear: arrastras el dato del módulo anterior"
+       ],
+       [
+        "Schedule Trigger",
+        "La programación del escenario"
+       ]
+      ]
+     },
+     "mira": "El curso express del video arma escenarios en Make desde cero. Sigue la parte de crear y programar un escenario.",
+     "hazlo": [
+      "Haz el primer curso de Make Academy (la cuenta la creas tú).",
+      "Repite en Make el flujo de la estación 2: programación, petición HTTP y hoja de cálculo.",
+      "Anota en el cuaderno qué te resultó más fácil en cada herramienta."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha si:",
+      "valores": [
+       [
+        "Escenario",
+        "funciona"
+       ],
+       [
+        "Fila nueva",
+        "con fecha y valor"
+       ],
+       [
+        "Comparación",
+        "escrita"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Mapear el campo equivocado.",
+       "Revisa que el valor vaya a la columna valor y la fecha a la de fecha."
+      ],
+      [
+       "Gastar el plan probando.",
+       "Cada ejecución cuenta en el plan de Make: prueba una vez y luego programa."
+      ],
+      [
+       "Copiar sin entender.",
+       "Explica cada módulo con tus palabras en el cuaderno."
+      ]
+     ]
     },
     {
      "id": "n8n-4",
@@ -1068,7 +2230,71 @@
       "titulo": "Curso de N8N desde CERO (completo)",
       "canal": "Soy Dalto",
       "url": "https://www.youtube.com/watch?v=4eRPQmzO_Nw"
-     }
+     },
+     "logro": "preparar un flujo para cuando algo falla y saber qué datos pasan por el servicio.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que puede salir mal",
+      "columnas": [
+       "Lo que puede fallar",
+       "Cómo se prepara el flujo"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "La API no responde",
+        "Reintentar el paso unas veces (Retry On Fail)"
+       ],
+       [
+        "Sigue fallando",
+        "Un flujo de error (Error Trigger) que te avisa"
+       ],
+       [
+        "Llega un dato vacío",
+        "Un nodo IF que revisa antes de escribir"
+       ],
+       [
+        "Pasan datos personales",
+        "Anotar qué datos pasan y quitar los que sobran"
+       ]
+      ]
+     },
+     "mira": "El curso de n8n del video es largo: busca la parte de errores. La misión del AI Dojo «Un flujo con red» practica justo esto.",
+     "hazlo": [
+      "Haz en el AI Dojo la misión «Un flujo con red».",
+      "En tu flujo de la TRM, activa los reintentos en HTTP Request y crea un flujo de error que te mande un correo.",
+      "Cambia la dirección de la API por una que no existe y comprueba que te llega el aviso."
+     ],
+     "comprueba": {
+      "texto": "Tu flujo está protegido si:",
+      "valores": [
+       [
+        "Reintentos",
+        "activados"
+       ],
+       [
+        "Aviso de error",
+        "llega"
+       ],
+       [
+        "Datos que pasan",
+        "anotados"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Fallar en silencio.",
+       "Un flujo que falla sin avisar es peor que no tenerlo: crees que tienes el dato."
+      ],
+      [
+       "Reintentar sin fin.",
+       "Pon un número de reintentos y una espera entre ellos."
+      ],
+      [
+       "No saber dónde quedan tus datos.",
+       "Anota qué pasa por la nube del servicio y qué no debería."
+      ]
+     ]
     }
    ]
   },
@@ -1076,6 +2302,14 @@
    "id": "low-code",
    "competencia": "Low-code / no-code",
    "icono": "🧩",
+   "disciplina": "Automatización",
+   "frase": "Low-code es armar una app como armas una hoja de Excel bien hecha: con piezas listas y fórmulas sencillas, sin escribir un programa entero.",
+   "usos": [
+    "Cambiar un Excel que se pasa por correo por un formulario con su registro.",
+    "Pedir aprobaciones desde una app sencilla.",
+    "Darle a un área una herramienta en días, no en meses."
+   ],
+   "portafolio": "Una app de registro de gastos ficticios sobre una tabla de Excel, con su ficha: quién la usa, quién la mantiene y qué pasa si falla.",
    "queEs": "Construir aplicaciones sencillas (formularios, registros, aprobaciones) con piezas visuales y poco o nada de código, para que un área resuelva un proceso sin un desarrollo largo.",
    "pasos": [
     {
@@ -1096,7 +2330,71 @@
       "titulo": "¿Qué es el No-Code o Low-Code?",
       "canal": "Datademia",
       "url": "https://www.youtube.com/watch?v=njSMiQ8r5ic"
-     }
+     },
+     "logro": "reconocer qué procesos de un área se resuelven con una app sencilla y cuáles no.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que pasa hoy",
+      "columnas": [
+       "Hoy, en Excel y correo",
+       "Con una app low-code"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Un Excel compartido que todos editan",
+        "Un formulario que escribe en una sola tabla"
+       ],
+       [
+        "«¿Quién cambió esto?»",
+        "Cada registro guarda quién y cuándo"
+       ],
+       [
+        "Aprobar por correo",
+        "Un botón que dispara la aprobación"
+       ],
+       [
+        "Miles de usuarios o reglas muy complejas",
+        "Ahí hace falta un sistema hecho a la medida"
+       ]
+      ]
+     },
+     "mira": "El video explica qué es el no-code y el low-code. El módulo de Microsoft Learn muestra lo que se puede hacer con Power Apps.",
+     "hazlo": [
+      "Mira el video y el módulo de Microsoft Learn.",
+      "Escribe 3 procesos de un área ficticia que hoy viven en Excel y correo.",
+      "Para cada uno, describe la app sencilla que lo resolvería y qué no resolvería."
+     ],
+     "comprueba": {
+      "texto": "Tu página está lista si tiene:",
+      "valores": [
+       [
+        "Procesos",
+        "3"
+       ],
+       [
+        "App propuesta",
+        "1 por proceso"
+       ],
+       [
+        "Límites",
+        "anotados"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Querer reemplazar un sistema grande.",
+       "Low-code es para procesos pequeños de un área."
+      ],
+      [
+       "Copiar el Excel tal cual.",
+       "Aprovecha para ordenar: un campo por dato y listas en vez de texto libre."
+      ],
+      [
+       "Olvidar quién la cuida.",
+       "Toda app necesita un responsable cuando algo cambia."
+      ]
+     ]
     },
     {
      "id": "low-code-2",
@@ -1116,7 +2414,71 @@
       "titulo": "Microsoft Power Apps tutorial - Tu primera aplicación usando Excel como base de datos",
       "canal": "Sergio Alejandro Campos - EXCELeINFO",
       "url": "https://www.youtube.com/watch?v=C13-V32oLQo"
-     }
+     },
+     "logro": "hacer una app de registro de gastos sobre una tabla de Excel.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "En Excel",
+       "En Power Apps (Power Fx)"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "Una tabla con encabezados (Ctrl+T) llamada Gastos",
+        "Gastos"
+       ],
+       [
+        "Filtrar por categoría",
+        "Filter(Gastos, Categoria = \"Transporte\")"
+       ],
+       [
+        "=SUMA(C:C)",
+        "Sum(Gastos, Monto)"
+       ],
+       [
+        "Escribir una fila nueva",
+        "SubmitForm(FormularioGasto)"
+       ]
+      ]
+     },
+     "mira": "El video hace una app usando Excel como base de datos. Síguelo con tu propia tabla de gastos.",
+     "hazlo": [
+      "Crea en Excel una tabla Gastos con Fecha, Categoria y Monto (datos ficticios) y guárdala en OneDrive.",
+      "Sigue el módulo de Microsoft Learn para crear la app desde esa tabla.",
+      "Registra 3 gastos desde la app y comprueba que aparecen en el Excel."
+     ],
+     "comprueba": {
+      "texto": "Tu app funciona si:",
+      "valores": [
+       [
+        "Gastos registrados",
+        "3"
+       ],
+       [
+        "Aparecen en Excel",
+        "sí"
+       ],
+       [
+        "Pantallas",
+        "lista, detalle y edición"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Los datos no están en formato tabla.",
+       "Power Apps solo los ve si están en una tabla con nombre (Ctrl+T)."
+      ],
+      [
+       "El Excel abierto mientras la app escribe.",
+       "Puede bloquear los cambios: ciérralo al probar."
+      ],
+      [
+       "No te deja entrar.",
+       "Power Apps depende de tu tipo de cuenta: anota el mensaje y haz la app como diseño en el cuaderno."
+      ]
+     ]
     },
     {
      "id": "low-code-3",
@@ -1131,7 +2493,71 @@
       "nombre": "Introducción a Power Automate",
       "proveedor": "Microsoft Learn (en español)",
       "url": "https://learn.microsoft.com/es-es/training/modules/get-started-flows/"
-     }
+     },
+     "logro": "hacer que un gasto grande dispare una aprobación y uno pequeño pase directo.",
+     "idea": {
+      "titulo": "Entiéndelo con una regla del área (ficticia)",
+      "columnas": [
+       "Regla del área",
+       "Cómo se arma"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Los gastos de más de 500.000 los aprueba el jefe",
+        "Una condición en el flujo: Monto > 500000"
+       ],
+       [
+        "Quien pide sabe en qué va",
+        "Una columna Estado: pendiente, aprobado o rechazado"
+       ],
+       [
+        "Si lo rechazan, se le avisa",
+        "Un correo con el comentario del aprobador"
+       ],
+       [
+        "Los gastos pequeños pasan directo",
+        "La otra rama: aprobado sin esperar"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: repasa el módulo de Power Automate y la estación 4 de esa ruta (aprobaciones).",
+     "hazlo": [
+      "Agrega a tu tabla la columna Estado.",
+      "Arma el flujo de abajo, que arranca cuando se crea un gasto.",
+      "Si tu cuenta no lo permite, déjalo dibujado en el cuaderno."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "Cuando se crea un gasto en la tabla\n  Si Monto > 500000\n    Iniciar y esperar una aprobación (jefe del área)\n    Si aprueba → Estado = aprobado\n    Si rechaza → Estado = rechazado y correo a quien lo pidió\n  Si no\n    Estado = aprobado"
+     },
+     "comprueba": {
+      "texto": "Prueba con dos gastos ficticios:",
+      "valores": [
+       [
+        "Gasto de 100.000",
+        "aprobado directo"
+       ],
+       [
+        "Gasto de 800.000",
+        "espera aprobación"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Olvidar los gastos pequeños.",
+       "Si solo diseñas el camino largo, los pequeños se quedan sin estado."
+      ],
+      [
+       "Montos guardados como texto.",
+       "«500.000» como texto no se compara: el monto debe ser número."
+      ],
+      [
+       "Un aprobador con nombre propio.",
+       "Si sale de vacaciones, todo se detiene: usa un rol y un suplente."
+      ]
+     ]
     },
     {
      "id": "low-code-4",
@@ -1146,7 +2572,75 @@
       "nombre": "Aspectos básicos de Power Platform (PL-900)",
       "proveedor": "Microsoft Learn (en español)",
       "url": "https://learn.microsoft.com/es-es/credentials/certifications/power-platform-fundamentals/"
-     }
+     },
+     "logro": "escribir la ficha que deja a otra persona mantener tu app.",
+     "idea": {
+      "titulo": "Entiéndelo con preguntas",
+      "columnas": [
+       "Pregunta",
+       "Respuesta en la ficha (ejemplo)"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "¿Quién la usa?",
+        "El área de compras"
+       ],
+       [
+        "¿Quién la mantiene?",
+        "Un rol responsable y un suplente"
+       ],
+       [
+        "¿Qué datos guarda?",
+        "Fecha, categoría y monto; ningún dato personal"
+       ],
+       [
+        "¿Qué pasa si falla?",
+        "Se registra en el Excel a mano y se avisa al responsable"
+       ],
+       [
+        "¿Cuándo deja de servir?",
+        "Si crece mucho o debe conectarse a la contabilidad: ahí va un sistema"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: en la guía de Power Platform lee la parte de seguridad y permisos.",
+     "hazlo": [
+      "Lee la parte de seguridad y permisos de la guía de Power Platform.",
+      "Escribe la ficha de tu app respondiendo las 5 preguntas.",
+      "Pídele a alguien que la lea y te diga si podría mantener la app sin preguntarte."
+     ],
+     "comprueba": {
+      "texto": "Tu ficha está completa si tiene:",
+      "valores": [
+       [
+        "Preguntas respondidas",
+        "5"
+       ],
+       [
+        "Responsable",
+        "y suplente"
+       ],
+       [
+        "Plan si falla",
+        "escrito"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Que solo tú sepas cómo funciona.",
+       "Si te vas, la app se queda sin dueño: la ficha es para otro."
+      ],
+      [
+       "Guardar datos que no hacen falta.",
+       "Cada dato personal es un riesgo: guarda solo lo necesario."
+      ],
+      [
+       "Permisos para todos.",
+       "Quien solo consulta no debería poder borrar."
+      ]
+     ]
     }
    ]
   },
@@ -1154,6 +2648,14 @@
    "id": "agentes",
    "competencia": "Agentes de IA o chatbots",
    "icono": "🕹️",
+   "disciplina": "IA",
+   "frase": "Un flujo fijo es una receta que siempre sigue los mismos pasos; un agente es un cocinero que decide el siguiente paso según lo que encuentra.",
+   "usos": [
+    "Leer los correos que llegan, clasificarlos y dejar listos los que necesitan respuesta.",
+    "Buscar un dato en varios documentos y traerlo con su fuente.",
+    "Encadenar varias IA: una escribe y otra revisa."
+   ],
+   "portafolio": "Un agente de práctica en n8n que clasifica correos ficticios, con el punto donde aprueba una persona y la lista de datos que nunca debe ver.",
    "queEs": "Un agente es una IA que no solo responde: sigue pasos, usa herramientas (buscar, leer un archivo, llamar a una API) y decide qué hacer después. Un chatbot es la versión que conversa con clientes o empleados.",
    "pasos": [
     {
@@ -1174,7 +2676,71 @@
       "titulo": "Qué es un agente de AI",
       "canal": "Platzi",
       "url": "https://www.youtube.com/watch?v=4bXNYw_dTeY"
-     }
+     },
+     "logro": "distinguir un flujo fijo de un agente y saber cuándo conviene cada uno.",
+     "idea": {
+      "titulo": "Entiéndelo comparando",
+      "columnas": [
+       "Flujo fijo",
+       "Agente"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Siempre los mismos pasos, en el mismo orden",
+        "Decide el siguiente paso según lo que ve"
+       ],
+       [
+        "Si llega algo raro, falla o lo salta",
+        "Si llega algo raro, puede buscar o preguntar"
+       ],
+       [
+        "Barato y predecible",
+        "Más flexible, más caro y hay que vigilarlo"
+       ],
+       [
+        "Ejemplo: cada día traer la TRM y guardarla",
+        "Ejemplo: leer un correo, entender qué pide y buscar el dato"
+       ]
+      ]
+     },
+     "mira": "El video explica qué es un agente de IA. El artículo de Anthropic (en inglés) recomienda empezar por lo más simple que funcione.",
+     "hazlo": [
+      "Mira el video y lee la primera parte del artículo de Anthropic.",
+      "Escribe dos tareas de trabajo, sin datos internos: una para un flujo fijo y otra para un agente.",
+      "Explica en el cuaderno por qué cada una va donde la pusiste."
+     ],
+     "comprueba": {
+      "texto": "Tu explicación está bien si cada tarea dice:",
+      "valores": [
+       [
+        "Pasos",
+        "fijos o variables"
+       ],
+       [
+        "Si algo falla",
+        "qué pasa"
+       ],
+       [
+        "Elección",
+        "con su razón"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Usar un agente para todo.",
+       "Si los pasos son siempre iguales, un flujo fijo es más barato y más fácil de revisar."
+      ],
+      [
+       "Darle herramientas de más.",
+       "Cada herramienta es una puerta: dale solo las que necesita."
+      ],
+      [
+       "No saber qué hizo.",
+       "Un agente debe dejar registro de cada paso para poder revisarlo."
+      ]
+     ]
     },
     {
      "id": "agentes-2",
@@ -1194,7 +2760,71 @@
       "titulo": "Curso GRATIS: Agentes de IA para todos, desde cero",
       "canal": "EDteam",
       "url": "https://www.youtube.com/watch?v=O4v9EWC47Go"
-     }
+     },
+     "logro": "poner a una IA a producir y a otra a revisar con tu criterio.",
+     "idea": {
+      "titulo": "Entiéndelo con un equipo de trabajo",
+      "columnas": [
+       "En un equipo",
+       "Con varias IA"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Uno redacta y otro revisa",
+        "Generador y crítico"
+       ],
+       [
+        "El que revisa tiene la lista de chequeo",
+        "El crítico recibe el criterio de éxito"
+       ],
+       [
+        "Se pasan el documento con notas",
+        "La respuesta de una es el encargo de la otra"
+       ],
+       [
+        "Dos personas revisan por separado",
+        "Verificación cruzada"
+       ]
+      ]
+     },
+     "mira": "El curso de EDteam explica los agentes desde cero; el cinturón Verde del AI Dojo te pone a orquestar varias IA.",
+     "hazlo": [
+      "Haz en el AI Dojo las misiones del cinturón Verde, de «Generador y crítico» a «Tu primera partitura propia».",
+      "Pon a una IA a escribir un procedimiento ficticio y a otra a revisarlo con tu criterio de éxito.",
+      "Guarda tu partitura (quién hace qué y en qué orden) en el cuaderno."
+     ],
+     "comprueba": {
+      "texto": "Tu partitura sirve si dice:",
+      "valores": [
+       [
+        "Roles",
+        "quién genera y quién revisa"
+       ],
+       [
+        "Criterio",
+        "con qué se revisa"
+       ],
+       [
+        "Al final",
+        "quién decide"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Un crítico sin criterio.",
+       "Si no le das la lista de chequeo, dirá que todo está bien."
+      ],
+      [
+       "El mismo encargo para las dos.",
+       "El crítico necesita su propio encargo: buscar errores, no escribir."
+      ],
+      [
+       "Dejar que decidan solas.",
+       "En algo importante, la última palabra es de una persona."
+      ]
+     ]
     },
     {
      "id": "agentes-3",
@@ -1209,7 +2839,72 @@
       "nombre": "Integrate AI",
       "proveedor": "Documentación de n8n (en inglés)",
       "url": "https://docs.n8n.io/build/integrate-ai"
-     }
+     },
+     "logro": "armar un agente que lee correos de prueba y los clasifica.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que haría una persona",
+      "columnas": [
+       "Lo que haría una persona",
+       "En n8n"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Llega un correo",
+        "Un disparador; para practicar, uno manual con correos de prueba"
+       ],
+       [
+        "Lo lee y decide qué es",
+        "El nodo AI Agent, conectado a un modelo de lenguaje"
+       ],
+       [
+        "Lo marca: reclamo, pago u otro",
+        "La instrucción del agente, con las 3 categorías"
+       ],
+       [
+        "Si no está seguro, se lo pasa a alguien",
+        "Una cuarta categoría, «revisar», y un aviso"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la guía «Integrate AI» de la documentación de n8n (en inglés) muestra el nodo de agente.",
+     "hazlo": [
+      "Lee la guía «Integrate AI» de n8n. El nodo pide conectar un modelo; la cuenta o clave la creas tú.",
+      "Arma el flujo: disparador manual con 5 correos ficticios (2 reclamos, 2 pagos y 1 otro), el nodo AI Agent con la instrucción de abajo y una tabla de salida.",
+      "Revisa una por una las 5 respuestas y anota cuántas acertó."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "Eres un clasificador de correos de prueba.\nLee el correo y responde solo con una palabra: reclamo, pago u otro.\nSi no estás seguro, responde: revisar.\nNo inventes datos y no respondas el correo."
+     },
+     "comprueba": {
+      "texto": "Cada uno de los 5 correos debe salir con una sola palabra de estas cuatro: reclamo, pago, otro o revisar.",
+      "valores": [
+       [
+        "Correos de prueba",
+        "5"
+       ],
+       [
+        "Respuestas posibles",
+        "4"
+       ]
+      ],
+      "nota": "Si acertó menos de 4, agrega a la instrucción un ejemplo de cada categoría y vuelve a probar."
+     },
+     "errores": [
+      [
+       "Probar con correos reales.",
+       "Escribe correos ficticios: los reales pueden traer datos personales."
+      ],
+      [
+       "Instrucción sin respuesta fija.",
+       "Sin «responde solo con una palabra», cada respuesta llega distinta."
+      ],
+      [
+       "No dejar la opción «revisar».",
+       "Sin ella, el agente clasifica a la fuerza lo que no entiende."
+      ]
+     ]
     },
     {
      "id": "agentes-4",
@@ -1229,7 +2924,71 @@
       "nombre": "Introducción a las aplicaciones y agentes de inteligencia artificial",
       "proveedor": "Microsoft Learn (en español)",
       "url": "https://learn.microsoft.com/es-es/training/paths/get-started-ai-apps-agents/"
-     }
+     },
+     "logro": "marcar en un agente dónde decide una persona y qué datos nunca debe recibir.",
+     "idea": {
+      "titulo": "Entiéndelo con tu trabajo",
+      "columnas": [
+       "En tu trabajo",
+       "En un agente"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Un pago grande lo aprueba un supervisor",
+        "Un punto de aprobación antes de cada acción con consecuencias"
+       ],
+       [
+        "No mandas datos de clientes a cualquier correo",
+        "Una lista de datos que el agente nunca recibe"
+       ],
+       [
+        "Queda registro de quién aprobó",
+        "Un registro de cada paso del agente"
+       ],
+       [
+        "Si algo sale mal, se sabe dónde",
+        "Auditoría: revisar ese registro"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: el módulo de Microsoft Learn y el cinturón Azul del AI Dojo tratan la aprobación y la privacidad.",
+     "hazlo": [
+      "Haz en el AI Dojo las misiones «Auditoría de privacidad» y «El punto de aprobación».",
+      "Dibuja tu agente de la estación 3 y marca dónde aprueba una persona.",
+      "Escribe la lista de datos que no debe recibir: documentos de identidad, números de cuenta, contraseñas…"
+     ],
+     "comprueba": {
+      "texto": "Tu dibujo y tu lista están completos si tienen:",
+      "valores": [
+       [
+        "Puntos de aprobación",
+        "1 o más"
+       ],
+       [
+        "Datos prohibidos",
+        "lista escrita"
+       ],
+       [
+        "Registro",
+        "dónde queda"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Aprobar todo en bloque.",
+       "Si una persona aprueba 100 cosas sin mirar, la aprobación no sirve."
+      ],
+      [
+       "Confiar en que no lo va a usar.",
+       "Lo que no debe ver, no se le manda."
+      ],
+      [
+       "No dejar registro.",
+       "Si no queda rastro de lo que hizo el agente, no se puede auditar."
+      ]
+     ]
     }
    ]
   },
@@ -1237,6 +2996,14 @@
    "id": "prompts",
    "competencia": "Prompts",
    "icono": "✍️",
+   "disciplina": "IA",
+   "frase": "Un prompt es una orden de trabajo: entre más clara la orden, menos tienes que corregir lo que te entregan.",
+   "usos": [
+    "Pedir el resumen de un documento con el formato exacto que necesita quien lo va a leer.",
+    "Convertir un texto desordenado en una tabla que otra herramienta pueda leer.",
+    "Guardar los encargos que funcionan para repetirlos cada semana."
+   ],
+   "portafolio": "Tu biblioteca de 5 encargos de trabajo en el Prompt Lab, cada uno con un ejemplo de buen resultado.",
    "queEs": "Un prompt es el encargo que le escribes a una IA. Con contexto, formato, ejemplos y un criterio de éxito, el resultado es más útil y más fácil de comprobar.",
    "pasos": [
     {
@@ -1257,7 +3024,71 @@
       "titulo": "Curso gratis de prompt engineering (2026)",
       "canal": "EDteam",
       "url": "https://www.youtube.com/watch?v=8Wqgr7Ry3dk"
-     }
+     },
+     "logro": "escribir un encargo con contexto, formato, ejemplo y criterio de éxito.",
+     "idea": {
+      "titulo": "Entiéndelo con una orden de trabajo",
+      "columnas": [
+       "Orden mal hecha",
+       "Orden bien hecha"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "«Hazme un resumen»",
+        "«Resume este informe para el gerente, que tiene 2 minutos»"
+       ],
+       [
+        "Sin formato",
+        "«En 5 viñetas de máximo 15 palabras»"
+       ],
+       [
+        "Sin ejemplo",
+        "«Así se ve una viñeta buena: …»"
+       ],
+       [
+        "Sin saber cuándo está bien",
+        "«Cada viñeta lleva una cifra con su fecha»"
+       ]
+      ]
+     },
+     "mira": "Mira el curso de EDteam y lee la descripción general de ingeniería de prompts en la documentación de Claude (en español).",
+     "hazlo": [
+      "Busca 3 encargos que le hiciste a una IA esta semana.",
+      "Reescríbelos con contexto, formato, ejemplo y criterio de éxito.",
+      "Pega en el cuaderno el antes y el después de cada uno, con su resultado."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha cuando tienes:",
+      "valores": [
+       [
+        "Encargos reescritos",
+        "3"
+       ],
+       [
+        "Partes en cada uno",
+        "4"
+       ],
+       [
+        "Comparaciones",
+        "3"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Pedir varias cosas en una frase.",
+       "Una tarea por encargo, o una lista numerada."
+      ],
+      [
+       "Decir lo que no quieres sin decir lo que sí.",
+       "«No seas largo» ayuda menos que «máximo 5 viñetas»."
+      ],
+      [
+       "Olvidar quién lo va a leer.",
+       "El mismo resumen cambia si es para un gerente o para un analista nuevo."
+      ]
+     ]
     },
     {
      "id": "prompts-2",
@@ -1272,7 +3103,67 @@
       "modulo": "17-IA",
       "url": "pages/ai-dojo.html",
       "texto": "AI Dojo · cinturón Blanco (Encargar)"
-     }
+     },
+     "logro": "pedir el formato exacto, fijar el criterio de éxito y dar un ejemplo.",
+     "idea": {
+      "titulo": "Lo que practica cada misión",
+      "columnas": [
+       "Misión del AI Dojo",
+       "Lo que practicas"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "El formato exacto",
+        "Que la respuesta llegue como la necesitas"
+       ],
+       [
+        "El criterio de éxito",
+        "Saber cuándo aceptar y cuándo devolver"
+       ],
+       [
+        "Dale un ejemplo",
+        "Mostrar en vez de explicar"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: se aprende haciendo las misiones del cinturón Blanco.",
+     "hazlo": [
+      "Haz en el AI Dojo «El formato exacto», «El criterio de éxito» y «Dale un ejemplo».",
+      "Después de cada misión, anota en el cuaderno qué cambió en la respuesta.",
+      "Guarda tu mejor plantilla en el cuaderno."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha cuando tienes:",
+      "valores": [
+       [
+        "Misiones",
+        "3"
+       ],
+       [
+        "Notas",
+        "1 por misión"
+       ],
+       [
+        "Plantilla",
+        "1"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Hacer la misión sin comparar.",
+       "Lo que enseña es la diferencia entre antes y después: guarda las dos."
+      ],
+      [
+       "Un ejemplo que no es como lo que quieres.",
+       "La IA copia el ejemplo: si es malo, el resultado también."
+      ],
+      [
+       "Criterios que no se pueden revisar.",
+       "«Que quede bien» no se comprueba; «máximo 10 pasos», sí."
+      ]
+     ]
     },
     {
      "id": "prompts-3",
@@ -1292,7 +3183,63 @@
       "modulo": "17-IA",
       "url": "pages/ai-dojo.html",
       "texto": "AI Dojo · cinturón Azul: «La salida rígida»"
-     }
+     },
+     "logro": "pedir una tabla o un JSON con campos fijos y comprobar cada campo.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "En Excel",
+       "En el encargo a la IA"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Encabezados fijos: fecha, monto, estado",
+        "«Responde solo con JSON, con las llaves fecha, monto y estado»"
+       ],
+       [
+        "Validación de datos: solo números en monto",
+        "«monto es un número, sin signo $ ni puntos»"
+       ],
+       [
+        "Lista desplegable: aprobado o rechazado",
+        "«estado solo puede ser aprobado o rechazado»"
+       ],
+       [
+        "Celda vacía si no hay dato",
+        "«Si un dato no aparece, escribe null; no inventes»"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: lee en la guía de OpenAI (en inglés) la parte de formatos de salida, y haz la misión «La salida rígida».",
+     "hazlo": [
+      "Haz en el AI Dojo la misión «La salida rígida».",
+      "Pega el encargo de abajo en una IA.",
+      "Revisa campo por campo: fechas en AAAA-MM-DD, montos sin puntos y solo los dos estados permitidos."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "Convierte el texto en JSON. Responde solo con el JSON, sin explicación.\nFormato: [{\"fecha\": \"AAAA-MM-DD\", \"monto\": número, \"estado\": \"aprobado\" o \"rechazado\"}]\nSi un dato no aparece, escribe null. No inventes datos.\n\nTexto: El 3 de noviembre de 2026 se aprobó un pago de $120.000 y el 4 se rechazó uno de $80.000."
+     },
+     "comprueba": {
+      "texto": "La respuesta correcta es solo esto, sin una frase antes ni después:",
+      "salidaEjemplo": "[{\"fecha\": \"2026-11-03\", \"monto\": 120000, \"estado\": \"aprobado\"},\n {\"fecha\": \"2026-11-04\", \"monto\": 80000, \"estado\": \"rechazado\"}]",
+      "nota": "Si agrega «Aquí está tu JSON:», no cumplió: otra máquina no podría leerlo."
+     },
+     "errores": [
+      [
+       "Aceptar algo que casi es JSON.",
+       "Un texto antes o una coma de más lo rompe para otra máquina."
+      ],
+      [
+       "No decir qué hacer si falta un dato.",
+       "Sin «escribe null», la IA rellena con lo que le parece."
+      ],
+      [
+       "Montos con formato.",
+       "«$120.000» es texto; pide el número solo: 120000."
+      ]
+     ]
     },
     {
      "id": "prompts-4",
@@ -1306,7 +3253,71 @@
       "modulo": "8-PRO",
       "url": "prompts.html",
       "texto": "Prompt Lab (8-PRO)"
-     }
+     },
+     "logro": "tener tus 5 mejores encargos guardados, cada uno con un ejemplo de resultado.",
+     "idea": {
+      "titulo": "Entiéndelo con tu trabajo",
+      "columnas": [
+       "En tu trabajo",
+       "En el Prompt Lab"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Tus plantillas de correo guardadas",
+        "Tus encargos guardados"
+       ],
+       [
+        "Un reporte que repites cada semana",
+        "Un encargo que solo cambia en los datos"
+       ],
+       [
+        "El ejemplo de cómo debe quedar",
+        "Un resultado bueno guardado junto al encargo"
+       ],
+       [
+        "La versión 2 de una plantilla",
+        "El encargo mejorado con lo que aprendiste"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: los guardas en el Prompt Lab del Cerebro (8-PRO).",
+     "hazlo": [
+      "Elige tus 5 mejores encargos de las estaciones anteriores.",
+      "Guárdalos en el Prompt Lab, cada uno con un ejemplo de buen resultado.",
+      "Ponles nombre de tarea, no de herramienta: «Resumen para gerente», no «Prompt 3»."
+     ],
+     "comprueba": {
+      "texto": "Tu biblioteca está lista si tiene:",
+      "valores": [
+       [
+        "Encargos",
+        "5"
+       ],
+       [
+        "Ejemplos",
+        "5"
+       ],
+       [
+        "Nombres",
+        "de tarea"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Guardar el encargo sin el resultado.",
+       "Sin ejemplo no recuerdas qué esperar."
+      ],
+      [
+       "Guardar encargos con datos internos.",
+       "Deja huecos como [CLIENTE] en vez de nombres reales."
+      ],
+      [
+       "No actualizarlos.",
+       "Cuando un encargo falla, corrígelo y guarda la versión nueva."
+      ]
+     ]
     }
    ]
   },
@@ -1314,6 +3325,14 @@
    "id": "ml",
    "competencia": "Machine learning",
    "icono": "📈",
+   "disciplina": "IA",
+   "frase": "Machine learning es enseñarle a un programa con ejemplos en vez de con reglas: le muestras muchos casos resueltos y aprende a resolver los nuevos.",
+   "usos": [
+    "Señalar transacciones que se parecen a las que antes resultaron sospechosas.",
+    "Estimar cuánto tardará un proceso según los casos anteriores.",
+    "Agrupar movimientos parecidos para revisarlos juntos."
+   ],
+   "portafolio": "Un modelo de práctica con su error medido en datos que no vio, y una nota de cuándo bastaría una regla simple.",
    "queEs": "Que un programa aprenda patrones a partir de datos para predecir o clasificar, por ejemplo qué transacción parece sospechosa. En la muestra lo pide 1 de las 39 vacantes.",
    "pasos": [
     {
@@ -1334,7 +3353,71 @@
       "titulo": "¿Qué es el Machine Learning?¿Y Deep Learning? Un mapa conceptual | DotCSV",
       "canal": "Dot CSV",
       "url": "https://www.youtube.com/watch?v=KytW151dpqU"
-     }
+     },
+     "logro": "explicar la diferencia entre IA, machine learning y deep learning con un ejemplo de finanzas.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "Con reglas (una fórmula)",
+       "Con machine learning"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "=SI(monto>1000000; \"revisar\"; \"ok\")",
+        "El programa aprende de miles de casos ya revisados qué se parece a «revisar»"
+       ],
+       [
+        "Tú escribes la regla",
+        "Los datos «escriben» la regla"
+       ],
+       [
+        "Si cambia el patrón, cambias la fórmula",
+        "Si cambia el patrón, se vuelve a entrenar"
+       ],
+       [
+        "IA es todo lo que imita una decisión inteligente",
+        "Machine learning es una parte de la IA; deep learning, una parte de esa parte"
+       ]
+      ]
+     },
+     "mira": "El video de Dot CSV dibuja el mapa completo: IA, machine learning y deep learning. Míralo entero.",
+     "hazlo": [
+      "Mira el video.",
+      "Haz el primer capítulo de Elements of AI (en español).",
+      "Escribe en el cuaderno la diferencia entre IA, machine learning y deep learning con un ejemplo de finanzas."
+     ],
+     "comprueba": {
+      "texto": "Tu explicación está bien si responde:",
+      "valores": [
+       [
+        "IA",
+        "qué es"
+       ],
+       [
+        "Machine learning",
+        "cómo aprende"
+       ],
+       [
+        "Deep learning",
+        "en qué se diferencia"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Creer que toda IA es machine learning.",
+       "Un chatbot de reglas fijas es IA, pero no aprende de datos."
+      ],
+      [
+       "Pensar que aprende solo.",
+       "Necesita muchos ejemplos ya resueltos por personas."
+      ],
+      [
+       "Confundir que dos cosas pasen juntas con que una cause la otra.",
+       "Los datos muestran relaciones; la causa hay que demostrarla aparte."
+      ]
+     ]
     },
     {
      "id": "ml-2",
@@ -1354,7 +3437,71 @@
       "titulo": "MACHINE LEARNING | Aprendizaje Supervisado, No Supervisado y Por Refuerzo",
       "canal": "BitBoss",
       "url": "https://www.youtube.com/watch?v=FMkxSsfvMI4"
-     }
+     },
+     "logro": "decir si un problema es de predecir, clasificar o agrupar.",
+     "idea": {
+      "titulo": "Entiéndelo con preguntas de negocio",
+      "columnas": [
+       "Pregunta de negocio",
+       "Tipo de problema"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "¿Cuánto venderemos el próximo mes?",
+        "Predecir un número (supervisado)"
+       ],
+       [
+        "¿Esta transacción es fraude o no?",
+        "Clasificar en categorías (supervisado)"
+       ],
+       [
+        "¿Qué clientes se parecen entre sí?",
+        "Agrupar sin etiquetas (no supervisado)"
+       ],
+       [
+        "¿Qué movimientos son raros?",
+        "Detectar anomalías (casi siempre no supervisado)"
+       ]
+      ]
+     },
+     "mira": "El video explica los tres tipos de aprendizaje con ejemplos. El curso de Google (en inglés) sirve para profundizar.",
+     "hazlo": [
+      "Mira el video.",
+      "Haz la introducción del Machine Learning Crash Course de Google.",
+      "Clasifica 5 problemas de una empresa ficticia: predecir, clasificar o agrupar, con el porqué."
+     ],
+     "comprueba": {
+      "texto": "Tu tabla está lista si cada uno de los 5 problemas dice:",
+      "valores": [
+       [
+        "Tipo",
+        "predecir, clasificar o agrupar"
+       ],
+       [
+        "Etiquetas",
+        "si las hay"
+       ],
+       [
+        "Por qué",
+        "una frase"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Olvidar las etiquetas.",
+       "Supervisado exige casos ya resueltos, por ejemplo transacciones marcadas como fraude o no."
+      ],
+      [
+       "Medir solo con aciertos.",
+       "Si el 99 % no es fraude, un modelo que siempre dice «no» acierta el 99 % y no sirve."
+      ],
+      [
+       "Creer que los grupos son categorías reales.",
+       "Los grupos los propone el programa; una persona decide qué significan."
+      ]
+     ]
     },
     {
      "id": "ml-3",
@@ -1369,7 +3516,77 @@
       "nombre": "Intro to Machine Learning",
       "proveedor": "Kaggle Learn (en inglés, interactivo)",
       "url": "https://www.kaggle.com/learn/intro-to-machine-learning"
-     }
+     },
+     "logro": "entrenar un modelo pequeño y medir su error con datos que no vio.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "En Excel",
+       "En machine learning"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Las columnas con las que estimas",
+        "X: las características"
+       ],
+       [
+        "La columna que quieres estimar",
+        "y: el objetivo"
+       ],
+       [
+        "Guardar unas filas aparte para comprobar",
+        "Los datos de prueba"
+       ],
+       [
+        "Comparar lo estimado con lo real",
+        "El error medio"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: el curso Intro to Machine Learning de Kaggle (en inglés) lo enseña con ejercicios que se corrigen solos.",
+     "hazlo": [
+      "Haz en Kaggle el curso Intro to Machine Learning hasta la lección «Model Validation».",
+      "Corre el código de abajo: entrena con 6 días ficticios y prueba con 2 que el modelo no vio.",
+      "Mueve un día grande (400 transacciones) al entrenamiento y mira cómo cambia el error."
+     ],
+     "codigo": {
+      "lenguaje": "python",
+      "texto": "from sklearn.tree import DecisionTreeRegressor\nfrom sklearn.metrics import mean_absolute_error\n\n# Días ficticios: [transacciones, diferencias] → minutos que tomó conciliar\nX = [[100, 1], [120, 2], [200, 3], [220, 5], [300, 4], [320, 8], [400, 6], [420, 9]]\ny = [30, 35, 55, 65, 80, 100, 110, 125]\n\n# Entrenar con 6 días y probar con 2 que el modelo no vio\nX_ent, y_ent = X[:6], y[:6]\nX_prueba, y_prueba = X[6:], y[6:]\n\nmodelo = DecisionTreeRegressor(random_state=0)\nmodelo.fit(X_ent, y_ent)\npred = modelo.predict(X_prueba)\nprint(\"Predicción:\", [round(p) for p in pred])\nprint(\"Real:\", y_prueba)\nprint(\"Error medio:\", round(mean_absolute_error(y_prueba, pred), 1), \"minutos\")"
+     },
+     "comprueba": {
+      "texto": "El modelo se equivoca en promedio 17,5 minutos en los 2 días de prueba:",
+      "valores": [
+       [
+        "Predijo",
+        "100 y 100"
+       ],
+       [
+        "Real",
+        "110 y 125"
+       ],
+       [
+        "Error medio",
+        "17,5 min"
+       ]
+      ],
+      "salida": "Predicción: [100, 100]\nReal: [110, 125]\nError medio: 17.5 minutos",
+      "nota": "Predice 100 porque es lo más alto que vio al entrenar: un árbol de decisión no estima más allá de sus ejemplos."
+     },
+     "errores": [
+      [
+       "Medir el error con los datos de entrenamiento.",
+       "Da casi cero y engaña: se mide con datos que el modelo no vio."
+      ],
+      [
+       "Creer que 8 casos bastan.",
+       "Es solo para aprender; un modelo real necesita muchos más."
+      ],
+      [
+       "Pedirle lo que nunca vio.",
+       "Un árbol de decisión no predice más allá de los valores con que se entrenó."
+      ]
+     ]
     },
     {
      "id": "ml-4",
@@ -1383,7 +3600,71 @@
       "modulo": "17-IA",
       "url": "pages/ai-dojo.html",
       "texto": "AI Dojo · cinturón Negro: «El caso donde NO se usa»"
-     }
+     },
+     "logro": "decidir si una regla simple o una consulta SQL bastan antes de pedir un modelo.",
+     "idea": {
+      "titulo": "Entiéndelo con problemas comunes",
+      "columnas": [
+       "Problema",
+       "¿Modelo o algo más simple?"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Marcar pagos mayores a un monto",
+        "Una regla: =SI(monto>límite; …)"
+       ],
+       [
+        "Encontrar pagos sin factura",
+        "Una consulta SQL con LEFT JOIN"
+       ],
+       [
+        "Detectar fraudes que cambian de forma",
+        "Ahí un modelo puede valer la pena"
+       ],
+       [
+        "Clasificar correos en 3 tipos",
+        "Primero prueba un encargo a una IA generativa"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la misión «El caso donde NO se usa» del cinturón Negro del AI Dojo trabaja justo esto.",
+     "hazlo": [
+      "Haz en el AI Dojo la misión «El caso donde NO se usa».",
+      "Toma un problema ficticio que alguien quiera resolver con machine learning.",
+      "Escribe la regla o consulta que lo resolvería y qué se perdería frente a un modelo."
+     ],
+     "comprueba": {
+      "texto": "Tu respuesta está completa si tiene:",
+      "valores": [
+       [
+        "Problema",
+        "1"
+       ],
+       [
+        "Regla o consulta",
+        "escrita"
+       ],
+       [
+        "Decisión",
+        "con su razón"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Empezar por el modelo.",
+       "Primero lo más simple; el modelo solo si la regla no alcanza."
+      ],
+      [
+       "Olvidar el costo de mantenerlo.",
+       "Un modelo hay que vigilarlo y volver a entrenarlo; una regla no."
+      ],
+      [
+       "No poder explicarlo.",
+       "Si no puedes decir por qué marcó algo, nadie va a confiar en él."
+      ]
+     ]
     }
    ]
   },
@@ -2628,6 +4909,14 @@
    "id": "apis",
    "competencia": "APIs e integraciones",
    "icono": "🔌",
+   "disciplina": "Automatización",
+   "frase": "Una API es una ventanilla entre sistemas: uno hace una solicitud con un formato fijo y el otro le responde, sin que nadie copie y pegue.",
+   "usos": [
+    "Traer cada día un dato de otro sistema, como la TRM o el estado de un pago, sin entrar a buscarlo.",
+    "Conectar el sistema de ventas con el de contabilidad para que la información pase sola.",
+    "Entender qué quiere decir un error 401 o 404 cuando una integración falla."
+   ],
+   "portafolio": "Una colección de Postman con consultas a la API de la TRM y la misma integración funcionando en n8n o en Python.",
    "queEs": "Una API es la puerta por la que un sistema le pide datos o acciones a otro. Integrar es conectar esas puertas para que la información pase sola, sin copiar y pegar.",
    "pasos": [
     {
@@ -2648,7 +4937,79 @@
       "titulo": "¿Qué es una API? - La mejor explicación en español",
       "canal": "EDteam",
       "url": "https://www.youtube.com/watch?v=u2Ms34GE14U"
-     }
+     },
+     "logro": "explicar qué es una petición, una respuesta y un código de estado.",
+     "idea": {
+      "titulo": "Entiéndelo con una ventanilla",
+      "columnas": [
+       "En una ventanilla",
+       "En una API"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Pides un certificado",
+        "GET: pedir datos"
+       ],
+       [
+        "Entregas un formulario lleno",
+        "POST: enviar datos para crear algo"
+       ],
+       [
+        "«Aquí tiene»",
+        "200: todo bien"
+       ],
+       [
+        "«Eso no existe»",
+        "404: no encontrado"
+       ],
+       [
+        "«Muéstreme su documento»",
+        "401: falta identificarse"
+       ],
+       [
+        "«Se cayó el sistema»",
+        "500: falla del servidor"
+       ]
+      ]
+     },
+     "mira": "El video de EDteam explica qué es una API con ejemplos. Después, lee en MDN la parte de peticiones y respuestas.",
+     "hazlo": [
+      "Mira el video y lee las generalidades de HTTP en MDN.",
+      "Pega en el navegador la dirección de abajo y mira la respuesta.",
+      "Escribe en el cuaderno un ejemplo de dos sistemas que se pasan información, sin datos internos."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=3"
+     },
+     "comprueba": {
+      "texto": "En el navegador debes ver una lista de 3 registros, cada uno con estos campos:",
+      "valores": [
+       [
+        "Registros",
+        "3"
+       ],
+       [
+        "Campos",
+        "valor, unidad, vigenciadesde y vigenciahasta"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Confundir la API con la página web.",
+       "La página es para personas; la API devuelve datos para programas."
+      ],
+      [
+       "Asustarse con el JSON.",
+       "Es una lista de registros: cada {…} es una fila y cada «llave: valor», una celda."
+      ],
+      [
+       "Ignorar el código de estado.",
+       "Antes de leer la respuesta, mira si fue 200."
+      ]
+     ]
     },
     {
      "id": "apis-2",
@@ -2668,7 +5029,73 @@
       "titulo": "\"Postman en Español: ¡El tutorial definitivo para el éxito en las pruebas API!",
       "canal": "Domini Code",
       "url": "https://www.youtube.com/watch?v=qsejysrhJiU"
-     }
+     },
+     "logro": "armar una petición en Postman, leer su respuesta y guardarla.",
+     "idea": {
+      "titulo": "Entiéndelo con el navegador",
+      "columnas": [
+       "En el navegador",
+       "En Postman"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Escribes la dirección",
+        "Eliges GET y pegas la dirección"
+       ],
+       [
+        "Ves el texto de la respuesta",
+        "Ves la respuesta ordenada, con su código y su tiempo"
+       ],
+       [
+        "Agregas ?$limit=1 a mano",
+        "Pestaña Params: una fila por parámetro"
+       ],
+       [
+        "Guardas en favoritos",
+        "Colecciones: tus peticiones guardadas"
+       ]
+      ]
+     },
+     "mira": "El tutorial del video recorre Postman en español. Sigue la parte de hacer una petición GET y leer la respuesta.",
+     "hazlo": [
+      "Instala Postman o usa su versión web (la cuenta la creas tú).",
+      "Haz un GET a https://www.datos.gov.co/resource/32sa-8pi3.json con los parámetros $order = vigenciadesde DESC y $limit = 1.",
+      "Guarda la petición en una colección «Cerebro · TRM» y pega la respuesta en el cuaderno."
+     ],
+     "comprueba": {
+      "texto": "La respuesta debe traer código 200 y un solo registro. El 25-nov-2026 fue este:",
+      "valores": [
+       [
+        "Código",
+        "200 OK"
+       ],
+       [
+        "Registros",
+        "1"
+       ],
+       [
+        "Colección",
+        "guardada"
+       ]
+      ],
+      "salidaEjemplo": "[{\"valor\":\"3592.03\",\"unidad\":\"COP\",\"vigenciadesde\":\"2026-11-25T00:00:00.000\",\"vigenciahasta\":\"2026-11-25T00:00:00.000\"}]",
+      "nota": "Tu valor será el del día en que lo pidas."
+     },
+     "errores": [
+      [
+       "Escribir los parámetros dos veces.",
+       "Si los pones en Params, no los repitas en la dirección."
+      ],
+      [
+       "Método equivocado.",
+       "Para leer datos es GET; POST es para enviar."
+      ],
+      [
+       "Compartir claves en una colección.",
+       "Las claves de una API son como contraseñas: no las compartas."
+      ]
+     ]
     },
     {
      "id": "apis-3",
@@ -2682,7 +5109,76 @@
       "nombre": "API Endpoints",
       "proveedor": "Socrata, la plataforma de datos.gov.co (en inglés)",
       "url": "https://dev.socrata.com/docs/endpoints.html"
-     }
+     },
+     "logro": "pedirle a la API solo las columnas, las filas y el orden que necesitas.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "Parámetro",
+       "Lo mismo en Excel"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "$select",
+        "Ocultar las columnas que no necesitas"
+       ],
+       [
+        "$where",
+        "El filtro de una columna"
+       ],
+       [
+        "$order",
+        "Ordenar de A a Z o de Z a A"
+       ],
+       [
+        "$limit",
+        "Quedarte con las primeras filas"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la página de Socrata (la plataforma de datos.gov.co) explica cada parámetro con ejemplos.",
+     "hazlo": [
+      "En Postman, duplica tu petición de la estación 2.",
+      "Cambia sus parámetros por los 3 de abajo (uno por fila en Params).",
+      "Envíala y comprueba que solo llegan fecha y valor, del mes, en orden."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "$select   vigenciadesde,valor\n$where    vigenciadesde between '2026-11-01T00:00:00' and '2026-11-30T00:00:00'\n$order    vigenciadesde ASC"
+     },
+     "comprueba": {
+      "texto": "La respuesta trae solo 2 campos por registro y empieza el 4-nov. El 25-nov-2026 llegaron 14 registros:",
+      "valores": [
+       [
+        "Campos",
+        "2"
+       ],
+       [
+        "Primer día",
+        "4-nov"
+       ],
+       [
+        "Registros al 25-nov",
+        "14"
+       ]
+      ],
+      "nota": "Empieza el 4 porque el registro del 31-oct vale hasta el 3-nov (fin de semana y festivo)."
+     },
+     "errores": [
+      [
+       "Pedir todo y filtrar después.",
+       "Traer miles de filas para usar 20 es lento: filtra en la petición."
+      ],
+      [
+       "Fecha sin comillas.",
+       "Dentro de $where, la fecha va entre comillas simples."
+      ],
+      [
+       "Olvidar que hay un máximo.",
+       "Sin $limit, la API devuelve hasta 1.000 filas por petición."
+      ]
+     ]
     },
     {
      "id": "apis-4",
@@ -2696,7 +5192,71 @@
       "nombre": "Build your first workflow",
       "proveedor": "Documentación de n8n (en inglés)",
       "url": "https://docs.n8n.io/build-your-first-workflow"
-     }
+     },
+     "logro": "conectar la API con una hoja que se llena sola cada día.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que ya hiciste",
+      "columnas": [
+       "Lo que ya hiciste",
+       "Para qué te sirve aquí"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "La petición en Postman (estación 2)",
+        "Es la misma que va en el nodo HTTP Request"
+       ],
+       [
+        "Los filtros (estación 3)",
+        "Traer solo lo que la hoja necesita"
+       ],
+       [
+        "El flujo de n8n (ruta n8n, estación 2)",
+        "El esqueleto: programación → petición → hoja"
+       ],
+       [
+        "El programa de Python (ruta Python, estación 5)",
+        "La otra forma de hacerlo, con código"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la guía «Build your first workflow» de n8n arma un flujo parecido.",
+     "hazlo": [
+      "Elige el camino: n8n (sin código) o Python (con código).",
+      "Conecta la API de la TRM con una hoja que se llene cada día a la misma hora.",
+      "Déjalo correr dos días hábiles y comprueba que hay dos filas con fechas distintas."
+     ],
+     "comprueba": {
+      "texto": "Tu integración funciona si, sin tocar nada:",
+      "valores": [
+       [
+        "Filas",
+        "2 o más"
+       ],
+       [
+        "Fechas",
+        "distintas"
+       ],
+       [
+        "Clics tuyos",
+        "0"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Filas repetidas.",
+       "Si el flujo corre dos veces el mismo día, revisa la fecha antes de agregar."
+      ],
+      [
+       "Asustarse con los fines de semana.",
+       "Un registro de la TRM puede valer varios días: es normal ver el mismo valor."
+      ],
+      [
+       "Nadie se entera si falla.",
+       "Agrega el aviso de error de la ruta n8n, estación 4."
+      ]
+     ]
     }
    ]
   },
