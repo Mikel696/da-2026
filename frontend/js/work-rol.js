@@ -157,8 +157,10 @@ const WorkRol = (function(){
   }
 
   /* El juego (nodos, «Ver esa ruta», «Seguir») abre una ruta aquí. */
-  function abrir(id){
+  /* El centro de mando abre una ruta aquí; con `paso` la deja en esa estación (las misiones). */
+  function abrir(id, paso){
     rutaAbierta = id;
+    if (paso) estacion[id] = paso;
     const R = window.WorkRutas, D = datos && datos.d;
     if (soloFaltan && R && D && D.competencias.some(c => c.perfil === 'si' && (R.rutaDe(c.nombre) || {}).id === id)) soloFaltan = false;
     render();

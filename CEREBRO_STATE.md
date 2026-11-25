@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-25 (14-WORK: las 25 rutas en formato didáctico, 108 estaciones · antes: panel de juego y limpieza de cuadernos)
+- **Última actualización:** 2026-11-25 (14-WORK: centro de mando en lugar del panel de juego · antes: las 25 rutas en formato didáctico)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,34 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🕹 14-WORK · Centro de mando — miércoles 25-nov
+
+Miguel rechazó la constelación del 24-nov («quiero algo más trabajado, que parezca un centro de control de un juego
+5 estrellas, que me motive a jugar, a aprender»). Vio la propuesta en el lienzo «Centro de mando 14-WORK · propuesta»
+y aprobó: «Sí, constrúyelo».
+
+- **`js/work-juego.js` reescrito (sigue siendo `WorkJuego`, solo lee):** encabezado «Temporada 1 · Implementador de procesos con IA» con la
+  muestra citada (39 vacantes, LinkedIn Empleos, 24-nov-2026); **rango** con emblema, nivel y barra de 10 segmentos de
+  XP; **progreso de la temporada** = `WorkRutas.global()` (56 % hoy); **tu mayor salto** = `global().siguiente` (Inglés,
+  56 % → 65 %; dice cuántas vacantes la piden, no «la más pedida»); **pase de temporada** de 11 niveles (0 a 1.000 XP,
+  rangos Aprendiz → Maestro de rutas); **3 misiones** = la siguiente estación real de la ruta en marcha tocada hace
+  menos tiempo, la del mayor salto y la nueva más pedida, cada una con «Iniciar misión», que abre la ruta en esa
+  estación (`WorkRol.abrir(id, paso)`); **6 disciplinas** con sus 25 habilidades (estado del perfil, % de ruta,
+  vacantes; cada fila abre su ruta; nivel de disciplina = 1 cada 5 estaciones); **vitrina de 6 logros** con medallas
+  SVG (sin emoji); **actividad** de 28 días que cuenta estaciones y tareas de «Hazlo», racha y casillas de la semana;
+  «Cómo se calcula» con todas las reglas.
+- **CSS:** el bloque `.j-*` se reemplazó por `.cm-*` (aurora oscura, vidrio, Archivo); se conservan los colores de
+  estado del mapa (`--rol-si/no/pr`). El pase se desliza a los lados en celular y recibe foco con el teclado.
+- **Contraparte (CORREGIR, aplicado):** el encabezado decía «guardado en tu cuenta» (falso sin sesión: ahora «en este
+  navegador y, con sesión iniciada, en tu cuenta»); emoji de los enlaces internos fuera de las misiones; pase accesible
+  por teclado; filas de habilidad de 44 px.
+- **Pruebas:** simulación del mapa con el centro de mando 48 comprobaciones (11 niveles, 3 misiones, 6 disciplinas,
+  25 habilidades, logros, 28 días, «Iniciar misión» abre la estación, la temporada sube a 57 % al marcar, la misión «En
+  marcha» avanza); vista previa local con datos vacíos y con avance simulado (30 XP, 60 %, racha 3) y 375 px sin
+  desbordes; los datos de prueba se borraron.
 
 ---
 
