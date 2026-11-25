@@ -89,6 +89,6 @@ const WorkRutas = (function(){
     return id;
   }
 
-  return { cargar, rutas, ruta, rutaDe, nombreCorto, hecho, empezada, marcar, pct, global, empezar, datos: () => datos };
+  return { cargar, rutas, ruta, rutaDe, nombreCorto, hecho, empezada, marcar, pct, global, empezar, datos: () => datos, registros: () => leer() };
 })();
 window.WorkRutas = WorkRutas;

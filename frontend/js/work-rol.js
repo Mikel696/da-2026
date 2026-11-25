@@ -56,24 +56,6 @@ const WorkRol = (function(){
     return `<p class="rol-radar">El radar de 5-JOB trae <b>${n}</b> vacante${n === 1 ? '' : 's'} del rol entre las ${j.length} que muestra (datos del ${esc(cuando)}${radar.guardado ? ', copia guardada sin conexión' : ''}). El radar no lee LinkedIn, que es de donde salió la muestra de este mapa: para eso están las búsquedas del rol en 5-JOB.</p>`;
   }
 
-  /* «Tu avance»: el % global en una frase, la ruta que más lo sube y las rutas empezadas. */
-  function renderAvance(D){
-    const R = window.WorkRutas;
-    if (!R || !R.rutas().length) return '';
-    const g = R.global(D), n = D.muestra.n;
-    const total = D.competencias.reduce((s, c) => s + c.vacantes, 0);
-    const empezadas = R.rutas().filter(r => R.empezada(r.id) || R.pct(r.id) > 0);
-    const lista = empezadas.length ? `<ul class="avance-rutas">${empezadas.map(r => `<li><span>${esc(r.icono || '')} ${esc(R.nombreCorto(r))}</span><span class="avance-mini" role="img" aria-label="${R.pct(r.id)} %"><i style="width:${R.pct(r.id)}%"></i></span><span>${R.pct(r.id)} %</span><button type="button" class="avance-ir" data-ir-ruta="${esc(r.id)}">Seguir</button></li>`).join('')}</ul>` : '';
-    const sig = g.siguiente ? `<p class="avance-sig">Si terminas ${esc(g.siguiente.competencia)}, subes a ${g.siguiente.pct} %. <button type="button" class="avance-ir" data-ir-ruta="${esc(g.siguiente.ruta)}">Ver esa ruta</button></p>` : '';
-    return `<section class="avance" aria-labelledby="avanceT">
-        <h3 id="avanceT">Tu avance</h3>
-        <p class="avance-frase">Con tu perfil y lo que llevas de tus rutas, cubres el <b>${g.pct} %</b> de lo que piden las ${n} vacantes.</p>
-        <span class="avance-barra" role="img" aria-label="${g.pct} %"><i style="width:${g.pct}%"></i></span>
-        ${sig}${lista}
-        <details class="avance-como"><summary>Cómo se calcula</summary><p>Cada habilidad pesa según cuántas vacantes de la muestra la piden (en total suman ${total}). Las que figuran en tu perfil cuentan completas; las que tienen ruta cuentan con lo que llevas de su ruta; las demás, cero. «En tu perfil» es la lista del radar de 5-JOB, escrita en agosto: si algo no es cierto, el % también cambia.</p></details>
-      </section>`;
-  }
-
   /* Panel de una ruta, debajo de su fila. */
   function renderRuta(r, c, D){
     const R = window.WorkRutas;
@@ -142,7 +124,6 @@ const WorkRol = (function(){
         <p class="rol-def">${esc(D.definicion)}</p>
         <p class="rol-fuente">Foto del ${fecha(M.fecha)} (${d === 0 ? 'hoy' : `hace ${d} día${d === 1 ? '' : 's'}`}): ${n} vacantes reales de ${esc(M.fuente.split(',')[0])}, ${esc(M.filtro)}.${datos.guardado ? ' Sin conexión: copia guardada en este navegador.' : ''}</p>
       </header>
-      ${renderAvance(D)}
       <div class="rol-hechos">
         <p>Se publica como ${esc(fam)}. Una vacante puede ser de dos.</p>
         <p>${mod.remoto || 0} remotas, ${mod.hibrido || 0} híbridas y ${mod.presencial || 0} presenciales${mod['sin dato'] ? `; ${mod['sin dato']} no lo dice` : ''}.</p>
@@ -170,6 +151,17 @@ const WorkRol = (function(){
         <p class="rol-nota">Leídas el ${fecha(M.fecha)} con las búsquedas ${M.busquedas.map(b => `«${esc(b)}»`).join(', ')} (${esc(M.resultadosPorBusqueda)}). ${esc(M.criterio)} Algunas ya pueden estar cerradas.</p>
         <ul>${vac}</ul>
       </details>`;
+    if (window.WorkJuego) WorkJuego.render(D);
+  }
+
+  /* El juego (nodos, «Ver esa ruta», «Seguir») abre una ruta aquí. */
+  function abrir(id){
+    rutaAbierta = id;
+    const R = window.WorkRutas, D = datos && datos.d;
+    if (soloFaltan && R && D && D.competencias.some(c => c.perfil === 'si' && (R.rutaDe(c.nombre) || {}).id === id)) soloFaltan = false;
+    render();
+    const el = document.getElementById('workRol'), b = el && el.querySelector(`[data-ruta="${id}"]`);
+    if (b) { if (b.scrollIntoView) b.scrollIntoView({ behavior: 'smooth', block: 'start' }); if (b.focus) b.focus({ preventScroll: true }); }
   }
 
   async function init(){
@@ -188,14 +180,6 @@ const WorkRol = (function(){
       if (t) {
         rutaAbierta = rutaAbierta === t.dataset.ruta ? null : t.dataset.ruta;
         render(); foco(`[data-ruta="${t.dataset.ruta}"]`);
-        return;
-      }
-      const ir = e.target.closest('[data-ir-ruta]');
-      if (ir) {
-        rutaAbierta = ir.dataset.irRuta;
-        render();
-        const b = foco(`[data-ruta="${rutaAbierta}"]`);
-        if (b && b.scrollIntoView) b.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
       }
       const em = e.target.closest('[data-empezar]');
@@ -229,7 +213,7 @@ const WorkRol = (function(){
     render();
   }
 
-  return { init, render, esDelRol };
+  return { init, render, esDelRol, abrir };
 })();
 window.WorkRol = WorkRol;
 document.addEventListener('DOMContentLoaded', () => WorkRol.init());
