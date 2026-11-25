@@ -71,6 +71,7 @@ const WorkRutas = (function(){
   function paginaHtml(p){
     let h = `<h3>Qué aprender</h3><ul>${p.aprender.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
     if (p.recurso) h += `<h3>Recurso</h3><p><a href="${esc(p.recurso.url)}" target="_blank" rel="noopener">${esc(p.recurso.nombre)}</a> · ${esc(p.recurso.proveedor)}</p>`;
+    if (p.video) h += `<h3>Video</h3><p><a href="${esc(p.video.url)}" target="_blank" rel="noopener">${esc(p.video.titulo)}</a> · ${esc(p.video.canal)}</p>`;
     if (p.enlace) h += `<h3>En el Cerebro</h3><p><a href="${esc(p.enlace.url)}" target="_blank" rel="noopener">${esc(p.enlace.texto)}</a></p>`;
     h += `<h3>Práctica</h3><p>${esc(p.practica)}</p><h3>Mis apuntes</h3><p><br></p>`;
     return h;

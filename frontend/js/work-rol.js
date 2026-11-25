@@ -86,6 +86,7 @@ const WorkRol = (function(){
           <label><input type="checkbox" data-paso="${esc(s.id)}" data-de="${esc(r.id)}"${ok ? ' checked' : ''}> <span>${i + 1}. ${esc(s.titulo)}</span></label>
           <ul class="ruta-aprender">${s.aprender.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
           ${s.recurso ? `<p class="ruta-rec">Recurso: <a href="${esc(s.recurso.url)}" target="_blank" rel="noopener">${esc(s.recurso.nombre)}</a> · ${esc(s.recurso.proveedor)}</p>` : ''}
+          ${s.video ? `<p class="ruta-rec ruta-video">▶ Video: <a href="${esc(s.video.url)}" target="_blank" rel="noopener">${esc(s.video.titulo)}</a> · ${esc(s.video.canal)}</p>` : ''}
           ${s.enlace ? `<p class="ruta-rec">En el Cerebro: <a href="${esc(s.enlace.url)}"${/^https?:/.test(s.enlace.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(s.enlace.texto)}</a></p>` : ''}
           <p class="ruta-prac"><b>Práctica:</b> ${esc(s.practica)}</p>
         </li>`;
@@ -98,6 +99,7 @@ const WorkRol = (function(){
           <span class="avance-barra ruta-barra" role="img" aria-label="${p} %"><i style="width:${p}%"></i></span>
         </div>
         <p class="ruta-que">${esc(r.queEs)}</p>
+        ${c.perfil === 'si' ? '<p class="ruta-perfil">Ya figura en tu perfil, así que en tu % global cuenta completa. Esta ruta sirve para repasarla y demostrarla con algo que puedas enseñar en una entrevista.</p>' : ''}
         <p class="ruta-piden">La piden ${c.vacantes} de las ${D.muestra.n} vacantes, entre ellas ${esc(nombres)}.</p>
         <ol class="ruta-pasos">${pasos}</ol>
         <div class="ruta-acc">${nb
