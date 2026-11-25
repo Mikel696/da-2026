@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-24 noche (14-WORK: rutas para las 25 habilidades con videos; radar de 5-JOB solo por cargo · antes: rutas v1, cloud-sync p26)
+- **Última actualización:** 2026-11-24 noche (14-WORK: panel de juego; limpieza de cuadernos 47,2 % → 35,5 % · antes: rutas para las 25 habilidades)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,31 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎮 14-WORK · Panel de juego + limpieza de cuadernos — martes 24-nov (noche, 3.ª parte)
+
+Miguel: «quiero gráficos interactivos de desarrollo […] nivel superior tipo videojuego […] algo vivo […] que se
+interconecten» y «elimina esos cuadernos de simetrik y los que consideres innecesarios en todos los módulos».
+
+- **Limpieza (P0, con su confirmación de la lista exacta; él eligió sin copia previa):** 18 cuadernos borrados con la
+  función de cada módulo (lápidas y fotos locales): 14 de 14-WORK (los del empleador y sus clientes y 5 del trabajo),
+  2 casi vacíos de 10-SYS y 2 de 13-NOT. Quedan 14-WORK 3, 10-SYS 1 propio + 12 materias, 13-NOT 12. Disco del navegador
+  **47,2 % → 35,5 %** del tope de 10 MiB; la nube igual; cola vacía; 0 errores. Las fotos HD de esos cuadernos siguen
+  en Supabase Storage (`deleteImage` solo borra el IDB local).
+- **Juego (`js/work-juego.js`, solo lee):** constelación de las 25 habilidades en 6 zonas (IA, Automatización, Datos,
+  Negocio, Procesos, Personas) con 31 conexiones de diseño; anillo = % de la ruta, tamaño = vacantes que la piden; las
+  conexiones se encienden y fluyen cuando hay avance en las dos puntas; los nodos en progreso laten; el centro gira con el
+  % del rol. Nivel y XP (10 por paso, nivel cada 100, rango = nombre del nivel), 6 logros, historia de XP por día con
+  tooltip. Clic o Enter en un nodo abre su ruta. «Tu avance» pasó del mapa al juego.
+- **Dataviz:** los colores de estado del mapa eran demasiado claros para fondo oscuro (banda L); se validaron
+  `#0aa2c0` / `#bd860b` / `#8f6cf2` (CVD ΔE ≥ 14,7). El texto de estado usa tinta de texto, no el color de la serie.
+- **Verificado en producción (`50969e0`, su sesión):** 25 nodos, 31 conexiones, 10 encendidas por su perfil, Nivel 1 ·
+  0 XP, «En marcha» desbloqueado (su ruta de Python), 0 errores; progreso simulado **solo en memoria** (Nivel 2, 160 XP,
+  64 %, 7 nodos latiendo, 6 logros, historia) y datos intactos después; 375 px sin desborde (el mapa se desliza).
+  Pruebas: mapa + juego 32 comprobaciones, lógica 11/11, sync 28/28. Pages falló 2 de 4 despliegues (O5.6).
+- **Sin confirmar:** su celular real; fluidez de las animaciones en equipos lentos.
 
 ---
 

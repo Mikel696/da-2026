@@ -9,7 +9,7 @@
     "3ENG": {"nivel": 5, "aporte": 5, "sirve": ["Trabajo", "Ingresos"], "ver": "Núcleo: ya rinde",
       "como": "El mazo de tarjetas y el Dojo de entrevistas son el entrenamiento para un trabajo remoto; el curso de inglés es el producto que decidiste vender."},
     "14WOR": {"nivel": 4, "aporte": 5, "sirve": ["Trabajo", "Estudio"], "ver": "Listo para empezar: mapa y rutas; falta el simulador",
-      "como": "El mapa del rol cuenta qué piden 39 vacantes reales de implementación y automatización con IA (LinkedIn, Colombia, 24-nov). Las 25 habilidades abren su ruta de estudio (108 pasos, 51 videos y recursos comprobados), con cuaderno propio y tu % de avance guardado en tu cuenta."},
+      "como": "El mapa del rol cuenta qué piden 39 vacantes reales de implementación y automatización con IA (LinkedIn, Colombia, 24-nov). Las 25 habilidades abren su ruta de estudio (108 pasos, 51 videos y recursos comprobados), con cuaderno propio y tu % de avance guardado en tu cuenta. Arriba, tu constelación de habilidades con nivel, XP, logros e historia."},
     "17IA": {"nivel": 4, "aporte": 4, "sirve": ["Trabajo"], "ver": "Úsalo más",
       "como": "Proyectos con varias IA y misiones por cinturones: entrena lo que pide ser implementador de procesos con IA."},
     "18MUS": {"nivel": 4, "aporte": 4, "sirve": ["Ingresos", "Día a día"], "ver": "Úsalo más",

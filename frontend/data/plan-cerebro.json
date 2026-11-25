@@ -340,6 +340,12 @@
   ],
   "hecho": [
     {
+      "id": "H10",
+      "modulo": "14-WORK",
+      "fecha": "2026-11-24",
+      "que": "Panel de juego en 14-WORK (pedido de Miguel: «tipo videojuego, algo vivo, que se interconecten»): constelación de las 25 habilidades en 6 zonas con 31 conexiones, anillo de progreso por ruta, nivel y XP (10 por paso), 6 logros e historia de XP. Colores de estado validados para fondo oscuro. Y limpieza: 18 cuadernos borrados con su confirmación (disco del navegador 47,2 % → 35,5 %)."
+    },
+    {
       "id": "H9",
       "modulo": "14-WORK",
       "fecha": "2026-11-24",
