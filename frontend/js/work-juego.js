@@ -16,12 +16,12 @@ const WorkJuego = (function(){
   const ZONAS = [['IA', 210, 28], ['Automatización', 575, 20], ['Datos', 870, 40], ['Negocio', 905, 370], ['Procesos', 560, 608], ['Personas', 115, 600]];
   // Qué habilidades se apoyan en cuáles (criterio de diseño, explicado en «Cómo se calcula»).
   const ARISTAS = [
-    ['python', 'apis'], ['python', 'ml'], ['python', 'sql'], ['python', 'finanzas'], ['sql', 'power-bi'], ['excel', 'power-bi'], ['excel', 'finanzas'], ['excel', 'sql'],
+    ['python', 'apis'], ['python', 'sql'], ['sql', 'power-bi'], ['excel', 'power-bi'], ['excel', 'finanzas'], ['excel', 'sql'],
     ['apis', 'n8n'], ['apis', 'erp'], ['apis', 'crm'], ['erp', 'finanzas'], ['crm', 'erp'], ['n8n', 'agentes'], ['n8n', 'power-automate'],
     ['ia-generativa', 'prompts'], ['prompts', 'agentes'], ['ia-generativa', 'agentes'], ['ia-generativa', 'ml'], ['power-automate', 'rpa'], ['power-automate', 'low-code'],
     ['requerimientos', 'mapeo-procesos'], ['mapeo-procesos', 'mejora-procesos'], ['mejora-procesos', 'indicadores'], ['power-bi', 'indicadores'], ['documentacion', 'requerimientos'],
     ['documentacion', 'mapeo-procesos'], ['stakeholders', 'requerimientos'], ['stakeholders', 'cambio'], ['proyectos', 'cambio'], ['proyectos', 'stakeholders'], ['ingles', 'stakeholders'],
-    ['cambio', 'documentacion'], ['mejora-procesos', 'rpa'],
+    ['cambio', 'documentacion'],
   ];
   const CENTRO = [500, 300], HUBS = ['ia-generativa', 'power-automate', 'python', 'finanzas', 'requerimientos', 'stakeholders'];
   const LOGROS = [
@@ -93,7 +93,7 @@ const WorkJuego = (function(){
       return `<g class="j-nodo ${cls}${vivo}${completo}" data-nodo="${esc(id)}" transform="translate(${x} ${y})" tabindex="0" role="button" aria-label="${esc(etiqueta)}">
           <circle class="j-halo" r="${(rr + 10).toFixed(1)}"/>
           <circle class="j-pista" r="${anillo.toFixed(1)}"/>
-          <circle class="j-arco" r="${anillo.toFixed(1)}" stroke-dasharray="${arco.toFixed(1)} ${circ.toFixed(1)}" transform="rotate(-90)"/>
+          ${arco > 0 ? `<circle class="j-arco" r="${anillo.toFixed(1)}" stroke-dasharray="${arco.toFixed(1)} ${circ.toFixed(1)}" transform="rotate(-90)"/>` : ''}
           <circle class="j-cuerpo" r="${rr.toFixed(1)}"/>
           <text class="j-ico" y="5" text-anchor="middle" aria-hidden="true">${p === 100 ? '✓' : esc(r.icono || '')}</text>
           <text class="j-etq" y="${(anillo + 15).toFixed(1)}" text-anchor="middle">${esc(corto)}</text>
