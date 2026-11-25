@@ -52,6 +52,31 @@ for (const r of rutas.rutas || []) {
   });
 }
 
+// Las 25 habilidades del mapa tienen ruta (pedido de Miguel, 24-nov) y cada ruta trae al menos un video.
+for (const c of rol.competencias) if (!(rutas.rutas || []).some((r) => r.competencia === c.nombre)) mal(`la habilidad «${c.nombre}» no tiene ruta`);
+const videos = new Map();   // url → {titulo, canal, donde}
+for (const r of rutas.rutas || []) {
+  const vs = (r.pasos || []).filter((p) => p.video);
+  if (!vs.length) mal(`${r.id}: no tiene ningún video`);
+  for (const p of vs) {
+    const v = p.video;
+    if (!/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]{11}$/.test(v.url || '') || !v.titulo || !v.canal) mal(`${r.id} › ${p.id}: video incompleto o con url rara`);
+    else videos.set(v.url, { ...v, donde: `${r.id} › ${p.id}` });
+  }
+}
+
+// Cada video existe y su título y canal coinciden con lo que dice YouTube hoy (oEmbed, público, sin clave).
+let videosOk = 0;
+await Promise.all([...videos.values()].map(async (v) => {
+  try {
+    const r = await fetch('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent(v.url), { signal: AbortSignal.timeout(30000) });
+    if (r.status !== 200) { mal(`${v.donde}: el video ${v.url} respondió ${r.status}`); return; }
+    const j = await r.json();
+    if (j.title !== v.titulo || j.author_name !== v.canal) mal(`${v.donde}: el video dice «${j.title}» de «${j.author_name}», no «${v.titulo}» de «${v.canal}»`);
+    else videosOk++;
+  } catch (e) { mal(`${v.donde}: el video ${v.url} no respondió (${e.message})`); }
+}));
+
 for (const [u, donde] of internos) {
   try { await access(resolve(raiz, u)); } catch { mal(`${donde}: el enlace interno ${u} no existe en frontend/`); }
 }
@@ -66,4 +91,4 @@ await Promise.all([...externos].map(async ([u, donde]) => {
 }));
 
 if (errores.length) { console.error(`✗ ${errores.length} problema(s):\n  ` + errores.join('\n  ')); process.exit(1); }
-console.log(`✓ ${rutas.rutas.length} rutas, ${pasos} pasos, ${ok200} enlaces externos con 200, ${internos.size} enlaces internos existentes`);
+console.log(`✓ ${rutas.rutas.length} rutas, ${pasos} pasos, ${ok200} enlaces externos con 200, ${videosOk} videos comprobados, ${internos.size} enlaces internos existentes`);

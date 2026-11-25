@@ -1,6 +1,6 @@
 {
  "version": "2026-11-24",
- "nota": "Rutas de estudio de 14-WORK. Cada enlace se comprobó (HTTP 200) el 24-nov-2026 con scripts/verificar-rutas.mjs. Sin duraciones ni «gratis» donde la fuente no lo dice: nada se inventa. Los casos de práctica son ficticios y se marcan como tales; nada interno del trabajo.",
+ "nota": "Rutas de estudio de 14-WORK: una por cada una de las 25 habilidades del mapa. Cada enlace se comprobó (HTTP 200) y cada video con oEmbed de YouTube (título y canal exactos) el 24-nov-2026 con scripts/verificar-rutas.mjs. Videos elegidos por canal reconocido, vistas y español primero. Sin duraciones ni «gratis» donde la fuente no lo dice: nada se inventa. Los casos de práctica son ficticios y se marcan como tales; nada interno del trabajo.",
  "rutas": [
   {
    "id": "python",
@@ -11,37 +11,96 @@
     {
      "id": "python-1",
      "titulo": "Programar desde cero, en el navegador",
-     "aprender": ["Qué es una variable y un tipo de dato", "Cómo se escribe y se usa una función", "Leer un error sin asustarse"],
-     "recurso": { "nombre": "Intro to Programming", "proveedor": "Kaggle Learn (en inglés, interactivo)", "url": "https://www.kaggle.com/learn/intro-to-programming" },
-     "practica": "Escribe una función que reciba una lista de montos y devuelva el total, el promedio y el mayor. Pega el código y lo que entendiste en esta página."
+     "aprender": [
+      "Qué es una variable y un tipo de dato",
+      "Cómo se escribe y se usa una función",
+      "Leer un error sin asustarse"
+     ],
+     "recurso": {
+      "nombre": "Intro to Programming",
+      "proveedor": "Kaggle Learn (en inglés, interactivo)",
+      "url": "https://www.kaggle.com/learn/intro-to-programming"
+     },
+     "practica": "Escribe una función que reciba una lista de montos y devuelva el total, el promedio y el mayor. Pega el código y lo que entendiste en esta página.",
+     "video": {
+      "titulo": "Aprende Python - Curso de Python desde Cero",
+      "canal": "freeCodeCamp Español",
+      "url": "https://www.youtube.com/watch?v=DLikpfc64cA"
+     }
     },
     {
      "id": "python-2",
      "titulo": "Python para trabajar con datos",
-     "aprender": ["Listas y diccionarios", "Condiciones y bucles", "Usar librerías"],
-     "recurso": { "nombre": "Python", "proveedor": "Kaggle Learn (en inglés, interactivo)", "url": "https://www.kaggle.com/learn/python" },
+     "aprender": [
+      "Listas y diccionarios",
+      "Condiciones y bucles",
+      "Usar librerías"
+     ],
+     "recurso": {
+      "nombre": "Python",
+      "proveedor": "Kaggle Learn (en inglés, interactivo)",
+      "url": "https://www.kaggle.com/learn/python"
+     },
      "practica": "Con una lista de transacciones inventadas (caso ficticio), cuenta cuántas hay por estado y suma el total de cada estado."
     },
     {
      "id": "python-3",
      "titulo": "Tablas con pandas",
-     "aprender": ["Cargar un CSV en una tabla", "Filtrar, agrupar y resumir", "Guardar el resultado"],
-     "recurso": { "nombre": "Pandas", "proveedor": "Kaggle Learn (en inglés, interactivo)", "url": "https://www.kaggle.com/learn/pandas" },
+     "aprender": [
+      "Cargar un CSV en una tabla",
+      "Filtrar, agrupar y resumir",
+      "Guardar el resultado"
+     ],
+     "recurso": {
+      "nombre": "Pandas",
+      "proveedor": "Kaggle Learn (en inglés, interactivo)",
+      "url": "https://www.kaggle.com/learn/pandas"
+     },
      "practica": "Descarga un conjunto de datos público de datos.gov.co, cárgalo con pandas y saca un resumen por categoría. Anota aquí el enlace del conjunto que usaste.",
-     "enlace": { "modulo": "4-RUT", "url": "ruta.html", "texto": "Fase «Python para Datos» en la Ruta Data Analyst" }
+     "enlace": {
+      "modulo": "4-RUT",
+      "url": "ruta.html",
+      "texto": "Fase «Python para Datos» en la Ruta Data Analyst"
+     },
+     "video": {
+      "titulo": "Pandas en 30 minutos (Python)",
+      "canal": "Leonardo Kuffo",
+      "url": "https://www.youtube.com/watch?v=8ASjvOIyyl8"
+     }
     },
     {
      "id": "python-4",
      "titulo": "Automatizar Excel y archivos",
-     "aprender": ["Leer y escribir hojas de Excel con openpyxl", "Recorrer carpetas de archivos", "Marcar filas con problemas"],
-     "recurso": { "nombre": "Automate the Boring Stuff, capítulo 14: hojas de Excel", "proveedor": "Al Sweigart (en inglés, libro gratis en línea)", "url": "https://automatetheboringstuff.com/3e/chapter14.html" },
-     "practica": "Une tres hojas de Excel con el mismo formato en una sola y marca las filas con monto vacío. Usa datos ficticios."
+     "aprender": [
+      "Leer y escribir hojas de Excel con openpyxl",
+      "Recorrer carpetas de archivos",
+      "Marcar filas con problemas"
+     ],
+     "recurso": {
+      "nombre": "Automate the Boring Stuff, capítulo 14: hojas de Excel",
+      "proveedor": "Al Sweigart (en inglés, libro gratis en línea)",
+      "url": "https://automatetheboringstuff.com/3e/chapter14.html"
+     },
+     "practica": "Une tres hojas de Excel con el mismo formato en una sola y marca las filas con monto vacío. Usa datos ficticios.",
+     "video": {
+      "titulo": "Automatizar Excel con Python | Leer y procesar archivos con Pandas",
+      "canal": "DATA SCIENCE PROJECT",
+      "url": "https://www.youtube.com/watch?v=JL9RMCS4Sho"
+     }
     },
     {
      "id": "python-5",
      "titulo": "Traer datos de una API",
-     "aprender": ["Qué es una API y qué devuelve (JSON)", "Pedir datos con requests", "Qué hacer si la API falla"],
-     "recurso": { "nombre": "Requests: Quickstart", "proveedor": "Documentación oficial de requests (en inglés)", "url": "https://requests.readthedocs.io/en/latest/user/quickstart/" },
+     "aprender": [
+      "Qué es una API y qué devuelve (JSON)",
+      "Pedir datos con requests",
+      "Qué hacer si la API falla"
+     ],
+     "recurso": {
+      "nombre": "Requests: Quickstart",
+      "proveedor": "Documentación oficial de requests (en inglés)",
+      "url": "https://requests.readthedocs.io/en/latest/user/quickstart/"
+     },
      "practica": "Trae la TRM del día desde la API pública de datos.gov.co (https://www.datos.gov.co/resource/32sa-8pi3.json, publicada por la Superintendencia Financiera) e imprímela con su fecha."
     }
    ]
@@ -55,37 +114,86 @@
     {
      "id": "ia-generativa-1",
      "titulo": "Qué es y cómo funciona",
-     "aprender": ["Qué es un modelo de lenguaje", "Qué es un agente", "Por qué a veces inventa"],
-     "recurso": { "nombre": "Introducción a la inteligencia artificial y los agentes generativos", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/training/modules/fundamentals-generative-ai/" },
-     "practica": "Explica en esta página, con tus palabras, qué es un modelo de lenguaje y por qué puede inventar un dato."
+     "aprender": [
+      "Qué es un modelo de lenguaje",
+      "Qué es un agente",
+      "Por qué a veces inventa"
+     ],
+     "recurso": {
+      "nombre": "Introducción a la inteligencia artificial y los agentes generativos",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/training/modules/fundamentals-generative-ai/"
+     },
+     "practica": "Explica en esta página, con tus palabras, qué es un modelo de lenguaje y por qué puede inventar un dato.",
+     "video": {
+      "titulo": "Curso gratis: Inteligencia Artificial para todos (2026)",
+      "canal": "EDteam",
+      "url": "https://www.youtube.com/watch?v=DjshEwI6pVk"
+     }
     },
     {
      "id": "ia-generativa-2",
      "titulo": "Encargar bien",
-     "aprender": ["Dar contexto, formato y criterio de éxito", "Dejar que la IA te pregunte", "Guardar una plantilla de encargo"],
-     "recurso": { "nombre": "Cursos de Anthropic", "proveedor": "Anthropic (en inglés)", "url": "https://anthropic.skilljar.com/" },
+     "aprender": [
+      "Dar contexto, formato y criterio de éxito",
+      "Dejar que la IA te pregunte",
+      "Guardar una plantilla de encargo"
+     ],
+     "recurso": {
+      "nombre": "Cursos de Anthropic",
+      "proveedor": "Anthropic (en inglés)",
+      "url": "https://anthropic.skilljar.com/"
+     },
      "practica": "Haz las misiones del cinturón Blanco del AI Dojo (de «El mismo encargo, dos veces» a «Tu primera plantilla») y guarda aquí tu plantilla de encargo para documentar un proceso.",
-     "enlace": { "modulo": "17-IA", "url": "pages/ai-dojo.html", "texto": "AI Dojo · cinturón Blanco (Encargar)" }
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Blanco (Encargar)"
+     }
     },
     {
      "id": "ia-generativa-3",
      "titulo": "Comprobar lo que produce",
-     "aprender": ["Cazar una alucinación", "Marcar qué se puede verificar", "No aceptar la complacencia"],
-     "enlace": { "modulo": "17-IA", "url": "pages/ai-dojo.html", "texto": "AI Dojo · cinturón Amarillo (Verificar)" },
+     "aprender": [
+      "Cazar una alucinación",
+      "Marcar qué se puede verificar",
+      "No aceptar la complacencia"
+     ],
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Amarillo (Verificar)"
+     },
      "practica": "Haz las misiones del cinturón Amarillo (de «Caza tu primera alucinación» a «La escalera aplicada»). Después pide un resumen de un documento público y marca cada afirmación como comprobada o no."
     },
     {
      "id": "ia-generativa-4",
      "titulo": "Elegir la herramienta para cada tarea",
-     "aprender": ["Comparar dos IA con la misma tarea", "Cuándo usar un modelo pequeño", "Trabajar con documentos en vez de memoria"],
-     "enlace": { "modulo": "17-IA", "url": "pages/ai-dojo.html", "texto": "AI Dojo · cinturón Naranja (Elegir)" },
+     "aprender": [
+      "Comparar dos IA con la misma tarea",
+      "Cuándo usar un modelo pequeño",
+      "Trabajar con documentos en vez de memoria"
+     ],
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Naranja (Elegir)"
+     },
      "practica": "Haz las misiones del cinturón Naranja y termina con «Tu tabla personal, versión 1»: qué IA usas para qué tarea y por qué."
     },
     {
      "id": "ia-generativa-5",
      "titulo": "IA dentro de un proceso",
-     "aprender": ["Qué es una aplicación o un agente de IA", "Dónde entra la IA en un proceso", "Cómo medir el tiempo que ahorra"],
-     "recurso": { "nombre": "Introducción a las aplicaciones y agentes de inteligencia artificial", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/training/paths/get-started-ai-apps-agents/" },
+     "aprender": [
+      "Qué es una aplicación o un agente de IA",
+      "Dónde entra la IA en un proceso",
+      "Cómo medir el tiempo que ahorra"
+     ],
+     "recurso": {
+      "nombre": "Introducción a las aplicaciones y agentes de inteligencia artificial",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/training/paths/get-started-ai-apps-agents/"
+     },
      "practica": "Toma un proceso repetitivo (caso ficticio o público), describe cómo es hoy y cómo sería con IA, y estima el tiempo ahorrado con una cuenta que puedas explicar."
     }
    ]
@@ -99,37 +207,91 @@
     {
      "id": "requerimientos-1",
      "titulo": "Qué es levantar requerimientos",
-     "aprender": ["Requerimiento funcional y no funcional", "Quiénes participan", "Los errores que más se repiten"],
-     "recurso": { "nombre": "Requirements Gathering", "proveedor": "Asana (en inglés)", "url": "https://asana.com/es/resources/requirements-gathering" },
-     "practica": "Escribe 5 requerimientos funcionales y 3 no funcionales para un caso ficticio: conciliar automáticamente los pagos de una tienda en línea."
+     "aprender": [
+      "Requerimiento funcional y no funcional",
+      "Quiénes participan",
+      "Los errores que más se repiten"
+     ],
+     "recurso": {
+      "nombre": "Requirements Gathering",
+      "proveedor": "Asana (en inglés)",
+      "url": "https://asana.com/es/resources/requirements-gathering"
+     },
+     "practica": "Escribe 5 requerimientos funcionales y 3 no funcionales para un caso ficticio: conciliar automáticamente los pagos de una tienda en línea.",
+     "video": {
+      "titulo": "Cómo tomar requerimientos | 5 consejos para una toma de requerimientos efectiva",
+      "canal": "HolaMundo",
+      "url": "https://www.youtube.com/watch?v=2KZKMY75cJM"
+     }
     },
     {
      "id": "requerimientos-2",
      "titulo": "La reunión de descubrimiento",
-     "aprender": ["Preparar la primera reunión", "Qué preguntar y a quién", "Dejar acuerdos por escrito"],
-     "recurso": { "nombre": "Reuniones de lanzamiento del proyecto", "proveedor": "Atlassian Team Playbook (en español)", "url": "https://www.atlassian.com/es/team-playbook/plays/project-kickoff" },
+     "aprender": [
+      "Preparar la primera reunión",
+      "Qué preguntar y a quién",
+      "Dejar acuerdos por escrito"
+     ],
+     "recurso": {
+      "nombre": "Reuniones de lanzamiento del proyecto",
+      "proveedor": "Atlassian Team Playbook (en español)",
+      "url": "https://www.atlassian.com/es/team-playbook/plays/project-kickoff"
+     },
      "practica": "Escribe el guion de 10 preguntas para la primera reunión con el área que pide la automatización del caso ficticio."
     },
     {
      "id": "requerimientos-3",
      "titulo": "Del proceso de hoy al nuevo (AS-IS / TO-BE)",
-     "aprender": ["Los símbolos básicos de BPMN", "Dibujar el proceso actual", "Dibujar el proceso propuesto"],
-     "recurso": { "nombre": "BPMN: Business Process Model and Notation", "proveedor": "Camunda (en inglés)", "url": "https://camunda.com/bpmn/" },
+     "aprender": [
+      "Los símbolos básicos de BPMN",
+      "Dibujar el proceso actual",
+      "Dibujar el proceso propuesto"
+     ],
+     "recurso": {
+      "nombre": "BPMN: Business Process Model and Notation",
+      "proveedor": "Camunda (en inglés)",
+      "url": "https://camunda.com/bpmn/"
+     },
      "practica": "Dibuja el proceso actual y el propuesto del caso ficticio en demo.bpmn.io y pega las dos imágenes en esta página.",
-     "enlace": { "modulo": "web", "url": "https://demo.bpmn.io/", "texto": "Dibujar en demo.bpmn.io (en el navegador)" }
+     "enlace": {
+      "modulo": "web",
+      "url": "https://demo.bpmn.io/",
+      "texto": "Dibujar en demo.bpmn.io (en el navegador)"
+     }
     },
     {
      "id": "requerimientos-4",
      "titulo": "Historias de usuario y criterios de aceptación",
-     "aprender": ["El formato «Como… quiero… para…»", "Criterios de aceptación", "Épicas e historias"],
-     "recurso": { "nombre": "Historias de usuario con ejemplos y plantilla", "proveedor": "Atlassian (en español)", "url": "https://www.atlassian.com/es/agile/project-management/user-stories" },
-     "practica": "Convierte tus requerimientos del paso 1 en 5 historias de usuario, cada una con sus criterios de aceptación."
+     "aprender": [
+      "El formato «Como… quiero… para…»",
+      "Criterios de aceptación",
+      "Épicas e historias"
+     ],
+     "recurso": {
+      "nombre": "Historias de usuario con ejemplos y plantilla",
+      "proveedor": "Atlassian (en español)",
+      "url": "https://www.atlassian.com/es/agile/project-management/user-stories"
+     },
+     "practica": "Convierte tus requerimientos del paso 1 en 5 historias de usuario, cada una con sus criterios de aceptación.",
+     "video": {
+      "titulo": "COMO CREAR HISTORIAS DE USUARIO EN SCRUM",
+      "canal": "Ágil Es Por Cris Rúa",
+      "url": "https://www.youtube.com/watch?v=ky6wFiF5vMk"
+     }
     },
     {
      "id": "requerimientos-5",
      "titulo": "El documento de requerimientos",
-     "aprender": ["Qué lleva un documento de requisitos", "Alcance: qué sí y qué no", "Cómo se medirá el éxito"],
-     "recurso": { "nombre": "¿Qué es un documento de requisitos de producto (PRD)?", "proveedor": "Atlassian (en español)", "url": "https://www.atlassian.com/es/agile/product-management/requirements" },
+     "aprender": [
+      "Qué lleva un documento de requisitos",
+      "Alcance: qué sí y qué no",
+      "Cómo se medirá el éxito"
+     ],
+     "recurso": {
+      "nombre": "¿Qué es un documento de requisitos de producto (PRD)?",
+      "proveedor": "Atlassian (en español)",
+      "url": "https://www.atlassian.com/es/agile/product-management/requirements"
+     },
      "practica": "Junta todo en un documento de una página: objetivo, alcance, requerimientos, historias y cómo se medirá. Es una pieza de portafolio: márcala como caso ficticio."
     }
    ]
@@ -143,36 +305,86 @@
     {
      "id": "power-automate-1",
      "titulo": "Qué es y qué automatiza",
-     "aprender": ["Flujos en la nube y de escritorio", "Desencadenadores y acciones", "Qué tareas conviene automatizar"],
-     "recurso": { "nombre": "Introducción a Power Automate", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/training/modules/get-started-flows/" },
-     "practica": "Lista 5 tareas de tu semana que se repiten y marca cuáles podrían ser un flujo y por qué."
+     "aprender": [
+      "Flujos en la nube y de escritorio",
+      "Desencadenadores y acciones",
+      "Qué tareas conviene automatizar"
+     ],
+     "recurso": {
+      "nombre": "Introducción a Power Automate",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/training/modules/get-started-flows/"
+     },
+     "practica": "Lista 5 tareas de tu semana que se repiten y marca cuáles podrían ser un flujo y por qué.",
+     "video": {
+      "titulo": "Introducción a POWER AUTOMATE 🚀 (antes FLOW) | Creamos 3️⃣ Flujos!",
+      "canal": "Martín Gesualdo",
+      "url": "https://www.youtube.com/watch?v=s0uDnQmlIbs"
+     }
     },
     {
      "id": "power-automate-2",
      "titulo": "Instalar Power Automate para escritorio",
-     "aprender": ["Instalarlo en Windows", "Iniciar sesión con tu cuenta Microsoft", "Conocer la grabadora"],
-     "recurso": { "nombre": "Instalar Power Automate", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/install" },
+     "aprender": [
+      "Instalarlo en Windows",
+      "Iniciar sesión con tu cuenta Microsoft",
+      "Conocer la grabadora"
+     ],
+     "recurso": {
+      "nombre": "Instalar Power Automate",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/install"
+     },
      "practica": "Instálalo, abre la grabadora y graba un flujo corto cualquiera. Anota aquí qué grabaste y qué te sorprendió."
     },
     {
      "id": "power-automate-3",
      "titulo": "Tu primer flujo de escritorio",
-     "aprender": ["Crear un flujo paso a paso", "Variables y carpetas", "Probar y corregir"],
-     "recurso": { "nombre": "Crear flujos de escritorio", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/create-flow" },
-     "practica": "Haz un flujo que mueva los PDF de la carpeta Descargas a una carpeta por mes."
+     "aprender": [
+      "Crear un flujo paso a paso",
+      "Variables y carpetas",
+      "Probar y corregir"
+     ],
+     "recurso": {
+      "nombre": "Crear flujos de escritorio",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/create-flow"
+     },
+     "practica": "Haz un flujo que mueva los PDF de la carpeta Descargas a una carpeta por mes.",
+     "video": {
+      "titulo": "Automatiza EXCEL con Power Automate Desktop",
+      "canal": "Firbot Academy",
+      "url": "https://www.youtube.com/watch?v=Q7mQXPiGWp4"
+     }
     },
     {
      "id": "power-automate-4",
      "titulo": "Aprobaciones en la nube",
-     "aprender": ["Cómo funciona una aprobación", "Quién pide y quién aprueba", "Qué pasa si se rechaza"],
-     "recurso": { "nombre": "Crear y probar un flujo de aprobación", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/power-automate/modern-approvals" },
+     "aprender": [
+      "Cómo funciona una aprobación",
+      "Quién pide y quién aprueba",
+      "Qué pasa si se rechaza"
+     ],
+     "recurso": {
+      "nombre": "Crear y probar un flujo de aprobación",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/power-automate/modern-approvals"
+     },
      "practica": "Diseña una aprobación de gastos ficticia: quién la pide, quién aprueba, qué pasa si se rechaza y a quién se avisa."
     },
     {
      "id": "power-automate-5",
      "titulo": "Fundamentos de Power Platform",
-     "aprender": ["Power Apps, Power BI y Power Automate juntos", "Dataverse en una frase", "Qué evalúa la certificación PL-900"],
-     "recurso": { "nombre": "Aspectos básicos de Power Platform (PL-900)", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/credentials/certifications/power-platform-fundamentals/" },
+     "aprender": [
+      "Power Apps, Power BI y Power Automate juntos",
+      "Dataverse en una frase",
+      "Qué evalúa la certificación PL-900"
+     ],
+     "recurso": {
+      "nombre": "Aspectos básicos de Power Platform (PL-900)",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/credentials/certifications/power-platform-fundamentals/"
+     },
      "practica": "Marca qué temas de la guía de estudio ya dominas y cuáles te faltan. Con eso decides si te presentas al examen."
     }
    ]
@@ -186,36 +398,90 @@
     {
      "id": "rpa-1",
      "titulo": "Qué es RPA y cuándo conviene",
-     "aprender": ["Robot de software contra integración por API", "Procesos buenos y malos para RPA", "Robot atendido y desatendido"],
-     "recurso": { "nombre": "UiPath Academy", "proveedor": "UiPath (en inglés, cursos gratis con cuenta)", "url": "https://academy.uipath.com/" },
-     "practica": "De tu lista de tareas repetitivas, elige 2 que sean buenas para un robot y explica por qué."
+     "aprender": [
+      "Robot de software contra integración por API",
+      "Procesos buenos y malos para RPA",
+      "Robot atendido y desatendido"
+     ],
+     "recurso": {
+      "nombre": "UiPath Academy",
+      "proveedor": "UiPath (en inglés, cursos gratis con cuenta)",
+      "url": "https://academy.uipath.com/"
+     },
+     "practica": "De tu lista de tareas repetitivas, elige 2 que sean buenas para un robot y explica por qué.",
+     "video": {
+      "titulo": "UiPath vs Power Automate vs Blue Prism vs Automation Anywhere",
+      "canal": "Camilo Duarte",
+      "url": "https://www.youtube.com/watch?v=eaYM9upFFJw"
+     }
     },
     {
      "id": "rpa-2",
      "titulo": "Tu primer robot, en tu propio PC",
-     "aprender": ["Power Automate para escritorio también es RPA", "Grabar y luego limpiar lo grabado", "Leer datos de una pantalla"],
-     "recurso": { "nombre": "Introducción a flujos de escritorio", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/introduction" },
+     "aprender": [
+      "Power Automate para escritorio también es RPA",
+      "Grabar y luego limpiar lo grabado",
+      "Leer datos de una pantalla"
+     ],
+     "recurso": {
+      "nombre": "Introducción a flujos de escritorio",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/introduction"
+     },
      "practica": "Graba un robot que abra un sitio público, copie un dato y lo pegue en Excel."
     },
     {
      "id": "rpa-3",
      "titulo": "UiPath por dentro",
-     "aprender": ["UiPath Studio por dentro", "Secuencias y flujos", "Manejo de errores"],
-     "recurso": { "nombre": "UiPath Academy", "proveedor": "UiPath (en inglés, cursos gratis con cuenta)", "url": "https://academy.uipath.com/" },
-     "practica": "Termina el primer curso de la ruta para principiantes de UiPath Academy y anota aquí los 3 conceptos que más te sirvieron."
+     "aprender": [
+      "UiPath Studio por dentro",
+      "Secuencias y flujos",
+      "Manejo de errores"
+     ],
+     "recurso": {
+      "nombre": "UiPath Academy",
+      "proveedor": "UiPath (en inglés, cursos gratis con cuenta)",
+      "url": "https://academy.uipath.com/"
+     },
+     "practica": "Termina el primer curso de la ruta para principiantes de UiPath Academy y anota aquí los 3 conceptos que más te sirvieron.",
+     "video": {
+      "titulo": "Curso Gratis RPA con Uipath Completo",
+      "canal": "Camilo Duarte",
+      "url": "https://www.youtube.com/watch?v=Y32U_k83Kl8"
+     }
     },
     {
      "id": "rpa-4",
      "titulo": "Automation Anywhere",
-     "aprender": ["Su plataforma y su academia", "En qué se parece y en qué no a UiPath"],
-     "recurso": { "nombre": "Automation Anywhere University", "proveedor": "Automation Anywhere (en inglés)", "url": "https://pathfinder.automationanywhere.com/university" },
-     "practica": "Haz una tabla con UiPath, Automation Anywhere y Power Automate para escritorio: qué necesitas para practicar con cada uno y qué te pareció más fácil."
+     "aprender": [
+      "Su plataforma y su academia",
+      "En qué se parece y en qué no a UiPath"
+     ],
+     "recurso": {
+      "nombre": "Automation Anywhere University",
+      "proveedor": "Automation Anywhere (en inglés)",
+      "url": "https://pathfinder.automationanywhere.com/university"
+     },
+     "practica": "Haz una tabla con UiPath, Automation Anywhere y Power Automate para escritorio: qué necesitas para practicar con cada uno y qué te pareció más fácil.",
+     "video": {
+      "titulo": "¿Qué es Automation Anywhere?",
+      "canal": "Camilo Duarte",
+      "url": "https://www.youtube.com/watch?v=bnTeQUDNYQo"
+     }
     },
     {
      "id": "rpa-5",
      "titulo": "Un proceso de punta a punta",
-     "aprender": ["Diseñar antes de grabar", "Medir el antes y el después", "Documentar para que otro lo use"],
-     "enlace": { "modulo": "5-JOB", "url": "jobs.html#linkedin", "texto": "Ver vacantes de automatización en 5-JOB" },
+     "aprender": [
+      "Diseñar antes de grabar",
+      "Medir el antes y el después",
+      "Documentar para que otro lo use"
+     ],
+     "enlace": {
+      "modulo": "5-JOB",
+      "url": "jobs.html#linkedin",
+      "texto": "Ver vacantes de automatización en 5-JOB"
+     },
      "practica": "Automatiza un proceso ficticio completo (leer correos de prueba, sacar montos y llenar un Excel). Documenta el antes y el después con el tiempo medido."
     }
    ]
@@ -229,39 +495,1605 @@
     {
      "id": "ingles-1",
      "titulo": "Entrevistas para el rol",
-     "aprender": ["Contar tu experiencia hacia la implementación", "Preguntas típicas de estos puestos", "Respuestas cortas con ejemplos"],
-     "enlace": { "modulo": "3-ENG", "url": "english.html", "texto": "Inglés · pestaña 🎯 Interviews" },
-     "practica": "Prepara tu respuesta a «Tell me about yourself» enfocada en implementación y procesos, y escribe aquí la versión final."
+     "aprender": [
+      "Contar tu experiencia hacia la implementación",
+      "Preguntas típicas de estos puestos",
+      "Respuestas cortas con ejemplos"
+     ],
+     "enlace": {
+      "modulo": "3-ENG",
+      "url": "english.html",
+      "texto": "Inglés · pestaña 🎯 Interviews"
+     },
+     "practica": "Prepara tu respuesta a «Tell me about yourself» enfocada en implementación y procesos, y escribe aquí la versión final.",
+     "video": {
+      "titulo": "English Job Interview Tips and Tricks - How to Answer Job Interview Questions in English",
+      "canal": "Oxford Online English",
+      "url": "https://www.youtube.com/watch?v=nhTcuUvLGOE"
+     }
     },
     {
      "id": "ingles-2",
      "titulo": "Vocabulario de procesos y automatización",
-     "aprender": ["Las palabras que se repiten en las vacantes", "Usarlas en una frase propia"],
-     "enlace": { "modulo": "3-ENG", "url": "english.html", "texto": "Inglés · pestaña 🃏 Flashcards" },
-     "recurso": { "nombre": "BBC Learning English", "proveedor": "BBC (en inglés)", "url": "https://www.bbc.co.uk/learningenglish/" },
+     "aprender": [
+      "Las palabras que se repiten en las vacantes",
+      "Usarlas en una frase propia"
+     ],
+     "enlace": {
+      "modulo": "3-ENG",
+      "url": "english.html",
+      "texto": "Inglés · pestaña 🃏 Flashcards"
+     },
+     "recurso": {
+      "nombre": "BBC Learning English",
+      "proveedor": "BBC (en inglés)",
+      "url": "https://www.bbc.co.uk/learningenglish/"
+     },
      "practica": "Agrega a tus tarjetas 20 palabras de las vacantes de la muestra (requirements, stakeholder, rollout, workflow…)."
     },
     {
      "id": "ingles-3",
      "titulo": "Escribir correos y documentos de trabajo",
-     "aprender": ["Correos claros a un cliente", "Resumir un avance", "Corregir tus errores frecuentes"],
-     "enlace": { "modulo": "3-ENG", "url": "english.html", "texto": "Inglés · pestañas 💼 Professional y 🔍 Errores" },
+     "aprender": [
+      "Correos claros a un cliente",
+      "Resumir un avance",
+      "Corregir tus errores frecuentes"
+     ],
+     "enlace": {
+      "modulo": "3-ENG",
+      "url": "english.html",
+      "texto": "Inglés · pestañas 💼 Professional y 🔍 Errores"
+     },
      "practica": "Escribe en inglés el resumen de una de tus prácticas de las otras rutas y corrígelo con la pestaña de errores."
     },
     {
      "id": "ingles-4",
      "titulo": "Entender reuniones",
-     "aprender": ["Escuchar a distintos acentos", "Frases para pedir que repitan o aclaren"],
-     "enlace": { "modulo": "3-ENG", "url": "english.html", "texto": "Inglés · pestañas 👂 Understand y 💬 Conversations" },
-     "recurso": { "nombre": "BBC Learning English", "proveedor": "BBC (en inglés)", "url": "https://www.bbc.co.uk/learningenglish/" },
-     "practica": "Escucha un episodio y anota 5 frases que usarías en una reunión con un cliente."
+     "aprender": [
+      "Escuchar a distintos acentos",
+      "Frases para pedir que repitan o aclaren"
+     ],
+     "enlace": {
+      "modulo": "3-ENG",
+      "url": "english.html",
+      "texto": "Inglés · pestañas 👂 Understand y 💬 Conversations"
+     },
+     "recurso": {
+      "nombre": "BBC Learning English",
+      "proveedor": "BBC (en inglés)",
+      "url": "https://www.bbc.co.uk/learningenglish/"
+     },
+     "practica": "Escucha un episodio y anota 5 frases que usarías en una reunión con un cliente.",
+     "video": {
+      "titulo": "40 English Phrases You Need for Online Meetings",
+      "canal": "Maria Sheeran",
+      "url": "https://www.youtube.com/watch?v=PLhAzAymMsY"
+     }
     },
     {
      "id": "ingles-5",
      "titulo": "Defender una propuesta",
-     "aprender": ["Explicar por qué conviene automatizar algo", "Responder una objeción"],
-     "enlace": { "modulo": "3-ENG", "url": "english.html", "texto": "Inglés · pestaña 🛡️ Defenderme" },
+     "aprender": [
+      "Explicar por qué conviene automatizar algo",
+      "Responder una objeción"
+     ],
+     "enlace": {
+      "modulo": "3-ENG",
+      "url": "english.html",
+      "texto": "Inglés · pestaña 🛡️ Defenderme"
+     },
      "practica": "Prepara cómo explicarías en inglés, en un minuto, por qué una de tus automatizaciones de práctica conviene."
+    }
+   ]
+  },
+  {
+   "id": "n8n",
+   "competencia": "n8n, Zapier o Make",
+   "icono": "🔗",
+   "queEs": "Herramientas para conectar aplicaciones y automatizar tareas uniendo bloques: cuando llega un correo, guarda el adjunto; cuando entra un formulario, crea una fila y avisa. Zapier y Make funcionan en la nube; n8n también se puede instalar en un equipo propio.",
+   "pasos": [
+    {
+     "id": "n8n-1",
+     "titulo": "Qué hacen y en qué se parecen",
+     "aprender": [
+      "Disparador y acciones",
+      "Nube o instalado en un equipo",
+      "Qué tareas conviene conectar"
+     ],
+     "practica": "Elige 3 tareas repetitivas y dibuja para cada una qué la dispara, qué pasos sigue y dónde termina.",
+     "recurso": {
+      "nombre": "Zapier Guides",
+      "proveedor": "Zapier (en inglés)",
+      "url": "https://zapier.com/resources/guides"
+     },
+     "video": {
+      "titulo": "¿Qué es Zapier? Descubre cómo automatizar tus tareas con esta herramienta",
+      "canal": "Sergio Calderón",
+      "url": "https://www.youtube.com/watch?v=Dwx23iPwTRI"
+     }
+    },
+    {
+     "id": "n8n-2",
+     "titulo": "Tu primer flujo en n8n",
+     "aprender": [
+      "Crear un flujo",
+      "Nodos y conexiones",
+      "Probar paso a paso"
+     ],
+     "practica": "Haz un flujo que cada mañana traiga la TRM del día desde la API de datos.gov.co y la guarde en una hoja de cálculo.",
+     "recurso": {
+      "nombre": "Build your first workflow",
+      "proveedor": "Documentación de n8n (en inglés)",
+      "url": "https://docs.n8n.io/build-your-first-workflow"
+     },
+     "video": {
+      "titulo": "Introducción a N8N, automatiza tus flujos de trabajo",
+      "canal": "midudev",
+      "url": "https://www.youtube.com/watch?v=yP0PM-fpnXo"
+     }
+    },
+    {
+     "id": "n8n-3",
+     "titulo": "Make: el mismo trabajo en la nube",
+     "aprender": [
+      "Escenarios y módulos",
+      "Mapear datos entre aplicaciones",
+      "Programar la ejecución"
+     ],
+     "practica": "Repite el flujo del paso 2 en Make y anota qué te resultó más fácil en cada herramienta.",
+     "recurso": {
+      "nombre": "Make Academy",
+      "proveedor": "Make (en inglés)",
+      "url": "https://academy.make.com/"
+     },
+     "video": {
+      "titulo": "Aprende a utilizar MAKE para AUTOMATIZAR PROCESOS con IA [Curso express]",
+      "canal": "Juan Echeverria",
+      "url": "https://www.youtube.com/watch?v=Mnfzklo2CVw"
+     }
+    },
+    {
+     "id": "n8n-4",
+     "titulo": "Errores, reintentos y datos sensibles",
+     "aprender": [
+      "Qué pasa si un paso falla",
+      "Avisos y reintentos",
+      "Qué datos pasan por un servicio externo"
+     ],
+     "practica": "Agrega a tu flujo un aviso cuando la API falle, y anota qué datos tuyos pasan por el servicio.",
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Azul: «Un flujo con red»"
+     },
+     "video": {
+      "titulo": "Curso de N8N desde CERO (completo)",
+      "canal": "Soy Dalto",
+      "url": "https://www.youtube.com/watch?v=4eRPQmzO_Nw"
+     }
+    }
+   ]
+  },
+  {
+   "id": "low-code",
+   "competencia": "Low-code / no-code",
+   "icono": "🧩",
+   "queEs": "Construir aplicaciones sencillas (formularios, registros, aprobaciones) con piezas visuales y poco o nada de código, para que un área resuelva un proceso sin un desarrollo largo.",
+   "pasos": [
+    {
+     "id": "low-code-1",
+     "titulo": "Qué es y cuándo conviene",
+     "aprender": [
+      "Low-code y no-code",
+      "Qué problemas resuelve",
+      "Qué no resuelve"
+     ],
+     "practica": "Escribe 3 procesos de un área ficticia que hoy viven en Excel y correo, y qué app sencilla resolvería cada uno.",
+     "recurso": {
+      "nombre": "Demostrar las capacidades de Microsoft Power Apps",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/training/paths/demonstrate-capabilities-power-apps/"
+     },
+     "video": {
+      "titulo": "¿Qué es el No-Code o Low-Code?",
+      "canal": "Datademia",
+      "url": "https://www.youtube.com/watch?v=njSMiQ8r5ic"
+     }
+    },
+    {
+     "id": "low-code-2",
+     "titulo": "Tu primera app desde un Excel",
+     "aprender": [
+      "Una tabla como fuente de datos",
+      "Pantallas y formularios",
+      "Publicar y compartir"
+     ],
+     "practica": "Haz una app de registro de gastos ficticios sobre una tabla de Excel.",
+     "recurso": {
+      "nombre": "Crear una aplicación de lienzo basada en datos de Excel",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/power-apps/maker/canvas-apps/get-started-create-from-blank"
+     },
+     "video": {
+      "titulo": "Microsoft Power Apps tutorial - Tu primera aplicación usando Excel como base de datos",
+      "canal": "Sergio Alejandro Campos - EXCELeINFO",
+      "url": "https://www.youtube.com/watch?v=C13-V32oLQo"
+     }
+    },
+    {
+     "id": "low-code-3",
+     "titulo": "Unir la app con un flujo",
+     "aprender": [
+      "Disparar un flujo desde la app",
+      "Aprobaciones",
+      "Avisos"
+     ],
+     "practica": "Diseña que un gasto mayor a cierto monto dispare una aprobación. Si tu cuenta no permite construirlo, déjalo dibujado en esta página.",
+     "recurso": {
+      "nombre": "Introducción a Power Automate",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/training/modules/get-started-flows/"
+     }
+    },
+    {
+     "id": "low-code-4",
+     "titulo": "Quién la mantiene",
+     "aprender": [
+      "Permisos y datos",
+      "Quién responde si falla",
+      "Cuándo hace falta un sistema de verdad"
+     ],
+     "practica": "Escribe la ficha de tu app: quién la usa, quién la mantiene, qué datos guarda y qué pasa si deja de funcionar.",
+     "recurso": {
+      "nombre": "Aspectos básicos de Power Platform (PL-900)",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/credentials/certifications/power-platform-fundamentals/"
+     }
+    }
+   ]
+  },
+  {
+   "id": "agentes",
+   "competencia": "Agentes de IA o chatbots",
+   "icono": "🕹️",
+   "queEs": "Un agente es una IA que no solo responde: sigue pasos, usa herramientas (buscar, leer un archivo, llamar a una API) y decide qué hacer después. Un chatbot es la versión que conversa con clientes o empleados.",
+   "pasos": [
+    {
+     "id": "agentes-1",
+     "titulo": "Qué es un agente",
+     "aprender": [
+      "Flujo fijo frente a agente",
+      "Herramientas y memoria",
+      "Cuándo conviene uno"
+     ],
+     "practica": "Explica con tus palabras la diferencia entre un flujo fijo y un agente, con un ejemplo de trabajo (sin datos internos).",
+     "recurso": {
+      "nombre": "Building effective AI agents",
+      "proveedor": "Anthropic (en inglés)",
+      "url": "https://www.anthropic.com/research/building-effective-agents"
+     },
+     "video": {
+      "titulo": "Qué es un agente de AI",
+      "canal": "Platzi",
+      "url": "https://www.youtube.com/watch?v=4bXNYw_dTeY"
+     }
+    },
+    {
+     "id": "agentes-2",
+     "titulo": "Hacer trabajar a varias IA",
+     "aprender": [
+      "Generador y crítico",
+      "Pasar trabajo de una a otra",
+      "Verificar cruzado"
+     ],
+     "practica": "Haz las misiones del cinturón Verde (de «Generador y crítico» a «Tu primera partitura propia») y guarda aquí tu partitura.",
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Verde (Orquestar)"
+     },
+     "video": {
+      "titulo": "Curso GRATIS: Agentes de IA para todos, desde cero",
+      "canal": "EDteam",
+      "url": "https://www.youtube.com/watch?v=O4v9EWC47Go"
+     }
+    },
+    {
+     "id": "agentes-3",
+     "titulo": "Un agente en n8n",
+     "aprender": [
+      "El nodo de agente",
+      "Darle herramientas",
+      "Probar con casos reales"
+     ],
+     "practica": "Arma un agente que lea correos de prueba y los clasifique en reclamo, pago u otro.",
+     "recurso": {
+      "nombre": "Integrate AI",
+      "proveedor": "Documentación de n8n (en inglés)",
+      "url": "https://docs.n8n.io/build/integrate-ai"
+     }
+    },
+    {
+     "id": "agentes-4",
+     "titulo": "Aprobación humana y privacidad",
+     "aprender": [
+      "Dónde debe decidir una persona",
+      "Qué datos nunca debe ver",
+      "Cómo auditarlo"
+     ],
+     "practica": "Marca en tu agente del paso 3 dónde aprueba una persona y qué datos no debe recibir. Apóyate en las misiones «Auditoría de privacidad» y «El punto de aprobación».",
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Azul (Escalar)"
+     },
+     "recurso": {
+      "nombre": "Introducción a las aplicaciones y agentes de inteligencia artificial",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/training/paths/get-started-ai-apps-agents/"
+     }
+    }
+   ]
+  },
+  {
+   "id": "prompts",
+   "competencia": "Prompts",
+   "icono": "✍️",
+   "queEs": "Un prompt es el encargo que le escribes a una IA. Con contexto, formato, ejemplos y un criterio de éxito, el resultado es más útil y más fácil de comprobar.",
+   "pasos": [
+    {
+     "id": "prompts-1",
+     "titulo": "Las partes de un buen encargo",
+     "aprender": [
+      "Contexto y rol",
+      "Formato de salida",
+      "Ejemplos y criterio de éxito"
+     ],
+     "practica": "Reescribe 3 encargos que le hiciste a una IA esta semana con contexto, formato y criterio de éxito, y compara los resultados.",
+     "recurso": {
+      "nombre": "Descripción general de la ingeniería de prompts",
+      "proveedor": "Documentación de Claude (en español)",
+      "url": "https://platform.claude.com/docs/es/build-with-claude/prompt-engineering/overview"
+     },
+     "video": {
+      "titulo": "Curso gratis de prompt engineering (2026)",
+      "canal": "EDteam",
+      "url": "https://www.youtube.com/watch?v=8Wqgr7Ry3dk"
+     }
+    },
+    {
+     "id": "prompts-2",
+     "titulo": "Practicar en el Dojo",
+     "aprender": [
+      "Pedir el formato exacto",
+      "Fijar el criterio de éxito",
+      "Dar un ejemplo"
+     ],
+     "practica": "Haz las misiones «El formato exacto», «El criterio de éxito» y «Dale un ejemplo», y guarda aquí tu mejor plantilla.",
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Blanco (Encargar)"
+     }
+    },
+    {
+     "id": "prompts-3",
+     "titulo": "Salidas que otra máquina pueda leer",
+     "aprender": [
+      "Pedir una tabla o JSON",
+      "Comprobar cada campo",
+      "Qué hacer cuando no cumple"
+     ],
+     "practica": "Pide a una IA que convierta un texto desordenado en una tabla con columnas fijas, y comprueba que cada campo esté. Misión del Dojo: «La salida rígida».",
+     "recurso": {
+      "nombre": "Prompt engineering",
+      "proveedor": "OpenAI (en inglés)",
+      "url": "https://developers.openai.com/api/docs/guides/prompt-engineering"
+     },
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Azul: «La salida rígida»"
+     }
+    },
+    {
+     "id": "prompts-4",
+     "titulo": "Tu biblioteca de encargos",
+     "aprender": [
+      "Guardar lo que funciona",
+      "Un ejemplo de resultado por encargo"
+     ],
+     "practica": "Guarda en el Prompt Lab tus 5 mejores encargos de trabajo, cada uno con un ejemplo de resultado.",
+     "enlace": {
+      "modulo": "8-PRO",
+      "url": "prompts.html",
+      "texto": "Prompt Lab (8-PRO)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ml",
+   "competencia": "Machine learning",
+   "icono": "📈",
+   "queEs": "Que un programa aprenda patrones a partir de datos para predecir o clasificar, por ejemplo qué transacción parece sospechosa. En la muestra lo pide 1 de las 39 vacantes.",
+   "pasos": [
+    {
+     "id": "ml-1",
+     "titulo": "Qué es, sin fórmulas",
+     "aprender": [
+      "IA, machine learning y deep learning",
+      "Datos de entrenamiento",
+      "Qué significa que un modelo acierte"
+     ],
+     "practica": "Explica la diferencia entre IA, machine learning y deep learning con un ejemplo de finanzas.",
+     "recurso": {
+      "nombre": "Elements of AI",
+      "proveedor": "Universidad de Helsinki y MinnaLearn (en español)",
+      "url": "https://www.elementsofai.com/es/"
+     },
+     "video": {
+      "titulo": "¿Qué es el Machine Learning?¿Y Deep Learning? Un mapa conceptual | DotCSV",
+      "canal": "Dot CSV",
+      "url": "https://www.youtube.com/watch?v=KytW151dpqU"
+     }
+    },
+    {
+     "id": "ml-2",
+     "titulo": "Supervisado y no supervisado",
+     "aprender": [
+      "Clasificar, predecir y agrupar",
+      "Etiquetas",
+      "Cómo se evalúa"
+     ],
+     "practica": "Clasifica 5 problemas de una empresa ficticia: ¿predicción, clasificación o agrupación?",
+     "recurso": {
+      "nombre": "Machine Learning Crash Course",
+      "proveedor": "Google for Developers",
+      "url": "https://developers.google.com/machine-learning/crash-course?hl=es-419"
+     },
+     "video": {
+      "titulo": "MACHINE LEARNING | Aprendizaje Supervisado, No Supervisado y Por Refuerzo",
+      "canal": "BitBoss",
+      "url": "https://www.youtube.com/watch?v=FMkxSsfvMI4"
+     }
+    },
+    {
+     "id": "ml-3",
+     "titulo": "Tu primer modelo",
+     "aprender": [
+      "Separar datos de prueba",
+      "Entrenar un árbol de decisión",
+      "Medir el error"
+     ],
+     "practica": "Termina el curso y anota qué tan bien predijo tu modelo y por qué.",
+     "recurso": {
+      "nombre": "Intro to Machine Learning",
+      "proveedor": "Kaggle Learn (en inglés, interactivo)",
+      "url": "https://www.kaggle.com/learn/intro-to-machine-learning"
+     }
+    },
+    {
+     "id": "ml-4",
+     "titulo": "Cuándo no hace falta",
+     "aprender": [
+      "Reglas simples frente a modelos",
+      "Costo de mantener un modelo"
+     ],
+     "practica": "Toma un problema que alguien quiera resolver con machine learning y escribe si una regla simple o una consulta SQL bastaría, y por qué. Misión del Dojo: «El caso donde NO se usa».",
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Negro: «El caso donde NO se usa»"
+     }
+    }
+   ]
+  },
+  {
+   "id": "sql",
+   "competencia": "SQL",
+   "icono": "🗄️",
+   "queEs": "El lenguaje para pedirle datos a una base de datos: filtrar, unir tablas y resumir. Es la forma más común de sacar información de los sistemas de una empresa.",
+   "pasos": [
+    {
+     "id": "sql-1",
+     "titulo": "Consultas básicas",
+     "aprender": [
+      "SELECT, WHERE y ORDER BY",
+      "Contar y sumar",
+      "Leer una tabla nueva"
+     ],
+     "practica": "Termina las primeras lecciones de SQLBolt y guarda aquí tus consultas.",
+     "recurso": {
+      "nombre": "SQLBolt",
+      "proveedor": "SQLBolt (en inglés, interactivo)",
+      "url": "https://sqlbolt.com/"
+     },
+     "video": {
+      "titulo": "Curso COMPLETO de SQL y BASES DE DATOS Desde Cero para PRINCIPIANTES",
+      "canal": "MoureDev by Brais Moure",
+      "url": "https://www.youtube.com/watch?v=OuJerKzV5T0"
+     }
+    },
+    {
+     "id": "sql-2",
+     "titulo": "SQL como analista",
+     "aprender": [
+      "Preguntas de negocio a consultas",
+      "GROUP BY",
+      "Revisar el resultado"
+     ],
+     "practica": "Con datos ficticios de pagos, saca el total por día, por estado y los 10 montos mayores.",
+     "recurso": {
+      "nombre": "SQL Tutorial",
+      "proveedor": "ThoughtSpot (en inglés)",
+      "url": "https://www.thoughtspot.com/sql-tutorial"
+     },
+     "video": {
+      "titulo": "¿Cómo uso SQL como Data Analyst? Análisis de Datos con SQL",
+      "canal": "Eze Talamona",
+      "url": "https://www.youtube.com/watch?v=6i670_GQQGA"
+     }
+    },
+    {
+     "id": "sql-3",
+     "titulo": "Unir tablas",
+     "aprender": [
+      "JOIN entre dos tablas",
+      "Registros que no cruzan",
+      "Duplicados"
+     ],
+     "practica": "Une una tabla de pagos con una de clientes ficticios y encuentra los pagos sin cliente.",
+     "recurso": {
+      "nombre": "Intro to SQL",
+      "proveedor": "Kaggle Learn (en inglés, interactivo)",
+      "url": "https://www.kaggle.com/learn/intro-to-sql"
+     }
+    },
+    {
+     "id": "sql-4",
+     "titulo": "Funciones de ventana",
+     "aprender": [
+      "Acumulados",
+      "Ranking",
+      "Comparar con la fila anterior"
+     ],
+     "practica": "Calcula para cada cliente ficticio su saldo acumulado por fecha.",
+     "recurso": {
+      "nombre": "Advanced SQL",
+      "proveedor": "Kaggle Learn (en inglés, interactivo)",
+      "url": "https://www.kaggle.com/learn/advanced-sql"
+     }
+    },
+    {
+     "id": "sql-5",
+     "titulo": "Consultar datos públicos",
+     "aprender": [
+      "SoQL, el SQL de datos.gov.co",
+      "Filtrar por fecha desde la URL"
+     ],
+     "practica": "Pide a la API de datos.gov.co solo los valores de la TRM de este mes, ordenados por fecha, y explica la consulta como caso de portafolio.",
+     "recurso": {
+      "nombre": "API Endpoints",
+      "proveedor": "Socrata, la plataforma de datos.gov.co (en inglés)",
+      "url": "https://dev.socrata.com/docs/endpoints.html"
+     }
+    }
+   ]
+  },
+  {
+   "id": "excel",
+   "competencia": "Excel",
+   "icono": "📗",
+   "queEs": "La herramienta donde viven muchos procesos antes de automatizarlos: cruzar tablas, resumir y revisar datos.",
+   "pasos": [
+    {
+     "id": "excel-1",
+     "titulo": "Tablas dinámicas",
+     "aprender": [
+      "Crear una tabla dinámica",
+      "Filas, columnas y valores",
+      "Filtros"
+     ],
+     "practica": "Con datos ficticios de ventas, arma una tabla dinámica por mes y vendedor.",
+     "recurso": {
+      "nombre": "Crear una tabla dinámica para analizar datos de una hoja de cálculo",
+      "proveedor": "Soporte de Microsoft (en español)",
+      "url": "https://support.microsoft.com/es-es/excel/get-started/create-a-pivottable-to-analyze-worksheet-data"
+     },
+     "video": {
+      "titulo": "Tablas Dinámicas en Excel - Todo lo que necesitas saber 😎",
+      "canal": "A2 Capacitación: Excel",
+      "url": "https://www.youtube.com/watch?v=rpSAvYQfNeo"
+     }
+    },
+    {
+     "id": "excel-2",
+     "titulo": "BUSCARX para cruzar tablas",
+     "aprender": [
+      "Buscar en otra tabla",
+      "Qué hacer si no encuentra",
+      "Diferencia con BUSCARV"
+     ],
+     "practica": "Cruza dos listas ficticias (pagos y facturas) y marca las que no aparecen en la otra.",
+     "recurso": {
+      "nombre": "Función BUSCARX",
+      "proveedor": "Soporte de Microsoft (en español)",
+      "url": "https://support.microsoft.com/es-es/excel/functions/xlookup-function"
+     },
+     "video": {
+      "titulo": "BuscarX - La MEJOR fórmula de Excel?",
+      "canal": "Excel para Todos",
+      "url": "https://www.youtube.com/watch?v=iPmkPviJiKo"
+     }
+    },
+    {
+     "id": "excel-3",
+     "titulo": "Prueba técnica de Excel",
+     "aprender": [
+      "Practicar con tiempo",
+      "Revisar tus errores"
+     ],
+     "practica": "Haz una ronda del simulador de prueba técnica de 4-RUT y anota tus 3 errores.",
+     "enlace": {
+      "modulo": "4-RUT",
+      "url": "ruta.html",
+      "texto": "Simulador de prueba técnica de Excel (4-RUT)"
+     },
+     "recurso": {
+      "nombre": "Ayuda y formación de Excel",
+      "proveedor": "Soporte de Microsoft (en español)",
+      "url": "https://support.microsoft.com/es-es/excel/"
+     }
+    },
+    {
+     "id": "excel-4",
+     "titulo": "Del Excel a la automatización",
+     "aprender": [
+      "Qué parte se repite",
+      "Python o Power Automate",
+      "Qué revisa una persona"
+     ],
+     "practica": "Elige una hoja que actualizas a mano cada semana y describe qué parte haría Python o Power Automate.",
+     "video": {
+      "titulo": "Automatiza EXCEL con Power Automate Desktop",
+      "canal": "Firbot Academy",
+      "url": "https://www.youtube.com/watch?v=Q7mQXPiGWp4"
+     },
+     "recurso": {
+      "nombre": "Automate the Boring Stuff, capítulo 14: hojas de Excel",
+      "proveedor": "Al Sweigart (en inglés, libro gratis en línea)",
+      "url": "https://automatetheboringstuff.com/3e/chapter14.html"
+     }
+    }
+   ]
+  },
+  {
+   "id": "power-bi",
+   "competencia": "Power BI u otra herramienta BI",
+   "icono": "📊",
+   "queEs": "Tableros que se actualizan a partir de los datos, para que un área vea sus indicadores sin pedir reportes a mano.",
+   "pasos": [
+    {
+     "id": "power-bi-1",
+     "titulo": "Tu primer reporte",
+     "aprender": [
+      "Cargar datos",
+      "Visuales",
+      "Publicar"
+     ],
+     "practica": "Con un conjunto público de datos.gov.co, arma un reporte de una página con 3 visuales.",
+     "recurso": {
+      "nombre": "Introducción a la compilación con Power BI",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/training/modules/get-started-with-power-bi/"
+     },
+     "video": {
+      "titulo": "Curso de Power BI desde Cero (Completo): datos, gráficos y reporte profesional",
+      "canal": "datdata",
+      "url": "https://www.youtube.com/watch?v=vufMFnWpINo"
+     }
+    },
+    {
+     "id": "power-bi-2",
+     "titulo": "Modelo de datos y DAX",
+     "aprender": [
+      "Relaciones entre tablas",
+      "Medidas",
+      "Funciones básicas de DAX"
+     ],
+     "practica": "Crea 3 medidas: total, promedio y variación contra el mes anterior.",
+     "recurso": {
+      "nombre": "Información general de DAX",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/dax/dax-overview"
+     },
+     "video": {
+      "titulo": "Dax para Principiantes",
+      "canal": "A2 Capacitación: Excel",
+      "url": "https://www.youtube.com/watch?v=rKreQw9JGvo"
+     }
+    },
+    {
+     "id": "power-bi-3",
+     "titulo": "Pensar como analista",
+     "aprender": [
+      "Qué pregunta responde el tablero",
+      "Quién lo usa",
+      "Cada cuánto se actualiza"
+     ],
+     "practica": "Escribe para tu reporte qué pregunta responde, quién lo usa y cada cuánto se actualiza.",
+     "recurso": {
+      "nombre": "Introducción al análisis de datos de Microsoft",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/training/paths/data-analytics-microsoft/"
+     }
+    },
+    {
+     "id": "power-bi-4",
+     "titulo": "Certificación PL-300",
+     "aprender": [
+      "Qué evalúa",
+      "Lo que ya dominas y lo que falta"
+     ],
+     "practica": "Marca en la guía de estudio lo que ya dominas y lo que te falta.",
+     "recurso": {
+      "nombre": "Asociado Analista de Datos de Power BI (PL-300)",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/credentials/certifications/data-analyst-associate/"
+     }
+    }
+   ]
+  },
+  {
+   "id": "apis",
+   "competencia": "APIs e integraciones",
+   "icono": "🔌",
+   "queEs": "Una API es la puerta por la que un sistema le pide datos o acciones a otro. Integrar es conectar esas puertas para que la información pase sola, sin copiar y pegar.",
+   "pasos": [
+    {
+     "id": "apis-1",
+     "titulo": "Qué es una API",
+     "aprender": [
+      "Petición y respuesta",
+      "Métodos GET y POST",
+      "Códigos de estado"
+     ],
+     "practica": "Explica con un ejemplo (sin datos internos) qué sistemas se pasan información y cómo.",
+     "recurso": {
+      "nombre": "Generalidades del protocolo HTTP",
+      "proveedor": "MDN (en español)",
+      "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Guides/Overview"
+     },
+     "video": {
+      "titulo": "¿Qué es una API? - La mejor explicación en español",
+      "canal": "EDteam",
+      "url": "https://www.youtube.com/watch?v=u2Ms34GE14U"
+     }
+    },
+    {
+     "id": "apis-2",
+     "titulo": "Probar una API con Postman",
+     "aprender": [
+      "Armar una petición",
+      "Leer el JSON",
+      "Guardar colecciones"
+     ],
+     "practica": "Haz en Postman una consulta a la API de la TRM de datos.gov.co y guarda la respuesta.",
+     "recurso": {
+      "nombre": "Get started in Postman",
+      "proveedor": "Documentación de Postman (en inglés)",
+      "url": "https://learning.postman.com/docs/getting-started/overview/"
+     },
+     "video": {
+      "titulo": "\"Postman en Español: ¡El tutorial definitivo para el éxito en las pruebas API!",
+      "canal": "Domini Code",
+      "url": "https://www.youtube.com/watch?v=qsejysrhJiU"
+     }
+    },
+    {
+     "id": "apis-3",
+     "titulo": "Filtrar en la propia petición",
+     "aprender": [
+      "Parámetros en la URL",
+      "Filtrar y ordenar"
+     ],
+     "practica": "Pide solo los valores de la TRM de este mes, ordenados por fecha.",
+     "recurso": {
+      "nombre": "API Endpoints",
+      "proveedor": "Socrata, la plataforma de datos.gov.co (en inglés)",
+      "url": "https://dev.socrata.com/docs/endpoints.html"
+     }
+    },
+    {
+     "id": "apis-4",
+     "titulo": "Integrar sin programar",
+     "aprender": [
+      "Conectar una API con una hoja",
+      "Programar la ejecución"
+     ],
+     "practica": "Conecta la API de la TRM con una hoja de cálculo usando n8n, o con Python (ruta de Python, paso 5).",
+     "recurso": {
+      "nombre": "Build your first workflow",
+      "proveedor": "Documentación de n8n (en inglés)",
+      "url": "https://docs.n8n.io/build-your-first-workflow"
+     }
+    }
+   ]
+  },
+  {
+   "id": "mapeo-procesos",
+   "competencia": "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
+   "icono": "🗺️",
+   "queEs": "Dibujar un proceso paso a paso, con quién hace qué, para verlo completo antes de cambiarlo. BPMN es la notación estándar; AS-IS es como funciona hoy y TO-BE como funcionará.",
+   "pasos": [
+    {
+     "id": "mapeo-procesos-1",
+     "titulo": "Los símbolos de BPMN",
+     "aprender": [
+      "Eventos, tareas y compuertas",
+      "Carriles por responsable"
+     ],
+     "practica": "Aprende los símbolos básicos y dibuja un proceso de tu casa, por ejemplo pagar los servicios.",
+     "recurso": {
+      "nombre": "BPMN: Business Process Model and Notation",
+      "proveedor": "Camunda (en inglés)",
+      "url": "https://camunda.com/bpmn/"
+     },
+     "video": {
+      "titulo": "Modela fácilmente tus procesos en BPMN 2.0 - Tutorial español",
+      "canal": "GBTEC Group",
+      "url": "https://www.youtube.com/watch?v=BbT0IN3y2V4"
+     }
+    },
+    {
+     "id": "mapeo-procesos-2",
+     "titulo": "El proceso de hoy (AS-IS)",
+     "aprender": [
+      "Entrevistar a quien lo hace",
+      "Tiempos y esperas",
+      "Errores frecuentes"
+     ],
+     "practica": "Mapea un proceso ficticio de conciliación de pagos tal como se haría a mano.",
+     "recurso": {
+      "nombre": "Mapa de procesos: ejemplos y cómo crear uno",
+      "proveedor": "Asana (en español)",
+      "url": "https://asana.com/es/resources/process-mapping"
+     },
+     "enlace": {
+      "modulo": "web",
+      "url": "https://demo.bpmn.io/",
+      "texto": "Dibujar en demo.bpmn.io (en el navegador)"
+     },
+     "video": {
+      "titulo": "Mapeo de Procesos: As Is vs To Be",
+      "canal": "Glasses Procesos",
+      "url": "https://www.youtube.com/watch?v=3TYy-nry6tc"
+     }
+    },
+    {
+     "id": "mapeo-procesos-3",
+     "titulo": "El proceso nuevo (TO-BE)",
+     "aprender": [
+      "Qué pasos desaparecen",
+      "Qué se automatiza",
+      "Mapa de flujo de valor"
+     ],
+     "practica": "Rediseña el proceso del paso 2 con automatización y marca qué pasos desaparecen.",
+     "recurso": {
+      "nombre": "Value Stream Mapping",
+      "proveedor": "Lean Enterprise Institute (en inglés)",
+      "url": "https://www.lean.org/lexicon-terms/value-stream-mapping/"
+     }
+    },
+    {
+     "id": "mapeo-procesos-4",
+     "titulo": "Presentar el cambio",
+     "aprender": [
+      "Antes y después en una página",
+      "Tiempos medidos o estimados"
+     ],
+     "practica": "Arma una página con los dos diagramas, el tiempo de hoy y el estimado, y explica el cambio en 5 líneas.",
+     "enlace": {
+      "modulo": "web",
+      "url": "https://demo.bpmn.io/",
+      "texto": "Dibujar en demo.bpmn.io (en el navegador)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "mejora-procesos",
+   "competencia": "Mejora y optimización de procesos (Lean, Six Sigma)",
+   "icono": "♻️",
+   "queEs": "Métodos para hacer un proceso más rápido y con menos errores: Lean busca quitar lo que no agrega valor; Six Sigma, reducir la variación con datos, siguiendo las fases DMAIC.",
+   "pasos": [
+    {
+     "id": "mejora-procesos-1",
+     "titulo": "Lean: quitar el desperdicio",
+     "aprender": [
+      "Los desperdicios típicos",
+      "Valor para el cliente",
+      "Flujo"
+     ],
+     "practica": "Identifica en un proceso ficticio 3 desperdicios: esperas, reprocesos y pasos que no agregan valor.",
+     "recurso": {
+      "nombre": "What is Lean?",
+      "proveedor": "Lean Enterprise Institute (en inglés)",
+      "url": "https://www.lean.org/explore-lean/what-is-lean/"
+     },
+     "video": {
+      "titulo": "Lean Six Sigma en 8 Minutos | ¿Qué es Lean Six Sigma? | Ejemplo Lean Six Sigma",
+      "canal": "Tecnología 4.0",
+      "url": "https://www.youtube.com/watch?v=NGPZBZucKnY"
+     }
+    },
+    {
+     "id": "mejora-procesos-2",
+     "titulo": "DMAIC paso a paso",
+     "aprender": [
+      "Definir, medir, analizar, mejorar, controlar",
+      "Qué sale de cada fase"
+     ],
+     "practica": "Escribe un proyecto DMAIC de una página para reducir errores en una conciliación ficticia.",
+     "recurso": {
+      "nombre": "What Is Six Sigma? Concept, Steps, Examples",
+      "proveedor": "Investopedia (en inglés)",
+      "url": "https://www.investopedia.com/terms/s/six-sigma.asp"
+     },
+     "video": {
+      "titulo": "DMAIC: Las 5 Fases",
+      "canal": "SPC Consulting Group",
+      "url": "https://www.youtube.com/watch?v=mVyFOx6FFfQ"
+     }
+    },
+    {
+     "id": "mejora-procesos-3",
+     "titulo": "Encontrar la causa raíz",
+     "aprender": [
+      "Los 5 porqués",
+      "Separar síntoma y causa"
+     ],
+     "practica": "Aplica los 5 porqués a un error que se repite en un caso ficticio.",
+     "recurso": {
+      "nombre": "Guía completa del ejercicio de los 5 porqués",
+      "proveedor": "Atlassian Team Playbook (en español)",
+      "url": "https://www.atlassian.com/es/team-playbook/plays/5-whys"
+     }
+    },
+    {
+     "id": "mejora-procesos-4",
+     "titulo": "Medir el antes y el después",
+     "aprender": [
+      "Línea base",
+      "Medir la mejora",
+      "Mantenerla"
+     ],
+     "practica": "Para tu proyecto del paso 2, define cómo medirías el antes y el después. Misión del Dojo: «Mide lo que ahorras».",
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Azul: «Mide lo que ahorras»"
+     }
+    }
+   ]
+  },
+  {
+   "id": "proyectos",
+   "competencia": "Gestión de proyectos (Agile, Scrum)",
+   "icono": "📋",
+   "queEs": "Organizar el trabajo para entregar a tiempo: Scrum trabaja en ciclos cortos con roles y reuniones fijas; Kanban muestra el trabajo en un tablero y limita lo que se hace a la vez.",
+   "pasos": [
+    {
+     "id": "proyectos-1",
+     "titulo": "Ágil en una página",
+     "aprender": [
+      "Ciclos cortos",
+      "Entregar algo útil pronto",
+      "Ajustar con lo aprendido"
+     ],
+     "practica": "Explica la diferencia entre planear todo al inicio y trabajar en ciclos cortos, con un ejemplo de implementación.",
+     "recurso": {
+      "nombre": "¿Qué es ágil?",
+      "proveedor": "Atlassian (en español)",
+      "url": "https://www.atlassian.com/es/agile"
+     },
+     "video": {
+      "titulo": "¿Qué es Scrum? - La mejor explicación en español",
+      "canal": "EDteam",
+      "url": "https://www.youtube.com/watch?v=sLexw-z13Fo"
+     }
+    },
+    {
+     "id": "proyectos-2",
+     "titulo": "Scrum",
+     "aprender": [
+      "Roles",
+      "Eventos",
+      "Artefactos"
+     ],
+     "practica": "Lee la guía oficial y resume en una página los roles, los eventos y los artefactos.",
+     "recurso": {
+      "nombre": "La Guía de Scrum 2020",
+      "proveedor": "Ken Schwaber y Jeff Sutherland (en español)",
+      "url": "https://scrumguides.org/docs/scrumguide/v2020/2020-Scrum-Guide-Spanish-European.pdf"
+     }
+    },
+    {
+     "id": "proyectos-3",
+     "titulo": "Kanban",
+     "aprender": [
+      "Columnas del tablero",
+      "Limitar el trabajo en curso",
+      "Medir el flujo"
+     ],
+     "practica": "Arma un tablero Kanban para tus rutas de estudio: por hacer, haciendo, hecho.",
+     "recurso": {
+      "nombre": "¿Qué es kanban?",
+      "proveedor": "Atlassian (en español)",
+      "url": "https://www.atlassian.com/es/agile/kanban"
+     },
+     "video": {
+      "titulo": "Qué es KANBAN y cómo se implementa paso a 🏃 paso + ejemplos prácticos",
+      "canal": "Ingenio Empresa",
+      "url": "https://www.youtube.com/watch?v=B-uwQg7RgH8"
+     }
+    },
+    {
+     "id": "proyectos-4",
+     "titulo": "Métricas del equipo",
+     "aprender": [
+      "Tiempo de ciclo",
+      "Velocidad",
+      "Qué no medir"
+     ],
+     "practica": "Define 2 métricas para seguir un proyecto de automatización ficticio.",
+     "recurso": {
+      "nombre": "Cinco métricas ágiles que no odiarás",
+      "proveedor": "Atlassian (en español)",
+      "url": "https://www.atlassian.com/es/agile/project-management/metrics"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cambio",
+   "competencia": "Gestión del cambio y capacitación a usuarios",
+   "icono": "🔄",
+   "queEs": "Lograr que la gente adopte de verdad una herramienta o un proceso nuevo: entender qué necesita cada persona para cambiar, comunicarlo y capacitar.",
+   "pasos": [
+    {
+     "id": "cambio-1",
+     "titulo": "El modelo ADKAR",
+     "aprender": [
+      "Conciencia, deseo, conocimiento, habilidad y refuerzo",
+      "Dónde se atasca cada persona"
+     ],
+     "practica": "Aplica ADKAR a la llegada de una herramienta nueva a un área ficticia.",
+     "recurso": {
+      "nombre": "The Prosci ADKAR Model",
+      "proveedor": "Prosci (en inglés)",
+      "url": "https://www.prosci.com/methodology/adkar"
+     },
+     "video": {
+      "titulo": "The Prosci ADKAR Model | Tim Creasey Interview",
+      "canal": "Prosci",
+      "url": "https://www.youtube.com/watch?v=L_7I03LOyyk"
+     }
+    },
+    {
+     "id": "cambio-2",
+     "titulo": "Los 8 pasos de Kotter",
+     "aprender": [
+      "Urgencia",
+      "Coalición",
+      "Victorias rápidas"
+     ],
+     "practica": "Escribe el mensaje de urgencia y la primera victoria rápida para esa herramienta.",
+     "recurso": {
+      "nombre": "The 8-Step Process for Leading Change",
+      "proveedor": "Kotter (en inglés)",
+      "url": "https://www.kotterinc.com/methodology/8-steps/"
+     },
+     "video": {
+      "titulo": "Los 8 Pasos de Kotter - Gestión del Cambio",
+      "canal": "Cadena Critica Blog",
+      "url": "https://www.youtube.com/watch?v=IMf_L0ybonA"
+     }
+    },
+    {
+     "id": "cambio-3",
+     "titulo": "Capacitar a usuarios",
+     "aprender": [
+      "Objetivo de la sesión",
+      "Demostrar y practicar",
+      "Comprobar que aprendieron"
+     ],
+     "practica": "Prepara una capacitación de 20 minutos: objetivo, demostración, práctica y cómo sabrás que aprendieron. Misión del Dojo: «Enséñaselo a alguien».",
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Negro: «Enséñaselo a alguien»"
+     }
+    },
+    {
+     "id": "cambio-4",
+     "titulo": "Medir la adopción",
+     "aprender": [
+      "Uso real frente a acceso",
+      "Señales tempranas"
+     ],
+     "practica": "Define 3 señales de que la herramienta se usa de verdad a los 30 días.",
+     "recurso": {
+      "nombre": "KPIs: What Are Key Performance Indicators?",
+      "proveedor": "Investopedia (en inglés)",
+      "url": "https://www.investopedia.com/terms/k/kpi.asp"
+     }
+    }
+   ]
+  },
+  {
+   "id": "documentacion",
+   "competencia": "Documentación",
+   "icono": "📝",
+   "queEs": "Dejar por escrito cómo funciona un proceso o una automatización para que otra persona lo pueda usar, revisar o mantener sin depender de quien lo hizo.",
+   "pasos": [
+    {
+     "id": "documentacion-1",
+     "titulo": "Procedimientos paso a paso (SOP)",
+     "aprender": [
+      "Alcance y responsables",
+      "Un paso por línea",
+      "Qué hacer si algo falla"
+     ],
+     "practica": "Escribe el procedimiento de una tarea de tu semana, paso a paso y sin datos internos.",
+     "recurso": {
+      "nombre": "SOP: What it is and How to Create One",
+      "proveedor": "Atlassian (en inglés)",
+      "url": "https://www.atlassian.com/es/work-management/knowledge-sharing/documentation/standard-operating-procedures"
+     },
+     "video": {
+      "titulo": "Creating SOPs: How To Write Standard Operating Procedures (Step By Step)",
+      "canal": "Jordan Ross",
+      "url": "https://www.youtube.com/watch?v=nRhozVH_9EA"
+     }
+    },
+    {
+     "id": "documentacion-2",
+     "titulo": "Los tipos de documentos",
+     "aprender": [
+      "Tutorial, guía, referencia y explicación",
+      "Para quién es cada uno"
+     ],
+     "practica": "Clasifica tus documentos de trabajo en los cuatro tipos y anota cuál falta.",
+     "recurso": {
+      "nombre": "Diátaxis",
+      "proveedor": "Daniele Procida (en inglés)",
+      "url": "https://diataxis.fr/"
+     },
+     "video": {
+      "titulo": "DOCUMENTAR PROCESOS y PROCEDIMIENTOS: 2 Formas para realizarlo👍",
+      "canal": "Gestionar Fácil",
+      "url": "https://www.youtube.com/watch?v=JRqpd79N12k"
+     }
+    },
+    {
+     "id": "documentacion-3",
+     "titulo": "Escribir claro",
+     "aprender": [
+      "Frases cortas",
+      "Voz activa",
+      "Listas y ejemplos"
+     ],
+     "practica": "Reescribe tu procedimiento del paso 1 con frases cortas y voz activa.",
+     "recurso": {
+      "nombre": "Technical Writing",
+      "proveedor": "Google for Developers (en inglés)",
+      "url": "https://developers.google.com/tech-writing"
+     }
+    },
+    {
+     "id": "documentacion-4",
+     "titulo": "Documentar una automatización",
+     "aprender": [
+      "Qué hace y cuándo corre",
+      "Qué hacer si falla",
+      "Quién la mantiene"
+     ],
+     "practica": "Escribe la ficha de una automatización de práctica. Misión del Dojo: «Tu manual de uso de IA».",
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Negro: «Tu manual de uso de IA»"
+     }
+    }
+   ]
+  },
+  {
+   "id": "stakeholders",
+   "competencia": "Trato con clientes y áreas (stakeholders)",
+   "icono": "👥",
+   "queEs": "Las personas y áreas que ganan o pierden con un proyecto: saber quiénes son, qué esperan y cómo informarles. En la muestra lo piden 16 de las 39 vacantes.",
+   "pasos": [
+    {
+     "id": "stakeholders-1",
+     "titulo": "Quiénes son y qué quieren",
+     "aprender": [
+      "Poder e interés",
+      "Expectativas",
+      "Riesgos"
+     ],
+     "practica": "Arma la matriz de poder e interés para un proyecto ficticio de automatización.",
+     "recurso": {
+      "nombre": "Stakeholders de un proyecto: qué son y cómo gestionarlos",
+      "proveedor": "Asana (en español)",
+      "url": "https://asana.com/es/resources/project-stakeholder"
+     },
+     "video": {
+      "titulo": "¿Cómo Usar una Matriz de Stakeholders Para Mejorar Tu Proyecto?",
+      "canal": "marco calle",
+      "url": "https://www.youtube.com/watch?v=0hLFyZU7F4k"
+     }
+    },
+    {
+     "id": "stakeholders-2",
+     "titulo": "Quién hace qué: RACI",
+     "aprender": [
+      "Responsable, aprobador, consultado, informado"
+     ],
+     "practica": "Haz la tabla RACI del mismo proyecto.",
+     "recurso": {
+      "nombre": "Tabla RACI: qué es y cómo usarla",
+      "proveedor": "Atlassian (en español)",
+      "url": "https://www.atlassian.com/es/work-management/project-management/raci-chart"
+     }
+    },
+    {
+     "id": "stakeholders-3",
+     "titulo": "La primera reunión",
+     "aprender": [
+      "Agenda",
+      "Acuerdos por escrito",
+      "Próximos pasos"
+     ],
+     "practica": "Prepara la agenda y el correo de seguimiento de la primera reunión.",
+     "recurso": {
+      "nombre": "Reuniones de lanzamiento del proyecto",
+      "proveedor": "Atlassian Team Playbook (en español)",
+      "url": "https://www.atlassian.com/es/team-playbook/plays/project-kickoff"
+     }
+    },
+    {
+     "id": "stakeholders-4",
+     "titulo": "Informar el avance",
+     "aprender": [
+      "Hecho, sigue, riesgos",
+      "Qué necesitas de ellos",
+      "En inglés también"
+     ],
+     "practica": "Escribe un correo semanal de avance (hecho, sigue, riesgos y qué necesitas) y su versión en inglés.",
+     "enlace": {
+      "modulo": "3-ENG",
+      "url": "english.html",
+      "texto": "Inglés · pestaña 💼 Professional"
+     }
+    }
+   ]
+  },
+  {
+   "id": "indicadores",
+   "competencia": "Indicadores y ROI",
+   "icono": "🎯",
+   "queEs": "Medir si algo funcionó: un indicador (KPI) dice cómo va un proceso; el retorno de la inversión (ROI) compara lo que costó un cambio con lo que ahorra o produce.",
+   "pasos": [
+    {
+     "id": "indicadores-1",
+     "titulo": "Qué es un KPI",
+     "aprender": [
+      "Fórmula, meta y fuente",
+      "Indicadores de resultado y de proceso"
+     ],
+     "practica": "Define 3 KPI para un proceso de pagos ficticio, cada uno con fórmula, meta y fuente.",
+     "recurso": {
+      "nombre": "KPIs: What Are Key Performance Indicators?",
+      "proveedor": "Investopedia (en inglés)",
+      "url": "https://www.investopedia.com/terms/k/kpi.asp"
+     },
+     "video": {
+      "titulo": "CÓMO CREAR UN KPI - INDICADORES CLAVE DE DESEMPEÑO - INDICADORES DE GESTIÓN ☺☻♥",
+      "canal": "Gestor Calidad - SSOMA",
+      "url": "https://www.youtube.com/watch?v=E7VXe7zGc5Q"
+     }
+    },
+    {
+     "id": "indicadores-2",
+     "titulo": "Calcular el ROI",
+     "aprender": [
+      "Costo del cambio",
+      "Ahorro por periodo",
+      "Tiempo para recuperarlo"
+     ],
+     "practica": "Calcula el ROI de automatizar una tarea ficticia: horas ahorradas, costo de hacerlo y tiempo para recuperarlo.",
+     "recurso": {
+      "nombre": "Return on Investment: Formula and How to Calculate It",
+      "proveedor": "Corporate Finance Institute (en inglés)",
+      "url": "https://corporatefinanceinstitute.com/resources/accounting/return-on-investment-roi-formula/"
+     },
+     "video": {
+      "titulo": "Como calcular el ROI ✍ Ejercicio con interpretación",
+      "canal": "Felipe Delgado",
+      "url": "https://www.youtube.com/watch?v=hip9PFpbqAs"
+     }
+    },
+    {
+     "id": "indicadores-3",
+     "titulo": "Medir lo que ahorra la IA",
+     "aprender": [
+      "Cronometrar con y sin IA",
+      "No contar lo que no mediste"
+     ],
+     "practica": "Mide una tarea tuya con y sin IA, cronometrando, y anota el resultado. Misión del Dojo: «Mide lo que ahorras».",
+     "enlace": {
+      "modulo": "17-IA",
+      "url": "pages/ai-dojo.html",
+      "texto": "AI Dojo · cinturón Azul: «Mide lo que ahorras»"
+     }
+    },
+    {
+     "id": "indicadores-4",
+     "titulo": "Un tablero de indicadores",
+     "aprender": [
+      "Elegir el visual",
+      "Mostrar la meta"
+     ],
+     "practica": "Pon tus 3 KPI en un tablero de Excel o Power BI.",
+     "recurso": {
+      "nombre": "Introducción a la compilación con Power BI",
+      "proveedor": "Microsoft Learn (en español)",
+      "url": "https://learn.microsoft.com/es-es/training/modules/get-started-with-power-bi/"
+     }
+    }
+   ]
+  },
+  {
+   "id": "erp",
+   "competencia": "ERP (SAP, NetSuite, Oracle)",
+   "icono": "🏭",
+   "queEs": "El sistema central donde una empresa lleva contabilidad, compras, inventario y facturación. En la muestra lo piden 6 de las 39 vacantes.",
+   "pasos": [
+    {
+     "id": "erp-1",
+     "titulo": "Qué es un ERP",
+     "aprender": [
+      "Módulos",
+      "Cómo pasan los datos entre ellos"
+     ],
+     "practica": "Dibuja los módulos de un ERP y qué información pasa entre ellos: compras, inventario y contabilidad.",
+     "recurso": {
+      "nombre": "SAP Learning",
+      "proveedor": "SAP (en inglés)",
+      "url": "https://learning.sap.com/"
+     },
+     "video": {
+      "titulo": "Qué es un ERP y para qué sirve - Definición de ERP - Aplimedia",
+      "canal": "Aplimedia",
+      "url": "https://www.youtube.com/watch?v=7_r7rGHmh1c"
+     }
+    },
+    {
+     "id": "erp-2",
+     "titulo": "Probar un ERP",
+     "aprender": [
+      "Una compra de punta a punta",
+      "El asiento contable que genera"
+     ],
+     "practica": "En una prueba de Odoo (la cuenta la creas tú), registra una compra, recíbela y mira el asiento contable que genera.",
+     "recurso": {
+      "nombre": "Odoo Learn",
+      "proveedor": "Odoo (en inglés)",
+      "url": "https://www.odoo.com/slides"
+     },
+     "video": {
+      "titulo": "Curso de Odoo para principiantes y desarrolladores (Odoo, Odoo.sh, y Odoo.com)",
+      "canal": "Fazt",
+      "url": "https://www.youtube.com/watch?v=jzpp-sLP-gI"
+     }
+    },
+    {
+     "id": "erp-3",
+     "titulo": "Cómo se implementa",
+     "aprender": [
+      "Levantamiento y configuración",
+      "Migración de datos",
+      "Pruebas y salida en vivo"
+     ],
+     "practica": "Escribe las fases de implementación de un ERP para una empresa ficticia y qué sale de cada una.",
+     "recurso": {
+      "nombre": "SAP Learning",
+      "proveedor": "SAP (en inglés)",
+      "url": "https://learning.sap.com/"
+     }
+    },
+    {
+     "id": "erp-4",
+     "titulo": "Integrarlo con otros sistemas",
+     "aprender": [
+      "Qué datos salen del ERP",
+      "En qué formato",
+      "Cada cuánto"
+     ],
+     "practica": "Identifica qué datos tendría que enviar el ERP a un sistema de conciliación ficticio, en qué formato y cada cuánto.",
+     "recurso": {
+      "nombre": "Generalidades del protocolo HTTP",
+      "proveedor": "MDN (en español)",
+      "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Guides/Overview"
+     }
+    }
+   ]
+  },
+  {
+   "id": "crm",
+   "competencia": "CRM (Salesforce, HubSpot)",
+   "icono": "📇",
+   "queEs": "El sistema donde una empresa registra a sus clientes y sus oportunidades de venta. En la muestra lo piden 4 de las 39 vacantes.",
+   "pasos": [
+    {
+     "id": "crm-1",
+     "titulo": "Qué es un CRM",
+     "aprender": [
+      "Contactos, empresas y negocios",
+      "Qué área usa cada dato"
+     ],
+     "practica": "Lista qué datos de un cliente guarda un CRM y qué área usa cada uno.",
+     "recurso": {
+      "nombre": "HubSpot Academy",
+      "proveedor": "HubSpot",
+      "url": "https://academy.hubspot.com/"
+     },
+     "video": {
+      "titulo": "Qué es un CRM?",
+      "canal": "HubSpot Español",
+      "url": "https://www.youtube.com/watch?v=cgNTtM44-Dk"
+     }
+    },
+    {
+     "id": "crm-2",
+     "titulo": "Usar HubSpot CRM",
+     "aprender": [
+      "Registrar contactos",
+      "Etapas de un negocio",
+      "Tareas y seguimiento"
+     ],
+     "practica": "En una cuenta de práctica que crees tú, registra 5 contactos y 2 negocios ficticios.",
+     "recurso": {
+      "nombre": "CRM for beginners",
+      "proveedor": "HubSpot Academy (en inglés)",
+      "url": "https://academy.hubspot.com/courses/crm-for-beginners"
+     },
+     "video": {
+      "titulo": "Cómo Usar el CRM de HubSpot: Tutorial Completo en Español 2026",
+      "canal": "HubSpot Español",
+      "url": "https://www.youtube.com/watch?v=YSb7wuel69A"
+     }
+    },
+    {
+     "id": "crm-3",
+     "titulo": "Salesforce con Trailhead",
+     "aprender": [
+      "Objetos y registros",
+      "Rutas de aprendizaje"
+     ],
+     "practica": "Termina un módulo de introducción en Trailhead y anota en qué se parece a HubSpot.",
+     "recurso": {
+      "nombre": "Trailhead",
+      "proveedor": "Salesforce (en español)",
+      "url": "https://trailhead.salesforce.com/es"
+     }
+    },
+    {
+     "id": "crm-4",
+     "titulo": "Automatizar entre CRM y finanzas",
+     "aprender": [
+      "Disparadores en el CRM",
+      "Avisar a otra área"
+     ],
+     "practica": "Diseña una automatización: cuando un negocio pasa a «ganado», se crea la factura en el ERP y se avisa a finanzas.",
+     "recurso": {
+      "nombre": "Zapier Guides",
+      "proveedor": "Zapier (en inglés)",
+      "url": "https://zapier.com/resources/guides"
+     }
+    }
+   ]
+  },
+  {
+   "id": "finanzas",
+   "competencia": "Finanzas, contabilidad o conciliaciones",
+   "icono": "💰",
+   "queEs": "Conciliar es comprobar que dos registros del mismo dinero coinciden (el banco y la contabilidad, una pasarela de pagos y las ventas) y explicar las diferencias. En la muestra lo piden 8 de las 39 vacantes.",
+   "pasos": [
+    {
+     "id": "finanzas-1",
+     "titulo": "La conciliación bancaria",
+     "aprender": [
+      "Saldo en libros y saldo en el banco",
+      "Partidas en tránsito",
+      "Ajustes"
+     ],
+     "practica": "Haz la conciliación de un mes ficticio con 15 movimientos y 3 diferencias.",
+     "recurso": {
+      "nombre": "Conciliación bancaria: pasos básicos para realizarla",
+      "proveedor": "Actualícese (en español, Colombia)",
+      "url": "https://actualicese.com/archivo/conciliacion-bancaria/"
+     },
+     "video": {
+      "titulo": "Paso a paso para realizar la conciliación bancaria",
+      "canal": "Actualícese Video",
+      "url": "https://www.youtube.com/watch?v=9uN_qESnXms"
+     }
+    },
+    {
+     "id": "finanzas-2",
+     "titulo": "Conciliar en Excel",
+     "aprender": [
+      "Cruzar con BUSCARX",
+      "Partidas abiertas",
+      "Resumen de diferencias"
+     ],
+     "practica": "Concilia dos listas ficticias en Excel y marca las partidas abiertas.",
+     "recurso": {
+      "nombre": "Reconciliation",
+      "proveedor": "Corporate Finance Institute (en inglés)",
+      "url": "https://corporatefinanceinstitute.com/resources/accounting/reconciliation/"
+     },
+     "video": {
+      "titulo": "Cómo hacer una CONCILIACIÓN BANCARIA en EXCEL ✅",
+      "canal": "Contador Contado",
+      "url": "https://www.youtube.com/watch?v=JguCZCEl5Jg"
+     }
+    },
+    {
+     "id": "finanzas-3",
+     "titulo": "Conciliar con Python",
+     "aprender": [
+      "Unir tablas con pandas",
+      "Encontrar lo que no cruza",
+      "Medir el tiempo"
+     ],
+     "practica": "Repite el paso 2 con pandas y compara el tiempo con Excel.",
+     "recurso": {
+      "nombre": "Pandas",
+      "proveedor": "Kaggle Learn (en inglés, interactivo)",
+      "url": "https://www.kaggle.com/learn/pandas"
+     }
+    },
+    {
+     "id": "finanzas-4",
+     "titulo": "Repasar la contabilidad",
+     "aprender": [
+      "Cuentas por cobrar y por pagar",
+      "Asientos"
+     ],
+     "practica": "Repasa en 11-ACC los conceptos que usaste en esta ruta.",
+     "enlace": {
+      "modulo": "11-ACC",
+      "url": "accounting.html",
+      "texto": "Contabilidad (11-ACC)"
+     }
+    },
+    {
+     "id": "finanzas-5",
+     "titulo": "Pieza de portafolio",
+     "aprender": [
+      "Problema, solución y resultado",
+      "Todo con datos ficticios"
+     ],
+     "practica": "Escribe el caso: el problema, cómo lo resolviste con Python y el tiempo antes y después, con datos ficticios y sin nada de tu empleo.",
+     "enlace": {
+      "modulo": "5-JOB",
+      "url": "jobs.html#linkedin",
+      "texto": "Ver vacantes en 5-JOB"
+     }
     }
    ]
   }
