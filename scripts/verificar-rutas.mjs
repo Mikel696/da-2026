@@ -4,6 +4,9 @@
 // (25-nov) y cada programa de Python o SQL da la salida que promete su estación; cada paso trae qué
 // aprender, una práctica y al menos un recurso (https) o un enlace interno; los enlaces externos responden 200 hoy
 // y los internos existen en frontend/. Un enlace roto o una habilidad mal escrita no se publican.
+// Rutas por puntos (25-nov-2026, las que traen `medido`): vuelve a medir cada video en YouTube (fecha de publicación,
+// vistas, me gusta, duración y capítulos citados), exige razón a lo descartado y a lo de más de 24 meses, y busca en
+// su página oficial cada frase del examen, de las credenciales y de cada curso «gratis».
 import { readFile, access } from 'node:fs/promises';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { resolve, dirname, join } from 'node:path';
@@ -124,6 +127,7 @@ for (const { donde, codigo, c } of programas) {
 // que no la hay y qué es lo más cercano). «Gratis», un precio o un aviso solo se publican si la frase que lo prueba está
 // en la página oficial, que se abre aquí. Una página que se arma en el navegador lleva la fecha en que se comprobó a mano.
 const pruebas = [];   // {donde, url, frases}
+const videosExtra = [];   // alternativas y descartados de las rutas por puntos: también pasan por oEmbed
 const fecha = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s || '');
 for (const r of rutas.rutas || []) {
   const c = r.certificacion, donde = `${r.id} › certificación`;
@@ -145,6 +149,59 @@ for (const r of rutas.rutas || []) {
   } else if (!c.camino || !texto(c.camino.texto)) mal(`${donde}: no hay gratis y no dice qué es lo más cercano`);
   if (c.camino && c.camino.url) { externos.set(c.camino.url, donde); if (c.camino.evidencia) pruebas.push({ donde: donde + ' (camino)', url: c.camino.url, frases: c.camino.evidencia }); }
   if (c.aviso) { externos.set(c.aviso.url, donde); pruebas.push({ donde: donde + ' (aviso)', url: c.aviso.url, frases: c.aviso.evidencia }); }
+}
+
+// Rutas por puntos (25-nov-2026, pedido de Miguel): la ruta dice qué aprender primero (`orden`) y con qué se combina
+// (`combina`); la certificación trae su examen con el temario oficial y las credenciales gratis del camino; cada punto
+// trae su video principal medido, sus cursos con lo que muestra su página y los descartados con la razón. `medido` es la
+// fecha de corte de las medidas. Lo que se vuelve a medir en YouTube va más abajo.
+const medidos = [];   // {donde, v, medido, reciente}
+for (const r of rutas.rutas || []) {
+  if (!r.medido) continue;
+  if (!fecha(r.medido)) mal(`${r.id}: «medido» sin fecha válida`);
+  if (!texto(r.orden)) mal(`${r.id}: falta «orden» (qué aprender primero)`);
+  const cb = r.combina || {};
+  if (!(cb.antes || []).length && !(cb.abre || []).length) mal(`${r.id}: falta «combina» (de qué depende y qué abre)`);
+  for (const x of [...(cb.antes || []), ...(cb.abre || [])]) if (!(rutas.rutas || []).some((q) => q.id === x.ruta) || !texto(x.porque)) mal(`${r.id}: «combina» apunta a «${x.ruta}», que no existe o no dice por qué`);
+  const c = r.certificacion || {};
+  if (c.examen) {
+    const e = c.examen, donde = `${r.id} › examen`;
+    if (!texto(e.codigo) || !/^https:\/\//.test(e.url || '') || !Array.isArray(e.evidencia)) mal(`${donde}: incompleto`);
+    else { externos.set(e.url, donde); pruebas.push({ donde, url: e.url, frases: e.evidencia }); }
+    if (!Array.isArray(e.temas) || e.temas.some((t) => !texto(t.nombre) || !r.pasos.some((p) => p.id === t.punto))) mal(`${donde}: cada tema necesita nombre y el punto de la ruta que lo cubre`);
+    else if (e.temas.reduce((s, t) => s + t.peso, 0) !== 100) mal(`${donde}: los pesos de los temas no suman 100`);
+  }
+  for (const k of c.credenciales || []) {
+    const donde = `${r.id} › credencial «${k.nombre}»`;
+    if (!texto(k.nombre) || !texto(k.emisor) || !/^https:\/\//.test(k.url || '') || !r.pasos.some((p) => p.id === k.punto) || !Array.isArray(k.evidencia) || !k.evidencia.every(texto)) { mal(`${donde}: incompleta`); continue; }
+    externos.set(k.url, donde);
+    if (k.comprobadoEnNavegador) { if (!fecha(k.comprobadoEnNavegador)) mal(`${donde}: comprobadoEnNavegador sin fecha válida`); }
+    else pruebas.push({ donde, url: k.url, frases: k.evidencia });
+  }
+  for (const p of r.pasos || []) {
+    const donde = `${r.id} › ${p.id}`;
+    if (!p.video) mal(`${donde}: cada punto necesita su video principal`);
+    else medidos.push({ donde: `${donde} (principal)`, v: p.video, medido: r.medido, reciente: true });
+    for (const m of p.mas || []) {
+      if (!['video', 'curso'].includes(m.tipo) || !texto(m.etiqueta)) mal(`${donde}: cada opción de «mas» necesita tipo y etiqueta`);
+      if (m.tipo === 'video') { medidos.push({ donde: `${donde} (${m.etiqueta})`, v: m, medido: r.medido, reciente: true }); videosExtra.push({ ...m, donde }); }
+    }
+    for (const x of p.descartados || []) {
+      if (!texto(x.razon)) mal(`${donde}: un descartado no dice por qué salió (${x.url})`);
+      medidos.push({ donde: `${donde} (descartado)`, v: x, medido: r.medido, reciente: false }); videosExtra.push({ ...x, donde });
+    }
+    for (const k of [p.recurso, ...(p.mas || []).filter((m) => m.tipo === 'curso')].filter(Boolean)) {
+      if (!texto(k.idioma) || !texto(k.porQue)) mal(`${donde}: al curso «${k.nombre}» le falta idioma o por qué se eligió`);
+      if (!Array.isArray(k.datos) || !k.datos.length || !k.datos.every((x) => Array.isArray(x) && x.length === 2 && x.every(texto))) mal(`${donde}: «datos» del curso «${k.nombre}» mal formados (lo que muestra su página, o que no lo muestra)`);
+      if (/^https:\/\//.test(k.url || '')) externos.set(k.url, donde); else mal(`${donde}: el curso «${k.nombre}» no es https`);
+      if (k.gratis) {
+        const g = k.gratis;
+        if (!Array.isArray(g.evidencia) || !g.evidencia.every(texto)) mal(`${donde}: «gratis» sin la frase que lo prueba (${k.nombre})`);
+        else if (g.comprobadoEnNavegador) { if (!fecha(g.comprobadoEnNavegador)) mal(`${donde}: comprobadoEnNavegador sin fecha válida (${k.nombre})`); }
+        else pruebas.push({ donde: `${donde} (gratis: ${k.nombre})`, url: g.url || k.url, frases: g.evidencia });
+      }
+    }
+  }
 }
 const plano = (h) => h.replace(/<[^>]+>/g, ' ').replace(/&nbsp;|&#160;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'")
   .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&trade;/g, '™').replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n)).replace(/\s+/g, ' ').toLowerCase();
@@ -170,17 +227,64 @@ for (const r of rutas.rutas || []) {
     else videos.set(v.url, { ...v, donde: `${r.id} › ${p.id}` });
   }
 }
+for (const v of videosExtra) {
+  if (!/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]{11}$/.test(v.url || '') || !v.titulo || !v.canal) mal(`${v.donde}: video incompleto o con url rara (${v.url})`);
+  else if (!videos.has(v.url)) videos.set(v.url, v);
+}
 
 // Cada video existe y su título y canal coinciden con lo que dice YouTube hoy (oEmbed, público, sin clave).
 let videosOk = 0;
 await Promise.all([...videos.values()].map(async (v) => {
   try {
     const r = await fetch('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent(v.url), { signal: AbortSignal.timeout(30000) });
-    if (r.status !== 200) { mal(`${v.donde}: el video ${v.url} respondió ${r.status}`); return; }
-    const j = await r.json();
+    let j;
+    // 401 = el dueño desactivó la inserción: el video existe y su título y canal se leen de su página.
+    if (r.status === 401) {
+      const h = await (await fetch(v.url + '&hl=es', { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36' }, signal: AbortSignal.timeout(30000) })).text();
+      const id = v.url.slice(-11), t = h.match(new RegExp(`"videoDetails":\\{"videoId":"${id}","title":"((?:[^"\\\\]|\\\\.)*)"`)), a = h.match(/"ownerChannelName":"((?:[^"\\]|\\.)*)"/);
+      if (!t || !a) { mal(`${v.donde}: el video ${v.url} no tiene inserción y su página no dice título y canal`); return; }
+      j = { title: JSON.parse('"' + t[1] + '"'), author_name: JSON.parse('"' + a[1] + '"') };
+    } else if (r.status !== 200) { mal(`${v.donde}: el video ${v.url} respondió ${r.status}`); return; }
+    else j = await r.json();
     if (j.title !== v.titulo || j.author_name !== v.canal) mal(`${v.donde}: el video dice «${j.title}» de «${j.author_name}», no «${v.titulo}» de «${v.canal}»`);
     else videosOk++;
   } catch (e) { mal(`${v.donde}: el video ${v.url} no respondió (${e.message})`); }
+}));
+
+// Medidas de los videos (25-nov-2026): se vuelven a leer en la página pública de YouTube. La fecha de publicación debe
+// ser la misma y la duración también; las vistas y los me gusta no pueden estar por debajo de lo que dice la ruta (con
+// margen: YouTube a veces descuenta). Un video principal o alternativo con más de 24 meses a la fecha de corte solo se
+// queda si dice por qué (`clasico`). Cada capítulo citado está en la descripción con su minuto y su nombre.
+const UA_NAV = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36';
+const paginasYT = new Map();
+const leerYT = (url) => {
+  if (!paginasYT.has(url)) paginasYT.set(url, (async () => {
+    const h = await (await fetch(url + '&hl=es&gl=CO', { headers: { 'User-Agent': UA_NAV, 'Accept-Language': 'es-CO,es;q=0.9' }, signal: AbortSignal.timeout(30000) })).text();
+    const g = (re) => (h.match(re) || [])[1];
+    const d = h.match(/"shortDescription":"((?:[^"\\]|\\.)*)"/);
+    return { publicado: (g(/"publishDate":"([^"]+)"/) || '').slice(0, 10), vistas: +g(/"viewCount":"(\d+)"/) || 0, megusta: +g(/"likeCount":"(\d+)"/) || 0, minutos: Math.round((+g(/"lengthSeconds":"(\d+)"/) || 0) / 60), desc: d ? JSON.parse('"' + d[1] + '"') : '' };
+  })());
+  return paginasYT.get(url);
+};
+const meses = (a, b) => (new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 864e5 / 30.44;
+let medidasOk = 0, capitulosOk = 0;
+await Promise.all(medidos.map(async ({ donde, v, medido, reciente }) => {
+  if (!fecha(v.publicado) || !(v.vistas > 0) || !(v.megusta > 0)) { mal(`${donde}: al video ${v.url} le falta fecha, vistas o me gusta`); return; }
+  if (reciente && meses(v.publicado, medido) > 24 && !texto(v.clasico)) mal(`${donde}: el video es de ${v.publicado}, más de 24 meses antes del corte, y no dice por qué se queda (${v.url})`);
+  let y;
+  try { y = await leerYT(v.url); } catch (e) { mal(`${donde}: no se pudo medir ${v.url} (${e.message})`); return; }
+  if (!y.publicado || !y.vistas) { mal(`${donde}: YouTube no devolvió las medidas de ${v.url}`); return; }
+  let ok = true;
+  if (y.publicado !== v.publicado) { ok = false; mal(`${donde}: YouTube dice publicado el ${y.publicado}, no el ${v.publicado}`); }
+  if (y.vistas < v.vistas * 0.97) { ok = false; mal(`${donde}: hoy tiene ${y.vistas} vistas, menos de las ${v.vistas} que dice la ruta`); }
+  if (y.megusta < v.megusta * 0.9) { ok = false; mal(`${donde}: hoy tiene ${y.megusta} me gusta, bastante menos de los ${v.megusta} que dice la ruta`); }
+  if (v.minutos != null && Math.abs(y.minutos - v.minutos) > 1) { ok = false; mal(`${donde}: dura ${y.minutos} min, no ${v.minutos}`); }
+  for (const k of v.capitulos || []) {
+    const linea = y.desc.split('\n').find((l) => l.replace(/^\(?/, '').startsWith(k.inicio + ' ') || l.startsWith(k.inicio + ')') || l.startsWith(k.inicio + ' '));
+    if (!linea || !linea.includes(k.nombre)) { ok = false; mal(`${donde}: la descripción no tiene el capítulo ${k.inicio} «${k.nombre}»`); }
+    else capitulosOk++;
+  }
+  if (ok) medidasOk++;
 }));
 
 for (const [u, donde] of internos) {
@@ -197,4 +301,4 @@ await Promise.all([...externos].map(async ([u, donde]) => {
 }));
 
 if (errores.length) { console.error(`✗ ${errores.length} problema(s):\n  ` + errores.join('\n  ')); process.exit(1); }
-console.log(`✓ ${rutas.rutas.length} rutas, ${pasos} pasos, ${ok200} enlaces externos con 200, ${videosOk} videos comprobados, ${internos.size} enlaces internos existentes, ${corridos} programas ejecutados con la salida que dicen, ${frasesOk} frases de certificación halladas en su página oficial`);
+console.log(`✓ ${rutas.rutas.length} rutas, ${pasos} pasos, ${ok200} enlaces externos con 200, ${videosOk} videos comprobados, ${internos.size} enlaces internos existentes, ${corridos} programas ejecutados con la salida que dicen, ${frasesOk} frases de certificación halladas en su página oficial, ${medidasOk} de ${medidos.length} medidas de video confirmadas en YouTube (fecha, vistas, me gusta, duración) y ${capitulosOk} capítulos citados que existen`);

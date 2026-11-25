@@ -55,6 +55,8 @@ const WorkRol = (function(){
   /* Panel de una ruta, debajo de su fila. */
   function renderRuta(r, c, D){
     const R = window.WorkRutas;
+    // Ruta por puntos con recursos medidos (25-nov): la que trae fecha de corte de sus medidas.
+    if (r.medido && window.WorkRutaPuntos) return WorkRutaPuntos.html(r, c, D, estacion[r.id], R);
     if (r.frase && window.WorkRutaVista) return WorkRutaVista.html(r, c, D, estacion[r.id], R);
     const empresas = [...new Set(D.vacantes.filter(v => v.competencias.includes(c.nombre)).map(v => v.empresa))];
     const nombres = empresas.slice(0, 8).join(', ') + (empresas.length > 8 ? ` y ${empresas.length - 8} más` : '');

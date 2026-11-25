@@ -1,6 +1,6 @@
 {
  "version": "2026-11-25",
- "nota": "Rutas de estudio de 14-WORK: una por cada una de las 25 habilidades del mapa. Formato didáctico (25-nov-2026): cada estación trae lo que logras, la idea comparada con algo que ya conoces (Excel o el trabajo), cómo usar el video o el recurso, qué hacer, cómo comprobarlo y los errores típicos. scripts/verificar-rutas.mjs comprueba cada enlace (HTTP 200), cada video con oEmbed de YouTube (título y canal exactos) y ejecuta cada programa de Python y SQL para confirmar la salida que promete. Videos elegidos por canal reconocido, vistas y español primero; nadie los vio completos. Sin duraciones ni «gratis» donde la fuente no lo dice. Los casos y montos de práctica son ficticios; nada interno del trabajo.",
+ "nota": "Rutas de estudio de 14-WORK: una por cada una de las 25 habilidades del mapa. Formato didáctico (25-nov-2026): cada estación trae lo que logras, la idea comparada con algo que ya conoces (Excel o el trabajo), cómo usar el video o el recurso, qué hacer, cómo comprobarlo y los errores típicos. scripts/verificar-rutas.mjs comprueba cada enlace (HTTP 200), cada video con oEmbed de YouTube (título y canal exactos) y ejecuta cada programa de Python y SQL para confirmar la salida que promete. Videos elegidos por canal reconocido, vistas y español primero; nadie los vio completos. Sin duraciones ni «gratis» donde la fuente no lo dice. Desde el 25-nov-2026 las rutas «por puntos» (las que traen `medido`) llevan cada recurso medido en su página con fecha de corte (fecha de publicación, vistas, me gusta, duración y capítulos de cada video; inscritos, reseñas y edición de cada curso cuando su página los muestra), lo descartado con su razón y la certificación arriba como meta; el verificador vuelve a medir cada video. Los casos y montos de práctica son ficticios; nada interno del trabajo.",
  "certificacionesNota": "En la foto del radar de 5-JOB del 24-nov-2026, 40 de 955 vacantes (4 %) mencionan alguna certificación; las descripciones vienen recortadas, así que puede ser algo más. En este mercado tu portafolio pesa más que el certificado.",
  "rutas": [
   {
@@ -18,41 +18,242 @@
    "certificacion": {
     "revisado": "2026-11-25",
     "referencia": {
-     "nombre": "PCEP · Certified Entry-Level Python Programmer",
+     "nombre": "PCEP · Certified Entry-Level Python Programmer (examen PCEP-30-03)",
      "emisor": "Python Institute (OpenEDG)",
      "url": "https://pythoninstitute.org/pcep",
-     "costo": "Examen pago: se compra un vale en su página."
+     "costo": "Examen pago: se compra un vale (voucher) en su página; no publica el precio en la página del examen."
     },
     "gratis": null,
     "camino": {
-     "texto": "No hay una certificación oficial de Python gratis. Lo más cercano: Python Essentials 1, el curso oficial y gratis del Python Institute que prepara el PCEP (no da certificación).",
+     "texto": "No hay una certificación oficial de Python gratis. El curso oficial que prepara el examen, Python Essentials 1, sí es gratis, está en español y da una insignia de Cisco al terminarlo.",
      "url": "https://pythoninstitute.org/python-essentials-1",
      "evidencia": [
-      "Enroll for the course for free"
+      "Enroll for the course for free",
+      "English, Spanish, Japanese"
      ]
     },
-    "enVacantes": "Ninguna de las 39 nombra una certificación de Python."
+    "enVacantes": "Ninguna de las 39 nombra una certificación de Python.",
+    "examen": {
+     "codigo": "PCEP-30-03",
+     "url": "https://pythoninstitute.org/pcep-exam-syllabus",
+     "datos": [
+      [
+       "Preguntas",
+       "35"
+      ],
+      [
+       "Tiempo",
+       "50 min"
+      ],
+      [
+       "Para aprobar",
+       "70 %"
+      ],
+      [
+       "Vale por",
+       "5 años"
+      ]
+     ],
+     "temas": [
+      {
+       "n": 1,
+       "nombre": "Fundamentos: tipos, variables, operadores, entrada y salida",
+       "peso": 17,
+       "punto": "python-1"
+      },
+      {
+       "n": 2,
+       "nombre": "Decisiones y ciclos: if, while, for",
+       "peso": 23,
+       "punto": "python-2"
+      },
+      {
+       "n": 3,
+       "nombre": "Colecciones: listas, tuplas, conjuntos, diccionarios y textos",
+       "peso": 26,
+       "punto": "python-2"
+      },
+      {
+       "n": 4,
+       "nombre": "Funciones y errores (try / except)",
+       "peso": 20,
+       "punto": "python-1"
+      },
+      {
+       "n": 5,
+       "nombre": "Archivos (también CSV) e importar módulos",
+       "peso": 14,
+       "punto": "python-3"
+      }
+     ],
+     "nota": "Temario oficial revisado por el Python Institute el 2-nov-2026. Los pesos son los del puntaje que publica el examen.",
+     "evidencia": [
+      "PCEP-30-03",
+      "35 Questions",
+      "50 min",
+      "70% Passing score",
+      "5 years",
+      "Last revised November 2, 2026"
+     ]
+    },
+    "credenciales": [
+     {
+      "nombre": "Insignia de Python Essentials 1",
+      "emisor": "Cisco Networking Academy",
+      "url": "https://www.netacad.com/courses/python-essentials-1",
+      "punto": "python-2",
+      "comprobadoEnNavegador": "2026-11-25",
+      "evidencia": [
+       "Badges you can earn in this course",
+       "FREE"
+      ]
+     },
+     {
+      "nombre": "Certificado de Kaggle Learn · Python",
+      "emisor": "Kaggle",
+      "url": "https://www.kaggle.com/learn/python",
+      "punto": "python-2",
+      "comprobadoEnNavegador": "2026-11-25",
+      "evidencia": [
+       "Hours to earn certificate",
+       "No cost, like all Kaggle Learn Courses"
+      ]
+     },
+     {
+      "nombre": "Certificado de Kaggle Learn · Pandas",
+      "emisor": "Kaggle",
+      "url": "https://www.kaggle.com/learn/pandas",
+      "punto": "python-3",
+      "comprobadoEnNavegador": "2026-11-25",
+      "evidencia": [
+       "Hours to earn certificate",
+       "No cost, like all Kaggle Learn Courses"
+      ]
+     }
+    ]
    },
    "queEs": "Un lenguaje de programación sencillo de leer. En estos puestos se usa para limpiar datos, unir archivos, conectar sistemas por API y automatizar tareas que hoy se hacen a mano en Excel.",
    "pasos": [
     {
      "id": "python-1",
-     "titulo": "Programar desde cero, en el navegador",
+     "titulo": "Primeros programas: datos, funciones y errores",
      "aprender": [
-      "Qué es una variable y un tipo de dato",
-      "Cómo se escribe y se usa una función",
-      "Leer un error sin asustarse"
+      "Instalar Python y correr tu primer programa",
+      "Tipos de datos, variables y operadores",
+      "Pedir datos y convertirlos (input, int, float)",
+      "Escribir tus propias funciones",
+      "Leer un error y atraparlo con try / except"
      ],
      "recurso": {
-      "nombre": "Intro to Programming",
-      "proveedor": "Kaggle Learn (en inglés, interactivo)",
-      "url": "https://www.kaggle.com/learn/intro-to-programming"
+      "nombre": "Python Essentials 1",
+      "parte": "Módulos 1 y 2",
+      "proveedor": "Cisco Networking Academy con el Python Institute",
+      "idioma": "Español (también en inglés)",
+      "url": "https://www.netacad.com/courses/python-essentials-1",
+      "gratis": {
+       "evidencia": [
+        "FREE"
+       ],
+       "comprobadoEnNavegador": "2026-11-25"
+      },
+      "datos": [
+       [
+        "Inscritos",
+        "2.261.085 (su página en inglés)"
+       ],
+       [
+        "Duración",
+        "30 horas · 30 laboratorios"
+       ],
+       [
+        "Versión",
+        "2.0"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Es el curso oficial que prepara el PCEP, en español y gratis, con 30 laboratorios. Para inscribirte creas tú una cuenta en NetAcad."
      },
      "practica": "Escribe una función que reciba una lista de montos y devuelva el total, el promedio y el mayor. Pega el código y lo que entendiste en esta página.",
      "video": {
-      "titulo": "Aprende Python - Curso de Python desde Cero",
-      "canal": "freeCodeCamp Español",
-      "url": "https://www.youtube.com/watch?v=DLikpfc64cA"
+      "titulo": "📓 ¡Curso COMPLETO de PYTHON desde CERO! 👉 en la ERA de Inteligencia Artificial",
+      "canal": "Roelcode",
+      "url": "https://www.youtube.com/watch?v=lZOTL4pyYpU",
+      "publicado": "2026-04-16",
+      "vistas": 48931,
+      "megusta": 1619,
+      "minutos": 316,
+      "porQue": "Publicado en abril de 2026 y ordenado por temas: sus capítulos tocan los 5 temas del examen. Tiene 33 me gusta por cada mil vistas (el de midudev, 14).",
+      "capitulos": [
+       {
+        "inicio": "0:11:08",
+        "fin": "0:17:49",
+        "nombre": "Instalar Python",
+        "seg": 668
+       },
+       {
+        "inicio": "0:17:49",
+        "fin": "0:26:04",
+        "nombre": "Intérprete de Python y Operadores aritméticos",
+        "seg": 1069
+       },
+       {
+        "inicio": "0:26:04",
+        "fin": "0:34:36",
+        "nombre": "Tipos de datos básicos",
+        "seg": 1564
+       },
+       {
+        "inicio": "0:34:36",
+        "fin": "0:41:22",
+        "nombre": "Variables",
+        "seg": 2076
+       },
+       {
+        "inicio": "0:41:22",
+        "fin": "0:49:59",
+        "nombre": "Entrada y conversiones de datos",
+        "seg": 2482
+       },
+       {
+        "inicio": "0:57:37",
+        "fin": "1:03:22",
+        "nombre": "Crear y Ejecutar primer programa",
+        "seg": 3457
+       },
+       {
+        "inicio": "2:31:04",
+        "fin": "2:36:18",
+        "nombre": "Funciones integradas",
+        "seg": 9064
+       },
+       {
+        "inicio": "2:36:18",
+        "fin": "2:45:05",
+        "nombre": "Creando tus propias Funciones",
+        "seg": 9378
+       },
+       {
+        "inicio": "2:45:05",
+        "fin": "2:49:47",
+        "nombre": "Alcance de las variables (Scope)",
+        "seg": 9905
+       },
+       {
+        "inicio": "4:33:47",
+        "fin": "4:37:37",
+        "nombre": "Tipos de errores (Sintaxis, Lógica, Excepciones)",
+        "seg": 16427
+       },
+       {
+        "inicio": "4:37:37",
+        "fin": "4:43:35",
+        "nombre": "Manejo de Excepciones (try, except, finally)",
+        "seg": 16657
+       }
+      ]
      },
      "logro": "escribir una función que haga cuentas por ti.",
      "idea": {
@@ -114,9 +315,9 @@
       ],
       "resaltar": 4
      },
-     "mira": "Es un curso largo: mira «Tu primer programa» (17:15) hasta «Tipos de datos» (36:37), luego «Listas» (1:55:33) y «Funciones» (3:03:42). Los minutos son los capítulos de la descripción del video.",
+     "mira": "Mira los capítulos de la lista en orden; cada uno abre el video en su minuto. Después haz los laboratorios de los módulos 1 y 2 del curso.",
      "hazlo": [
-      "Abre la lección 1 de Intro to Programming en Kaggle y sigue sus celdas.",
+      "Instala Python (capítulo «Instalar Python») y corre tu primer programa.",
       "Escribe la función resumen que ves abajo y pruébala con tu lista.",
       "Pega el código y el resultado en tu cuaderno de la ruta."
      ],
@@ -141,7 +342,7 @@
        ]
       ],
       "salida": "(400, 133.33333333333334, 250)",
-      "nota": "El promedio largo es normal: redondear lo ves en la estación 2."
+      "nota": "El promedio largo es normal: redondear lo ves en el punto 2."
      },
      "errores": [
       [
@@ -156,20 +357,123 @@
        "Escribir Sum o MAX.",
        "Python distingue mayúsculas: es sum y max, en minúscula."
       ]
+     ],
+     "examen": [
+      1,
+      4
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "El más visto de los recientes",
+       "titulo": "Curso COMPLETO de Python DESDE CERO para Principiantes 2025",
+       "canal": "midudev",
+       "url": "https://www.youtube.com/watch?v=TkN2i-_4N4g",
+       "publicado": "2025-03-25",
+       "vistas": 2401830,
+       "megusta": 33977,
+       "minutos": 513,
+       "porQue": "Si prefieres otra voz: de marzo de 2025, el más visto de los que medimos con menos de dos años (2,4 millones de vistas y 33.977 me gusta). Sus capítulos no incluyen errores ni archivos."
+      },
+      {
+       "tipo": "curso",
+       "etiqueta": "El de más reseñas",
+       "nombre": "Programming for Everybody (Getting Started with Python)",
+       "proveedor": "Coursera · Universidad de Michigan",
+       "idioma": "Doblado al español con IA",
+       "url": "https://www.coursera.org/learn/python",
+       "datos": [
+        [
+         "Nota",
+         "4,8 de 5"
+        ],
+        [
+         "Reseñas",
+         "233.812"
+        ],
+        [
+         "Inscritos",
+         "3.666.324"
+        ],
+        [
+         "Certificado",
+         "la página lo ofrece; no dice ahí si cuesta"
+        ]
+       ],
+       "porQue": "Nota 4,8 con 233.812 reseñas: la prueba social más grande que medimos. La página dice «Enroll for free»."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Aprende Python - Curso de Python desde Cero",
+       "canal": "freeCodeCamp Español",
+       "url": "https://www.youtube.com/watch?v=DLikpfc64cA",
+       "publicado": "2021-01-30",
+       "vistas": 1844494,
+       "megusta": 55612,
+       "razon": "Era el video de esta ruta: es de enero de 2021."
+      },
+      {
+       "titulo": "Curso de PYTHON desde CERO (Completo)",
+       "canal": "Soy Dalto",
+       "url": "https://www.youtube.com/watch?v=nKPbfIU442g",
+       "publicado": "2023-01-22",
+       "vistas": 6317663,
+       "megusta": 202352,
+       "razon": "El que más me gusta tiene de los que medimos (202.352), pero es de enero de 2023."
+      },
+      {
+       "titulo": "Curso COMPLETO de PYTHON desde CERO para PRINCIPIANTES",
+       "canal": "MoureDev by Brais Moure",
+       "url": "https://www.youtube.com/watch?v=Kp4Mvapo5kc",
+       "publicado": "2022-09-30",
+       "vistas": 3607183,
+       "megusta": 110940,
+       "razon": "Muy visto, pero es de septiembre de 2022."
+      }
      ]
     },
     {
      "id": "python-2",
-     "titulo": "Python para trabajar con datos",
+     "titulo": "Decisiones, ciclos y colecciones",
      "aprender": [
-      "Listas y diccionarios",
-      "Condiciones y bucles",
-      "Usar librerías"
+      "Decidir con if, elif y else",
+      "Repetir con for y while (break y continue)",
+      "Listas, tuplas y conjuntos",
+      "Diccionarios: contar y sumar por grupo",
+      "Textos y f-strings"
      ],
      "recurso": {
-      "nombre": "Python",
-      "proveedor": "Kaggle Learn (en inglés, interactivo)",
-      "url": "https://www.kaggle.com/learn/python"
+      "nombre": "Python Essentials 1",
+      "parte": "Módulos 3 y 4",
+      "proveedor": "Cisco Networking Academy con el Python Institute",
+      "idioma": "Español (también en inglés)",
+      "url": "https://www.netacad.com/courses/python-essentials-1",
+      "gratis": {
+       "evidencia": [
+        "FREE"
+       ],
+       "comprobadoEnNavegador": "2026-11-25"
+      },
+      "datos": [
+       [
+        "Inscritos",
+        "2.261.085 (su página en inglés)"
+       ],
+       [
+        "Duración",
+        "30 horas · 30 laboratorios"
+       ],
+       [
+        "Versión",
+        "2.0"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Terminas el curso oficial: cierra con su examen final y la página ofrece una insignia de Cisco."
      },
      "practica": "Con una lista de transacciones inventadas (caso ficticio), cuenta cuántas hay por estado y suma el total de cada estado.",
      "logro": "contar y sumar transacciones por estado, como CONTAR.SI y SUMAR.SI.",
@@ -207,9 +511,9 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: el curso Python de Kaggle explica cada tema con ejemplos cortos y ejercicios que se corrigen solos.",
+     "mira": "Mira los capítulos de la lista. Los textos y las f-strings, que también entran en el examen, están en la lección 6 de Kaggle (abajo, en «Más opciones»).",
      "hazlo": [
-      "Haz en Kaggle las lecciones de condiciones, listas, bucles y diccionarios del curso Python.",
+      "Haz los módulos 3 y 4 de Python Essentials 1 o las lecciones 3 a 6 de Kaggle.",
       "Copia el código de abajo, córrelo y cambia un estado para ver cómo cambian los conteos.",
       "Agrega un pago nuevo a la lista y comprueba que el total de su estado sube."
      ],
@@ -249,20 +553,136 @@
        "«Aprobado» no es «aprobado».",
        "Python distingue mayúsculas también dentro del texto."
       ]
-     ]
+     ],
+     "examen": [
+      2,
+      3
+     ],
+     "video": {
+      "titulo": "📓 ¡Curso COMPLETO de PYTHON desde CERO! 👉 en la ERA de Inteligencia Artificial",
+      "canal": "Roelcode",
+      "url": "https://www.youtube.com/watch?v=lZOTL4pyYpU",
+      "publicado": "2026-04-16",
+      "vistas": 48931,
+      "megusta": 1619,
+      "minutos": 316,
+      "porQue": "El mismo curso del punto 1: sigues con la misma voz y el mismo orden del examen.",
+      "capitulos": [
+       {
+        "inicio": "1:18:40",
+        "fin": "1:28:06",
+        "nombre": "Operadores condicionales y lógicos",
+        "seg": 4720
+       },
+       {
+        "inicio": "1:28:06",
+        "fin": "1:36:33",
+        "nombre": "Condicionales (if, elif, else)",
+        "seg": 5286
+       },
+       {
+        "inicio": "1:36:33",
+        "fin": "1:45:38",
+        "nombre": "Bucle mientras (While), break y continue",
+        "seg": 5793
+       },
+       {
+        "inicio": "1:45:38",
+        "fin": "1:53:55",
+        "nombre": "Listas y métodos de listas",
+        "seg": 6338
+       },
+       {
+        "inicio": "1:53:55",
+        "fin": "2:00:46",
+        "nombre": "Bucle Para o For (range, enumerate)",
+        "seg": 6835
+       },
+       {
+        "inicio": "2:00:46",
+        "fin": "2:08:32",
+        "nombre": "Diccionarios",
+        "seg": 7246
+       },
+       {
+        "inicio": "2:08:32",
+        "fin": "2:15:50",
+        "nombre": "Tuplas y Sets",
+        "seg": 7712
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "curso",
+       "etiqueta": "Con certificado gratis",
+       "nombre": "Python",
+       "parte": "Lecciones 3 a 6 (la 6 es textos y diccionarios)",
+       "proveedor": "Kaggle Learn",
+       "idioma": "Inglés, interactivo en el navegador",
+       "url": "https://www.kaggle.com/learn/python",
+       "gratis": {
+        "evidencia": [
+         "No cost, like all Kaggle Learn Courses"
+        ],
+        "comprobadoEnNavegador": "2026-11-25"
+       },
+       "datos": [
+        [
+         "Certificado",
+         "sí, al terminar"
+        ],
+        [
+         "Horas estimadas",
+         "5"
+        ],
+        [
+         "Reseñas y fecha",
+         "la página no las muestra"
+        ]
+       ],
+       "porQue": "Los textos y las f-strings no tienen capítulo propio en el video: la lección 6 los trabaja. Cada lección trae tutorial y ejercicio en el navegador, y el certificado es gratis."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "python-3",
-     "titulo": "Tablas con pandas",
+     "titulo": "Archivos, módulos y tablas con pandas",
      "aprender": [
-      "Cargar un CSV en una tabla",
-      "Filtrar, agrupar y resumir",
+      "Leer y escribir archivos de texto y CSV",
+      "Importar módulos (math, random, csv)",
+      "Cargar un CSV en una tabla con pandas",
+      "Filtrar, ordenar y resumir",
       "Guardar el resultado"
      ],
      "recurso": {
       "nombre": "Pandas",
-      "proveedor": "Kaggle Learn (en inglés, interactivo)",
-      "url": "https://www.kaggle.com/learn/pandas"
+      "parte": "Lecciones 1 a 4 (la 4 es agrupar y ordenar)",
+      "proveedor": "Kaggle Learn",
+      "idioma": "Inglés, interactivo en el navegador",
+      "url": "https://www.kaggle.com/learn/pandas",
+      "gratis": {
+       "evidencia": [
+        "No cost, like all Kaggle Learn Courses"
+       ],
+       "comprobadoEnNavegador": "2026-11-25"
+      },
+      "datos": [
+       [
+        "Certificado",
+        "sí, al terminar"
+       ],
+       [
+        "Horas estimadas",
+        "4"
+       ],
+       [
+        "Reseñas y fecha",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Para practicar lo del video con ejercicios: cada lección trae tutorial y ejercicio en el navegador, y el certificado es gratis."
      },
      "practica": "Descarga un conjunto de datos público de datos.gov.co, cárgalo con pandas y saca un resumen por categoría. Anota aquí el enlace del conjunto que usaste.",
      "enlace": {
@@ -271,9 +691,64 @@
       "texto": "Fase «Python para Datos» en la Ruta Data Analyst"
      },
      "video": {
-      "titulo": "Pandas en 30 minutos (Python)",
-      "canal": "Leonardo Kuffo",
-      "url": "https://www.youtube.com/watch?v=8ASjvOIyyl8"
+      "titulo": "Pandas para Python: Curso Completo desde Cero",
+      "canal": "Enrique Barros",
+      "url": "https://www.youtube.com/watch?v=H9a6l1KcMPE",
+      "publicado": "2026-06-01",
+      "vistas": 7305,
+      "megusta": 282,
+      "minutos": 123,
+      "porQue": "Publicado en junio de 2026, en español y completo: compara las tablas de pandas con Excel, lee CSV y archivos de Excel, filtra, ordena y agrupa, que es justo lo que hace el código de abajo. Trae ejercicios en GitHub (lo dice su descripción). Tiene menos vistas que los viejos: es nuevo.",
+      "capitulos": [
+       {
+        "inicio": "06:44",
+        "fin": "08:34",
+        "nombre": "La estructura DataFrame de Pandas",
+        "seg": 404
+       },
+       {
+        "inicio": "08:34",
+        "fin": "15:20",
+        "nombre": "Datasets, Dataframes y Series en Pandas y Excel",
+        "seg": 514
+       },
+       {
+        "inicio": "15:20",
+        "fin": "22:57",
+        "nombre": "Leer archivos CSV con Pandas y primeros pasos",
+        "seg": 920
+       },
+       {
+        "inicio": "35:59",
+        "fin": "40:26",
+        "nombre": "Leer archivos xlsx de Excel con Pandas",
+        "seg": 2159
+       },
+       {
+        "inicio": "49:07",
+        "fin": "51:04",
+        "nombre": "Generar archivos CSV a partir de DataFrames",
+        "seg": 2947
+       },
+       {
+        "inicio": "1:07:35",
+        "fin": "1:17:27",
+        "nombre": "Filtros condicionales",
+        "seg": 4055
+       },
+       {
+        "inicio": "1:42:23",
+        "fin": "1:47:20",
+        "nombre": "Ordenar valores en DataFrames",
+        "seg": 6143
+       },
+       {
+        "inicio": "1:55:17",
+        "fin": null,
+        "nombre": "Agrupaciones de datos con Pandas",
+        "seg": 6917
+       }
+      ]
      },
      "logro": "resumir un archivo por categoría, como una tabla dinámica.",
      "idea": {
@@ -306,7 +781,7 @@
        ]
       ]
      },
-     "mira": "Mira tres capítulos: «Carga de datos» (3:59), «Filtrado de filas» (12:29) y «Agrupación y agregación de datos» (25:23).",
+     "mira": "Mira los capítulos de la lista. Para el examen suma los 3 capítulos de archivos y módulos del curso de los puntos 1 y 2 (en «Más opciones»).",
      "hazlo": [
       "Haz en Kaggle las 4 primeras lecciones del curso Pandas: leer, seleccionar, resumir y agrupar.",
       "Corre el código de abajo. Trae los datos dentro del programa para que funcione sin archivos.",
@@ -348,26 +823,145 @@
        "El CSV viene con punto y coma.",
        "Si tu archivo usa «;», escribe pd.read_csv(\"archivo.csv\", sep=\";\")."
       ]
+     ],
+     "examen": [
+      5
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Clásico",
+       "clasico": "Es de abril de 2024 (más de dos años). Se queda como segunda voz porque es corto (55 minutos) y su canal le sumó ejercicios gratis en 2026 (lo dice su descripción).",
+       "titulo": "Curso Análisis de datos con Pandas en Python y Google Colab | Tutorial | Python en Español",
+       "canal": "EvoAcademy",
+       "url": "https://www.youtube.com/watch?v=9P2oNqRbdyI",
+       "publicado": "2024-04-08",
+       "vistas": 60197,
+       "megusta": 2324,
+       "minutos": 55,
+       "porQue": "60.197 vistas y 2.324 me gusta, en 55 minutos."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Para el examen",
+       "titulo": "📓 ¡Curso COMPLETO de PYTHON desde CERO! 👉 en la ERA de Inteligencia Artificial",
+       "canal": "Roelcode",
+       "url": "https://www.youtube.com/watch?v=lZOTL4pyYpU",
+       "publicado": "2026-04-16",
+       "vistas": 48931,
+       "megusta": 1619,
+       "minutos": 316,
+       "porQue": "Archivos y módulos, el tema 5 del examen, en el mismo curso de los puntos 1 y 2.",
+       "capitulos": [
+        {
+         "inicio": "3:06:40",
+         "fin": "3:17:24",
+         "nombre": "Módulos y Librerías Estándar",
+         "seg": 11200
+        },
+        {
+         "inicio": "4:59:19",
+         "fin": "5:06:27",
+         "nombre": "Trabajando con Archivos",
+         "seg": 17959
+        },
+        {
+         "inicio": "5:06:27",
+         "fin": "5:14:35",
+         "nombre": "Trabajando PATH y JSON",
+         "seg": 18387
+        }
+       ]
+      },
+      {
+       "tipo": "curso",
+       "etiqueta": "Para el examen",
+       "nombre": "Automate the Boring Stuff, capítulo 18: archivos CSV, JSON y XML",
+       "proveedor": "Al Sweigart · tercera edición",
+       "idioma": "Inglés, libro gratis en línea",
+       "url": "https://automatetheboringstuff.com/3e/chapter18.html",
+       "gratis": {
+        "evidencia": [
+         "Free to read under a Creative Commons license"
+        ],
+        "url": "https://automatetheboringstuff.com/"
+       },
+       "datos": [
+        [
+         "Edición",
+         "tercera, revisada por completo"
+        ],
+        [
+         "Reseñas",
+         "la página no las muestra"
+        ]
+       ],
+       "porQue": "El módulo csv entra en el examen y no tiene capítulo en los videos: este capítulo del libro trata los archivos CSV."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Pandas en 30 minutos (Python)",
+       "canal": "Leonardo Kuffo",
+       "url": "https://www.youtube.com/watch?v=8ASjvOIyyl8",
+       "publicado": "2020-08-10",
+       "vistas": 287072,
+       "megusta": 10457,
+       "razon": "Era el video de esta ruta: es de agosto de 2020."
+      },
+      {
+       "titulo": "Complete Python Pandas Data Science Tutorial! (2025 Updated Edition)",
+       "canal": "Keith Galli",
+       "url": "https://www.youtube.com/watch?v=2uvysYbKdjM",
+       "publicado": "2024-06-29",
+       "vistas": 828015,
+       "megusta": 19783,
+       "razon": "Muy visto, pero en inglés."
+      }
      ]
     },
     {
      "id": "python-4",
-     "titulo": "Automatizar Excel y archivos",
+     "titulo": "Automatizar Excel",
      "aprender": [
-      "Leer y escribir hojas de Excel con openpyxl",
-      "Recorrer carpetas de archivos",
+      "Leer y escribir hojas de Excel",
+      "Unir varios archivos en uno",
+      "Recorrer las carpetas de archivos",
       "Marcar filas con problemas"
      ],
      "recurso": {
       "nombre": "Automate the Boring Stuff, capítulo 14: hojas de Excel",
-      "proveedor": "Al Sweigart (en inglés, libro gratis en línea)",
-      "url": "https://automatetheboringstuff.com/3e/chapter14.html"
+      "proveedor": "Al Sweigart · tercera edición",
+      "idioma": "Inglés, libro gratis en línea",
+      "url": "https://automatetheboringstuff.com/3e/chapter14.html",
+      "gratis": {
+       "evidencia": [
+        "Free to read under a Creative Commons license"
+       ],
+       "url": "https://automatetheboringstuff.com/"
+      },
+      "datos": [
+       [
+        "Edición",
+        "tercera, revisada por completo"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Libro gratis en línea, tercera edición revisada por completo; su capítulo 14 enseña openpyxl, que sirve para dar formato a las celdas."
      },
      "practica": "Une tres hojas de Excel con el mismo formato en una sola y marca las filas con monto vacío. Usa datos ficticios.",
      "video": {
-      "titulo": "Automatizar Excel con Python | Leer y procesar archivos con Pandas",
-      "canal": "DATA SCIENCE PROJECT",
-      "url": "https://www.youtube.com/watch?v=JL9RMCS4Sho"
+      "titulo": "🔥 AUTOMATIZA EXCEL CON PYTHON  | Pandas + OpenPyXL",
+      "canal": "Código Espinoza - Automatiza tu Vida",
+      "url": "https://www.youtube.com/watch?v=pPQKa1BltZc",
+      "publicado": "2025-04-06",
+      "vistas": 15568,
+      "megusta": 582,
+      "minutos": 30,
+      "porQue": "De abril de 2025 y justo de lo que trata este punto: pandas y openpyxl para dejar de copiar y pegar entre hojas. No publica capítulos."
      },
      "logro": "unir varios Excel en uno sin copiar y pegar, y marcar las filas con huecos.",
      "idea": {
@@ -400,7 +994,7 @@
        ]
       ]
      },
-     "mira": "El video usa pandas para leer y procesar archivos de Excel, igual que el código de abajo. El capítulo 14 del libro sirve después, si quieres dar formato a las celdas.",
+     "mira": "El video no publica capítulos: míralo completo (30 min). El capítulo 14 del libro sirve después, si quieres dar formato a las celdas.",
      "hazlo": [
       "Crea una carpeta de práctica y corre ahí el código de abajo: primero fabrica 3 archivos ficticios y luego los une.",
       "Abre consolidado.xlsx y comprueba que trae las 5 filas y la columna revisar.",
@@ -442,6 +1036,27 @@
        "Olvidar index=False.",
        "Aparece una columna extra con 0, 1, 2… al principio del Excel."
       ]
+     ],
+     "mas": [],
+     "descartados": [
+      {
+       "titulo": "Automatizar Excel con Python | Leer y procesar archivos con Pandas",
+       "canal": "DATA SCIENCE PROJECT",
+       "url": "https://www.youtube.com/watch?v=JL9RMCS4Sho",
+       "publicado": "2020-04-02",
+       "vistas": 102846,
+       "megusta": 2665,
+       "razon": "Era el video de esta ruta: es de abril de 2020."
+      },
+      {
+       "titulo": "Automatiza tus Reportes de Excel con Python - Curso de Openpyxl desde 0",
+       "canal": "Frank Andrade",
+       "url": "https://www.youtube.com/watch?v=PqiwVp53ftU",
+       "publicado": "2021-05-05",
+       "vistas": 156587,
+       "megusta": 4335,
+       "razon": "Tiene capítulos y muchos me gusta, pero es de mayo de 2021."
+      }
      ]
     },
     {
@@ -454,8 +1069,20 @@
      ],
      "recurso": {
       "nombre": "Requests: Quickstart",
-      "proveedor": "Documentación oficial de requests (en inglés)",
-      "url": "https://requests.readthedocs.io/en/latest/user/quickstart/"
+      "proveedor": "Documentación oficial de requests",
+      "idioma": "Inglés",
+      "url": "https://requests.readthedocs.io/en/latest/user/quickstart/",
+      "datos": [
+       [
+        "Qué es",
+        "la guía oficial de la librería"
+       ],
+       [
+        "Reseñas",
+        "no aplica"
+       ]
+      ],
+      "porQue": "La fuente oficial: lee hasta la parte de JSON, que es lo único que usa este punto."
      },
      "practica": "Trae la TRM del día desde la API pública de datos.gov.co (https://www.datos.gov.co/resource/32sa-8pi3.json, publicada por la Superintendencia Financiera) e imprímela con su fecha.",
      "logro": "traer la TRM del día sin abrir el navegador.",
@@ -489,7 +1116,7 @@
        ]
       ]
      },
-     "mira": "La guía rápida de requests muestra cómo hacer una petición y leer la respuesta. Lee hasta la parte de JSON: es lo único que usa este paso.",
+     "mira": "Mira los dos capítulos de la lista (unos 30 minutos). Después lee la guía rápida de requests hasta la parte de JSON.",
      "hazlo": [
       "Abre en el navegador la dirección de la API (la de la variable url) y mira el JSON que devuelve.",
       "Corre el código de abajo. Necesita internet.",
@@ -518,9 +1145,108 @@
        "Quitar el try.",
        "Sin try/except, un corte de internet cierra el programa con un error largo en vez de un aviso claro."
       ]
+     ],
+     "video": {
+      "titulo": "Curso COMPLETO de Python DESDE CERO para Principiantes 2025",
+      "canal": "midudev",
+      "url": "https://www.youtube.com/watch?v=TkN2i-_4N4g",
+      "publicado": "2025-03-25",
+      "vistas": 2401830,
+      "megusta": 33977,
+      "minutos": 513,
+      "porQue": "Del curso de Python más visto de los que medimos con menos de dos años (marzo de 2025; 2,4 millones de vistas y 33.977 me gusta): dos capítulos, cómo pedirle datos a una API, con OpenAI y DeepSeek de ejemplo, y los métodos HTTP.",
+      "capitulos": [
+       {
+        "inicio": "06:28:07",
+        "fin": "06:34:23",
+        "nombre": "Peticiones a APIs con OpenAI y DeepSeek",
+        "seg": 23287
+       },
+       {
+        "inicio": "06:34:23",
+        "fin": "06:57:13",
+        "nombre": "Métodos HTTP",
+        "seg": 23663
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Corto",
+       "clasico": "Pasa por poco los dos años (septiembre de 2024). Se queda porque en 16 minutos enseña justo lo de este punto: llamar una API y usar lo que devuelve.",
+       "titulo": "Aprende a usar APIS en tus proyectos de Python + mini-PROYECTO con API de pokemon en Python",
+       "canal": "luisetindev",
+       "url": "https://www.youtube.com/watch?v=ibBAoNq0tl8",
+       "publicado": "2024-09-02",
+       "vistas": 35010,
+       "megusta": 1874,
+       "minutos": 16,
+       "porQue": "35.010 vistas y 1.874 me gusta: 54 por cada mil vistas."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "De finanzas",
+       "titulo": "¿Cómo usar una API financiera por primera vez con Python? APIs financieras con Python (Curso Gratis)",
+       "canal": "PythonIA",
+       "url": "https://www.youtube.com/watch?v=uUgyCufL-Nk",
+       "publicado": "2026-01-07",
+       "vistas": 301,
+       "megusta": 17,
+       "minutos": 13,
+       "porQue": "De enero de 2026: una API financiera paso a paso desde su documentación oficial. Tiene pocas vistas (301)."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Clásico",
+       "clasico": "Explica qué es una API en 12 minutos. Es de 2019, pero la idea (pedir datos a otro sistema y recibirlos) no cambió.",
+       "titulo": "¿Qué es una API? - La mejor explicación en español",
+       "canal": "EDteam",
+       "url": "https://www.youtube.com/watch?v=u2Ms34GE14U",
+       "publicado": "2019-04-04",
+       "vistas": 1850235,
+       "megusta": 62209,
+       "minutos": 12,
+       "porQue": "1,85 millones de vistas y 62.209 me gusta."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "2.- Taller consumir APIs con Python - GET",
+       "canal": "codigofacilito",
+       "url": "https://www.youtube.com/watch?v=12NPmrdoKKs",
+       "publicado": "2017-02-22",
+       "vistas": 87978,
+       "megusta": 915,
+       "razon": "De febrero de 2017."
+      }
      ]
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Hazlos en orden. Los puntos 1 a 3 cubren los 5 temas del examen PCEP-30-03: al terminar el 3 ya los viste todos: repasa el temario oficial y preséntalo cuando te sientas listo. Los puntos 4 y 5 son lo que más se usa en el rol: automatizar Excel y traer datos de otros sistemas.",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "excel",
+      "porque": "Python repite lo que ya haces con fórmulas y tablas: cada punto compara lo nuevo con Excel."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "apis",
+      "porque": "El punto 5 es tu primera integración: la ruta de APIs la lleva a n8n y Postman."
+     },
+     {
+      "ruta": "finanzas",
+      "porque": "Su punto «Conciliar con Python» usa pandas, que ves en el punto 3."
+     },
+     {
+      "ruta": "ml",
+      "porque": "Sus ejercicios están escritos en Python."
+     }
+    ]
+   }
   },
   {
    "id": "ia-generativa",
