@@ -920,6 +920,14 @@
    "id": "requerimientos",
    "competencia": "Levantamiento de requerimientos (discovery)",
    "icono": "🧭",
+   "disciplina": "Procesos",
+   "frase": "Levantar requerimientos es como tomar el pedido en un restaurante: antes de cocinar se anota exactamente qué quiere el cliente, cómo lo quiere y cómo sabrá que salió bien.",
+   "usos": [
+    "Entender qué necesita un área antes de automatizar, para no construir lo que no piden.",
+    "Dejar por escrito qué se va a hacer y qué no, para evitar discusiones al final.",
+    "Definir desde el principio cómo se sabrá que la solución funcionó."
+   ],
+   "portafolio": "Un documento de una página para un caso ficticio (conciliar los pagos de una tienda en línea): objetivo, alcance, requerimientos, historias y cómo se medirá.",
    "queEs": "Entender qué necesita el área o el cliente antes de construir: preguntar, observar el proceso, escribir lo que se va a hacer y cómo se sabrá que funcionó. Es la primera fase de toda implementación.",
    "pasos": [
     {
@@ -940,7 +948,72 @@
       "titulo": "Cómo tomar requerimientos | 5 consejos para una toma de requerimientos efectiva",
       "canal": "HolaMundo",
       "url": "https://www.youtube.com/watch?v=2KZKMY75cJM"
-     }
+     },
+     "logro": "distinguir un requerimiento funcional de uno no funcional y escribir los tuyos.",
+     "idea": {
+      "titulo": "Entiéndelo con un restaurante",
+      "columnas": [
+       "En un pedido",
+       "En un proyecto"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "«Una bandeja paisa sin chicharrón»",
+        "Funcional: lo que debe hacer («cruzar los pagos con los pedidos»)"
+       ],
+       [
+        "«En 15 minutos y caliente»",
+        "No funcional: cómo debe hacerlo («en menos de 5 minutos, sin perder datos»)"
+       ],
+       [
+        "El cliente, el mesero y la cocina",
+        "Quién pide, quién construye y quién lo usa"
+       ],
+       [
+        "Anotar mal el pedido",
+        "El error más caro: construir lo que nadie pidió"
+       ]
+      ]
+     },
+     "mira": "El video da 5 consejos para tomar requerimientos. La guía de Asana (en inglés) sirve como lista de chequeo.",
+     "hazlo": [
+      "Mira el video y lee la guía de Asana.",
+      "Para el caso ficticio (conciliar los pagos de una tienda en línea), escribe 5 requerimientos funcionales.",
+      "Escribe 3 no funcionales: tiempo, seguridad y qué pasa si falla."
+     ],
+     "comprueba": {
+      "texto": "Tu lista está lista si tiene:",
+      "valores": [
+       [
+        "Funcionales",
+        "5"
+       ],
+       [
+        "No funcionales",
+        "3"
+       ],
+       [
+        "Cada uno",
+        "se puede comprobar"
+       ]
+      ],
+      "nota": "Prueba de fuego: si no puedes decir cómo comprobarías un requerimiento, está mal escrito."
+     },
+     "errores": [
+      [
+       "Escribir soluciones en vez de necesidades.",
+       "«Usar Python» es una solución; «cruzar 1.000 pagos por día» es la necesidad."
+      ],
+      [
+       "Palabras vagas.",
+       "«Rápido» o «fácil» no se comprueban; «en menos de 5 minutos», sí."
+      ],
+      [
+       "Hablar solo con el jefe.",
+       "Quien hace el trabajo cada día conoce las excepciones."
+      ]
+     ]
     },
     {
      "id": "requerimientos-2",
@@ -955,7 +1028,75 @@
       "proveedor": "Atlassian Team Playbook (en español)",
       "url": "https://www.atlassian.com/es/team-playbook/plays/project-kickoff"
      },
-     "practica": "Escribe el guion de 10 preguntas para la primera reunión con el área que pide la automatización del caso ficticio."
+     "practica": "Escribe el guion de 10 preguntas para la primera reunión con el área que pide la automatización del caso ficticio.",
+     "logro": "preparar y llevar la primera reunión con el área que pide algo.",
+     "idea": {
+      "titulo": "Entiéndelo con las preguntas",
+      "columnas": [
+       "Pregunta",
+       "Lo que buscas saber"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "«¿Cómo lo hacen hoy, paso a paso?»",
+        "El proceso real, no el del manual"
+       ],
+       [
+        "«¿Qué es lo que más les duele?»",
+        "Dónde se pierde tiempo o salen errores"
+       ],
+       [
+        "«¿Qué pasa cuando algo sale mal?»",
+        "Las excepciones"
+       ],
+       [
+        "«¿Cómo sabremos que funcionó?»",
+        "El criterio de éxito"
+       ],
+       [
+        "«¿Quién más debería estar aquí?»",
+        "Las personas que faltan"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la guía de Atlassian (en español) explica cómo preparar la reunión de arranque.",
+     "hazlo": [
+      "Lee la guía de Atlassian sobre reuniones de lanzamiento.",
+      "Escribe el guion de 10 preguntas para la primera reunión del caso ficticio.",
+      "Escribe el correo de acuerdos que mandarías al terminar: qué se dijo, qué sigue y quién lo hace."
+     ],
+     "comprueba": {
+      "texto": "Tu guion está listo si tiene:",
+      "valores": [
+       [
+        "Preguntas",
+        "10"
+       ],
+       [
+        "Abiertas",
+        "la mayoría"
+       ],
+       [
+        "Correo de acuerdos",
+        "escrito"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Preguntas de sí o no.",
+       "«¿Les sirve?» da poca información; «¿cómo lo hacen hoy?» da mucha."
+      ],
+      [
+       "Llegar con la solución.",
+       "Si propones la herramienta en la primera reunión, dejas de escuchar."
+      ],
+      [
+       "No dejar acuerdos por escrito.",
+       "Lo que no se escribe, cada uno lo recuerda distinto."
+      ]
+     ]
     },
     {
      "id": "requerimientos-3",
@@ -975,7 +1116,75 @@
       "modulo": "web",
       "url": "https://demo.bpmn.io/",
       "texto": "Dibujar en demo.bpmn.io (en el navegador)"
-     }
+     },
+     "logro": "dibujar el proceso de hoy y el propuesto con los símbolos básicos de BPMN.",
+     "idea": {
+      "titulo": "Entiéndelo con los símbolos",
+      "columnas": [
+       "Símbolo BPMN",
+       "Qué significa"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Círculo delgado",
+        "Inicio"
+       ],
+       [
+        "Rectángulo redondeado",
+        "Una tarea: alguien hace algo"
+       ],
+       [
+        "Rombo con una X",
+        "Una decisión: un camino u otro"
+       ],
+       [
+        "Círculo grueso",
+        "Fin"
+       ],
+       [
+        "Carriles (franjas)",
+        "Quién hace cada tarea"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la guía de Camunda (en inglés) muestra cada símbolo con un dibujo.",
+     "hazlo": [
+      "Lee la guía de Camunda hasta los símbolos básicos.",
+      "Dibuja en demo.bpmn.io el proceso de hoy del caso ficticio.",
+      "Dibuja el proceso propuesto y pega las dos imágenes en el cuaderno."
+     ],
+     "comprueba": {
+      "texto": "Tus diagramas están completos si tienen:",
+      "valores": [
+       [
+        "Diagramas",
+        "2"
+       ],
+       [
+        "Cada uno",
+        "inicio, tareas, decisión y fin"
+       ],
+       [
+        "Carriles",
+        "quién hace qué"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Un diagrama sin decisiones.",
+       "Si no hay ningún rombo, probablemente faltan las excepciones."
+      ],
+      [
+       "Tareas con nombres vagos.",
+       "Verbo y objeto: «Cruzar pagos con pedidos», no «Pagos»."
+      ],
+      [
+       "Dibujar el ideal como si fuera hoy.",
+       "El de hoy se dibuja como es, con sus vueltas."
+      ]
+     ]
     },
     {
      "id": "requerimientos-4",
@@ -995,7 +1204,75 @@
       "titulo": "COMO CREAR HISTORIAS DE USUARIO EN SCRUM",
       "canal": "Ágil Es Por Cris Rúa",
       "url": "https://www.youtube.com/watch?v=ky6wFiF5vMk"
-     }
+     },
+     "logro": "convertir requerimientos en historias de usuario con criterios de aceptación.",
+     "idea": {
+      "titulo": "Entiéndelo con tus requerimientos",
+      "columnas": [
+       "Requerimiento",
+       "Historia de usuario"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "El sistema cruza pagos con pedidos",
+        "Como analista, quiero que los pagos se crucen solos con los pedidos para dedicar mi tiempo a las diferencias"
+       ],
+       [
+        "Debe avisar las diferencias",
+        "Como analista, quiero recibir cada mañana la lista de pagos sin pedido para revisarlos primero"
+       ],
+       [
+        "¿Cómo sé que está bien hecha?",
+        "Criterio: dado un pago sin pedido, cuando corre el cruce, entonces aparece en la lista"
+       ],
+       [
+        "Un tema grande con varias historias",
+        "Una épica"
+       ]
+      ]
+     },
+     "mira": "El video explica cómo crear historias de usuario en Scrum. La guía de Atlassian trae una plantilla.",
+     "hazlo": [
+      "Mira el video y lee la guía de Atlassian.",
+      "Convierte tus 5 requerimientos funcionales de la estación 1 en 5 historias.",
+      "Escribe al menos 2 criterios de aceptación por historia, con la plantilla de abajo."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "Como [rol],\nquiero [qué necesito]\npara [para qué].\n\nCriterios de aceptación:\n- Dado [situación], cuando [acción], entonces [resultado esperado]."
+     },
+     "comprueba": {
+      "texto": "Tus historias están listas si tienen:",
+      "valores": [
+       [
+        "Historias",
+        "5"
+       ],
+       [
+        "Criterios",
+        "2 o más por historia"
+       ],
+       [
+        "Formato",
+        "como… quiero… para…"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Olvidar el «para».",
+       "Sin el para qué no se puede decidir qué es más importante."
+      ],
+      [
+       "Historias gigantes.",
+       "Si no cabe en unos días de trabajo, divídela."
+      ],
+      [
+       "Criterios que no se pueden probar.",
+       "«Que funcione bien» no sirve; «aparece en la lista», sí."
+      ]
+     ]
     },
     {
      "id": "requerimientos-5",
@@ -1010,7 +1287,75 @@
       "proveedor": "Atlassian (en español)",
       "url": "https://www.atlassian.com/es/agile/product-management/requirements"
      },
-     "practica": "Junta todo en un documento de una página: objetivo, alcance, requerimientos, historias y cómo se medirá. Es una pieza de portafolio: márcala como caso ficticio."
+     "practica": "Junta todo en un documento de una página: objetivo, alcance, requerimientos, historias y cómo se medirá. Es una pieza de portafolio: márcala como caso ficticio.",
+     "logro": "juntar todo en un documento de una página que cualquiera entienda.",
+     "idea": {
+      "titulo": "Entiéndelo por secciones",
+      "columnas": [
+       "Sección",
+       "Qué responde"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Objetivo",
+        "¿Qué problema resolvemos?"
+       ],
+       [
+        "Alcance",
+        "¿Qué entra y qué no?"
+       ],
+       [
+        "Requerimientos e historias",
+        "¿Qué debe hacer?"
+       ],
+       [
+        "Métrica de éxito",
+        "¿Cómo sabremos que funcionó?"
+       ],
+       [
+        "Riesgos y supuestos",
+        "¿Qué podría salir mal?"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la guía de Atlassian explica qué lleva un documento de requisitos.",
+     "hazlo": [
+      "Lee la guía de Atlassian sobre el documento de requisitos.",
+      "Junta en una página: objetivo, alcance, requerimientos, historias, métrica y riesgos.",
+      "Márcalo como caso ficticio y guárdalo para tu portafolio."
+     ],
+     "comprueba": {
+      "texto": "Tu documento está listo si tiene:",
+      "valores": [
+       [
+        "Páginas",
+        "1"
+       ],
+       [
+        "Secciones",
+        "5"
+       ],
+       [
+        "Marca",
+        "caso ficticio"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Documentos de 20 páginas.",
+       "Nadie los lee: una página bien hecha sí se usa."
+      ],
+      [
+       "Olvidar el «qué no».",
+       "Decir qué queda por fuera evita que el proyecto crezca sin control."
+      ],
+      [
+       "Métricas sin punto de partida.",
+       "«Reducir el tiempo» exige saber cuánto tarda hoy."
+      ]
+     ]
     }
    ]
   },
@@ -5264,6 +5609,14 @@
    "id": "mapeo-procesos",
    "competencia": "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
    "icono": "🗺️",
+   "disciplina": "Procesos",
+   "frase": "Mapear un proceso es como dibujar el plano de una casa antes de remodelarla: ves todos los cuartos, por dónde se camina y qué pared sobra.",
+   "usos": [
+    "Ver un proceso completo, con quién hace qué, antes de cambiarlo.",
+    "Encontrar pasos que sobran, esperas y reprocesos.",
+    "Mostrar en una página el antes y el después de una automatización."
+   ],
+   "portafolio": "Dos diagramas BPMN de un proceso ficticio de conciliación (hoy y propuesto), con el tiempo de cada uno y el cambio explicado en 5 líneas.",
    "queEs": "Dibujar un proceso paso a paso, con quién hace qué, para verlo completo antes de cambiarlo. BPMN es la notación estándar; AS-IS es como funciona hoy y TO-BE como funcionará.",
    "pasos": [
     {
@@ -5283,7 +5636,75 @@
       "titulo": "Modela fácilmente tus procesos en BPMN 2.0 - Tutorial español",
       "canal": "GBTEC Group",
       "url": "https://www.youtube.com/watch?v=BbT0IN3y2V4"
-     }
+     },
+     "logro": "dibujar un proceso con inicio, tareas, decisiones, fin y carriles.",
+     "idea": {
+      "titulo": "Entiéndelo con algo de tu casa: pagar los servicios",
+      "columnas": [
+       "Lo que pasa",
+       "Símbolo BPMN"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Llega la factura",
+        "Evento de inicio (círculo delgado)"
+       ],
+       [
+        "Revisar el valor",
+        "Tarea (rectángulo redondeado)"
+       ],
+       [
+        "¿Es más alta que el mes pasado?",
+        "Compuerta exclusiva (rombo con X)"
+       ],
+       [
+        "Pagar en línea",
+        "Tarea"
+       ],
+       [
+        "Factura pagada",
+        "Evento de fin (círculo grueso)"
+       ]
+      ]
+     },
+     "mira": "El video modela un proceso en BPMN paso a paso. Repite cada símbolo en demo.bpmn.io mientras lo ves.",
+     "hazlo": [
+      "Mira el video y lee la guía de Camunda.",
+      "Dibuja en demo.bpmn.io cómo se pagan los servicios en tu casa.",
+      "Agrega un carril por cada persona que participa."
+     ],
+     "comprueba": {
+      "texto": "Tu diagrama está bien si tiene:",
+      "valores": [
+       [
+        "Inicio y fin",
+        "1 y 1"
+       ],
+       [
+        "Decisiones",
+        "1 o más"
+       ],
+       [
+        "Carriles",
+        "1 por persona"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Salidas de la decisión sin nombre.",
+       "Cada flecha que sale del rombo lleva su condición: «sí» o «no»."
+      ],
+      [
+       "Varios procesos en uno.",
+       "Si tiene dos inicios sin relación, son dos procesos."
+      ],
+      [
+       "Tareas sin verbo.",
+       "«Factura» no es una tarea; «Revisar la factura», sí."
+      ]
+     ]
     },
     {
      "id": "mapeo-procesos-2",
@@ -5308,7 +5729,72 @@
       "titulo": "Mapeo de Procesos: As Is vs To Be",
       "canal": "Glasses Procesos",
       "url": "https://www.youtube.com/watch?v=3TYy-nry6tc"
-     }
+     },
+     "logro": "mapear un proceso tal como se hace hoy, con sus tiempos y sus errores.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que preguntas",
+      "columnas": [
+       "Lo que preguntas",
+       "Lo que anotas en el mapa"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "«¿Qué haces primero?»",
+        "Cada tarea, en orden"
+       ],
+       [
+        "«¿Cuánto te demora?»",
+        "Los minutos de cada tarea"
+       ],
+       [
+        "«¿Cuánto esperas a que otro responda?»",
+        "Las esperas entre tareas"
+       ],
+       [
+        "«¿Dónde suele salir mal?»",
+        "Los errores y los reprocesos"
+       ]
+      ]
+     },
+     "mira": "El video compara el AS-IS con el TO-BE. Para esta estación, quédate con cómo se levanta el AS-IS.",
+     "hazlo": [
+      "Mira el video y lee la guía de Asana (en español).",
+      "Mapea en demo.bpmn.io un proceso ficticio de conciliación de pagos hecho a mano.",
+      "Anota junto a cada tarea sus minutos y marca dónde hay esperas y errores."
+     ],
+     "comprueba": {
+      "texto": "Tu AS-IS está listo si tiene:",
+      "valores": [
+       [
+        "Tareas",
+        "con sus minutos"
+       ],
+       [
+        "Esperas",
+        "marcadas"
+       ],
+       [
+        "Errores",
+        "marcados"
+       ]
+      ],
+      "nota": "Suma los minutos: ese total es tu punto de partida para la estación 3."
+     },
+     "errores": [
+      [
+       "Mapear lo que dice el manual.",
+       "Mapea lo que la gente hace de verdad."
+      ],
+      [
+       "Olvidar las esperas.",
+       "Muchas veces se pierde más tiempo esperando que haciendo."
+      ],
+      [
+       "Proponer mejoras mientras mapeas.",
+       "Primero describe; las mejoras van en el TO-BE."
+      ]
+     ]
     },
     {
      "id": "mapeo-procesos-3",
@@ -5323,7 +5809,71 @@
       "nombre": "Value Stream Mapping",
       "proveedor": "Lean Enterprise Institute (en inglés)",
       "url": "https://www.lean.org/lexicon-terms/value-stream-mapping/"
-     }
+     },
+     "logro": "rediseñar el proceso y señalar qué pasos desaparecen o se automatizan.",
+     "idea": {
+      "titulo": "Entiéndelo comparando",
+      "columnas": [
+       "En el AS-IS (hoy)",
+       "En el TO-BE (propuesto)"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Descargar el extracto a mano",
+        "Llega solo, por API o con un flujo"
+       ],
+       [
+        "Cruzar en Excel fila por fila",
+        "Python o SQL cruza todo de una vez"
+       ],
+       [
+        "Esperar a que otra área confirme",
+        "Un aviso automático con plazo"
+       ],
+       [
+        "Revisar las diferencias",
+        "Sigue siendo tuyo, ahora con más tiempo"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la página del Lean Enterprise Institute (en inglés) explica el mapa de flujo de valor.",
+     "hazlo": [
+      "Lee la página sobre el mapa de flujo de valor.",
+      "Copia tu AS-IS y rediséñalo: tacha lo que desaparece y marca lo que se automatiza.",
+      "Estima los minutos del proceso nuevo y explica de dónde sale cada número."
+     ],
+     "comprueba": {
+      "texto": "Tu TO-BE está listo si tiene:",
+      "valores": [
+       [
+        "Pasos que desaparecen",
+        "marcados"
+       ],
+       [
+        "Automatizados",
+        "marcados"
+       ],
+       [
+        "Minutos",
+        "antes y después"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Automatizar todos los pasos.",
+       "Primero elimina lo que sobra; después automatiza lo que queda."
+      ],
+      [
+       "Prometer minutos sin cuenta.",
+       "Cada número del TO-BE dice de dónde sale."
+      ],
+      [
+       "Olvidar quién atiende las excepciones.",
+       "El proceso nuevo también tiene un responsable."
+      ]
+     ]
     },
     {
      "id": "mapeo-procesos-4",
@@ -5337,7 +5887,71 @@
       "modulo": "web",
       "url": "https://demo.bpmn.io/",
       "texto": "Dibujar en demo.bpmn.io (en el navegador)"
-     }
+     },
+     "logro": "explicar el cambio en una página: antes, después y cuánto se gana.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que preguntará el jefe",
+      "columnas": [
+       "Lo que preguntan",
+       "Lo que va en tu página"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "«¿Qué cambia?»",
+        "Los dos diagramas, uno al lado del otro"
+       ],
+       [
+        "«¿Cuánto ahorra?»",
+        "Los minutos de hoy y los estimados, con su cuenta"
+       ],
+       [
+        "«¿Qué riesgo tiene?»",
+        "Qué puede fallar y quién lo atiende"
+       ],
+       [
+        "«¿Qué necesitas?»",
+        "Herramientas, permisos y tiempo"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: exporta tus diagramas de demo.bpmn.io como imagen.",
+     "hazlo": [
+      "Pon en una página los dos diagramas.",
+      "Agrega el tiempo de hoy y el estimado, con su cuenta.",
+      "Explica el cambio en 5 líneas, como si se lo contaras a alguien en un ascensor."
+     ],
+     "comprueba": {
+      "texto": "Tu página está lista si tiene:",
+      "valores": [
+       [
+        "Diagramas",
+        "2"
+       ],
+       [
+        "Tiempos",
+        "antes y después"
+       ],
+       [
+        "Explicación",
+        "5 líneas"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Explicar la herramienta en vez del beneficio.",
+       "Al jefe le importan el tiempo y el riesgo, no la tecnología."
+      ],
+      [
+       "Esconder lo que puede fallar.",
+       "Decirlo antes da confianza; que lo descubran después la quita."
+      ],
+      [
+       "Una página llena de texto.",
+       "Que se entienda mirando los diagramas y los números."
+      ]
+     ]
     }
    ]
   },
@@ -5345,6 +5959,14 @@
    "id": "mejora-procesos",
    "competencia": "Mejora y optimización de procesos (Lean, Six Sigma)",
    "icono": "♻️",
+   "disciplina": "Procesos",
+   "frase": "Mejorar un proceso es como ordenar una cocina: primero sacas lo que no usas (Lean) y después mides qué sale mal y por qué (Six Sigma).",
+   "usos": [
+    "Encontrar esperas, reprocesos y pasos que no aportan.",
+    "Bajar los errores de un proceso con datos, no con opiniones.",
+    "Demostrar con una medición que la mejora se sostiene."
+   ],
+   "portafolio": "Un proyecto DMAIC de una página para reducir errores en una conciliación ficticia, con su causa raíz y la medición del antes y el después.",
    "queEs": "Métodos para hacer un proceso más rápido y con menos errores: Lean busca quitar lo que no agrega valor; Six Sigma, reducir la variación con datos, siguiendo las fases DMAIC.",
    "pasos": [
     {
@@ -5365,7 +5987,75 @@
       "titulo": "Lean Six Sigma en 8 Minutos | ¿Qué es Lean Six Sigma? | Ejemplo Lean Six Sigma",
       "canal": "Tecnología 4.0",
       "url": "https://www.youtube.com/watch?v=NGPZBZucKnY"
-     }
+     },
+     "logro": "reconocer los desperdicios típicos de un proceso.",
+     "idea": {
+      "titulo": "Entiéndelo con una oficina",
+      "columnas": [
+       "Desperdicio (Lean)",
+       "Ejemplo en una oficina"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Esperas",
+        "Aguardar a que otra área mande el archivo"
+       ],
+       [
+        "Defectos y reprocesos",
+        "Corregir un reporte que salió con errores"
+       ],
+       [
+        "Sobreprocesamiento",
+        "Revisar tres veces lo mismo"
+       ],
+       [
+        "Movimientos innecesarios",
+        "Abrir 5 sistemas para sacar un dato"
+       ],
+       [
+        "Talento no aprovechado",
+        "Un analista copiando y pegando todo el día"
+       ]
+      ]
+     },
+     "mira": "El video explica Lean Six Sigma en 8 minutos. La página del Lean Enterprise Institute (en inglés) amplía la parte de Lean.",
+     "hazlo": [
+      "Mira el video y lee «What is Lean?».",
+      "Toma el proceso ficticio de conciliación de la ruta de mapeo, o uno nuevo.",
+      "Encuentra 3 desperdicios y escribe cómo medirías cuánto cuesta cada uno."
+     ],
+     "comprueba": {
+      "texto": "Tu análisis está listo si tiene:",
+      "valores": [
+       [
+        "Desperdicios",
+        "3"
+       ],
+       [
+        "Tipo",
+        "nombrado"
+       ],
+       [
+        "Cómo medirlo",
+        "escrito"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Culpar a las personas.",
+       "Lean mira el proceso, no a quien lo hace."
+      ],
+      [
+       "Confundir estar ocupado con aportar.",
+       "Mucho movimiento no es valor."
+      ],
+      [
+       "Quitar controles necesarios.",
+       "Una revisión que evita errores caros no es desperdicio."
+      ]
+     ]
     },
     {
      "id": "mejora-procesos-2",
@@ -5384,7 +6074,75 @@
       "titulo": "DMAIC: Las 5 Fases",
       "canal": "SPC Consulting Group",
       "url": "https://www.youtube.com/watch?v=mVyFOx6FFfQ"
-     }
+     },
+     "logro": "escribir un proyecto de mejora en las 5 fases de DMAIC.",
+     "idea": {
+      "titulo": "Entiéndelo fase por fase",
+      "columnas": [
+       "Fase",
+       "Qué sale de ella (ejemplo ficticio)"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Definir",
+        "«Bajar las diferencias sin explicar de 8 % a 2 % en 3 meses»"
+       ],
+       [
+        "Medir",
+        "Cuántas diferencias hay hoy, por semana"
+       ],
+       [
+        "Analizar",
+        "La causa raíz (estación 3)"
+       ],
+       [
+        "Mejorar",
+        "El cambio y su prueba piloto"
+       ],
+       [
+        "Controlar",
+        "Un indicador semanal y quién lo mira"
+       ]
+      ]
+     },
+     "mira": "El video recorre las 5 fases de DMAIC. El artículo de Investopedia (en inglés) sirve de repaso.",
+     "hazlo": [
+      "Mira el video y lee el artículo de Investopedia.",
+      "Escribe un proyecto DMAIC de una página para reducir errores en una conciliación ficticia.",
+      "Para cada fase, escribe qué entregas al terminarla."
+     ],
+     "comprueba": {
+      "texto": "Tu proyecto está completo si tiene:",
+      "valores": [
+       [
+        "Fases",
+        "5"
+       ],
+       [
+        "Meta",
+        "con número y plazo"
+       ],
+       [
+        "Entregable",
+        "1 por fase"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Saltar directo a Mejorar.",
+       "Sin medir y analizar, la mejora es una corazonada."
+      ],
+      [
+       "Metas sin número.",
+       "«Reducir errores» no se evalúa; «de 8 % a 2 % en 3 meses», sí."
+      ],
+      [
+       "Olvidar Controlar.",
+       "Sin control, el proceso vuelve a como estaba."
+      ]
+     ]
     },
     {
      "id": "mejora-procesos-3",
@@ -5398,7 +6156,75 @@
       "nombre": "Guía completa del ejercicio de los 5 porqués",
       "proveedor": "Atlassian Team Playbook (en español)",
       "url": "https://www.atlassian.com/es/team-playbook/plays/5-whys"
-     }
+     },
+     "logro": "llegar a la causa raíz de un error que se repite.",
+     "idea": {
+      "titulo": "Entiéndelo con un caso ficticio",
+      "columnas": [
+       "Pregunta",
+       "Respuesta"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "¿Por qué quedó la diferencia sin explicar?",
+        "Porque el pago no apareció en el extracto con su referencia"
+       ],
+       [
+        "¿Por qué no apareció?",
+        "Porque se cargó con otra referencia"
+       ],
+       [
+        "¿Por qué con otra referencia?",
+        "Porque el cliente la escribe a mano"
+       ],
+       [
+        "¿Por qué la escribe a mano?",
+        "Porque el formulario de pago no la trae llena"
+       ],
+       [
+        "¿Por qué no la trae llena?",
+        "Nadie lo pidió: esa es la causa raíz, y ahí va la mejora"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la guía de Atlassian (en español) explica el ejercicio de los 5 porqués.",
+     "hazlo": [
+      "Lee la guía de Atlassian.",
+      "Elige un error que se repite en un caso ficticio.",
+      "Haz los 5 porqués y escribe la causa raíz y una acción sobre ella."
+     ],
+     "comprueba": {
+      "texto": "Tu ejercicio está bien si tiene:",
+      "valores": [
+       [
+        "Porqués",
+        "hasta llegar a la causa"
+       ],
+       [
+        "Causa raíz",
+        "1"
+       ],
+       [
+        "Acción",
+        "sobre la causa, no el síntoma"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Quedarse en el síntoma.",
+       "«Hay que revisar más» ataca el síntoma; la causa es por qué llega mal."
+      ],
+      [
+       "Terminar en una persona.",
+       "«Porque Juan se equivocó» no es causa raíz: pregunta qué lo permitió."
+      ],
+      [
+       "Responder sin datos.",
+       "Cada respuesta debe poder comprobarse."
+      ]
+     ]
     },
     {
      "id": "mejora-procesos-4",
@@ -5413,7 +6239,72 @@
       "modulo": "17-IA",
       "url": "pages/ai-dojo.html",
       "texto": "AI Dojo · cinturón Azul: «Mide lo que ahorras»"
-     }
+     },
+     "logro": "medir una mejora contra su punto de partida y mantenerla.",
+     "idea": {
+      "titulo": "Entiéndelo con números (ficticios)",
+      "columnas": [
+       "Momento",
+       "Qué mides"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Antes (línea base)",
+        "4 semanas: 32 diferencias sin explicar de 400 = 8 %"
+       ],
+       [
+        "Después",
+        "4 semanas: 9 de 410 = 2,2 %"
+       ],
+       [
+        "Mejora",
+        "8 % → 2,2 %: 5,8 puntos menos"
+       ],
+       [
+        "Mantenerla",
+        "El indicador cada semana y alguien que lo mira"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la misión «Mide lo que ahorras» del AI Dojo practica la medición del antes y el después.",
+     "hazlo": [
+      "Haz en el AI Dojo la misión «Mide lo que ahorras».",
+      "Para tu proyecto DMAIC (estación 2), define qué medirás, cada cuánto y de dónde sale el dato.",
+      "Calcula con números ficticios el antes y el después, como en la tabla."
+     ],
+     "comprueba": {
+      "texto": "En el ejemplo de la tabla:",
+      "valores": [
+       [
+        "Antes",
+        "8 %"
+       ],
+       [
+        "Después",
+        "2,2 %"
+       ],
+       [
+        "Mejora",
+        "5,8 puntos"
+       ]
+      ],
+      "nota": "Es una baja de 5,8 puntos porcentuales: no la llames «5,8 %»."
+     },
+     "errores": [
+      [
+       "Medir solo después.",
+       "Sin línea base no hay forma de demostrar la mejora."
+      ],
+      [
+       "Comparar periodos distintos.",
+       "Mismo largo y misma época: 4 semanas contra 4 semanas."
+      ],
+      [
+       "Confundir puntos con porcentaje.",
+       "De 8 % a 2,2 % son 5,8 puntos menos."
+      ]
+     ]
     }
    ]
   },
@@ -5575,6 +6466,14 @@
    "id": "documentacion",
    "competencia": "Documentación",
    "icono": "📝",
+   "disciplina": "Procesos",
+   "frase": "Documentar es dejar la receta escrita: si mañana no estás, otra persona prepara el mismo plato sin llamarte.",
+   "usos": [
+    "Que otra persona pueda hacer tu tarea o mantener tu automatización sin depender de ti.",
+    "Entregar un proyecto con su manual, no solo con el archivo.",
+    "Revisar un proceso: al escribirlo aparecen los pasos que nadie tenía claros."
+   ],
+   "portafolio": "Un procedimiento paso a paso y la ficha de una automatización de práctica, escritos con frases cortas y voz activa.",
    "queEs": "Dejar por escrito cómo funciona un proceso o una automatización para que otra persona lo pueda usar, revisar o mantener sin depender de quien lo hizo.",
    "pasos": [
     {
@@ -5595,7 +6494,75 @@
       "titulo": "Creating SOPs: How To Write Standard Operating Procedures (Step By Step)",
       "canal": "Jordan Ross",
       "url": "https://www.youtube.com/watch?v=nRhozVH_9EA"
-     }
+     },
+     "logro": "escribir un procedimiento que otra persona pueda seguir sin preguntarte.",
+     "idea": {
+      "titulo": "Entiéndelo con una receta",
+      "columnas": [
+       "En una receta",
+       "En un procedimiento (SOP)"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Para cuántas personas",
+        "Alcance: a qué aplica y a qué no"
+       ],
+       [
+        "Ingredientes",
+        "Lo que necesitas antes de empezar: accesos y archivos"
+       ],
+       [
+        "Pasos numerados",
+        "Un paso por línea, empezando con un verbo"
+       ],
+       [
+        "«Si se quema, baja el fuego»",
+        "Qué hacer si algo falla"
+       ],
+       [
+        "Quién la escribió y cuándo",
+        "Responsable y fecha de la última revisión"
+       ]
+      ]
+     },
+     "mira": "El video y la guía de Atlassian (los dos en inglés) muestran cómo escribir un procedimiento paso a paso.",
+     "hazlo": [
+      "Mira el video y lee la guía de Atlassian.",
+      "Escribe el procedimiento de una tarea de tu semana, sin datos internos.",
+      "Pídele a alguien que lo siga sin ayudarle y anota dónde se trabó."
+     ],
+     "comprueba": {
+      "texto": "Tu procedimiento está listo si tiene:",
+      "valores": [
+       [
+        "Secciones",
+        "5"
+       ],
+       [
+        "Pasos",
+        "empiezan con verbo"
+       ],
+       [
+        "Prueba",
+        "alguien lo siguió"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Saltar pasos obvios.",
+       "Lo que para ti es obvio, para el nuevo no existe."
+      ],
+      [
+       "Párrafos largos.",
+       "Un paso por línea, numerado."
+      ],
+      [
+       "No decir qué hacer si falla.",
+       "Es justo cuando más se necesita el documento."
+      ]
+     ]
     },
     {
      "id": "documentacion-2",
@@ -5614,7 +6581,71 @@
       "titulo": "DOCUMENTAR PROCESOS y PROCEDIMIENTOS: 2 Formas para realizarlo👍",
       "canal": "Gestionar Fácil",
       "url": "https://www.youtube.com/watch?v=JRqpd79N12k"
-     }
+     },
+     "logro": "saber qué tipo de documento necesita cada lector.",
+     "idea": {
+      "titulo": "Entiéndelo con ejemplos de trabajo",
+      "columnas": [
+       "Tipo (Diátaxis)",
+       "Para quién y un ejemplo"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Tutorial",
+        "Para el que empieza: «Tu primera conciliación, paso a paso»"
+       ],
+       [
+        "Guía práctica",
+        "Para el que ya sabe y tiene una tarea: «Cómo reprocesar un pago rechazado»"
+       ],
+       [
+        "Referencia",
+        "Para consultar: «Lista de códigos de estado y qué significan»"
+       ],
+       [
+        "Explicación",
+        "Para entender el porqué: «Por qué conciliamos a diario y no al mes»"
+       ]
+      ]
+     },
+     "mira": "El video muestra dos formas de documentar procesos. La página de Diátaxis (en inglés) explica los cuatro tipos.",
+     "hazlo": [
+      "Mira el video y lee la página principal de Diátaxis.",
+      "Clasifica los documentos que usas en tu trabajo en los cuatro tipos (solo el tipo de documento, sin nombres internos).",
+      "Anota qué tipo falta y para quién sería."
+     ],
+     "comprueba": {
+      "texto": "Tu clasificación está lista si tiene:",
+      "valores": [
+       [
+        "Tipos",
+        "4"
+       ],
+       [
+        "Documentos",
+        "todos clasificados"
+       ],
+       [
+        "Falta",
+        "1 identificado"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Mezclarlo todo en un documento.",
+       "Un tutorial lleno de teoría pierde al que empieza."
+      ],
+      [
+       "Escribir para ti.",
+       "Pregunta primero quién lo va a leer y para qué."
+      ],
+      [
+       "Referencias desactualizadas.",
+       "Una tabla vieja es peor que ninguna: ponle fecha."
+      ]
+     ]
     },
     {
      "id": "documentacion-3",
@@ -5629,7 +6660,71 @@
       "nombre": "Technical Writing",
       "proveedor": "Google for Developers (en inglés)",
       "url": "https://developers.google.com/tech-writing"
-     }
+     },
+     "logro": "reescribir un texto con frases cortas y voz activa.",
+     "idea": {
+      "titulo": "Entiéndelo con ejemplos",
+      "columnas": [
+       "Así no",
+       "Así sí"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "«Se procede a realizar la verificación de los pagos»",
+        "«Verifica los pagos»"
+       ],
+       [
+        "«El archivo es descargado por el analista»",
+        "«El analista descarga el archivo»"
+       ],
+       [
+        "Un párrafo con 5 pasos",
+        "Una lista numerada de 5 pasos"
+       ],
+       [
+        "«Revisar lo pertinente»",
+        "«Revisar el monto y la fecha»"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: el curso Technical Writing de Google (en inglés) trae ejercicios cortos.",
+     "hazlo": [
+      "Haz la primera parte del curso Technical Writing de Google.",
+      "Reescribe tu procedimiento de la estación 1 con frases cortas y voz activa.",
+      "Cuenta las palabras antes y después."
+     ],
+     "comprueba": {
+      "texto": "Tu texto mejoró si tiene:",
+      "valores": [
+       [
+        "Frases",
+        "una idea cada una"
+       ],
+       [
+        "Voz activa",
+        "quién hace qué"
+       ],
+       [
+        "Palabras",
+        "menos que antes"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Sustantivos en vez de verbos.",
+       "«Realizar la verificación» es «verificar»."
+      ],
+      [
+       "Palabras vagas.",
+       "«Lo pertinente» no dice nada: nombra la cosa."
+      ],
+      [
+       "Siglas sin explicar.",
+       "La primera vez, escribe qué significan."
+      ]
+     ]
     },
     {
      "id": "documentacion-4",
@@ -5644,7 +6739,75 @@
       "modulo": "17-IA",
       "url": "pages/ai-dojo.html",
       "texto": "AI Dojo · cinturón Negro: «Tu manual de uso de IA»"
-     }
+     },
+     "logro": "escribir la ficha que permite mantener una automatización sin ti.",
+     "idea": {
+      "titulo": "Entiéndelo con preguntas",
+      "columnas": [
+       "Pregunta",
+       "En la ficha"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "¿Qué hace?",
+        "Una frase: «Trae la TRM cada día a las 8 y la guarda en la hoja»"
+       ],
+       [
+        "¿Cuándo corre?",
+        "El horario o lo que la dispara"
+       ],
+       [
+        "¿Qué necesita?",
+        "Accesos, cuentas y archivos (sin escribir contraseñas)"
+       ],
+       [
+        "¿Qué hacer si falla?",
+        "Dónde ver el error y a quién avisar"
+       ],
+       [
+        "¿Quién la mantiene?",
+        "Responsable y suplente"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la misión «Tu manual de uso de IA» del AI Dojo practica la misma ficha.",
+     "hazlo": [
+      "Haz en el AI Dojo la misión «Tu manual de uso de IA».",
+      "Escribe la ficha de una automatización de práctica, por ejemplo la de la TRM.",
+      "Pídele a alguien que la lea y te diga qué haría si mañana falla."
+     ],
+     "comprueba": {
+      "texto": "Tu ficha está completa si tiene:",
+      "valores": [
+       [
+        "Preguntas",
+        "5"
+       ],
+       [
+        "Contraseñas escritas",
+        "0"
+       ],
+       [
+        "Prueba",
+        "alguien la entendió"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Escribir contraseñas en la ficha.",
+       "Se dice dónde están, nunca cuáles son."
+      ],
+      [
+       "Documentar solo cuando funciona.",
+       "Lo más útil es qué hacer cuando falla."
+      ],
+      [
+       "Fichas sin fecha.",
+       "Pon la fecha de la última revisión."
+      ]
+     ]
     }
    ]
   },
@@ -5723,6 +6886,14 @@
    "id": "indicadores",
    "competencia": "Indicadores y ROI",
    "icono": "🎯",
+   "disciplina": "Procesos",
+   "frase": "Un indicador es el tablero del carro de un proceso: sin velocímetro no sabes qué tan rápido vas, y sin medir no sabes si mejoraste.",
+   "usos": [
+    "Saber si un proceso va bien con un número, no con una impresión.",
+    "Demostrar cuánto ahorró una automatización.",
+    "Decidir si un proyecto vale la pena antes de hacerlo."
+   ],
+   "portafolio": "Tres indicadores de un proceso ficticio de pagos, con fórmula, meta y fuente, en un tablero; y el cálculo del ROI de una automatización.",
    "queEs": "Medir si algo funcionó: un indicador (KPI) dice cómo va un proceso; el retorno de la inversión (ROI) compara lo que costó un cambio con lo que ahorra o produce.",
    "pasos": [
     {
@@ -5742,7 +6913,75 @@
       "titulo": "CÓMO CREAR UN KPI - INDICADORES CLAVE DE DESEMPEÑO - INDICADORES DE GESTIÓN ☺☻♥",
       "canal": "Gestor Calidad - SSOMA",
       "url": "https://www.youtube.com/watch?v=E7VXe7zGc5Q"
-     }
+     },
+     "logro": "definir un indicador con fórmula, meta y fuente.",
+     "idea": {
+      "titulo": "Entiéndelo con un ejemplo (ficticio)",
+      "columnas": [
+       "Parte del indicador",
+       "Ejemplo en un proceso de pagos"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Nombre",
+        "% de pagos conciliados el mismo día"
+       ],
+       [
+        "Fórmula",
+        "Pagos conciliados el mismo día ÷ pagos del día × 100"
+       ],
+       [
+        "Meta",
+        "95 % o más"
+       ],
+       [
+        "Fuente",
+        "El reporte diario de conciliación"
+       ],
+       [
+        "Frecuencia y responsable",
+        "Diario; lo mira el líder del equipo"
+       ]
+      ]
+     },
+     "mira": "El video explica cómo crear un indicador. El artículo de Investopedia (en inglés) sirve de repaso.",
+     "hazlo": [
+      "Mira el video y lee el artículo de Investopedia.",
+      "Define 3 indicadores para un proceso de pagos ficticio, con las 5 partes de la tabla.",
+      "Calcula cada uno con números ficticios de una semana."
+     ],
+     "comprueba": {
+      "texto": "Ejemplo de cálculo: si en un día hubo 400 pagos y 388 se conciliaron ese mismo día:",
+      "valores": [
+       [
+        "Cuenta",
+        "388 ÷ 400 × 100"
+       ],
+       [
+        "Resultado",
+        "97 %"
+       ],
+       [
+        "¿Cumple la meta?",
+        "sí (95 %)"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Indicadores sin meta.",
+       "Sin meta no sabes si 97 % es bueno o malo."
+      ],
+      [
+       "Medir lo fácil en vez de lo importante.",
+       "Contar correos enviados no dice si el proceso funciona."
+      ],
+      [
+       "Un número sin período.",
+       "«97 %» ¿de qué día o semana? Todo indicador lleva su ventana."
+      ]
+     ]
     },
     {
      "id": "indicadores-2",
@@ -5762,7 +7001,80 @@
       "titulo": "Como calcular el ROI ✍ Ejercicio con interpretación",
       "canal": "Felipe Delgado",
       "url": "https://www.youtube.com/watch?v=hip9PFpbqAs"
-     }
+     },
+     "logro": "calcular el retorno de una automatización y en cuánto tiempo se paga.",
+     "idea": {
+      "titulo": "Entiéndelo con preguntas",
+      "columnas": [
+       "Pregunta",
+       "Cuenta"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "¿Cuánto cuesta hacerlo?",
+        "Horas de construcción × valor de la hora + herramientas"
+       ],
+       [
+        "¿Cuánto ahorra?",
+        "Horas ahorradas × valor de la hora × período"
+       ],
+       [
+        "¿Vale la pena?",
+        "ROI = (ahorro − costo) ÷ costo"
+       ],
+       [
+        "¿En cuánto se paga?",
+        "Costo ÷ ahorro por semana"
+       ]
+      ]
+     },
+     "mira": "El video resuelve un ejercicio de ROI y lo interpreta. La guía de CFI (en inglés) trae la fórmula.",
+     "hazlo": [
+      "Mira el video y lee la guía de CFI.",
+      "Copia en Excel el cálculo de abajo con sus números ficticios.",
+      "Cambia las horas ahorradas a 2 y mira cómo cambian el ROI y la recuperación."
+     ],
+     "codigo": {
+      "lenguaje": "excel",
+      "texto": "B1  Horas ahorradas por semana:     4\nB2  Valor de la hora (ficticio):    25000\nB3  Semanas al año:                 48\nB4  Costo de construirla:           =40*B2\nB5  Herramienta por año:            600000\nB6  Ahorro al año:                  =B1*B2*B3\nB7  Costo total:                    =B4+B5\nB8  ROI:                            =(B6-B7)/B7\nB9  Semanas para recuperarlo:       =B7/(B1*B2)"
+     },
+     "comprueba": {
+      "texto": "Con esos números ficticios, el primer año da:",
+      "valores": [
+       [
+        "Ahorro al año",
+        "4.800.000"
+       ],
+       [
+        "Costo total",
+        "1.600.000"
+       ],
+       [
+        "ROI",
+        "200 %"
+       ],
+       [
+        "Se paga en",
+        "16 semanas"
+       ]
+      ],
+      "nota": "Con 2 horas ahorradas por semana: ROI de 50 % y 32 semanas para recuperarlo."
+     },
+     "errores": [
+      [
+       "Olvidar el mantenimiento.",
+       "Una automatización también gasta horas al año en arreglos: súmalas al costo."
+      ],
+      [
+       "Un valor de hora sin fuente.",
+       "Usa uno ficticio y dilo, o uno con fuente."
+      ],
+      [
+       "Contar horas que no se liberan.",
+       "Si las horas ahorradas no se usan en otra cosa, el ahorro es solo en papel."
+      ]
+     ]
     },
     {
      "id": "indicadores-3",
@@ -5776,7 +7088,72 @@
       "modulo": "17-IA",
       "url": "pages/ai-dojo.html",
       "texto": "AI Dojo · cinturón Azul: «Mide lo que ahorras»"
-     }
+     },
+     "logro": "cronometrar una tarea con IA y sin ella y contar solo lo medido.",
+     "idea": {
+      "titulo": "Entiéndelo con un ejemplo (ficticio)",
+      "columnas": [
+       "Sin IA",
+       "Con IA"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Escribir el resumen: 25 min",
+        "Pedirlo: 3 min + revisarlo: 7 min = 10 min"
+       ],
+       [
+        "Errores al revisar: los tuyos",
+        "Errores de la IA que corregiste: anotarlos"
+       ],
+       [
+        "Medir una vez",
+        "Mejor 3 veces cada una"
+       ],
+       [
+        "Ahorro",
+        "25 − 10 = 15 min por resumen"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la misión «Mide lo que ahorras» del AI Dojo te guía con el cronómetro.",
+     "hazlo": [
+      "Haz en el AI Dojo la misión «Mide lo que ahorras».",
+      "Haz una tarea tuya 3 veces sin IA y 3 con IA, cronometrando.",
+      "Anota los promedios y cuántos errores corregiste en la versión con IA."
+     ],
+     "comprueba": {
+      "texto": "En el ejemplo ficticio de la tabla:",
+      "valores": [
+       [
+        "Sin IA",
+        "25 min"
+       ],
+       [
+        "Con IA",
+        "10 min"
+       ],
+       [
+        "Ahorro",
+        "15 min"
+       ]
+      ],
+      "nota": "Tus números deben salir del cronómetro, no de suponer."
+     },
+     "errores": [
+      [
+       "No contar la revisión.",
+       "El tiempo de revisar lo que hace la IA es parte del «con IA»."
+      ],
+      [
+       "Medir una sola vez.",
+       "Una medición puede ser suerte: haz al menos 3."
+      ],
+      [
+       "Comparar tareas distintas.",
+       "La misma tarea y del mismo tamaño."
+      ]
+     ]
     },
     {
      "id": "indicadores-4",
@@ -5790,7 +7167,71 @@
       "nombre": "Introducción a la compilación con Power BI",
       "proveedor": "Microsoft Learn (en español)",
       "url": "https://learn.microsoft.com/es-es/training/modules/get-started-with-power-bi/"
-     }
+     },
+     "logro": "mostrar tus indicadores en un tablero que se entienda en 10 segundos.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que quieres mostrar",
+      "columnas": [
+       "Lo que quieres mostrar",
+       "El visual"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Un número y su meta",
+        "Una tarjeta con el valor y la meta al lado"
+       ],
+       [
+        "Cómo va en el tiempo",
+        "Una línea por semana con la línea de meta"
+       ],
+       [
+        "Comparar áreas o tipos",
+        "Barras ordenadas de mayor a menor"
+       ],
+       [
+        "De cuándo es el dato",
+        "El texto «datos al…» siempre visible"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: repasa la estación 1 de la ruta de Power BI y el módulo de Microsoft Learn.",
+     "hazlo": [
+      "Pon tus 3 indicadores en un tablero de Excel o de Power BI, cada uno con su meta.",
+      "Agrega la fecha del dato.",
+      "Muéstraselo a alguien: ¿entiende en 10 segundos si va bien o mal?"
+     ],
+     "comprueba": {
+      "texto": "Tu tablero está listo si tiene:",
+      "valores": [
+       [
+        "Indicadores",
+        "3"
+       ],
+       [
+        "Meta",
+        "visible en cada uno"
+       ],
+       [
+        "Fecha del dato",
+        "visible"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Gráficos de torta para todo.",
+       "Para comparar, las barras se leen mejor."
+      ],
+      [
+       "Sin meta en el visual.",
+       "Un número solo no dice si es bueno."
+      ],
+      [
+       "Colores sin significado.",
+       "Si usas rojo, que sea solo para lo que está mal."
+      ]
+     ]
     }
    ]
   },
