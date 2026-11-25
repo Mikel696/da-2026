@@ -2203,6 +2203,14 @@
    "id": "ingles",
    "competencia": "Inglés",
    "icono": "🗣️",
+   "disciplina": "Personas",
+   "frase": "En este rol el inglés es una herramienta de trabajo, como Excel: no necesitas sonar nativo, necesitas explicar un proceso, entender una reunión y defender una propuesta.",
+   "usos": [
+    "Presentarte en una entrevista contando tu experiencia hacia la implementación.",
+    "Escribir un correo claro a un cliente o un resumen de avance.",
+    "Entender una reunión y pedir que repitan sin pena."
+   ],
+   "portafolio": "Tu respuesta a «Tell me about yourself» y un argumento de un minuto, en inglés, sobre una de tus automatizaciones de práctica, con tus números medidos.",
    "queEs": "26 de las 39 vacantes lo piden o están escritas en inglés. Para este rol cuenta sobre todo hablar con clientes, escribir documentos y defender una propuesta en una entrevista.",
    "pasos": [
     {
@@ -2223,7 +2231,71 @@
       "titulo": "English Job Interview Tips and Tricks - How to Answer Job Interview Questions in English",
       "canal": "Oxford Online English",
       "url": "https://www.youtube.com/watch?v=nhTcuUvLGOE"
-     }
+     },
+     "logro": "responder «Tell me about yourself» enfocado en implementación y procesos.",
+     "idea": {
+      "titulo": "Entiéndelo en español primero",
+      "columnas": [
+       "La idea en español",
+       "Cómo se dice en la entrevista"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Presente: qué haces hoy",
+        "I currently work as a [your role], where I…"
+       ],
+       [
+        "Pasado: qué te trajo aquí",
+        "Over the last year, I've been automating tasks with Python and SQL."
+       ],
+       [
+        "Futuro: por qué este puesto",
+        "I'm looking for a role where I can implement processes with AI."
+       ],
+       [
+        "Un ejemplo con número (uno tuyo, medido)",
+        "For example, I reduced a weekly task from [X] to [Y] minutes."
+       ]
+      ]
+     },
+     "mira": "El video da consejos para responder preguntas de entrevista en inglés. Fíjate en cómo arma respuestas cortas con un ejemplo.",
+     "hazlo": [
+      "Mira el video.",
+      "Escribe tu respuesta con las 4 partes de la tabla, en máximo 6 frases.",
+      "Practícala en la pestaña Interviews de 3-ENG y escribe la versión final en el cuaderno."
+     ],
+     "comprueba": {
+      "texto": "Tu respuesta está lista si tiene:",
+      "valores": [
+       [
+        "Partes",
+        "presente, pasado, futuro y ejemplo"
+       ],
+       [
+        "Frases",
+        "6 o menos"
+       ],
+       [
+        "Duración",
+        "cerca de 1 minuto"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Contar toda tu vida.",
+       "Solo lo que conecta con el puesto."
+      ],
+      [
+       "Memorizar palabra por palabra.",
+       "Si olvidas una palabra te bloqueas: aprende las 4 ideas, no el texto."
+      ],
+      [
+       "Ejemplos sin número.",
+       "«I improved a process» pesa menos que un antes y un después medidos."
+      ]
+     ]
     },
     {
      "id": "ingles-2",
@@ -2242,7 +2314,71 @@
       "proveedor": "BBC (en inglés)",
       "url": "https://www.bbc.co.uk/learningenglish/"
      },
-     "practica": "Agrega a tus tarjetas 20 palabras de las vacantes de la muestra (requirements, stakeholder, rollout, workflow…)."
+     "practica": "Agrega a tus tarjetas 20 palabras de las vacantes de la muestra (requirements, stakeholder, rollout, workflow…).",
+     "logro": "usar en frases propias las palabras que más se repiten en las vacantes.",
+     "idea": {
+      "titulo": "Entiéndelo con frases de trabajo",
+      "columnas": [
+       "Palabra de las vacantes",
+       "Frase de ejemplo (cámbiala por una tuya)"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "requirements",
+        "We gathered the requirements with the finance team."
+       ],
+       [
+        "stakeholder",
+        "I kept the stakeholders updated every week."
+       ],
+       [
+        "rollout",
+        "We planned the rollout in two phases."
+       ],
+       [
+        "workflow",
+        "I automated a workflow that used to take two hours."
+       ],
+       [
+        "troubleshoot",
+        "I troubleshoot failed payments every morning."
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: BBC Learning English trae vocabulario de trabajo con audio, y la pestaña Flashcards de 3-ENG lo repasa contigo.",
+     "hazlo": [
+      "Abre 3 vacantes de la muestra (al final del Mapa del rol) y subraya las palabras que se repiten.",
+      "Agrega 20 de ellas a tus tarjetas en la pestaña Flashcards de 3-ENG.",
+      "Escribe una frase tuya con 5 de esas palabras."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha cuando tienes:",
+      "valores": [
+       [
+        "Palabras en tarjetas",
+        "20"
+       ],
+       [
+        "Frases propias",
+        "5"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Aprender listas sin frases.",
+       "Una palabra se queda cuando la usas en una frase tuya."
+      ],
+      [
+       "Traducir palabra por palabra.",
+       "«Stakeholder» no tiene una traducción exacta: aprende qué significa en el trabajo."
+      ],
+      [
+       "Pronunciar como se escribe.",
+       "Escucha cada palabra en el diccionario antes de decirla."
+      ]
+     ]
     },
     {
      "id": "ingles-3",
@@ -2257,7 +2393,75 @@
       "url": "english.html",
       "texto": "Inglés · pestañas 💼 Professional y 🔍 Errores"
      },
-     "practica": "Escribe en inglés el resumen de una de tus prácticas de las otras rutas y corrígelo con la pestaña de errores."
+     "practica": "Escribe en inglés el resumen de una de tus prácticas de las otras rutas y corrígelo con la pestaña de errores.",
+     "logro": "escribir un correo de trabajo corto y claro en inglés.",
+     "idea": {
+      "titulo": "Entiéndelo con tus correos",
+      "columnas": [
+       "En español",
+       "En un correo en inglés"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Cordial saludo",
+        "Hi [name],"
+       ],
+       [
+        "Le escribo para contarle el avance",
+        "Here's a quick update on [project]."
+       ],
+       [
+        "Adjunto el archivo",
+        "I've attached the file."
+       ],
+       [
+        "Necesito que me confirme antes del viernes",
+        "Could you confirm by Friday?"
+       ],
+       [
+        "Quedo atento a sus comentarios",
+        "Let me know if you have any questions."
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: las pestañas Professional y Errores de 3-ENG traen frases de trabajo y tus errores frecuentes.",
+     "hazlo": [
+      "Repasa las frases de la pestaña Professional de 3-ENG.",
+      "Escribe en inglés el resumen de una práctica de otra ruta, en 5 a 8 líneas.",
+      "Corrígelo con la pestaña Errores y pega las dos versiones en el cuaderno."
+     ],
+     "comprueba": {
+      "texto": "Tu correo está listo si tiene:",
+      "valores": [
+       [
+        "Líneas",
+        "5 a 8"
+       ],
+       [
+        "Partes",
+        "hecho, sigue y qué necesitas"
+       ],
+       [
+        "Versiones",
+        "antes y después de corregir"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Traducir el «cordial saludo».",
+       "En inglés los correos de trabajo son más directos y cortos."
+      ],
+      [
+       "Frases largas con muchas comas.",
+       "Una idea por frase."
+      ],
+      [
+       "No pedir algo concreto.",
+       "Si necesitas algo, dilo con fecha: «Could you confirm by Friday?»."
+      ]
+     ]
     },
     {
      "id": "ingles-4",
@@ -2281,7 +2485,75 @@
       "titulo": "40 English Phrases You Need for Online Meetings",
       "canal": "Maria Sheeran",
       "url": "https://www.youtube.com/watch?v=PLhAzAymMsY"
-     }
+     },
+     "logro": "seguir una reunión en inglés y pedir que repitan o aclaren.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que necesitas decir",
+      "columnas": [
+       "Lo que necesitas",
+       "La frase"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Que repitan",
+        "Sorry, could you say that again?"
+       ],
+       [
+        "Que vayan más despacio",
+        "Could you speak a bit more slowly, please?"
+       ],
+       [
+        "Confirmar que entendiste",
+        "So, if I understand correctly, …"
+       ],
+       [
+        "Ganar tiempo para pensar",
+        "That's a good question. Let me think."
+       ],
+       [
+        "Responder después",
+        "Let me check and get back to you."
+       ]
+      ]
+     },
+     "mira": "El video trae 40 frases para reuniones en línea. Anota las que usarías con un cliente.",
+     "hazlo": [
+      "Mira el video y anota 5 frases que usarías con un cliente.",
+      "Escucha un episodio de BBC Learning English y practica en las pestañas Understand y Conversations de 3-ENG.",
+      "Di en voz alta tus 5 frases hasta que te salgan sin leer."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha cuando tienes:",
+      "valores": [
+       [
+        "Frases anotadas",
+        "5"
+       ],
+       [
+        "Episodio escuchado",
+        "1"
+       ],
+       [
+        "Sin leer",
+        "las 5"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Fingir que entendiste.",
+       "Pedir que repitan es profesional; responder mal por no entender, no."
+      ],
+      [
+       "Querer entender cada palabra.",
+       "Busca la idea general y las palabras clave."
+      ],
+      [
+       "Callar para no equivocarte.",
+       "Una frase corta y clara vale más que el silencio."
+      ]
+     ]
     },
     {
      "id": "ingles-5",
@@ -2295,7 +2567,75 @@
       "url": "english.html",
       "texto": "Inglés · pestaña 🛡️ Defenderme"
      },
-     "practica": "Prepara cómo explicarías en inglés, en un minuto, por qué una de tus automatizaciones de práctica conviene."
+     "practica": "Prepara cómo explicarías en inglés, en un minuto, por qué una de tus automatizaciones de práctica conviene.",
+     "logro": "explicar en un minuto por qué conviene una automatización y responder una objeción.",
+     "idea": {
+      "titulo": "Entiéndelo por partes",
+      "columnas": [
+       "Parte del argumento",
+       "La frase"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "El problema",
+        "Right now, this task takes [X] hours a week."
+       ],
+       [
+        "La propuesta",
+        "I propose automating it with [tool]."
+       ],
+       [
+        "El beneficio, con número",
+        "This would save about [Y] hours a week."
+       ],
+       [
+        "El riesgo y cómo se cubre",
+        "The main risk is [risk], so a person will review [what]."
+       ],
+       [
+        "Responder una objeción",
+        "I understand the concern. Here's how we'd handle it: …"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la pestaña Defenderme de 3-ENG te pone objeciones para practicar.",
+     "hazlo": [
+      "Elige una automatización de práctica (la de la TRM o el consolidado de Excel).",
+      "Llena las 5 frases de la tabla con tus números medidos.",
+      "Practica en la pestaña Defenderme y grábate en 1 minuto."
+     ],
+     "comprueba": {
+      "texto": "Tu argumento está listo si tiene:",
+      "valores": [
+       [
+        "Partes",
+        "5"
+       ],
+       [
+        "Números",
+        "medidos, no inventados"
+       ],
+       [
+        "Duración",
+        "1 minuto"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Hablar de la herramienta y no del beneficio.",
+       "Convencen el tiempo y el riesgo."
+      ],
+      [
+       "Números sin medición.",
+       "Si te preguntan de dónde salen, debes saberlo."
+      ],
+      [
+       "Ponerte a la defensiva.",
+       "Una objeción es una pregunta: agradécela y responde."
+      ]
+     ]
     }
    ]
   },
@@ -6312,6 +6652,14 @@
    "id": "proyectos",
    "competencia": "Gestión de proyectos (Agile, Scrum)",
    "icono": "📋",
+   "disciplina": "Personas",
+   "frase": "Un proyecto ágil es un viaje largo con paradas cortas: en cada parada revisas el mapa, ves cuánto avanzaste y ajustas la ruta, en vez de planear todo el viaje de una vez.",
+   "usos": [
+    "Entregar algo útil en dos semanas en vez de todo al final de seis meses.",
+    "Mostrar el avance en un tablero que cualquiera entiende.",
+    "Medir cuánto tarda el trabajo y dónde se atasca."
+   ],
+   "portafolio": "Un tablero Kanban de tus rutas de estudio con límite de trabajo en curso, y dos métricas de un proyecto ficticio de automatización.",
    "queEs": "Organizar el trabajo para entregar a tiempo: Scrum trabaja en ciclos cortos con roles y reuniones fijas; Kanban muestra el trabajo en un tablero y limita lo que se hace a la vez.",
    "pasos": [
     {
@@ -6332,7 +6680,71 @@
       "titulo": "¿Qué es Scrum? - La mejor explicación en español",
       "canal": "EDteam",
       "url": "https://www.youtube.com/watch?v=sLexw-z13Fo"
-     }
+     },
+     "logro": "explicar la diferencia entre planear todo al inicio y trabajar en ciclos cortos.",
+     "idea": {
+      "titulo": "Entiéndelo comparando",
+      "columnas": [
+       "Planear todo al inicio",
+       "Trabajar en ciclos cortos"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Meses de plan y una sola entrega al final",
+        "Algo útil cada dos semanas"
+       ],
+       [
+        "Si cambió la necesidad, te enteras al final",
+        "Ajustas en cada ciclo con lo aprendido"
+       ],
+       [
+        "El usuario ve el resultado al final",
+        "El usuario prueba desde el principio"
+       ],
+       [
+        "Sirve cuando todo se conoce de antemano",
+        "Sirve cuando hay dudas, como en una implementación"
+       ]
+      ]
+     },
+     "mira": "El video de EDteam explica Scrum, el marco ágil más usado. La guía de Atlassian explica qué es ágil.",
+     "hazlo": [
+      "Mira el video y lee la guía de Atlassian.",
+      "Toma la implementación ficticia de la ruta de requerimientos.",
+      "Escribe qué entregarías en el primer ciclo de dos semanas y qué aprenderías con eso."
+     ],
+     "comprueba": {
+      "texto": "Tu primer ciclo está bien pensado si:",
+      "valores": [
+       [
+        "Entrega",
+        "útil por sí sola"
+       ],
+       [
+        "Duración",
+        "2 semanas"
+       ],
+       [
+        "Qué aprendes",
+        "escrito"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Ciclos sin entrega.",
+       "Si al final del ciclo no hay nada que mostrar, no es ágil."
+      ],
+      [
+       "Cambiar todo cada semana.",
+       "Ágil es ajustar con lo aprendido, no improvisar."
+      ],
+      [
+       "Creer que ágil es no planear.",
+       "Se planea, pero en tramos cortos."
+      ]
+     ]
     },
     {
      "id": "proyectos-2",
@@ -6347,7 +6759,83 @@
       "nombre": "La Guía de Scrum 2020",
       "proveedor": "Ken Schwaber y Jeff Sutherland (en español)",
       "url": "https://scrumguides.org/docs/scrumguide/v2020/2020-Scrum-Guide-Spanish-European.pdf"
-     }
+     },
+     "logro": "nombrar los responsables, eventos y artefactos de Scrum y para qué sirve cada uno.",
+     "idea": {
+      "titulo": "Entiéndelo pieza por pieza (Guía de Scrum 2020)",
+      "columnas": [
+       "Pieza",
+       "Qué es"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Product Owner",
+        "Decide qué se hace primero: ordena la lista de trabajo"
+       ],
+       [
+        "Scrum Master",
+        "Ayuda a que el equipo trabaje bien y quita obstáculos"
+       ],
+       [
+        "Developers",
+        "Quienes construyen lo que se entrega"
+       ],
+       [
+        "Sprint",
+        "Un ciclo de un mes o menos"
+       ],
+       [
+        "Daily Scrum",
+        "15 minutos al día para coordinar"
+       ],
+       [
+        "Product Backlog e Incremento",
+        "La lista ordenada de trabajo y lo terminado que funciona"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la Guía de Scrum 2020 (en español) es corta y es la fuente oficial.",
+     "hazlo": [
+      "Lee la Guía de Scrum 2020.",
+      "Resume en una página los 3 responsables, los 5 eventos y los 3 artefactos.",
+      "Escribe al lado de cada evento cuánto dura como máximo en un sprint de un mes."
+     ],
+     "comprueba": {
+      "texto": "Tu resumen está completo si tiene:",
+      "valores": [
+       [
+        "Responsables",
+        "3"
+       ],
+       [
+        "Eventos",
+        "5"
+       ],
+       [
+        "Artefactos",
+        "3"
+       ],
+       [
+        "Daily Scrum",
+        "15 min"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Confundir al Scrum Master con un jefe.",
+       "No manda: ayuda al equipo y quita obstáculos."
+      ],
+      [
+       "Un Daily de una hora.",
+       "Son 15 minutos para coordinar, no para resolver."
+      ],
+      [
+       "Saltarse la retrospectiva.",
+       "Es donde el equipo mejora su forma de trabajar."
+      ]
+     ]
     },
     {
      "id": "proyectos-3",
@@ -6367,7 +6855,71 @@
       "titulo": "Qué es KANBAN y cómo se implementa paso a 🏃 paso + ejemplos prácticos",
       "canal": "Ingenio Empresa",
       "url": "https://www.youtube.com/watch?v=B-uwQg7RgH8"
-     }
+     },
+     "logro": "armar un tablero Kanban con límite de trabajo en curso.",
+     "idea": {
+      "titulo": "Entiéndelo con tus pendientes",
+      "columnas": [
+       "En tu trabajo",
+       "En Kanban"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "La lista de pendientes",
+        "La columna «Por hacer»"
+       ],
+       [
+        "Lo que tienes abierto",
+        "La columna «Haciendo», con límite (por ejemplo, 2)"
+       ],
+       [
+        "Lo terminado",
+        "La columna «Hecho»"
+       ],
+       [
+        "Empezar mucho y terminar poco",
+        "El límite te obliga a terminar antes de empezar otra"
+       ]
+      ]
+     },
+     "mira": "El video explica qué es Kanban y cómo se implementa con ejemplos.",
+     "hazlo": [
+      "Mira el video y lee la guía de Atlassian.",
+      "Arma un tablero Kanban con tus 25 rutas: por hacer, haciendo (máximo 2) y hecho.",
+      "Úsalo una semana y anota qué cambió."
+     ],
+     "comprueba": {
+      "texto": "Tu tablero está listo si tiene:",
+      "valores": [
+       [
+        "Columnas",
+        "3"
+       ],
+       [
+        "Límite en Haciendo",
+        "2"
+       ],
+       [
+        "Semana de uso",
+        "1"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Sin límite de trabajo en curso.",
+       "Sin límite, Kanban es solo una lista bonita."
+      ],
+      [
+       "Tarjetas demasiado grandes.",
+       "Si una lleva semanas en Haciendo, divídela."
+      ],
+      [
+       "No actualizarlo.",
+       "Un tablero viejo engaña más que no tener ninguno."
+      ]
+     ]
     },
     {
      "id": "proyectos-4",
@@ -6382,7 +6934,71 @@
       "nombre": "Cinco métricas ágiles que no odiarás",
       "proveedor": "Atlassian (en español)",
       "url": "https://www.atlassian.com/es/agile/project-management/metrics"
-     }
+     },
+     "logro": "elegir dos métricas que digan cómo avanza un proyecto y calcular una.",
+     "idea": {
+      "titulo": "Entiéndelo con ejemplos (ficticios)",
+      "columnas": [
+       "Métrica",
+       "Qué dice"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Tiempo de ciclo",
+        "Una tarea tarda en promedio 3 días desde que empieza hasta que termina"
+       ],
+       [
+        "Velocidad (Scrum)",
+        "Cuánto termina el equipo por sprint: sirve para planear el siguiente"
+       ],
+       [
+        "Trabajo en curso",
+        "Hoy hay 5 tareas abiertas a la vez"
+       ],
+       [
+        "Qué no medir",
+        "Horas trabajadas: no dicen si el proyecto avanzó"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la guía de Atlassian (en español) presenta cinco métricas ágiles.",
+     "hazlo": [
+      "Lee la guía de Atlassian.",
+      "Define 2 métricas para un proyecto ficticio de automatización, con cómo se calculan.",
+      "Calcula una con los datos de tu tablero Kanban de la estación 3."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha cuando tienes:",
+      "valores": [
+       [
+        "Métricas",
+        "2"
+       ],
+       [
+        "Cálculo",
+        "escrito"
+       ],
+       [
+        "Con tus datos",
+        "1 calculada"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Usar la velocidad para comparar equipos.",
+       "Cada equipo cuenta distinto: sirve para planear, no para competir."
+      ],
+      [
+       "Medir personas en vez del trabajo.",
+       "Las métricas ágiles miran el flujo, no quién es más rápido."
+      ],
+      [
+       "Métricas que nadie mira.",
+       "Si no cambian una decisión, sobran."
+      ]
+     ]
     }
    ]
   },
@@ -6390,6 +7006,14 @@
    "id": "cambio",
    "competencia": "Gestión del cambio y capacitación a usuarios",
    "icono": "🔄",
+   "disciplina": "Personas",
+   "frase": "Gestionar el cambio es como enseñarle a alguien una ruta nueva al trabajo: aunque sea más corta, si no sabe por qué cambiar ni la ha practicado, vuelve a la de siempre.",
+   "usos": [
+    "Lograr que la gente use de verdad la herramienta que implementaste.",
+    "Capacitar a los usuarios para que trabajen solos.",
+    "Medir si el cambio se quedó o la gente volvió al Excel."
+   ],
+   "portafolio": "Un plan de adopción para una herramienta ficticia: ADKAR por grupo, mensaje de urgencia, una capacitación de 20 minutos y 3 señales de uso a los 30 días.",
    "queEs": "Lograr que la gente adopte de verdad una herramienta o un proceso nuevo: entender qué necesita cada persona para cambiar, comunicarlo y capacitar.",
    "pasos": [
     {
@@ -6409,7 +7033,75 @@
       "titulo": "The Prosci ADKAR Model | Tim Creasey Interview",
       "canal": "Prosci",
       "url": "https://www.youtube.com/watch?v=L_7I03LOyyk"
-     }
+     },
+     "logro": "descubrir en qué parte del cambio se atasca cada grupo de personas.",
+     "idea": {
+      "titulo": "Entiéndelo letra por letra",
+      "columnas": [
+       "Letra de ADKAR",
+       "Lo que la persona debe poder responder"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "A · Awareness (conciencia)",
+        "¿Por qué hay que cambiar?"
+       ],
+       [
+        "D · Desire (deseo)",
+        "¿Qué gano yo con esto?"
+       ],
+       [
+        "K · Knowledge (conocimiento)",
+        "¿Cómo se hace?"
+       ],
+       [
+        "A · Ability (habilidad)",
+        "¿Ya lo puedo hacer solo?"
+       ],
+       [
+        "R · Reinforcement (refuerzo)",
+        "¿Qué hace que no vuelva a lo de antes?"
+       ]
+      ]
+     },
+     "mira": "El video es una entrevista sobre el modelo ADKAR, en inglés. La página de Prosci lo resume.",
+     "hazlo": [
+      "Mira el video y lee la página de Prosci.",
+      "Imagina que llega una herramienta nueva a un área ficticia y separa a la gente en 2 o 3 grupos.",
+      "Para cada grupo, escribe en qué letra de ADKAR se atasca y qué harías."
+     ],
+     "comprueba": {
+      "texto": "Tu análisis está listo si tiene:",
+      "valores": [
+       [
+        "Grupos",
+        "2 o 3"
+       ],
+       [
+        "Letra donde se atasca",
+        "1 por grupo"
+       ],
+       [
+        "Acción",
+        "1 por grupo"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Capacitar a quien no quiere cambiar.",
+       "Si falta el deseo (D), enseñar el cómo (K) todavía no sirve."
+      ],
+      [
+       "Un solo plan para todos.",
+       "Cada grupo se atasca en una letra distinta."
+      ],
+      [
+       "Olvidar el refuerzo.",
+       "Sin la R, la gente vuelve a lo de antes en unas semanas."
+      ]
+     ]
     },
     {
      "id": "cambio-2",
@@ -6429,7 +7121,79 @@
       "titulo": "Los 8 Pasos de Kotter - Gestión del Cambio",
       "canal": "Cadena Critica Blog",
       "url": "https://www.youtube.com/watch?v=IMf_L0ybonA"
-     }
+     },
+     "logro": "escribir el mensaje de urgencia y planear la primera victoria rápida.",
+     "idea": {
+      "titulo": "Entiéndelo con una herramienta nueva (ejemplo ficticio)",
+      "columnas": [
+       "Paso de Kotter",
+       "Ejemplo"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "1. Crear urgencia",
+        "«Hoy perdemos 6 horas a la semana cruzando pagos a mano»"
+       ],
+       [
+        "2. Formar una coalición",
+        "Un líder del área y dos usuarios que la prueben primero"
+       ],
+       [
+        "3 y 4. Visión y voluntarios",
+        "«En marzo, nadie cruza pagos a mano»"
+       ],
+       [
+        "5. Quitar barreras",
+        "Permisos y equipos listos antes de capacitar"
+       ],
+       [
+        "6. Victorias rápidas",
+        "La primera semana, un reporte de 2 horas sale en 10 minutos"
+       ],
+       [
+        "7 y 8. Sostener y volverlo norma",
+        "Que sea el procedimiento oficial"
+       ]
+      ]
+     },
+     "mira": "El video explica los 8 pasos de Kotter en español. La página de Kotter (en inglés) los resume.",
+     "hazlo": [
+      "Mira el video y lee la página de Kotter.",
+      "Escribe en 3 frases el mensaje de urgencia para la herramienta ficticia.",
+      "Define la primera victoria rápida: qué, cuándo y cómo la vas a mostrar."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha cuando tienes:",
+      "valores": [
+       [
+        "Mensaje de urgencia",
+        "3 frases"
+       ],
+       [
+        "Victoria rápida",
+        "con fecha"
+       ],
+       [
+        "Con número",
+        "sí"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Urgencia sin datos.",
+       "«Hay que modernizarse» no mueve a nadie; «perdemos 6 horas a la semana», sí."
+      ],
+      [
+       "Victorias que nadie ve.",
+       "Cuéntala en la reunión del área."
+      ],
+      [
+       "Cantar victoria muy pronto.",
+       "Una buena primera semana no es el cambio terminado."
+      ]
+     ]
     },
     {
      "id": "cambio-3",
@@ -6444,7 +7208,71 @@
       "modulo": "17-IA",
       "url": "pages/ai-dojo.html",
       "texto": "AI Dojo · cinturón Negro: «Enséñaselo a alguien»"
-     }
+     },
+     "logro": "dar una capacitación de 20 minutos y comprobar que aprendieron.",
+     "idea": {
+      "titulo": "Entiéndelo minuto a minuto",
+      "columnas": [
+       "Parte de la sesión",
+       "Qué haces"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Objetivo (2 min)",
+        "«Al terminar podrán registrar un gasto solos»"
+       ],
+       [
+        "Demostración (5 min)",
+        "Lo haces tú una vez, despacio"
+       ],
+       [
+        "Práctica (10 min)",
+        "Lo hacen ellos con datos de prueba; tú solo miras"
+       ],
+       [
+        "Comprobación (3 min)",
+        "Cada uno hace un caso nuevo sin ayuda"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la misión «Enséñaselo a alguien» del AI Dojo te guía.",
+     "hazlo": [
+      "Haz en el AI Dojo la misión «Enséñaselo a alguien».",
+      "Prepara una capacitación de 20 minutos con las 4 partes, sobre tu app o tu flujo de práctica.",
+      "Dásela a alguien de tu casa y anota dónde se trabó."
+     ],
+     "comprueba": {
+      "texto": "Tu capacitación funcionó si:",
+      "valores": [
+       [
+        "Partes",
+        "4"
+       ],
+       [
+        "Minutos",
+        "20"
+       ],
+       [
+        "Comprobación",
+        "la persona lo hizo sola"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Hablar los 20 minutos.",
+       "La gente aprende haciendo: la mitad del tiempo es práctica."
+      ],
+      [
+       "Practicar con datos reales.",
+       "Usa datos de prueba: un error en la práctica no debe costar."
+      ],
+      [
+       "Preguntar «¿entendieron?»",
+       "Todos dicen que sí: pídeles que lo hagan."
+      ]
+     ]
     },
     {
      "id": "cambio-4",
@@ -6458,7 +7286,71 @@
       "nombre": "KPIs: What Are Key Performance Indicators?",
       "proveedor": "Investopedia (en inglés)",
       "url": "https://www.investopedia.com/terms/k/kpi.asp"
-     }
+     },
+     "logro": "definir cómo sabrás, a los 30 días, si la gente usa de verdad la herramienta.",
+     "idea": {
+      "titulo": "Entiéndelo con señales",
+      "columnas": [
+       "Señal",
+       "Cómo se mide a los 30 días (ejemplo)"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "La usan de verdad",
+        "% de gastos registrados en la app y no por correo"
+       ],
+       [
+        "La usan todos",
+        "Personas que la usaron al menos una vez por semana"
+       ],
+       [
+        "No volvieron a lo de antes",
+        "Archivos de Excel paralelos que siguen vivos"
+       ],
+       [
+        "Les sirve",
+        "Minutos por registro, antes y después"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: repasa el artículo de indicadores de Investopedia (en inglés).",
+     "hazlo": [
+      "Repasa el artículo de indicadores.",
+      "Define 3 señales de que la herramienta se usa de verdad, cada una con fórmula y meta.",
+      "Escribe qué harías si a los 30 días una señal sale mal."
+     ],
+     "comprueba": {
+      "texto": "Tu plan de medición está listo si tiene:",
+      "valores": [
+       [
+        "Señales",
+        "3"
+       ],
+       [
+        "Fórmula y meta",
+        "en cada una"
+       ],
+       [
+        "Plan si sale mal",
+        "escrito"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Contar accesos como uso.",
+       "Que tengan la cuenta no quiere decir que la usen."
+      ],
+      [
+       "Medir una sola vez.",
+       "Mide a la semana, al mes y a los tres meses."
+      ],
+      [
+       "Culpar a los usuarios.",
+       "Si no la usan, algo del cambio falló: vuelve a ADKAR."
+      ]
+     ]
     }
    ]
   },
@@ -6815,6 +7707,14 @@
    "id": "stakeholders",
    "competencia": "Trato con clientes y áreas (stakeholders)",
    "icono": "👥",
+   "disciplina": "Personas",
+   "frase": "Los stakeholders son como los vecinos de una obra: si no sabes quiénes son y qué les preocupa, el proyecto se frena aunque esté bien hecho.",
+   "usos": [
+    "Saber a quién informar, a quién consultar y quién aprueba.",
+    "Evitar que alguien se entere tarde de un cambio que lo afecta.",
+    "Escribir correos de avance que la gente sí lee."
+   ],
+   "portafolio": "La matriz de poder e interés, la tabla RACI y un correo semanal de avance (en español y en inglés) de un proyecto ficticio de automatización.",
    "queEs": "Las personas y áreas que ganan o pierden con un proyecto: saber quiénes son, qué esperan y cómo informarles. En la muestra lo piden 16 de las 39 vacantes.",
    "pasos": [
     {
@@ -6835,7 +7735,71 @@
       "titulo": "¿Cómo Usar una Matriz de Stakeholders Para Mejorar Tu Proyecto?",
       "canal": "marco calle",
       "url": "https://www.youtube.com/watch?v=0hLFyZU7F4k"
-     }
+     },
+     "logro": "ubicar a cada persona en la matriz de poder e interés y saber cómo tratarla.",
+     "idea": {
+      "titulo": "Entiéndelo por cuadrantes",
+      "columnas": [
+       "Cuadrante",
+       "Qué haces con ellos"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Mucho poder y mucho interés",
+        "Gestionarlos de cerca: reuniones y decisiones juntos"
+       ],
+       [
+        "Mucho poder y poco interés",
+        "Mantenerlos satisfechos: resúmenes cortos"
+       ],
+       [
+        "Poco poder y mucho interés",
+        "Mantenerlos informados: avances frecuentes"
+       ],
+       [
+        "Poco poder y poco interés",
+        "Monitorear: información general"
+       ]
+      ]
+     },
+     "mira": "El video explica la matriz de stakeholders con un ejemplo. La guía de Asana (en español) sirve de repaso.",
+     "hazlo": [
+      "Mira el video y lee la guía de Asana.",
+      "Lista las personas y áreas de un proyecto ficticio de automatización.",
+      "Ubícalas en la matriz y escribe qué espera cada una."
+     ],
+     "comprueba": {
+      "texto": "Tu matriz está lista si tiene:",
+      "valores": [
+       [
+        "Personas o áreas",
+        "5 o más"
+       ],
+       [
+        "Cuadrante",
+        "1 por persona"
+       ],
+       [
+        "Qué espera",
+        "escrito"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Olvidar a los usuarios del día a día.",
+       "Tienen poco poder pero mucho interés: si no los escuchas, no adoptan."
+      ],
+      [
+       "Tratar a todos igual.",
+       "Un gerente quiere el resumen; el analista, el detalle."
+      ],
+      [
+       "Hacerla una sola vez.",
+       "Las personas cambian de cuadrante: revísala cada mes."
+      ]
+     ]
     },
     {
      "id": "stakeholders-2",
@@ -6848,7 +7812,71 @@
       "nombre": "Tabla RACI: qué es y cómo usarla",
       "proveedor": "Atlassian (en español)",
       "url": "https://www.atlassian.com/es/work-management/project-management/raci-chart"
-     }
+     },
+     "logro": "dejar claro quién hace, quién aprueba, a quién se consulta y a quién se informa.",
+     "idea": {
+      "titulo": "Entiéndelo con un proyecto ficticio: automatizar la conciliación",
+      "columnas": [
+       "Letra",
+       "Quién es"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "R · Responsable",
+        "Quien hace el trabajo: tú, el implementador"
+       ],
+       [
+        "A · Aprobador",
+        "Quien responde por el resultado: el jefe del área (uno solo)"
+       ],
+       [
+        "C · Consultado",
+        "A quien se le pregunta antes: el equipo de sistemas"
+       ],
+       [
+        "I · Informado",
+        "A quien se le cuenta después: contabilidad"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la guía de Atlassian (en español) explica la tabla RACI con un ejemplo.",
+     "hazlo": [
+      "Lee la guía de Atlassian.",
+      "Lista 5 tareas del proyecto ficticio.",
+      "Haz la tabla RACI: una fila por tarea y una columna por persona o área."
+     ],
+     "comprueba": {
+      "texto": "Tu tabla está bien hecha si:",
+      "valores": [
+       [
+        "Tareas",
+        "5"
+       ],
+       [
+        "A por tarea",
+        "exactamente 1"
+       ],
+       [
+        "R por tarea",
+        "al menos 1"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Dos aprobadores en una tarea.",
+       "Si aprueban dos, ninguno responde: uno solo."
+      ],
+      [
+       "Todos consultados.",
+       "Demasiadas C frenan todo."
+      ],
+      [
+       "No mostrarla.",
+       "La tabla sirve si todos la conocen."
+      ]
+     ]
     },
     {
      "id": "stakeholders-3",
@@ -6863,7 +7891,75 @@
       "nombre": "Reuniones de lanzamiento del proyecto",
       "proveedor": "Atlassian Team Playbook (en español)",
       "url": "https://www.atlassian.com/es/team-playbook/plays/project-kickoff"
-     }
+     },
+     "logro": "preparar una reunión con agenda y cerrarla con acuerdos por escrito.",
+     "idea": {
+      "titulo": "Entiéndelo por momentos",
+      "columnas": [
+       "Momento",
+       "Qué haces"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Antes",
+        "Mandas la agenda con el objetivo y la duración"
+       ],
+       [
+        "Al empezar",
+        "Dices para qué es la reunión y qué se va a decidir"
+       ],
+       [
+        "Durante",
+        "Anotas acuerdos y pendientes, cada uno con responsable"
+       ],
+       [
+        "Después, el mismo día",
+        "Mandas el correo de seguimiento"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la guía de Atlassian sobre reuniones de lanzamiento trae una agenda de ejemplo.",
+     "hazlo": [
+      "Lee la guía de Atlassian.",
+      "Escribe la agenda de la primera reunión del proyecto ficticio (máximo 45 minutos).",
+      "Escribe el correo de seguimiento con la plantilla de abajo."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "Asunto: Acuerdos de la reunión de arranque · [proyecto]\n\nHola a todos:\nGracias por su tiempo hoy. Estos fueron los acuerdos:\n1. [acuerdo] · responsable: [rol] · fecha: [día]\n2. …\nPendientes: [lo que quedó abierto]\nPróxima reunión: [fecha y hora]\nSi algo no quedó como lo entendieron, respondan a este correo antes del [día]."
+     },
+     "comprueba": {
+      "texto": "Tu reunión está lista si tienes:",
+      "valores": [
+       [
+        "Agenda",
+        "objetivo y duración"
+       ],
+       [
+        "Acuerdos",
+        "con responsable y fecha"
+       ],
+       [
+        "Correo",
+        "listo para enviar"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Reunión sin objetivo.",
+       "Si no sabes qué se debe decidir, no la convoques."
+      ],
+      [
+       "Acuerdos sin dueño.",
+       "Lo que no tiene responsable no pasa."
+      ],
+      [
+       "Mandar el resumen días después.",
+       "El mismo día, mientras todos lo recuerdan."
+      ]
+     ]
     },
     {
      "id": "stakeholders-4",
@@ -6878,7 +7974,71 @@
       "modulo": "3-ENG",
       "url": "english.html",
       "texto": "Inglés · pestaña 💼 Professional"
-     }
+     },
+     "logro": "escribir un correo de avance que se lee en un minuto, en español y en inglés.",
+     "idea": {
+      "titulo": "Entiéndelo por partes",
+      "columnas": [
+       "Parte del correo",
+       "Ejemplo (proyecto ficticio)"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Hecho (Done)",
+        "«Terminamos el cruce automático de pagos»"
+       ],
+       [
+        "Sigue (Next)",
+        "«Esta semana lo probamos con datos de un mes»"
+       ],
+       [
+        "Riesgos (Risks)",
+        "«Si los permisos no llegan el jueves, nos corremos una semana»"
+       ],
+       [
+        "Qué necesito (What I need)",
+        "«Que [rol] apruebe el acceso antes del jueves»"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la pestaña Professional de 3-ENG trae frases para correos de avance.",
+     "hazlo": [
+      "Escribe un correo semanal de avance del proyecto ficticio con las 4 partes.",
+      "Escribe su versión en inglés (Done, Next, Risks, What I need).",
+      "Revísalo con la pestaña Professional de 3-ENG."
+     ],
+     "comprueba": {
+      "texto": "Tu correo está listo si tiene:",
+      "valores": [
+       [
+        "Partes",
+        "4"
+       ],
+       [
+        "Versiones",
+        "español e inglés"
+       ],
+       [
+        "Largo",
+        "se lee en 1 minuto"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Esconder los riesgos.",
+       "Un riesgo dicho a tiempo es un plan; dicho tarde, una excusa."
+      ],
+      [
+       "Correos largos.",
+       "Si no se lee en un minuto, no se lee."
+      ],
+      [
+       "Pedir sin fecha.",
+       "«Necesito el acceso» no es lo mismo que «antes del jueves»."
+      ]
+     ]
     }
    ]
   },
