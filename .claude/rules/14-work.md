@@ -22,7 +22,7 @@ implementación de proyectos y optimización de procesos con IA. El plan está *
 | `frontend/js/work-rol.js` | `WorkRol` (24-nov): pinta el mapa del rol. **Solo lee** `data/rol-objetivo.json` y `data/jobs-feed.json`; no escribe en localStorage; sin red usa Cache Storage `work-datos` y lo dice |
 | `frontend/data/rol-objetivo.json` | Muestra fechada (24-nov-2026): 39 vacantes de LinkedIn (Colombia, último mes), 25 habilidades contadas en sus descripciones, estado «en tu perfil» según `YA_TIENE` de `scripts/fetch-jobs.mjs`. Solo datos públicos de vacantes. Se regenera con una muestra nueva (no la toca la foto diaria) |
 | `frontend/js/work-rutas.js` | `WorkRutas` (24-nov): rutas de estudio. Lee `data/rutas.json`; escribe **solo** `work_rutas` y, al pulsar «Empezar», el cuaderno de la ruta vía `WorkNB.ensureNotebook` (id `work_nb_ruta_<ruta>`, páginas con id numérico fijo 8e15 + FNV-1a del paso) |
-| `frontend/data/rutas.json` | 6 rutas, 30 pasos. Comprobar con `node scripts/verificar-rutas.mjs` antes de publicar (habilidades del mapa, ids, enlaces con 200, «gratis» solo donde la fuente lo dice) |
+| `frontend/data/rutas.json` | 25 rutas (una por habilidad del mapa), 108 pasos, 51 videos. Comprobar con `node scripts/verificar-rutas.mjs` antes de publicar: cada habilidad del mapa con ruta, ids, enlaces con 200, cada video con oEmbed de YouTube (título y canal exactos), al menos un video por ruta, «gratis» solo donde la fuente lo dice. Los videos se eligieron por canal, vistas y español; nadie los vio completos |
 | `frontend/css/work.css` | Estilos · acento cyan `#06b6d4` · bloques `.rol-*` (mapa), `.avance-*` y `.ruta-*` (rutas) |
 
 ### `work_rutas` · avance de las rutas (P0)

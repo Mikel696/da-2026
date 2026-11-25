@@ -340,6 +340,12 @@
   ],
   "hecho": [
     {
+      "id": "H9",
+      "modulo": "14-WORK",
+      "fecha": "2026-11-24",
+      "que": "Rutas para las 25 habilidades del mapa (Miguel: «todas las 25, con videos, investiga a fondo»): 108 pasos, 74 recursos con HTTP 200 y 51 videos comprobados con oEmbed de YouTube, enlaces a AI Dojo, 3-ENG, 4-RUT, 8-PRO, 11-ACC y 5-JOB. El radar de 5-JOB marca el rol objetivo solo por el cargo (de 20 marcas, casi todas falsas, a 4)."
+    },
+    {
       "id": "H8",
       "modulo": "14-WORK",
       "fecha": "2026-11-24",

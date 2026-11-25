@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-24 noche (14-WORK: rutas de estudio en producción, cloud-sync p26 · antes: Mapa del rol, primer módulo de O5.5)
+- **Última actualización:** 2026-11-24 noche (14-WORK: rutas para las 25 habilidades con videos; radar de 5-JOB solo por cargo · antes: rutas v1, cloud-sync p26)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,37 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎬 14-WORK · Rutas para las 25 habilidades, con videos — martes 24-nov (noche, 2.ª parte)
+
+Miguel: «quiero que todas las 25 habilidades de Work tengan ruta de aprendizaje, videos etc, no solo las 5 […]
+investiga a fondo, de verdad».
+
+- **Qué hay:** 25 rutas, 108 pasos (`data/rutas.json`). 19 nuevas: n8n/Zapier/Make, low-code, agentes, prompts, ML,
+  SQL, Excel, Power BI, APIs, mapeo de procesos, mejora de procesos, proyectos, gestión del cambio, documentación,
+  stakeholders, indicadores y ROI, ERP, CRM y finanzas. Videos también en las 6 que había.
+- **Cómo se investigó:** 57 búsquedas en YouTube (lector propio de la página pública de resultados) y ~60 recursos
+  probados con `curl`. Criterio: canal reconocido (EDteam, freeCodeCamp Español, MoureDev, DotCSV, Prosci, HubSpot
+  Español, Oxford Online English, Actualícese…), vistas, español primero. Fuera por 403/404 o inestables: Lucidchart, ASQ
+  (Six Sigma, causa raíz y luego DMAIC), Atlassian stakeholders, Asana KPI, British Council. Enlaces con redirección:
+  se guarda la URL final.
+- **Verificación:** `verificar-rutas.mjs` ahora exige ruta para las 25 habilidades y ≥ 1 video por ruta, y compara cada
+  video con oEmbed de YouTube (título y canal exactos): 74 recursos con 200 y 51 videos comprobados el 24-nov. Las
+  habilidades «en tu perfil» llevan una nota: cuentan completas en el % global; su ruta es para repasar y demostrar.
+  Pruebas: lógica 11/11, mapa 21 comprobaciones, sync 28/28.
+- **5-JOB · radar:** la foto del 25-nov (ya con las reglas nuevas, `partial: false`) marcaba 20 vacantes como «rol
+  objetivo», casi todas por la descripción («PR & Events Specialist», «Accountant»). Ahora las señales del rol miran
+  solo el cargo: la misma corrida marca 4, todas del rol (`dc200b2`).
+- **Verificado en producción con su sesión (`dc200b2`):** 25 botones, 0 filas sin ruta, ruta de SQL con nota de perfil,
+  5 pasos y 2 videos; 0 errores al cargar; abrir rutas no escribe nada.
+- **Miguel empezó la ruta de Python** (24-nov 22:52 UTC, después de la limpieza de la verificación): quedó en disco y en
+  la nube pese a las lápidas. Su cuaderno se creó con la plantilla anterior (sin videos) y **no se sobrescribe**: los
+  videos se ven en el panel.
+- **Sin confirmar:** la calidad de cada video (se comprobó que existe, su canal y sus vistas; nadie los vio completos);
+  su celular real. **Pendiente:** que Miguel confirme la lista «ya lo tienes»; rehacer la muestra del mapa cuando tenga
+  más de ~45 días.
 
 ---
 
