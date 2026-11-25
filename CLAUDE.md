@@ -140,7 +140,7 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 | `11-ACC` | `accounting.html` | Accounting Associate |
 | `12-FIN` | `finance.html` | Finanzas Personales — **PRODUCCIÓN** |
 | `13-NOT` | `notes.html` | Notas, Journal, SRS Leitner — **PRODUCCIÓN** |
-| `14-WORK` | `work.html` | 💼 Trabajo · cuadernos + **Mapa del rol** (39 vacantes reales y las habilidades que piden) + **rutas de estudio para las 25 habilidades**, didácticas por estaciones (idea con Excel, video con capítulos, hazlo, compruébalo; 25-nov), cuaderno y % (avance en `work_rutas`) + **centro de mando** (temporada, rango y XP, misiones, disciplinas, logros y actividad; 25-nov) — Coach de trabajo en construcción |
+| `14-WORK` | `work.html` | 💼 Trabajo · cuadernos + **Mapa del rol** (39 vacantes reales y las habilidades que piden) + **rutas de estudio para las 25 habilidades**, didácticas por estaciones (idea con Excel, video con capítulos, hazlo, compruébalo; 25-nov) y certificación de referencia y oficial gratis comprobada, cuaderno y % (avance en `work_rutas`) + **centro de mando** (temporada, rango y XP, misiones, disciplinas, logros y actividad; 25-nov) — Coach de trabajo en construcción |
 | `15-MM` | `mindmap.html` | Mind Map Studio (jsMind + Free Canvas Miro-style) |
 | `16-APA` | `apa.html` | APA Document Studio (Student Paper APA 7 + multi-page preview + Word toolbar) |
 | `17-IA` | `pages/ai-dojo.html` | 🟢 **AI Dojo** — el taller: proyectos multi-IA, misiones, criterio — **PRODUCCIÓN** |

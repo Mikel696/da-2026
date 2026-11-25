@@ -1,6 +1,7 @@
 {
  "version": "2026-11-25",
  "nota": "Rutas de estudio de 14-WORK: una por cada una de las 25 habilidades del mapa. Formato didáctico (25-nov-2026): cada estación trae lo que logras, la idea comparada con algo que ya conoces (Excel o el trabajo), cómo usar el video o el recurso, qué hacer, cómo comprobarlo y los errores típicos. scripts/verificar-rutas.mjs comprueba cada enlace (HTTP 200), cada video con oEmbed de YouTube (título y canal exactos) y ejecuta cada programa de Python y SQL para confirmar la salida que promete. Videos elegidos por canal reconocido, vistas y español primero; nadie los vio completos. Sin duraciones ni «gratis» donde la fuente no lo dice. Los casos y montos de práctica son ficticios; nada interno del trabajo.",
+ "certificacionesNota": "En la foto del radar de 5-JOB del 24-nov-2026, 40 de 955 vacantes (4 %) mencionan alguna certificación; las descripciones vienen recortadas, así que puede ser algo más. En este mercado tu portafolio pesa más que el certificado.",
  "rutas": [
   {
    "id": "python",
@@ -14,6 +15,23 @@
     "Traer datos de un sistema por su API, como la TRM, y dejarlos en una hoja."
    ],
    "portafolio": "Dos programas que puedes enseñar en una entrevista: uno que une varios Excel y marca las filas con huecos, y otro que trae la TRM del día desde datos.gov.co.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "PCEP · Certified Entry-Level Python Programmer",
+     "emisor": "Python Institute (OpenEDG)",
+     "url": "https://pythoninstitute.org/pcep",
+     "costo": "Examen pago: se compra un vale en su página."
+    },
+    "gratis": null,
+    "camino": {
+     "texto": "No hay una certificación oficial de Python gratis. Lo más cercano: Python Essentials 1, el curso oficial y gratis del Python Institute que prepara el PCEP (no da certificación).",
+     "url": "https://pythoninstitute.org/python-essentials-1",
+     "evidencia": [
+      "Enroll for the course for free"
+     ]
+    }
+   },
    "queEs": "Un lenguaje de programación sencillo de leer. En estos puestos se usa para limpiar datos, unir archivos, conectar sistemas por API y automatizar tareas que hoy se hacen a mano en Excel.",
    "pasos": [
     {
@@ -515,6 +533,25 @@
     "Revisar una tabla y señalar lo que se ve raro, para que tú lo compruebes."
    ],
    "portafolio": "Tu plantilla de encargo y un caso ficticio de un proceso antes y después de la IA, con el tiempo medido y quién revisa qué.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "Microsoft Certified: Azure AI Fundamentals",
+     "emisor": "Microsoft",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/",
+     "costo": "Examen pago; el precio depende del país."
+    },
+    "gratis": {
+     "nombre": "AI Fluency: Framework & Foundations",
+     "emisor": "Anthropic",
+     "url": "https://anthropic.skilljar.com/ai-fluency-framework-foundations",
+     "tipo": "certificado de finalización de un curso oficial",
+     "evidencia": [
+      "Register | FREE",
+      "certificate of completion"
+     ]
+    }
+   },
    "queEs": "Herramientas como ChatGPT, Claude o Copilot que escriben, resumen y analizan a partir de un encargo en lenguaje natural. En estos puestos se pide saber encargarles bien, comprobar lo que producen y meterlas en un proceso de la empresa.",
    "pasos": [
     {
@@ -928,6 +965,26 @@
     "Definir desde el principio cómo se sabrá que la solución funcionó."
    ],
    "portafolio": "Un documento de una página para un caso ficticio (conciliar los pagos de una tienda en línea): objetivo, alcance, requerimientos, historias y cómo se medirá.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "ECBA · Entry Certificate in Business Analysis",
+     "emisor": "IIBA",
+     "url": "https://www.iiba.org/business-analysis-certifications/ecba/",
+     "costo": "USD 196 a 356 según el paquete y la membresía (precios de rebaja de su página, 25-nov-2026).",
+     "evidencia": [
+      "$196"
+     ]
+    },
+    "gratis": null,
+    "camino": {
+     "texto": "No hay una certificación oficial gratis. IIBA ofrece gratis algunos módulos de su preparación (ECBA Accelerator).",
+     "url": "https://www.iiba.org/business-analysis-certifications/ecba/",
+     "evidencia": [
+      "Free modules"
+     ]
+    }
+   },
    "queEs": "Entender qué necesita el área o el cliente antes de construir: preguntar, observar el proceso, escribir lo que se va a hacer y cómo se sabrá que funcionó. Es la primera fase de toda implementación.",
    "pasos": [
     {
@@ -1371,6 +1428,20 @@
     "Repetir clics en programas del PC que no tienen otra forma de conectarse."
    ],
    "portafolio": "Un flujo de escritorio que ordena archivos por mes y el diseño de una aprobación de gastos ficticia, con lo que pasa si se rechaza.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "Microsoft Certified: Power Platform Functional Consultant Associate",
+     "emisor": "Microsoft",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/power-platform-functional-consultant-associate/",
+     "costo": "Examen pago; el precio depende del país."
+    },
+    "gratis": null,
+    "camino": {
+     "texto": "La credencial oficial Microsoft Applied Skills «Create and manage automated processes by using Power Automate» se gana con un laboratorio práctico. Microsoft no publica su precio en la página (25-nov-2026) y las guías no coinciden en si es gratis: compruébalo al entrar.",
+     "url": "https://learn.microsoft.com/en-us/credentials/applied-skills/create-and-manage-automated-processes-with-power-automate/"
+    }
+   },
    "queEs": "La herramienta de Microsoft para automatizar sin programar: flujos en la nube (correos, aprobaciones, archivos) y flujos de escritorio que repiten clics en el PC. La versión de escritorio funciona en Windows 10 y 11 con una cuenta Microsoft (según los requisitos que publica Microsoft).",
    "pasos": [
     {
@@ -1790,6 +1861,26 @@
     "Descargar reportes de un portal a la misma hora cada mañana."
    ],
    "portafolio": "Un robot de punta a punta (correos de prueba → montos → Excel) con su documentación y el tiempo medido antes y después.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "UiPath Certified Professional · Automation Developer Associate",
+     "emisor": "UiPath",
+     "url": "https://www.uipath.com/learning/certification/faqs",
+     "costo": "USD 150 más impuestos por intento (página de preguntas frecuentes de UiPath).",
+     "evidencia": [
+      "US$150 plus tax per attempt"
+     ]
+    },
+    "gratis": null,
+    "camino": {
+     "texto": "No encontré una certificación oficial de RPA gratis para todos. Automation Anywhere University da la formación gratis. En su foro dicen que la certificación Essentials es gratis para estudiantes universitarios: no está en una página oficial, así que pregúntalo al registrarte con tu correo de la CUN.",
+     "url": "https://university.automationanywhere.com/faq",
+     "evidencia": [
+      "offers free, online training"
+     ]
+    }
+   },
    "queEs": "Robots de software que usan las aplicaciones como lo haría una persona: abren pantallas, copian, pegan y llenan formularios. Sirven cuando un sistema no tiene API. UiPath y Automation Anywhere aparecen en vacantes de la muestra.",
    "pasos": [
     {
@@ -2211,6 +2302,25 @@
     "Entender una reunión y pedir que repitan sin pena."
    ],
    "portafolio": "Tu respuesta a «Tell me about yourself» y un argumento de un minuto, en inglés, sobre una de tus automatizaciones de práctica, con tus números medidos.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "IELTS",
+     "emisor": "British Council, IDP y Cambridge",
+     "url": "https://www.ielts.org/",
+     "costo": "Pago; lo cobra el centro que aplica el examen."
+    },
+    "gratis": {
+     "nombre": "EF SET Certificate",
+     "emisor": "EF Education First",
+     "url": "https://www.efset.org/",
+     "tipo": "certificado con nivel del Marco Común Europeo (MCER)",
+     "evidencia": [
+      "free certification"
+     ],
+     "nota": "Sirve para tu CV y LinkedIn; no reemplaza a IELTS o TOEFL cuando una empresa los exige."
+    }
+   },
    "queEs": "26 de las 39 vacantes lo piden o están escritas en inglés. Para este rol cuenta sobre todo hablar con clientes, escribir documentos y defender una propuesta en una entrevista.",
    "pasos": [
     {
@@ -2651,6 +2761,20 @@
     "Guardar los adjuntos de ciertos correos en una carpeta."
    ],
    "portafolio": "Un flujo que trae la TRM cada mañana a una hoja, hecho en n8n y en Make, con un aviso cuando la API falla.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": null,
+    "referenciaNota": "No encontré una certificación oficial de n8n ni de Zapier.",
+    "gratis": {
+     "nombre": "Insignias de Make Academy",
+     "emisor": "Make",
+     "url": "https://academy.make.com/",
+     "tipo": "insignias oficiales de Make",
+     "evidencia": [
+      "100% free"
+     ]
+    }
+   },
    "queEs": "Herramientas para conectar aplicaciones y automatizar tareas uniendo bloques: cuando llega un correo, guarda el adjunto; cuando entra un formulario, crea una fila y avisa. Zapier y Make funcionan en la nube; n8n también se puede instalar en un equipo propio.",
    "pasos": [
     {
@@ -2995,6 +3119,23 @@
     "Darle a un área una herramienta en días, no en meses."
    ],
    "portafolio": "Una app de registro de gastos ficticios sobre una tabla de Excel, con su ficha: quién la usa, quién la mantiene y qué pasa si falla.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "OutSystems Associate Developer",
+     "emisor": "OutSystems",
+     "url": "https://www.outsystems.com/certifications/",
+     "costo": "USD 100 a 200 según el examen (su página, 25-nov-2026).",
+     "evidencia": [
+      "$100 US"
+     ]
+    },
+    "gratis": null,
+    "camino": {
+     "texto": "La credencial oficial Microsoft Applied Skills «Create and manage canvas apps with Power Apps» se gana con un laboratorio práctico. Microsoft no publica su precio en la página (25-nov-2026): compruébalo al entrar.",
+     "url": "https://learn.microsoft.com/en-us/credentials/applied-skills/create-manage-canvas-apps-power-apps/"
+    }
+   },
    "queEs": "Construir aplicaciones sencillas (formularios, registros, aprobaciones) con piezas visuales y poco o nada de código, para que un área resuelva un proceso sin un desarrollo largo.",
    "pasos": [
     {
@@ -3341,6 +3482,24 @@
     "Encadenar varias IA: una escribe y otra revisa."
    ],
    "portafolio": "Un agente de práctica en n8n que clasifica correos ficticios, con el punto donde aprueba una persona y la lista de datos que nunca debe ver.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "Microsoft Certified: AI Agent Builder Associate",
+     "emisor": "Microsoft",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/ai-agent-builder-associate/",
+     "costo": "Examen pago; el precio depende del país."
+    },
+    "gratis": {
+     "nombre": "Certificado del AI Agents Course",
+     "emisor": "Hugging Face",
+     "url": "https://huggingface.co/learn/agents-course/unit0/introduction",
+     "tipo": "certificado de un curso oficial",
+     "evidencia": [
+      "The certification process is completely free"
+     ]
+    }
+   },
    "queEs": "Un agente es una IA que no solo responde: sigue pasos, usa herramientas (buscar, leer un archivo, llamar a una API) y decide qué hacer después. Un chatbot es la versión que conversa con clientes o empleados.",
    "pasos": [
     {
@@ -3689,6 +3848,21 @@
     "Guardar los encargos que funcionan para repetirlos cada semana."
    ],
    "portafolio": "Tu biblioteca de 5 encargos de trabajo en el Prompt Lab, cada uno con un ejemplo de buen resultado.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": null,
+    "referenciaNota": "No hay una certificación de prompts que reconozcan los empleadores: lo que se ve son certificados de cursos.",
+    "gratis": {
+     "nombre": "Claude 101",
+     "emisor": "Anthropic",
+     "url": "https://anthropic.skilljar.com/claude-101",
+     "tipo": "certificado de finalización de un curso oficial",
+     "evidencia": [
+      "Register | FREE",
+      "certificate of completion"
+     ]
+    }
+   },
    "queEs": "Un prompt es el encargo que le escribes a una IA. Con contexto, formato, ejemplos y un criterio de éxito, el resultado es más útil y más fácil de comprobar.",
    "pasos": [
     {
@@ -4018,6 +4192,23 @@
     "Agrupar movimientos parecidos para revisarlos juntos."
    ],
    "portafolio": "Un modelo de práctica con su error medido en datos que no vio, y una nota de cuándo bastaría una regla simple.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "Google Cloud Professional Machine Learning Engineer",
+     "emisor": "Google Cloud",
+     "url": "https://cloud.google.com/learn/certification/machine-learning-engineer",
+     "costo": "Examen pago."
+    },
+    "gratis": null,
+    "camino": {
+     "texto": "No encontré una certificación oficial de machine learning gratis. Lo más cercano: Building AI, curso gratis de la Universidad de Helsinki y MinnaLearn. Lo pide 1 de las 39 vacantes: no es prioridad.",
+     "url": "https://www.elementsofai.com/",
+     "evidencia": [
+      "Building AI is a free online course"
+     ]
+    }
+   },
    "queEs": "Que un programa aprenda patrones a partir de datos para predecir o clasificar, por ejemplo qué transacción parece sospechosa. En la muestra lo pide 1 de las 39 vacantes.",
    "pasos": [
     {
@@ -4365,6 +4556,15 @@
     "Calcular saldos acumulados por cliente sin arrastrar fórmulas."
    ],
    "portafolio": "Una consulta a la API pública de la TRM explicada paso a paso, más tus consultas de práctica con pagos ficticios: muestran que sabes filtrar, agrupar y unir tablas.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": null,
+    "referenciaNota": "No encontré una certificación de SQL que sea la de referencia para este rol; demuéstralo con consultas en tu portafolio.",
+    "gratis": null,
+    "camino": {
+     "texto": "SQLBolt y el curso Intro to SQL de Kaggle son gratis, pero no dan una certificación oficial."
+    }
+   },
    "queEs": "El lenguaje para pedirle datos a una base de datos: filtrar, unir tablas y resumir. Es la forma más común de sacar información de los sistemas de una empresa.",
    "pasos": [
     {
@@ -4813,6 +5013,19 @@
     "Detectar qué parte de un reporte semanal se repite y conviene automatizar."
    ],
    "portafolio": "Un libro de Excel con datos ficticios que cruza dos listas con BUSCARX, las resume con una tabla dinámica y explica qué parte automatizarías.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "Microsoft Office Specialist: Excel Associate (Microsoft 365 Apps)",
+     "emisor": "Microsoft (la aplica Certiport)",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/mos-excel-associate-m365-apps/",
+     "costo": "Examen pago, a través de Certiport."
+    },
+    "gratis": null,
+    "camino": {
+     "texto": "No hay una certificación oficial de Excel gratis."
+    }
+   },
    "queEs": "La herramienta donde viven muchos procesos antes de automatizarlos: cruzar tablas, resumir y revisar datos.",
    "pasos": [
     {
@@ -5261,6 +5474,22 @@
     "Comparar este mes contra el anterior con una medida que se recalcula sola."
    ],
    "portafolio": "Un reporte de una página con datos públicos de datos.gov.co: 3 visuales, una medida DAX de variación y una nota de qué pregunta responde y para quién.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "Microsoft Certified: Power BI Data Analyst Associate (PL-300)",
+     "emisor": "Microsoft",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/data-analyst-associate/",
+     "costo": "Examen pago; el precio depende del país. Renovarla cada año es gratis.",
+     "evidencia": [
+      "renew your certification at no cost"
+     ]
+    },
+    "gratis": null,
+    "camino": {
+     "texto": "No hay una certificación oficial de Power BI gratis. Microsoft a veces regala vales de examen en campañas; al 25-nov-2026 no encontré una activa."
+    }
+   },
    "queEs": "Tableros que se actualizan a partir de los datos, para que un área vea sus indicadores sin pedir reportes a mano.",
    "pasos": [
     {
@@ -5602,6 +5831,31 @@
     "Entender qué quiere decir un error 401 o 404 cuando una integración falla."
    ],
    "portafolio": "Una colección de Postman con consultas a la API de la TRM y la misma integración funcionando en n8n o en Python.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "Postman API Fundamentals Student Expert",
+     "emisor": "Postman",
+     "url": "https://blog.postman.com/postman-student-programs-certification-update/",
+     "costo": "El curso es gratis, pero desde marzo de 2026 la práctica final que da la insignia exige un plan pago de Postman (aviso en su comunidad)."
+    },
+    "aviso": {
+     "url": "https://community.postman.com/t/will-i-receive-the-badge/89238.md",
+     "evidencia": [
+      "If you are on a non-Free version, you will be able to claim the badge"
+     ]
+    },
+    "gratis": {
+     "nombre": "Automation Pro I",
+     "emisor": "Workato",
+     "url": "https://www.workato.com/the-connector/automation-institute/",
+     "tipo": "certificado oficial de una plataforma de integración",
+     "evidencia": [
+      "are free"
+     ],
+     "nota": "Lo dice un artículo de Workato de 2020: comprueba que siga gratis al registrarte."
+    }
+   },
    "queEs": "Una API es la puerta por la que un sistema le pide datos o acciones a otro. Integrar es conectar esas puertas para que la información pase sola, sin copiar y pegar.",
    "pasos": [
     {
@@ -5957,6 +6211,25 @@
     "Mostrar en una página el antes y el después de una automatización."
    ],
    "portafolio": "Dos diagramas BPMN de un proceso ficticio de conciliación (hoy y propuesto), con el tiempo de cada uno y el cambio explicado en 5 líneas.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "OCEB 2 · OMG Certified Expert in BPM",
+     "emisor": "Object Management Group (la organización que publica BPMN)",
+     "url": "https://www.omg.org/oceb-2/",
+     "costo": "Examen pago."
+    },
+    "gratis": {
+     "nombre": "Celonis Foundations",
+     "emisor": "Celonis",
+     "url": "https://www.credly.com/org/celonis/badge/celonis-foundations",
+     "tipo": "insignia oficial de minería de procesos",
+     "evidencia": [
+      "Cost Free"
+     ],
+     "nota": "Es de minería de procesos: descubrir el proceso real a partir de los datos. Complementa el BPMN."
+    }
+   },
    "queEs": "Dibujar un proceso paso a paso, con quién hace qué, para verlo completo antes de cambiarlo. BPMN es la notación estándar; AS-IS es como funciona hoy y TO-BE como funcionará.",
    "pasos": [
     {
@@ -6307,6 +6580,25 @@
     "Demostrar con una medición que la mejora se sostiene."
    ],
    "portafolio": "Un proyecto DMAIC de una página para reducir errores en una conciliación ficticia, con su causa raíz y la medición del antes y el después.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "ASQ Certified Six Sigma Green Belt",
+     "emisor": "ASQ",
+     "url": "https://www.asq.org/cert/six-sigma-green-belt",
+     "costo": "Examen pago."
+    },
+    "gratis": {
+     "nombre": "Six Sigma White Belt",
+     "emisor": "The Council for Six Sigma Certification (CSSC)",
+     "url": "https://www.sixsigmacouncil.org/six-sigma-white-belt-certification/",
+     "tipo": "certificación con examen",
+     "evidencia": [
+      "Exam Cost $0"
+     ],
+     "nota": "Es el nivel de entrada; la Green Belt es un nivel más alto."
+    }
+   },
    "queEs": "Métodos para hacer un proceso más rápido y con menos errores: Lean busca quitar lo que no agrega valor; Six Sigma, reducir la variación con datos, siguiendo las fases DMAIC.",
    "pasos": [
     {
@@ -6660,6 +6952,28 @@
     "Medir cuánto tarda el trabajo y dónde se atasca."
    ],
    "portafolio": "Un tablero Kanban de tus rutas de estudio con límite de trabajo en curso, y dos métricas de un proyecto ficticio de automatización.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "Professional Scrum Master I (PSM I)",
+     "emisor": "Scrum.org",
+     "url": "https://www.scrum.org/assessments/professional-scrum-master-i-certification",
+     "costo": "USD 200 por intento.",
+     "evidencia": [
+      "The cost of the PSM I test is $200 USD per attempt"
+     ]
+    },
+    "gratis": {
+     "nombre": "Scrum Fundamentals Certified (SFC)",
+     "emisor": "SCRUMstudy",
+     "url": "https://www.scrumstudy.com/certification/scrum-fundamentals-certified",
+     "tipo": "certificación con examen",
+     "evidencia": [
+      "Free Primary Lifetime Membership"
+     ],
+     "nota": "SCRUMstudy no es Scrum.org: son certificaciones distintas."
+    }
+   },
    "queEs": "Organizar el trabajo para entregar a tiempo: Scrum trabaja en ciclos cortos con roles y reuniones fijas; Kanban muestra el trabajo en un tablero y limita lo que se hace a la vez.",
    "pasos": [
     {
@@ -7014,6 +7328,19 @@
     "Medir si el cambio se quedó o la gente volvió al Excel."
    ],
    "portafolio": "Un plan de adopción para una herramienta ficticia: ADKAR por grupo, mensaje de urgencia, una capacitación de 20 minutos y 3 señales de uso a los 30 días.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "Prosci Certification Program",
+     "emisor": "Prosci",
+     "url": "https://www.prosci.com/training",
+     "costo": "Pago; es un programa con instructor."
+    },
+    "gratis": null,
+    "camino": {
+     "texto": "No encontré una certificación oficial de gestión del cambio gratis."
+    }
+   },
    "queEs": "Lograr que la gente adopte de verdad una herramienta o un proceso nuevo: entender qué necesita cada persona para cambiar, comunicarlo y capacitar.",
    "pasos": [
     {
@@ -7366,6 +7693,15 @@
     "Revisar un proceso: al escribirlo aparecen los pasos que nadie tenía claros."
    ],
    "portafolio": "Un procedimiento paso a paso y la ficha de una automatización de práctica, escritos con frases cortas y voz activa.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": null,
+    "referenciaNota": "No encontré una certificación de documentación que pidan estas vacantes.",
+    "gratis": null,
+    "camino": {
+     "texto": "El curso Technical Writing de Google (en la estación 3) es gratis."
+    }
+   },
    "queEs": "Dejar por escrito cómo funciona un proceso o una automatización para que otra persona lo pueda usar, revisar o mantener sin depender de quien lo hizo.",
    "pasos": [
     {
@@ -7715,6 +8051,15 @@
     "Escribir correos de avance que la gente sí lee."
    ],
    "portafolio": "La matriz de poder e interés, la tabla RACI y un correo semanal de avance (en español y en inglés) de un proyecto ficticio de automatización.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": null,
+    "referenciaNota": "No hay una certificación solo de stakeholders: se evalúa dentro de las de proyectos.",
+    "gratis": null,
+    "camino": {
+     "texto": "Mira la ruta de Gestión de proyectos y su certificación gratis (Scrum Fundamentals Certified)."
+    }
+   },
    "queEs": "Las personas y áreas que ganan o pierden con un proyecto: saber quiénes son, qué esperan y cómo informarles. En la muestra lo piden 16 de las 39 vacantes.",
    "pasos": [
     {
@@ -8054,6 +8399,15 @@
     "Decidir si un proyecto vale la pena antes de hacerlo."
    ],
    "portafolio": "Tres indicadores de un proceso ficticio de pagos, con fórmula, meta y fuente, en un tablero; y el cálculo del ROI de una automatización.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": null,
+    "referenciaNota": "No encontré una certificación de indicadores o ROI que reconozcan los empleadores.",
+    "gratis": null,
+    "camino": {
+     "texto": "Demuéstralo en tu portafolio: un tablero con tus 3 indicadores y el cálculo del ROI de esta ruta."
+    }
+   },
    "queEs": "Medir si algo funcionó: un indicador (KPI) dice cómo va un proceso; el retorno de la inversión (ROI) compara lo que costó un cambio con lo que ahorra o produce.",
    "pasos": [
     {
@@ -8407,6 +8761,19 @@
     "Definir qué datos le pasa el ERP a otro sistema, en qué formato y cada cuánto."
    ],
    "portafolio": "El recorrido de una compra en Odoo (pedido, recepción, factura y asiento) y las fases de implementación de un ERP para una empresa ficticia.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "SAP Certified Associate",
+     "emisor": "SAP",
+     "url": "https://learning.sap.com/certification",
+     "costo": "Examen pago."
+    },
+    "gratis": null,
+    "camino": {
+     "texto": "No encontré una certificación oficial de ERP gratis que pudiera confirmar en una página oficial."
+    }
+   },
    "queEs": "El sistema central donde una empresa lleva contabilidad, compras, inventario y facturación. En la muestra lo piden 6 de las 39 vacantes.",
    "pasos": [
     {
@@ -8759,6 +9126,26 @@
     "Automatizar lo que pasa cuando se gana un negocio: la factura y el aviso a finanzas."
    ],
    "portafolio": "Una cuenta de práctica de HubSpot con contactos y negocios ficticios, y el diseño de la automatización «negocio ganado → factura → aviso a finanzas».",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "Salesforce Certified Platform Foundations",
+     "emisor": "Salesforce",
+     "url": "https://trailhead.salesforce.com/credentials/associate",
+     "costo": "Examen pago."
+    },
+    "gratis": {
+     "nombre": "HubSpot Sales Software Certification",
+     "emisor": "HubSpot",
+     "url": "https://academy.hubspot.com/courses/hubspot-sales-hub-software",
+     "tipo": "certificación oficial",
+     "evidencia": [
+      "FREE Certification Course"
+     ],
+     "comprobadoEnNavegador": "2026-11-25",
+     "nota": "La página se arma en el navegador: se comprobó a mano el 25-nov-2026."
+    }
+   },
    "queEs": "El sistema donde una empresa registra a sus clientes y sus oportunidades de venta. En la muestra lo piden 4 de las 39 vacantes.",
    "pasos": [
     {
@@ -9106,6 +9493,19 @@
     "Automatizar el cruce para dedicar el tiempo a las diferencias."
    ],
    "portafolio": "Un caso de conciliación con datos ficticios resuelto en Excel y en Python, con el tiempo antes y después y sin nada de tu empleo.",
+   "certificacion": {
+    "revisado": "2026-11-25",
+    "referencia": {
+     "nombre": "Microsoft Office Specialist: Excel for Accounting Associate",
+     "emisor": "Microsoft (la aplica Certiport)",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/mos-excel-for-accounting-associate/",
+     "costo": "Examen pago, a través de Certiport."
+    },
+    "gratis": null,
+    "camino": {
+     "texto": "No encontré una certificación oficial gratis de conciliaciones o contabilidad."
+    }
+   },
    "queEs": "Conciliar es comprobar que dos registros del mismo dinero coinciden (el banco y la contabilidad, una pasarela de pagos y las ventas) y explicar las diferencias. En la muestra lo piden 8 de las 39 vacantes.",
    "pasos": [
     {

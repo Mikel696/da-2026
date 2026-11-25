@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-25 (14-WORK: centro de mando en lugar del panel de juego · antes: las 25 rutas en formato didáctico)
+- **Última actualización:** 2026-11-25 (14-WORK: certificación de referencia y oficial gratis en las 25 rutas · antes: centro de mando)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,33 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🏅 14-WORK · Certificaciones en las 25 rutas — miércoles 25-nov
+
+Miguel: «para cada habilidad, por lo menos una certificación oficial, la más importante, gratis, todo respaldado por
+estudios; ir más allá de lo común». Análisis profundo: **HACER DISTINTO**.
+
+- **Lo medido primero:** en la foto del radar de 5-JOB (24-nov, 955 vacantes, descripciones a menudo recortadas a 900
+  caracteres) solo **40 mencionan alguna certificación (4 %)**, y 1 de las 62 con título del rol. «La más importante» no
+  se puede medir por demanda: la vista dice que «de referencia» = la del dueño de la herramienta o del estándar.
+- **Resultado:** 19 de 25 rutas con certificación de referencia (6 sin una reconocida: n8n/Zapier, prompts, SQL,
+  documentación, stakeholders, indicadores — lo dicen); **10 de 25 con una oficial gratis comprobada**: EF SET (inglés),
+  Insignias de Make Academy (n8n), Hugging Face AI Agents Course (agentes), Anthropic Claude 101 (prompts) y AI Fluency
+  (IA generativa), Workato Automation Pro I (APIs; artículo de 2020), Celonis Foundations (mapeo), CSSC Six Sigma White
+  Belt (mejora), SCRUMstudy SFC (proyectos), HubSpot Sales Software (CRM, comprobada a mano en su Chrome porque la página
+  se arma en el navegador). Las otras 15 dicen que no la hay y cuál es lo más cercano.
+- **Lo que pocos saben (y lo que cambió):** el catálogo de Microsoft (API de Learn, 25-nov) trae «AI Agent Builder
+  Associate» y «Excel for Accounting Associate»; Applied Skills de Power Automate y Power Apps existen pero Microsoft no
+  publica su precio (guías contradictorias: no se dice «gratis»); **Postman dejó de ser gratis en la práctica** (aviso de
+  su comunidad, 10-mar-2026: la entrega final exige plan pago); Automation Anywhere Essentials gratis para estudiantes
+  solo lo dice su foro (se muestra así).
+- **Verificador:** cada `gratis`, precio y aviso lleva la frase de la página oficial que lo prueba; el verificador abre
+  la página y la busca (21 frases). Roto a propósito: detecta una «gratis» inventada y un precio sin prueba.
+- **Contraparte (CORREGIR, aplicado):** «de referencia» no es «la más pedida» (se dice en la vista); Make da insignias, no
+  «certificaciones»; dos rankings sin medir quitados.
+- **Ojo:** Investopedia respondió 403 a ratos en el verificador (bloqueo de robots); pasó en la corrida siguiente.
 
 ---
 

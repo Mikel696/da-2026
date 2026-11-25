@@ -340,6 +340,12 @@
   ],
   "hecho": [
     {
+      "id": "H13",
+      "modulo": "14-WORK",
+      "fecha": "2026-11-25",
+      "que": "Certificaciones en las 25 rutas (Miguel: «una oficial, la más importante, gratis, respaldada»): 19 con certificación de referencia (la del dueño de la herramienta o del estándar) y 10 con una oficial gratis comprobada en su página (EF SET, Make, Hugging Face, Anthropic, Workato, Celonis, CSSC, SCRUMstudy, HubSpot); las otras 15 dicen que no la hay. Medido: solo 40 de 955 vacantes del radar mencionan certificaciones. El verificador busca en cada página oficial la frase que prueba cada «gratis» y cada precio."
+    },
+    {
       "id": "H12",
       "modulo": "14-WORK",
       "fecha": "2026-11-25",

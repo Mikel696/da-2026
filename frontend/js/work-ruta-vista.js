@@ -105,6 +105,32 @@ const WorkRutaVista = (function(){
       </article>`;
   }
 
+  /* Certificación (25-nov): la de referencia y la oficial gratis, o lo que hay cuando no existe. Cada «gratis» y cada
+     precio se comprobó en la página del emisor (scripts/verificar-rutas.mjs). */
+  const MES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  const fechaCorta = iso => { const [a, m, d] = (iso || '').split('-').map(Number); return a ? `${d}-${MES[m - 1]}-${a}` : ''; };
+  const enlace = (url, txt) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(txt)}</a>`;
+  function cert(r, R){
+    const c = r.certificacion;
+    if (!c) return '';
+    const ref = c.referencia, g = c.gratis, k = c.camino;
+    const nota = ((R.datos() || {}).d || {}).certificacionesNota;
+    const izq = ref
+      ? `<p class="rv-cert-n">${enlace(ref.url, ref.nombre)}</p><p class="rv-cert-e">${esc(ref.emisor)}</p><p class="rv-cert-c">${esc(ref.costo)}</p>`
+      : `<p class="rv-cert-c">${esc(c.referenciaNota)}</p>`;
+    const der = g
+      ? `<p class="rv-cert-n">${enlace(g.url, g.nombre)}</p><p class="rv-cert-e">${esc(g.emisor)} · ${esc(g.tipo)}</p>${g.nota ? `<p class="rv-cert-c">${esc(g.nota)}</p>` : ''}`
+      : `<p class="rv-cert-c">${esc(k && k.texto)}</p>${k && k.url ? `<p class="rv-cert-c">${enlace(k.url, 'Ver la opción más cercana')}</p>` : ''}`;
+    return `<section class="rv-cert" aria-labelledby="rv-c-${esc(r.id)}">
+        <h4 id="rv-c-${esc(r.id)}">Certificación</h4>
+        <div class="rv-cert-fila">
+          <article class="rv-cert-b"><p class="rv-cert-k">La de referencia</p>${izq}</article>
+          <article class="rv-cert-b${g ? ' ok' : ''}"><p class="rv-cert-k">${g ? 'La oficial gratis' : 'Oficial y gratis: no la hay'}</p>${der}</article>
+        </div>
+        <p class="rv-cert-pie">«De referencia» quiere decir que la emite el dueño de la herramienta o del estándar; no está medida como la más pedida. Revisado el ${esc(fechaCorta(c.revisado))} en la página de cada emisor; los precios cambian por país y por fecha.${nota ? ' ' + esc(nota) : ''}</p>
+      </section>`;
+  }
+
   function html(r, c, D, sel, R){
     const color = COLOR[r.disciplina] || '#06b6d4';
     const idSel = elegida(r, sel, R);
@@ -152,6 +178,7 @@ const WorkRutaVista = (function(){
         <div class="rv-fila">${idea(p)}${mira(p)}</div>
         <div class="rv-fila">${hazlo(r, p, R)}${comprueba(r, p, R, sig, i < n - 1 ? r.pasos[i + 1].id : '')}</div>
       </section>
+      ${cert(r, R)}
       <div class="rv-fin">
         <div><h4>Lo que te llevas al portafolio</h4><p>${esc(r.portafolio)}</p></div>
         <div class="rv-fin-acc">${nb

@@ -120,6 +120,44 @@ for (const { donde, codigo, c } of programas) {
   else corridos++;
 }
 
+// Certificaciones (25-nov): cada ruta dice cuál es la de referencia (o por qué no hay) y cuál es la oficial gratis (o
+// que no la hay y qué es lo más cercano). «Gratis», un precio o un aviso solo se publican si la frase que lo prueba está
+// en la página oficial, que se abre aquí. Una página que se arma en el navegador lleva la fecha en que se comprobó a mano.
+const pruebas = [];   // {donde, url, frases}
+const fecha = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s || '');
+for (const r of rutas.rutas || []) {
+  const c = r.certificacion, donde = `${r.id} › certificación`;
+  if (!c || !fecha(c.revisado)) { mal(`${donde}: falta, o no tiene fecha de revisión`); continue; }
+  if (c.referencia) {
+    const x = c.referencia;
+    if (!texto(x.nombre) || !texto(x.emisor) || !texto(x.costo) || !/^https:\/\//.test(x.url || '')) mal(`${donde}: la de referencia está incompleta`);
+    else { externos.set(x.url, donde); if (x.evidencia) pruebas.push({ donde: donde + ' (costo)', url: x.url, frases: x.evidencia }); }
+    if (/\$|USD|EUR|€/.test(x.costo) && !x.evidencia) mal(`${donde}: el costo trae una cifra sin la frase de su página que la prueba`);
+  } else if (!texto(c.referenciaNota)) mal(`${donde}: no hay referencia y no dice por qué`);
+  if (c.gratis) {
+    const g = c.gratis;
+    if (!texto(g.nombre) || !texto(g.emisor) || !texto(g.tipo) || !/^https:\/\//.test(g.url || '') || !Array.isArray(g.evidencia) || !g.evidencia.every(texto)) mal(`${donde}: la gratis está incompleta o sin evidencia`);
+    else {
+      externos.set(g.url, donde);
+      if (g.comprobadoEnNavegador) { if (!fecha(g.comprobadoEnNavegador)) mal(`${donde}: comprobadoEnNavegador sin fecha válida`); }
+      else pruebas.push({ donde: donde + ' (gratis)', url: g.url, frases: g.evidencia });
+    }
+  } else if (!c.camino || !texto(c.camino.texto)) mal(`${donde}: no hay gratis y no dice qué es lo más cercano`);
+  if (c.camino && c.camino.url) { externos.set(c.camino.url, donde); if (c.camino.evidencia) pruebas.push({ donde: donde + ' (camino)', url: c.camino.url, frases: c.camino.evidencia }); }
+  if (c.aviso) { externos.set(c.aviso.url, donde); pruebas.push({ donde: donde + ' (aviso)', url: c.aviso.url, frases: c.aviso.evidencia }); }
+}
+const plano = (h) => h.replace(/<[^>]+>/g, ' ').replace(/&nbsp;|&#160;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'")
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&trade;/g, '™').replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n)).replace(/\s+/g, ' ').toLowerCase();
+let frasesOk = 0;
+await Promise.all(pruebas.map(async (p) => {
+  try {
+    const r = await fetch(p.url, { redirect: 'follow', headers: { 'User-Agent': 'Mozilla/5.0 (compatible; da-2026-verificador/1.0)' }, signal: AbortSignal.timeout(30000) });
+    const t = plano(await r.text());
+    const faltan = p.frases.filter((f) => !t.includes(f.toLowerCase().replace(/\s+/g, ' ')));
+    if (faltan.length) mal(`${p.donde}: la página ya no dice «${faltan.join('», «')}» (${p.url})`); else frasesOk += p.frases.length;
+  } catch (e) { mal(`${p.donde}: no se pudo abrir ${p.url} (${e.message})`); }
+}));
+
 // Las 25 habilidades del mapa tienen ruta (pedido de Miguel, 24-nov) y cada ruta trae al menos un video.
 for (const c of rol.competencias) if (!(rutas.rutas || []).some((r) => r.competencia === c.nombre)) mal(`la habilidad «${c.nombre}» no tiene ruta`);
 const videos = new Map();   // url → {titulo, canal, donde}
@@ -159,4 +197,4 @@ await Promise.all([...externos].map(async ([u, donde]) => {
 }));
 
 if (errores.length) { console.error(`✗ ${errores.length} problema(s):\n  ` + errores.join('\n  ')); process.exit(1); }
-console.log(`✓ ${rutas.rutas.length} rutas, ${pasos} pasos, ${ok200} enlaces externos con 200, ${videosOk} videos comprobados, ${internos.size} enlaces internos existentes, ${corridos} programas ejecutados con la salida que dicen`);
+console.log(`✓ ${rutas.rutas.length} rutas, ${pasos} pasos, ${ok200} enlaces externos con 200, ${videosOk} videos comprobados, ${internos.size} enlaces internos existentes, ${corridos} programas ejecutados con la salida que dicen, ${frasesOk} frases de certificación halladas en su página oficial`);
