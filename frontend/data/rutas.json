@@ -1983,7 +1983,7 @@
        ]
       ]
      },
-     "mira": "Mira los capítulos de la lista: es un proceso de facturas, como los de tu trabajo.",
+     "mira": "Mira los capítulos de la lista y anota qué proceso de tu trabajo armarías igual (sin datos reales).",
      "hazlo": [
       "Haz el módulo de Microsoft Learn de este punto.",
       "Elige un proceso repetitivo ficticio y escribe sus pasos de hoy con el tiempo de cada uno.",
@@ -2026,10 +2026,10 @@
       "canal": "Xavier Mitjana",
       "url": "https://www.youtube.com/watch?v=XywyUZo1kL4",
       "publicado": "2026-11-25",
-      "vistas": 12290,
-      "megusta": 299,
+      "vistas": 18659,
+      "megusta": 411,
       "minutos": 22,
-      "porQue": "Publicado el 25-nov-2026: por qué no basta con un agente y cómo armar un proceso con IA que no falle, con facturas de ejemplo.",
+      "porQue": "Publicado el 25-nov-2026: por qué no basta con un agente y cómo armar paso a paso un proceso con IA que no falle. Incluye publicidad de Make (lo dice su descripción).",
       "capitulos": [
        {
         "inicio": "01:28",
@@ -2040,7 +2040,7 @@
        {
         "inicio": "04:50",
         "fin": "05:40",
-        "nombre": "Tutorial: las facturas como pretexto",
+        "nombre": "Tutorial",
         "seg": 290
        },
        {
@@ -2143,7 +2143,27 @@
       "Free modules"
      ]
     },
-    "enVacantes": "1 de 39 pide «una certificación en análisis de negocio, mejora de procesos o gestión de proyectos» sin nombrar una; ninguna nombra CBAP ni ECBA."
+    "enVacantes": "1 de 39 pide «una certificación en análisis de negocio, mejora de procesos o gestión de proyectos» sin nombrar una; ninguna nombra CBAP ni ECBA.",
+    "examen": {
+     "codigo": "ECBA",
+     "url": "https://www.iiba.org/business-analysis-certifications/ecba/",
+     "evidencia": [
+      "Experience required None",
+      "Free modules. No purchase required."
+     ],
+     "datos": [
+      [
+       "Experiencia previa",
+       "ninguna"
+      ],
+      [
+       "Práctica",
+       "módulos gratis"
+      ]
+     ],
+     "nota": "Datos de la página de IIBA. Los precios están en USD, con rebaja el 25-nov-2026: cambian.",
+     "enlaceTexto": "Ver la página oficial"
+    }
    },
    "queEs": "Entender qué necesita el área o el cliente antes de construir: preguntar, observar el proceso, escribir lo que se va a hacer y cómo se sabrá que funcionó. Es la primera fase de toda implementación.",
    "pasos": [
@@ -2157,14 +2177,35 @@
      ],
      "recurso": {
       "nombre": "Requirements Gathering",
-      "proveedor": "Asana (en inglés)",
-      "url": "https://asana.com/es/resources/requirements-gathering"
+      "proveedor": "Asana",
+      "url": "https://asana.com/es/resources/requirements-gathering",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Publicado",
+        "11-feb-2026"
+       ],
+       [
+        "Lectura",
+        "6 min"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Los 6 pasos para levantar requerimientos."
      },
      "practica": "Escribe 5 requerimientos funcionales y 3 no funcionales para un caso ficticio: conciliar automáticamente los pagos de una tienda en línea.",
      "video": {
-      "titulo": "Cómo tomar requerimientos | 5 consejos para una toma de requerimientos efectiva",
-      "canal": "HolaMundo",
-      "url": "https://www.youtube.com/watch?v=2KZKMY75cJM"
+      "titulo": "Levantamiento de Requerimientos",
+      "canal": "Tecnología 4.0",
+      "url": "https://www.youtube.com/watch?v=Lu3zs3HiddA",
+      "publicado": "2025-03-06",
+      "vistas": 9434,
+      "megusta": 210,
+      "minutos": 3,
+      "porQue": "De marzo de 2025, 3 minutos: qué es levantar requerimientos. 210 me gusta."
      },
      "logro": "distinguir un requerimiento funcional de uno no funcional y escribir los tuyos.",
      "idea": {
@@ -2193,7 +2234,7 @@
        ]
       ]
      },
-     "mira": "El video da 5 consejos para tomar requerimientos. La guía de Asana (en inglés) sirve como lista de chequeo.",
+     "mira": "Mira el video y lee la guía de Asana.",
      "hazlo": [
       "Mira el video y lee la guía de Asana.",
       "Para el caso ficticio (conciliar los pagos de una tienda en línea), escribe 5 requerimientos funcionales.",
@@ -2230,6 +2271,51 @@
        "Hablar solo con el jefe.",
        "Quien hace el trabajo cada día conoce las excepciones."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Ruta del analista de negocio",
+       "titulo": "Roadmap para Business Analyst",
+       "canal": "Ahora es cuando",
+       "url": "https://www.youtube.com/watch?v=02svEtSOYnY",
+       "publicado": "2025-03-24",
+       "vistas": 3228,
+       "megusta": 272,
+       "minutos": 8,
+       "porQue": "De marzo de 2025: qué hace un analista de negocio y una ruta para llegar a serlo. 272 me gusta.",
+       "capitulos": [
+        {
+         "inicio": "00:35",
+         "fin": "01:09",
+         "nombre": "Por qué ser un BA",
+         "seg": 35
+        },
+        {
+         "inicio": "01:09",
+         "fin": "02:00",
+         "nombre": "Qué hace un BA",
+         "seg": 69
+        },
+        {
+         "inicio": "02:00",
+         "fin": "05:54",
+         "nombre": "Idea de Roadmap para un BA",
+         "seg": 120
+        }
+       ]
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Cómo tomar requerimientos | 5 consejos para una toma de requerimientos efectiva",
+       "canal": "HolaMundo",
+       "url": "https://www.youtube.com/watch?v=2KZKMY75cJM",
+       "publicado": "2020-04-12",
+       "vistas": 103774,
+       "megusta": 5853,
+       "razon": "Era el video de esta ruta: muy gustado, pero es de abril de 2020."
+      }
      ]
     },
     {
@@ -2242,8 +2328,20 @@
      ],
      "recurso": {
       "nombre": "Reuniones de lanzamiento del proyecto",
-      "proveedor": "Atlassian Team Playbook (en español)",
-      "url": "https://www.atlassian.com/es/team-playbook/plays/project-kickoff"
+      "proveedor": "Atlassian Team Playbook",
+      "url": "https://www.atlassian.com/es/team-playbook/plays/project-kickoff",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la guía de Atlassian para la reunión de arranque"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Una agenda lista para la primera reunión."
      },
      "practica": "Escribe el guion de 10 preguntas para la primera reunión con el área que pide la automatización del caso ficticio.",
      "logro": "preparar y llevar la primera reunión con el área que pide algo.",
@@ -2277,7 +2375,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la guía de Atlassian (en español) explica cómo preparar la reunión de arranque.",
+     "mira": "Mira el video y prepara tus preguntas para la primera reunión.",
      "hazlo": [
       "Lee la guía de Atlassian sobre reuniones de lanzamiento.",
       "Escribe el guion de 10 preguntas para la primera reunión del caso ficticio.",
@@ -2313,7 +2411,32 @@
        "No dejar acuerdos por escrito.",
        "Lo que no se escribe, cada uno lo recuerda distinto."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Cómo hacer un buen relevamiento y análisis de requerimientos",
+      "canal": "AplicaDigital",
+      "url": "https://www.youtube.com/watch?v=YUXUCOKzPk8",
+      "publicado": "2025-06-19",
+      "vistas": 1766,
+      "megusta": 53,
+      "minutos": 9,
+      "porQue": "De junio de 2025: cómo hacer un buen relevamiento y análisis de requerimientos con las áreas. Tiene pocas vistas (1.766)."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "El trabajo del analista funcional",
+       "titulo": "¿Qué hace REALMENTE un Analista Funcional Junior? (Y cómo pasar a Senior) 🚀",
+       "canal": "Capde Digitaly",
+       "url": "https://www.youtube.com/watch?v=zio-17yLrWQ",
+       "publicado": "2026-04-01",
+       "vistas": 1586,
+       "megusta": 60,
+       "minutos": 4,
+       "porQue": "De abril de 2026: qué hace un analista funcional junior y cómo crecer. 6 capítulos."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "requerimientos-3",
@@ -2325,8 +2448,20 @@
      ],
      "recurso": {
       "nombre": "BPMN: Business Process Model and Notation",
-      "proveedor": "Camunda (en inglés)",
-      "url": "https://camunda.com/bpmn/"
+      "proveedor": "Camunda",
+      "url": "https://camunda.com/bpmn/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la explicación de BPMN de Camunda"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Los símbolos de BPMN; para dibujar usa bpmn.io, abajo."
      },
      "practica": "Dibuja el proceso actual y el propuesto del caso ficticio en demo.bpmn.io y pega las dos imágenes en esta página.",
      "enlace": {
@@ -2365,7 +2500,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la guía de Camunda (en inglés) muestra cada símbolo con un dibujo.",
+     "mira": "Mira el video y dibuja en bpmn.io el proceso de hoy y el nuevo.",
      "hazlo": [
       "Lee la guía de Camunda hasta los símbolos básicos.",
       "Dibuja en demo.bpmn.io el proceso de hoy del caso ficticio.",
@@ -2401,7 +2536,33 @@
        "Dibujar el ideal como si fuera hoy.",
        "El de hoy se dibuja como es, con sus vueltas."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Mapeo de Procesos: As Is vs To Be",
+      "canal": "Glasses Procesos",
+      "url": "https://www.youtube.com/watch?v=3TYy-nry6tc",
+      "publicado": "2024-08-07",
+      "vistas": 10209,
+      "megusta": 133,
+      "minutos": 2,
+      "clasico": "Es de agosto de 2024 (2 años y 3 meses). Se queda porque explica la diferencia en 2 minutos, y los recientes en español sobre AS-IS y TO-BE tienen menos de 500 vistas.",
+      "porQue": "La diferencia entre el proceso de hoy (AS-IS) y el propuesto (TO-BE)."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Más reciente",
+       "titulo": "Rediseño de Procesos: Aprende a Usar AS-IS y TO-BE",
+       "canal": "Cultura Fritanga",
+       "url": "https://www.youtube.com/watch?v=IGN9ipDqE24",
+       "publicado": "2026-10-16",
+       "vistas": 112,
+       "megusta": 1,
+       "minutos": 8,
+       "porQue": "De octubre de 2026: rediseño de procesos con AS-IS y TO-BE. Tiene muy pocas vistas (112)."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "requerimientos-4",
@@ -2413,14 +2574,31 @@
      ],
      "recurso": {
       "nombre": "Historias de usuario con ejemplos y plantilla",
-      "proveedor": "Atlassian (en español)",
-      "url": "https://www.atlassian.com/es/agile/project-management/user-stories"
+      "proveedor": "Atlassian",
+      "url": "https://www.atlassian.com/es/agile/project-management/user-stories",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la guía de historias de usuario de Atlassian, con plantilla"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Ejemplos y plantilla, en español."
      },
      "practica": "Convierte tus requerimientos del paso 1 en 5 historias de usuario, cada una con sus criterios de aceptación.",
      "video": {
-      "titulo": "COMO CREAR HISTORIAS DE USUARIO EN SCRUM",
+      "titulo": "🆗 ¿Cómo crear una HISTORIA DE USUARIO EN JIRA? - 3 Maneras diferentes ◾ JIRA TIPS ◾",
       "canal": "Ágil Es Por Cris Rúa",
-      "url": "https://www.youtube.com/watch?v=ky6wFiF5vMk"
+      "url": "https://www.youtube.com/watch?v=n9h-KZqwrM8",
+      "publicado": "2026-02-12",
+      "vistas": 3155,
+      "megusta": 73,
+      "minutos": 4,
+      "porQue": "De febrero de 2026: tres maneras de crear una historia de usuario en Jira. 73 me gusta."
      },
      "logro": "convertir requerimientos en historias de usuario con criterios de aceptación.",
      "idea": {
@@ -2449,7 +2627,7 @@
        ]
       ]
      },
-     "mira": "El video explica cómo crear historias de usuario en Scrum. La guía de Atlassian trae una plantilla.",
+     "mira": "Mira los dos videos y convierte tus requerimientos en historias.",
      "hazlo": [
       "Mira el video y lee la guía de Atlassian.",
       "Convierte tus 5 requerimientos funcionales del punto 1 en 5 historias.",
@@ -2489,7 +2667,23 @@
        "Criterios que no se pueden probar.",
        "«Que funcione bien» no sirve; «aparece en la lista», sí."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Clásico",
+       "clasico": "Es de julio de 2018, del mismo canal. Se queda porque es el más visto del tema que medimos y el formato «Como… quiero… para…» no cambió.",
+       "titulo": "COMO CREAR HISTORIAS DE USUARIO EN SCRUM",
+       "canal": "Ágil Es Por Cris Rúa",
+       "url": "https://www.youtube.com/watch?v=ky6wFiF5vMk",
+       "publicado": "2018-07-03",
+       "vistas": 296813,
+       "megusta": 9037,
+       "minutos": 7,
+       "porQue": "296.813 vistas y 9.037 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "requerimientos-5",
@@ -2501,8 +2695,20 @@
      ],
      "recurso": {
       "nombre": "¿Qué es un documento de requisitos de producto (PRD)?",
-      "proveedor": "Atlassian (en español)",
-      "url": "https://www.atlassian.com/es/agile/product-management/requirements"
+      "proveedor": "Atlassian",
+      "url": "https://www.atlassian.com/es/agile/product-management/requirements",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la guía de Atlassian sobre el documento de requisitos"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Qué lleva un documento de requisitos, en español."
      },
      "practica": "Junta todo en un documento de una página: objetivo, alcance, requerimientos, historias y cómo se medirá. Es una pieza de portafolio: márcala como caso ficticio.",
      "logro": "juntar todo en un documento de una página que cualquiera entienda.",
@@ -2536,7 +2742,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la guía de Atlassian explica qué lleva un documento de requisitos.",
+     "mira": "Mira los capítulos de la lista (en inglés, con subtítulos) y arma tu documento con la guía de Atlassian.",
      "hazlo": [
       "Lee la guía de Atlassian sobre el documento de requisitos.",
       "Junta en una página: objetivo, alcance, requerimientos, historias, métrica y riesgos.",
@@ -2572,9 +2778,71 @@
        "Métricas sin punto de partida.",
        "«Reducir el tiempo» exige saber cuánto tarda hoy."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Build Better Apps with AI Using This One Simple Document (PRD Guide)",
+      "canal": "Jordan Urbs",
+      "url": "https://www.youtube.com/watch?v=MZjW7mlRgdw",
+      "publicado": "2025-06-28",
+      "vistas": 183591,
+      "megusta": 4329,
+      "minutos": 21,
+      "porQue": "De junio de 2025, en inglés: cómo escribir un documento de requisitos (PRD) con ayuda de IA antes de construir. 4.329 me gusta. En español no encontramos uno reciente sobre el documento.",
+      "capitulos": [
+       {
+        "inicio": "00:00",
+        "fin": "00:47",
+        "nombre": "Why Vibe Coding Fails Without Documentation",
+        "seg": 0
+       },
+       {
+        "inicio": "00:47",
+        "fin": "02:37",
+        "nombre": "Creating Your First PRD with Claude",
+        "seg": 47
+       },
+       {
+        "inicio": "02:37",
+        "fin": "04:31",
+        "nombre": "Essential Tech Stack and Feature Planning",
+        "seg": 157
+       },
+       {
+        "inicio": "04:31",
+        "fin": "06:04",
+        "nombre": "The Power of AI Clarification Questions",
+        "seg": 271
+       }
+      ]
+     },
+     "mas": [],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Primero qué es levantar requerimientos (1) y cómo se hace la reunión con las áreas (2). Después dibuja el proceso de hoy y el nuevo (3), escribe historias de usuario con sus criterios (4) y júntalo todo en un documento (5).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "stakeholders",
+      "porque": "Levantar requerimientos es, sobre todo, hablar con las áreas."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "mapeo-procesos",
+      "porque": "El punto 3 es el mapeo AS-IS / TO-BE."
+     },
+     {
+      "ruta": "proyectos",
+      "porque": "Las historias de usuario alimentan el tablero del proyecto."
+     },
+     {
+      "ruta": "documentacion",
+      "porque": "El documento del punto 5 es documentación."
+     }
+    ]
+   }
   },
   {
    "id": "power-automate",
@@ -11231,7 +11499,10 @@
      "nombre": "OCEB 2 · OMG Certified Expert in BPM",
      "emisor": "Object Management Group (la organización que publica BPMN)",
      "url": "https://www.omg.org/oceb-2/",
-     "costo": "Examen pago."
+     "costo": "Examen pago: 350 USD por examen, según su página.",
+     "evidencia": [
+      "Each exam is $350"
+     ]
     },
     "gratis": {
      "nombre": "Celonis Foundations",
@@ -11241,7 +11512,8 @@
      "evidencia": [
       "Cost Free"
      ],
-     "nota": "Es de minería de procesos: descubrir el proceso real a partir de los datos. Complementa el BPMN."
+     "nota": "Es de minería de procesos: descubrir el proceso real a partir de los datos. Complementa el BPMN.",
+     "punto": "mapeo-procesos-2"
     },
     "enVacantes": "Ninguna de las 39 nombra una certificación de BPMN o mapeo de procesos."
    },
@@ -11257,13 +11529,68 @@
      "practica": "Aprende los símbolos básicos y dibuja un proceso de tu casa, por ejemplo pagar los servicios.",
      "recurso": {
       "nombre": "BPMN: Business Process Model and Notation",
-      "proveedor": "Camunda (en inglés)",
-      "url": "https://camunda.com/bpmn/"
+      "proveedor": "Camunda",
+      "url": "https://camunda.com/bpmn/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la explicación de BPMN de Camunda"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Los símbolos, con ejemplos."
      },
      "video": {
-      "titulo": "Modela fácilmente tus procesos en BPMN 2.0 - Tutorial español",
-      "canal": "GBTEC Group",
-      "url": "https://www.youtube.com/watch?v=BbT0IN3y2V4"
+      "titulo": "Clase BPMN: ¿Cómo usar Compuertas Exclusivas, Paralelas e Inclusivas?",
+      "canal": "Glasses Procesos",
+      "url": "https://www.youtube.com/watch?v=IS_qRjgan8k",
+      "publicado": "2025-12-03",
+      "vistas": 2120,
+      "megusta": 73,
+      "minutos": 29,
+      "porQue": "De diciembre de 2025: las compuertas de BPMN (exclusiva, paralela e inclusiva) con un ejemplo de cada una, entre ellos un reembolso.",
+      "capitulos": [
+       {
+        "inicio": "00:35",
+        "fin": "03:46",
+        "nombre": "¿Qué es una compuerta en BPMN?",
+        "seg": 35
+       },
+       {
+        "inicio": "03:46",
+        "fin": "05:12",
+        "nombre": "Compuerta Exclusiva (XOR)",
+        "seg": 226
+       },
+       {
+        "inicio": "05:12",
+        "fin": "9:36",
+        "nombre": "Ejemplo XOR: Solicitud de reembolso",
+        "seg": 312
+       },
+       {
+        "inicio": "9:36",
+        "fin": "11:13",
+        "nombre": "Compuerta Paralela (AND)",
+        "seg": 576
+       },
+       {
+        "inicio": "14:36",
+        "fin": "17:53",
+        "nombre": "Compuerta Inclusiva (OR)",
+        "seg": 876
+       },
+       {
+        "inicio": "21:24",
+        "fin": "25:06",
+        "nombre": "Resumen",
+        "seg": 1284
+       }
+      ]
      },
      "logro": "dibujar un proceso con inicio, tareas, decisiones, fin y carriles.",
      "idea": {
@@ -11296,7 +11623,7 @@
        ]
       ]
      },
-     "mira": "El video explica cada grupo de símbolos: eventos (0:55), actividades (2:27), compuertas (3:24) y piscinas y carriles (6:11). Dibuja cada uno en demo.bpmn.io mientras lo ves.",
+     "mira": "Mira los capítulos de la lista y dibuja cada compuerta en bpmn.io.",
      "hazlo": [
       "Mira el video y lee la guía de Camunda.",
       "Dibuja en demo.bpmn.io cómo se pagan los servicios en tu casa.",
@@ -11332,6 +11659,31 @@
        "Tareas sin verbo.",
        "«Factura» no es una tarea; «Revisar la factura», sí."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "De procedimiento a BPMN",
+       "titulo": "De Procedimiento a BPMN",
+       "canal": "Glasses Procesos",
+       "url": "https://www.youtube.com/watch?v=LGSb-nQ3Ljk",
+       "publicado": "2025-04-22",
+       "vistas": 11717,
+       "megusta": 486,
+       "minutos": 28,
+       "porQue": "De abril de 2025: pasar un procedimiento escrito a un diagrama BPMN. 486 me gusta."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Modela fácilmente tus procesos en BPMN 2.0 - Tutorial español",
+       "canal": "GBTEC Group",
+       "url": "https://www.youtube.com/watch?v=BbT0IN3y2V4",
+       "publicado": "2020-12-03",
+       "vistas": 144911,
+       "megusta": 2491,
+       "razon": "Era el video de esta ruta: es de diciembre de 2020."
+      }
      ]
     },
     {
@@ -11345,8 +11697,24 @@
      "practica": "Mapea un proceso ficticio de conciliación de pagos tal como se haría a mano.",
      "recurso": {
       "nombre": "Mapa de procesos: ejemplos y cómo crear uno",
-      "proveedor": "Asana (en español)",
-      "url": "https://asana.com/es/resources/process-mapping"
+      "proveedor": "Asana",
+      "url": "https://asana.com/es/resources/process-mapping",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Publicado",
+        "16-jul-2026"
+       ],
+       [
+        "Lectura",
+        "10 min"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Qué es un mapa de procesos y cómo hacer uno, con ejemplos."
      },
      "enlace": {
       "modulo": "web",
@@ -11354,9 +11722,40 @@
       "texto": "Dibujar en demo.bpmn.io (en el navegador)"
      },
      "video": {
-      "titulo": "Mapeo de Procesos: As Is vs To Be",
+      "titulo": "Cómo levantar procesos en el área de TI (Tecnología de la Información)",
       "canal": "Glasses Procesos",
-      "url": "https://www.youtube.com/watch?v=3TYy-nry6tc"
+      "url": "https://www.youtube.com/watch?v=mOH6s1_fZR4",
+      "publicado": "2026-04-22",
+      "vistas": 559,
+      "megusta": 30,
+      "minutos": 25,
+      "porQue": "De abril de 2026: cómo prepararte para levantar un proceso, cómo documentarlo y los errores a evitar (el ejemplo es de TI). Tiene pocas vistas (559).",
+      "capitulos": [
+       {
+        "inicio": "02:54",
+        "fin": "05:03",
+        "nombre": "Por qué levantar procesos en TI",
+        "seg": 174
+       },
+       {
+        "inicio": "13:30",
+        "fin": "16:38",
+        "nombre": "Cómo prepararte para levantar información en TI",
+        "seg": 810
+       },
+       {
+        "inicio": "16:38",
+        "fin": "18:38",
+        "nombre": "Cómo documentar procesos de TI",
+        "seg": 998
+       },
+       {
+        "inicio": "18:38",
+        "fin": null,
+        "nombre": "Errores que debes evitar",
+        "seg": 1118
+       }
+      ]
      },
      "logro": "mapear un proceso tal como se hace hoy, con sus tiempos y sus errores.",
      "idea": {
@@ -11385,7 +11784,7 @@
        ]
       ]
      },
-     "mira": "El video (2 minutos) explica la diferencia entre AS-IS y TO-BE. La guía de Asana muestra cómo se arma el mapa.",
+     "mira": "Mira los capítulos de la lista y entrevista a quien hace el proceso (caso ficticio).",
      "hazlo": [
       "Mira el video y lee la guía de Asana (en español).",
       "Mapea en demo.bpmn.io un proceso ficticio de conciliación de pagos hecho a mano.",
@@ -11422,7 +11821,23 @@
        "Proponer mejoras mientras mapeas.",
        "Primero describe; las mejoras van en el TO-BE."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "AS-IS y TO-BE",
+       "clasico": "Es de agosto de 2024. Se queda porque explica la diferencia en 2 minutos, y los recientes en español sobre el tema tienen menos de 500 vistas.",
+       "titulo": "Mapeo de Procesos: As Is vs To Be",
+       "canal": "Glasses Procesos",
+       "url": "https://www.youtube.com/watch?v=3TYy-nry6tc",
+       "publicado": "2024-08-07",
+       "vistas": 10209,
+       "megusta": 133,
+       "minutos": 2,
+       "porQue": "10.209 vistas, en 2 minutos."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "mapeo-procesos-3",
@@ -11435,8 +11850,20 @@
      "practica": "Rediseña el proceso del paso 2 con automatización y marca qué pasos desaparecen.",
      "recurso": {
       "nombre": "Value Stream Mapping",
-      "proveedor": "Lean Enterprise Institute (en inglés)",
-      "url": "https://www.lean.org/lexicon-terms/value-stream-mapping/"
+      "proveedor": "Lean Enterprise Institute",
+      "url": "https://www.lean.org/lexicon-terms/value-stream-mapping/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la definición del instituto Lean"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La fuente de referencia del método."
      },
      "logro": "rediseñar el proceso y señalar qué pasos desaparecen o se automatizan.",
      "idea": {
@@ -11465,7 +11892,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la página del Lean Enterprise Institute (en inglés) explica el mapa de flujo de valor.",
+     "mira": "Mira el video y marca en tu mapa qué pasos desaparecen o se automatizan.",
      "hazlo": [
       "Lee la página sobre el mapa de flujo de valor.",
       "Copia tu AS-IS y rediséñalo: tacha lo que desaparece y marca lo que se automatiza.",
@@ -11501,7 +11928,34 @@
        "Olvidar quién atiende las excepciones.",
        "El proceso nuevo también tiene un responsable."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Pasos para dibujar un mapa de flujo de valor (VSM) |  | UPV",
+      "canal": "Universitat Politècnica de València - UPV",
+      "url": "https://www.youtube.com/watch?v=uOK58jYiTQ8",
+      "publicado": "2018-10-22",
+      "vistas": 112021,
+      "megusta": 1542,
+      "minutos": 10,
+      "clasico": "Es de octubre de 2018, pero lo publicó una universidad (la Politécnica de Valencia) y el método del mapa de flujo de valor no cambió; los recientes en español sobre el tema tienen menos de 200 vistas.",
+      "porQue": "Los pasos para dibujar un mapa de flujo de valor (VSM). 112.021 vistas."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Con ejemplo y símbolos",
+       "clasico": "Es de octubre de 2023. Se queda porque trae un ejemplo completo con su simbología.",
+       "titulo": "EJEMPLO Value stream map (VSM), SIMBOLOGÍA, Aprende rápidamente lo más importante",
+       "canal": "Soy Ingenio",
+       "url": "https://www.youtube.com/watch?v=1MDnFgHQL8k",
+       "publicado": "2023-10-12",
+       "vistas": 27500,
+       "megusta": 493,
+       "minutos": 11,
+       "porQue": "27.500 vistas y 493 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "mapeo-procesos-4",
@@ -11543,7 +11997,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: exporta tus diagramas de demo.bpmn.io como imagen.",
+     "mira": "Mira el video y arma tu antes y después en una sola página.",
      "hazlo": [
       "Pon en una página los dos diagramas.",
       "Agrega el tiempo de hoy y el estimado, con su cuenta.",
@@ -11579,9 +12033,45 @@
        "Una página llena de texto.",
        "Que se entienda mirando los diagramas y los números."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "¿Cómo IMPLEMENTAR MEJORAS en una empresa? | Hacer PROYECTOS DE MEJORA paso a paso",
+      "canal": "YO INGENIERO",
+      "url": "https://www.youtube.com/watch?v=oigKLQRQ8RY",
+      "publicado": "2025-03-13",
+      "vistas": 3640,
+      "megusta": 95,
+      "minutos": 6,
+      "porQue": "De marzo de 2025: cómo implementar mejoras en una empresa, paso a paso. 95 me gusta."
+     },
+     "mas": [],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Aprende los símbolos de BPMN (1), dibuja el proceso de hoy (2) y el nuevo (3), y presenta el cambio en una página (4).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "requerimientos",
+      "porque": "Las entrevistas del punto 2 son las de levantar requerimientos."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "mejora-procesos",
+      "porque": "Con el proceso dibujado se ve el desperdicio."
+     },
+     {
+      "ruta": "rpa",
+      "porque": "Se automatiza bien lo que ya está dibujado."
+     },
+     {
+      "ruta": "documentacion",
+      "porque": "El diagrama es el centro de la documentación del proceso."
+     }
+    ]
+   }
   },
   {
    "id": "mejora-procesos",
@@ -11601,7 +12091,11 @@
      "nombre": "ASQ Certified Six Sigma Green Belt",
      "emisor": "ASQ",
      "url": "https://www.asq.org/cert/six-sigma-green-belt",
-     "costo": "Examen pago."
+     "costo": "Examen: 483 USD; repetirlo, 283 USD (su página).",
+     "evidencia": [
+      "Exam Fee $483",
+      "Retakes $283"
+     ]
     },
     "gratis": {
      "nombre": "Six Sigma White Belt",
@@ -11609,11 +12103,34 @@
      "url": "https://www.sixsigmacouncil.org/six-sigma-white-belt-certification/",
      "tipo": "certificación con examen",
      "evidencia": [
-      "Exam Cost $0"
+      "Exam Cost $0",
+      "exam consists of 20 questions",
+      "open-book format examination"
      ],
-     "nota": "Es el nivel de entrada; la Green Belt es un nivel más alto."
+     "nota": "Examen de 20 preguntas en 30 minutos, a libro abierto.",
+     "punto": "mejora-procesos-1"
     },
-    "enVacantes": "2 de 39 mencionan Lean Six Sigma como certificación; una pide Green o Black Belt, como preferible."
+    "enVacantes": "2 de 39 mencionan Lean Six Sigma como certificación; una pide Green o Black Belt, como preferible.",
+    "examen": {
+     "codigo": "CSSGB",
+     "url": "https://www.asq.org/cert/six-sigma-green-belt",
+     "evidencia": [
+      "exam time is 4 hours and 18 minutes",
+      "Exam Fee $483"
+     ],
+     "datos": [
+      [
+       "Tiempo",
+       "4 h 18 min"
+      ],
+      [
+       "Precio",
+       "483 USD"
+      ]
+     ],
+     "nota": "Datos de la página de ASQ.",
+     "enlaceTexto": "Ver la página oficial"
+    }
    },
    "queEs": "Métodos para hacer un proceso más rápido y con menos errores: Lean busca quitar lo que no agrega valor; Six Sigma, reducir la variación con datos, siguiendo las fases DMAIC.",
    "pasos": [
@@ -11628,13 +12145,62 @@
      "practica": "Identifica en un proceso ficticio 3 desperdicios: esperas, reprocesos y pasos que no agregan valor.",
      "recurso": {
       "nombre": "What is Lean?",
-      "proveedor": "Lean Enterprise Institute (en inglés)",
-      "url": "https://www.lean.org/explore-lean/what-is-lean/"
+      "proveedor": "Lean Enterprise Institute",
+      "url": "https://www.lean.org/explore-lean/what-is-lean/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la definición del instituto Lean"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La fuente de referencia."
      },
      "video": {
-      "titulo": "Lean Six Sigma en 8 Minutos | ¿Qué es Lean Six Sigma? | Ejemplo Lean Six Sigma",
-      "canal": "Tecnología 4.0",
-      "url": "https://www.youtube.com/watch?v=NGPZBZucKnY"
+      "titulo": "¿Qué es Lean Six Sigma?",
+      "canal": "SPC Consulting Group",
+      "url": "https://www.youtube.com/watch?v=B-x2SQpCByg",
+      "publicado": "2025-08-07",
+      "vistas": 2572,
+      "megusta": 31,
+      "minutos": 3,
+      "porQue": "De agosto de 2025, 3 minutos: qué es Lean Six Sigma, sus principios, la diferencia entre Lean y Six Sigma y sus niveles (cinturones).",
+      "capitulos": [
+       {
+        "inicio": "00:00",
+        "fin": "00:31",
+        "nombre": "¿Qué es Lean Six Sigma y para qué sirve?",
+        "seg": 0
+       },
+       {
+        "inicio": "00:31",
+        "fin": "01:01",
+        "nombre": "5 Principios clave en Lean Six Sigma",
+        "seg": 31
+       },
+       {
+        "inicio": "01:01",
+        "fin": "01:33",
+        "nombre": "Lean vs Six Sigma",
+        "seg": 61
+       },
+       {
+        "inicio": "02:05",
+        "fin": "02:37",
+        "nombre": "¿Cuántos niveles de Lean Six Sigma existen?",
+        "seg": 125
+       },
+       {
+        "inicio": "02:37",
+        "fin": null,
+        "nombre": "¿Cuáles son las herramientas Lean Six Sigma?",
+        "seg": 157
+       }
+      ]
      },
      "logro": "reconocer los desperdicios típicos de un proceso.",
      "idea": {
@@ -11667,7 +12233,7 @@
        ]
       ]
      },
-     "mira": "El video explica Lean Six Sigma en 8 minutos. La página del Lean Enterprise Institute (en inglés) amplía la parte de Lean.",
+     "mira": "Mira los capítulos de la lista y anota tres desperdicios que veas en un proceso de tu trabajo (sin datos reales).",
      "hazlo": [
       "Mira el video y lee «What is Lean?».",
       "Toma el proceso ficticio de conciliación de la ruta de mapeo, o uno nuevo.",
@@ -11703,6 +12269,31 @@
        "Quitar controles necesarios.",
        "Una revisión que evita errores caros no es desperdicio."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Los 8 desperdicios",
+       "titulo": "Los 8 Desperdicios (Mudas) explicados con I Love Lucy 🍫 | Lean Manufacturing",
+       "canal": "OPEX MENTOR",
+       "url": "https://www.youtube.com/watch?v=gEb0YVxT95c",
+       "publicado": "2025-12-09",
+       "vistas": 1270,
+       "megusta": 10,
+       "minutos": 3,
+       "porQue": "De diciembre de 2025, 3 minutos: los 8 desperdicios explicados con una escena de comedia."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Lean Six Sigma en 8 Minutos | ¿Qué es Lean Six Sigma? | Ejemplo Lean Six Sigma",
+       "canal": "Tecnología 4.0",
+       "url": "https://www.youtube.com/watch?v=NGPZBZucKnY",
+       "publicado": "2022-12-26",
+       "vistas": 109724,
+       "megusta": 2739,
+       "razon": "Era el video de esta ruta: es de diciembre de 2022."
+      }
      ]
     },
     {
@@ -11715,13 +12306,30 @@
      "practica": "Escribe un proyecto DMAIC de una página para reducir errores en una conciliación ficticia.",
      "recurso": {
       "nombre": "What Is Six Sigma? Concept, Steps, Examples",
-      "proveedor": "Investopedia (en inglés)",
-      "url": "https://www.investopedia.com/terms/s/six-sigma.asp"
+      "proveedor": "Investopedia",
+      "url": "https://www.investopedia.com/terms/s/six-sigma.asp",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la explicación de Six Sigma de Investopedia"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Concepto, pasos y ejemplos."
      },
      "video": {
-      "titulo": "DMAIC: Las 5 Fases",
-      "canal": "SPC Consulting Group",
-      "url": "https://www.youtube.com/watch?v=mVyFOx6FFfQ"
+      "titulo": "DMAIC en Six Sigma explicado con un caso real | Cómo resolver problemas complejos en procesos",
+      "canal": "Solma Soluciones",
+      "url": "https://www.youtube.com/watch?v=Zy2rDhq8jB0",
+      "publicado": "2026-01-04",
+      "vistas": 450,
+      "megusta": 13,
+      "minutos": 25,
+      "porQue": "De enero de 2026: DMAIC explicado con un caso real, 25 minutos. Tiene pocas vistas (450)."
      },
      "logro": "escribir un proyecto de mejora en las 5 fases de DMAIC.",
      "idea": {
@@ -11754,7 +12362,7 @@
        ]
       ]
      },
-     "mira": "El video recorre las 5 fases de DMAIC. El artículo de Investopedia (en inglés) sirve de repaso.",
+     "mira": "Mira el caso y escribe tu propio DMAIC con un caso ficticio.",
      "hazlo": [
       "Mira el video y lee el artículo de Investopedia.",
       "Escribe un proyecto DMAIC de una página para reducir errores en una conciliación ficticia.",
@@ -11790,6 +12398,31 @@
        "Olvidar Controlar.",
        "Sin control, el proceso vuelve a como estaba."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Qué es Six Sigma",
+       "titulo": "¿Qué es SIX SIGMA? | TODO sobre Six Sigma en Ingeniería Industrial ⚙️",
+       "canal": "Todo sobre INGENIERÍA INDUSTRIAL",
+       "url": "https://www.youtube.com/watch?v=eLxAWcHLTWA",
+       "publicado": "2025-03-09",
+       "vistas": 7842,
+       "megusta": 219,
+       "minutos": 21,
+       "porQue": "De marzo de 2025, 21 minutos. 219 me gusta."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "DMAIC: Las 5 Fases",
+       "canal": "SPC Consulting Group",
+       "url": "https://www.youtube.com/watch?v=mVyFOx6FFfQ",
+       "publicado": "2023-08-16",
+       "vistas": 13883,
+       "megusta": 150,
+       "razon": "Era el video de esta ruta: es de agosto de 2023."
+      }
      ]
     },
     {
@@ -11802,8 +12435,20 @@
      "practica": "Aplica los 5 porqués a un error que se repite en un caso ficticio.",
      "recurso": {
       "nombre": "Guía completa del ejercicio de los 5 porqués",
-      "proveedor": "Atlassian Team Playbook (en español)",
-      "url": "https://www.atlassian.com/es/team-playbook/plays/5-whys"
+      "proveedor": "Atlassian Team Playbook",
+      "url": "https://www.atlassian.com/es/team-playbook/plays/5-whys",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la guía de Atlassian para hacer los 5 porqués en equipo"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Paso a paso, en español."
      },
      "logro": "llegar a la causa raíz de un error que se repite.",
      "idea": {
@@ -11836,7 +12481,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la guía de Atlassian (en español) explica el ejercicio de los 5 porqués.",
+     "mira": "Mira los capítulos de la lista y haz los 5 porqués de un error frecuente (caso ficticio).",
      "hazlo": [
       "Lee la guía de Atlassian.",
       "Elige un error que se repite en un caso ficticio.",
@@ -11872,7 +12517,90 @@
        "Responder sin datos.",
        "Cada respuesta debe poder comprobarse."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Herramienta de los cinco por qué: análisis de la causa ráiz del problema",
+      "canal": "Academia LSS",
+      "url": "https://www.youtube.com/watch?v=2BX6JCyMHdA",
+      "publicado": "2025-03-31",
+      "vistas": 5271,
+      "megusta": 87,
+      "minutos": 13,
+      "porQue": "De marzo de 2025: la herramienta de los 5 porqués, su relación con otras herramientas y un ejemplo. 87 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "00:52",
+        "fin": "04:42",
+        "nombre": "La idea fundamental",
+        "seg": 52
+       },
+       {
+        "inicio": "04:42",
+        "fin": "06:45",
+        "nombre": "Su relación con otras herramientas",
+        "seg": 282
+       },
+       {
+        "inicio": "06:45",
+        "fin": "09:31",
+        "nombre": "Ejemplo",
+        "seg": 405
+       },
+       {
+        "inicio": "10:24",
+        "fin": "12:22",
+        "nombre": "Las tres vías de la herramienta",
+        "seg": 624
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Ishikawa y 5 porqués",
+       "titulo": "Análisis de causa raíz: Ishikawa y 5 Porqués paso a paso",
+       "canal": "SUPERANT® | Lean Six Sigma",
+       "url": "https://www.youtube.com/watch?v=Max_p44CZlw",
+       "publicado": "2026-10-14",
+       "vistas": 1304,
+       "megusta": 48,
+       "minutos": 5,
+       "porQue": "De octubre de 2026: cuál va primero, síntoma frente a causa, y cómo elegir la causa con datos. 13 capítulos.",
+       "capitulos": [
+        {
+         "inicio": "0:30",
+         "fin": "0:57",
+         "nombre": "Síntoma vs. causa raíz",
+         "seg": 30
+        },
+        {
+         "inicio": "0:57",
+         "fin": "1:22",
+         "nombre": "Qué es el diagrama de Ishikawa",
+         "seg": 57
+        },
+        {
+         "inicio": "2:42",
+         "fin": "3:05",
+         "nombre": "Elegir la causa con datos",
+         "seg": 162
+        },
+        {
+         "inicio": "3:05",
+         "fin": "3:36",
+         "nombre": "Los 5 Porqués paso a paso",
+         "seg": 185
+        },
+        {
+         "inicio": "4:15",
+         "fin": "4:52",
+         "nombre": "3 errores comunes",
+         "seg": 255
+        }
+       ]
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "mejora-procesos-4",
@@ -11915,7 +12643,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la misión «Mide lo que ahorras» del AI Dojo practica la medición del antes y el después.",
+     "mira": "Mira el video y define tu línea base: qué mides, cada cuánto y de dónde sale el dato.",
      "hazlo": [
       "Haz en el AI Dojo la misión «Mide lo que ahorras».",
       "Para tu proyecto DMAIC (punto 2), define qué medirás, cada cuánto y de dónde sale el dato.",
@@ -11952,9 +12680,54 @@
        "Confundir puntos con porcentaje.",
        "De 8 % a 2,2 % son 5,8 puntos menos."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Cómo medir proyectos de mejora continua: 5 pasos para dejar de adivinar",
+      "canal": "Daniel Diaz | DS Consultores | MITI",
+      "url": "https://www.youtube.com/watch?v=6hQgbivtQ-4",
+      "publicado": "2026-03-06",
+      "vistas": 116,
+      "megusta": 16,
+      "minutos": 20,
+      "porQue": "De marzo de 2026: cómo medir un proyecto de mejora continua en 5 pasos. Tiene muy pocas vistas (116)."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Medir el trabajo",
+       "titulo": "Métodos de Medición del Trabajo",
+       "canal": "Eficiencia En Marcha",
+       "url": "https://www.youtube.com/watch?v=OzaKuz3mMPU",
+       "publicado": "2025-10-10",
+       "vistas": 1921,
+       "megusta": 38,
+       "minutos": 8,
+       "porQue": "De octubre de 2025: métodos para medir el trabajo (tiempos). 38 me gusta."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Primero Lean (1) y DMAIC (2), el método de Six Sigma. Luego encuentra la causa raíz (3) y mide el antes y el después (4).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "mapeo-procesos",
+      "porque": "Primero se dibuja el proceso; después se busca el desperdicio."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "indicadores",
+      "porque": "Medir la mejora (punto 4) es definir indicadores."
+     },
+     {
+      "ruta": "rpa",
+      "porque": "Se automatiza después de quitar el desperdicio."
+     }
+    ]
+   }
   },
   {
    "id": "proyectos",
@@ -12717,7 +13490,7 @@
     "referenciaNota": "No encontré una certificación de documentación que pidan estas vacantes.",
     "gratis": null,
     "camino": {
-     "texto": "El curso Technical Writing de Google (en el punto 3) es gratis."
+     "texto": "No hay una certificación de documentación que pidan estas vacantes. Las lecciones de escritura técnica de Google (punto 3) están abiertas en línea; la página no ofrece certificado."
     },
     "enVacantes": "Ninguna de las 39 nombra una certificación de documentación."
    },
@@ -12734,13 +13507,30 @@
      "practica": "Escribe el procedimiento de una tarea de tu semana, paso a paso y sin datos internos.",
      "recurso": {
       "nombre": "SOP: What it is and How to Create One",
-      "proveedor": "Atlassian (en inglés)",
-      "url": "https://www.atlassian.com/es/work-management/knowledge-sharing/documentation/standard-operating-procedures"
+      "proveedor": "Atlassian",
+      "url": "https://www.atlassian.com/es/work-management/knowledge-sharing/documentation/standard-operating-procedures",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la guía de Atlassian sobre procedimientos (SOP)"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Qué lleva un SOP y cómo escribirlo."
      },
      "video": {
-      "titulo": "Creating SOPs: How To Write Standard Operating Procedures (Step By Step)",
-      "canal": "Jordan Ross",
-      "url": "https://www.youtube.com/watch?v=nRhozVH_9EA"
+      "titulo": "Procedimientos Operativos Estándar (SOP): Tutorial Desde CERO",
+      "canal": "Formato Exacto",
+      "url": "https://www.youtube.com/watch?v=ZaGJEKPt-A0",
+      "publicado": "2025-06-11",
+      "vistas": 5155,
+      "megusta": 90,
+      "minutos": 5,
+      "porQue": "De junio de 2025, 5 minutos: cómo escribir un procedimiento operativo estándar (SOP) desde cero. 90 me gusta."
      },
      "logro": "escribir un procedimiento que otra persona pueda seguir sin preguntarte.",
      "idea": {
@@ -12773,7 +13563,7 @@
        ]
       ]
      },
-     "mira": "El video y la guía de Atlassian (los dos en inglés) muestran cómo escribir un procedimiento paso a paso.",
+     "mira": "Mira el video y escribe el SOP de una tarea tuya (sin datos internos).",
      "hazlo": [
       "Mira el video y lee la guía de Atlassian.",
       "Escribe el procedimiento de una tarea de tu semana, sin datos internos.",
@@ -12809,6 +13599,31 @@
        "No decir qué hacer si falla.",
        "Es justo cuando más se necesita el documento."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Guía, SOP o manual",
+       "titulo": "Guía, SOP, Procedimiento, Manual… ¿Cuál es la diferencia?",
+       "canal": "Glasses Procesos",
+       "url": "https://www.youtube.com/watch?v=zBLQyFKoW8k",
+       "publicado": "2026-03-05",
+       "vistas": 433,
+       "megusta": 11,
+       "minutos": 7,
+       "porQue": "De marzo de 2026: la diferencia entre guía, SOP, procedimiento y manual."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Creating SOPs: How To Write Standard Operating Procedures (Step By Step)",
+       "canal": "Jordan Ross",
+       "url": "https://www.youtube.com/watch?v=nRhozVH_9EA",
+       "publicado": "2023-02-09",
+       "vistas": 101663,
+       "megusta": 911,
+       "razon": "Era el video de esta ruta: en inglés y de febrero de 2023."
+      }
      ]
     },
     {
@@ -12821,13 +13636,30 @@
      "practica": "Clasifica tus documentos de trabajo en los cuatro tipos y anota cuál falta.",
      "recurso": {
       "nombre": "Diátaxis",
-      "proveedor": "Daniele Procida (en inglés)",
-      "url": "https://diataxis.fr/"
+      "proveedor": "Daniele Procida",
+      "url": "https://diataxis.fr/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "el marco Diátaxis: tutorial, guía, referencia y explicación"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Para saber qué tipo de documento escribir y para quién."
      },
      "video": {
-      "titulo": "DOCUMENTAR PROCESOS y PROCEDIMIENTOS: 2 Formas para realizarlo👍",
-      "canal": "Gestionar Fácil",
-      "url": "https://www.youtube.com/watch?v=JRqpd79N12k"
+      "titulo": "Cómo documentar procesos sin morir en el intento | Procesionaliza Podcast #3",
+      "canal": "MethodiaMX",
+      "url": "https://www.youtube.com/watch?v=6HXFB5-TzvI",
+      "publicado": "2025-10-10",
+      "vistas": 863,
+      "megusta": 25,
+      "minutos": 24,
+      "porQue": "De octubre de 2025: cómo documentar procesos sin enredarte, en formato de conversación. Tiene pocas vistas (863)."
      },
      "logro": "saber qué tipo de documento necesita cada lector.",
      "idea": {
@@ -12856,7 +13688,7 @@
        ]
       ]
      },
-     "mira": "El video muestra dos formas de documentar procesos. La página de Diátaxis (en inglés) explica los cuatro tipos.",
+     "mira": "Mira el video y clasifica tus documentos en los cuatro tipos de Diátaxis.",
      "hazlo": [
       "Mira el video y lee la página principal de Diátaxis.",
       "Clasifica los documentos que usas en tu trabajo en los cuatro tipos (solo el tipo de documento, sin nombres internos).",
@@ -12892,6 +13724,31 @@
        "Referencias desactualizadas.",
        "Una tabla vieja es peor que ninguna: ponle fecha."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Con IA",
+       "titulo": "Masterclass | Deja de levantar procesos a mano. Documenta un proceso completo con IA",
+       "canal": "Andrés Santacruz",
+       "url": "https://www.youtube.com/watch?v=MH_LYQ_coA0",
+       "publicado": "2026-11-24",
+       "vistas": 6699,
+       "megusta": 293,
+       "minutos": 164,
+       "porQue": "Del 24-nov-2026: una clase larga sobre documentar un proceso completo con IA. 293 me gusta."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "DOCUMENTAR PROCESOS y PROCEDIMIENTOS: 2 Formas para realizarlo👍",
+       "canal": "Gestionar Fácil",
+       "url": "https://www.youtube.com/watch?v=JRqpd79N12k",
+       "publicado": "2020-07-01",
+       "vistas": 18815,
+       "megusta": 370,
+       "razon": "Era el video de esta ruta: es de julio de 2020."
+      }
      ]
     },
     {
@@ -12905,8 +13762,24 @@
      "practica": "Reescribe tu procedimiento del paso 1 con frases cortas y voz activa.",
      "recurso": {
       "nombre": "Technical Writing",
-      "proveedor": "Google for Developers (en inglés)",
-      "url": "https://developers.google.com/tech-writing"
+      "proveedor": "Google for Developers",
+      "url": "https://developers.google.com/tech-writing",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "las lecciones de escritura técnica de Google"
+       ],
+       [
+        "Certificado",
+        "la página no ofrece"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Frases cortas, voz activa y listas, con ejercicios."
      },
      "logro": "reescribir un texto con frases cortas y voz activa.",
      "idea": {
@@ -12935,7 +13808,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: el curso Technical Writing de Google (en inglés) trae ejercicios cortos.",
+     "mira": "Mira el video y reescribe tu SOP del punto 1 con frases cortas.",
      "hazlo": [
       "Haz la primera parte del curso Technical Writing de Google.",
       "Reescribe tu procedimiento del punto 1 con frases cortas y voz activa.",
@@ -12971,7 +13844,32 @@
        "Siglas sin explicar.",
        "La primera vez, escribe qué significan."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Fórmula para REDACTAR como un PROFESIONAL",
+      "canal": "LA PROFE MÓNICA",
+      "url": "https://www.youtube.com/watch?v=SDtCVmUAy0w",
+      "publicado": "2026-05-15",
+      "vistas": 152410,
+      "megusta": 8805,
+      "minutos": 12,
+      "porQue": "De mayo de 2026: una fórmula para redactar como profesional. 152.410 vistas y 8.805 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Ideas claras",
+       "titulo": "CÓMO articular tus ideas con más claridad",
+       "canal": "Irene Albacete",
+       "url": "https://www.youtube.com/watch?v=v1EfGu9Dc1Q",
+       "publicado": "2025-12-21",
+       "vistas": 514730,
+       "megusta": 35648,
+       "minutos": 18,
+       "porQue": "De diciembre de 2025: cómo articular tus ideas con más claridad. 35.648 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "documentacion-4",
@@ -13018,7 +13916,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la misión «Tu manual de uso de IA» del AI Dojo practica la misma ficha.",
+     "mira": "Mira la parte que necesites y documenta tu automatización: qué hace, cuándo corre, qué hacer si falla y quién la mantiene.",
      "hazlo": [
       "Haz en el AI Dojo la misión «Tu manual de uso de IA».",
       "Escribe la ficha de una automatización de práctica, por ejemplo la de la TRM.",
@@ -13054,9 +13952,41 @@
        "Fichas sin fecha.",
        "Pon la fecha de la última revisión."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Masterclass | Deja de levantar procesos a mano. Documenta un proceso completo con IA",
+      "canal": "Andrés Santacruz",
+      "url": "https://www.youtube.com/watch?v=MH_LYQ_coA0",
+      "publicado": "2026-11-24",
+      "vistas": 6699,
+      "megusta": 293,
+      "minutos": 164,
+      "porQue": "Del 24-nov-2026: documentar un proceso completo con ayuda de IA; sirve igual para una automatización. 293 me gusta."
+     },
+     "mas": [],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Escribe un procedimiento paso a paso (1); aprende a documentar un proceso (2) y a escribir claro (3); cierra documentando una automatización (4).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "mapeo-procesos",
+      "porque": "Se documenta mejor lo que ya está dibujado."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "rpa",
+      "porque": "Un robot sin documentación no lo mantiene nadie."
+     },
+     {
+      "ruta": "cambio",
+      "porque": "Capacitar a otros empieza con un buen documento."
+     }
+    ]
+   }
   },
   {
    "id": "stakeholders",
@@ -13441,13 +14371,30 @@
      "practica": "Define 3 KPI para un proceso de pagos ficticio, cada uno con fórmula, meta y fuente.",
      "recurso": {
       "nombre": "KPIs: What Are Key Performance Indicators?",
-      "proveedor": "Investopedia (en inglés)",
-      "url": "https://www.investopedia.com/terms/k/kpi.asp"
+      "proveedor": "Investopedia",
+      "url": "https://www.investopedia.com/terms/k/kpi.asp",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la definición de KPI de Investopedia"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Qué es un indicador y cómo se elige."
      },
      "video": {
-      "titulo": "CÓMO CREAR UN KPI - INDICADORES CLAVE DE DESEMPEÑO - INDICADORES DE GESTIÓN ☺☻♥",
-      "canal": "Gestor Calidad - SSOMA",
-      "url": "https://www.youtube.com/watch?v=E7VXe7zGc5Q"
+      "titulo": "Top KPIS que todo analista deberia entender | Caterina Abanoni",
+      "canal": "Caterina Abanoni",
+      "url": "https://www.youtube.com/watch?v=B4ZxyyL0-08",
+      "publicado": "2026-03-19",
+      "vistas": 88607,
+      "megusta": 4026,
+      "minutos": 21,
+      "porQue": "De marzo de 2026: los KPI que todo analista debería entender. 88.607 vistas y 4.026 me gusta."
      },
      "logro": "definir un indicador con fórmula, meta y fuente.",
      "idea": {
@@ -13480,7 +14427,7 @@
        ]
       ]
      },
-     "mira": "El video explica cómo crear un indicador. El artículo de Investopedia (en inglés) sirve de repaso.",
+     "mira": "Mira el video y escribe 3 indicadores de un proceso tuyo con fórmula, meta y fuente.",
      "hazlo": [
       "Mira el video y lee el artículo de Investopedia.",
       "Define 3 indicadores para un proceso de pagos ficticio, con las 5 partes de la tabla.",
@@ -13516,6 +14463,57 @@
        "Un número sin período.",
        "«97 %» ¿de qué día o semana? Todo indicador lleva su ventana."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "¿Métrica o KPI?",
+       "titulo": "¿Métrica o KPI? El error que frena tu negocio",
+       "canal": "Datademia",
+       "url": "https://www.youtube.com/watch?v=vp3-tUKYLX8",
+       "publicado": "2025-12-01",
+       "vistas": 454,
+       "megusta": 22,
+       "minutos": 2,
+       "porQue": "De diciembre de 2025, 2 minutos: la diferencia entre una métrica y un KPI.",
+       "capitulos": [
+        {
+         "inicio": "00:11",
+         "fin": "00:30",
+         "nombre": "Qué es una métrica",
+         "seg": 11
+        },
+        {
+         "inicio": "00:30",
+         "fin": "01:10",
+         "nombre": "Qué es un KPI",
+         "seg": 30
+        },
+        {
+         "inicio": "01:10",
+         "fin": "01:45",
+         "nombre": "Ejemplos de KPIs reales",
+         "seg": 70
+        },
+        {
+         "inicio": "02:30",
+         "fin": "02:50",
+         "nombre": "Diferencia clave entre métrica y KPI",
+         "seg": 150
+        }
+       ]
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "CÓMO CREAR UN KPI - INDICADORES CLAVE DE DESEMPEÑO - INDICADORES DE GESTIÓN ☺☻♥",
+       "canal": "Gestor Calidad - SSOMA",
+       "url": "https://www.youtube.com/watch?v=E7VXe7zGc5Q",
+       "publicado": "2021-04-09",
+       "vistas": 207570,
+       "megusta": 2194,
+       "razon": "Era el video de esta ruta: es de abril de 2021."
+      }
      ]
     },
     {
@@ -13529,13 +14527,30 @@
      "practica": "Calcula el ROI de automatizar una tarea ficticia: horas ahorradas, costo de hacerlo y tiempo para recuperarlo.",
      "recurso": {
       "nombre": "Return on Investment: Formula and How to Calculate It",
-      "proveedor": "Corporate Finance Institute (en inglés)",
-      "url": "https://corporatefinanceinstitute.com/resources/accounting/return-on-investment-roi-formula/"
+      "proveedor": "Corporate Finance Institute",
+      "url": "https://corporatefinanceinstitute.com/resources/accounting/return-on-investment-roi-formula/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la fórmula del ROI explicada por CFI"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La fórmula y cómo interpretarla."
      },
      "video": {
-      "titulo": "Como calcular el ROI ✍ Ejercicio con interpretación",
-      "canal": "Felipe Delgado",
-      "url": "https://www.youtube.com/watch?v=hip9PFpbqAs"
+      "titulo": "¿Cómo se calcula el ROI? Retorno de inversión paso a paso y con ejemplos",
+      "canal": "Distrito Emprendedor",
+      "url": "https://www.youtube.com/watch?v=oeZV9DrKgZI",
+      "publicado": "2025-09-24",
+      "vistas": 2209,
+      "megusta": 28,
+      "minutos": 6,
+      "porQue": "De septiembre de 2025, 6 minutos: cómo se calcula el ROI paso a paso, con ejemplos."
      },
      "logro": "calcular el retorno de una automatización y en cuánto tiempo se paga.",
      "idea": {
@@ -13564,7 +14579,7 @@
        ]
       ]
      },
-     "mira": "El video resuelve un ejercicio de ROI y lo interpreta. La guía de CFI (en inglés) trae la fórmula.",
+     "mira": "Mira el video y calcula el ROI de una automatización ficticia: costo, ahorro por mes y meses para recuperarlo.",
      "hazlo": [
       "Mira el video y lee la guía de CFI.",
       "Copia en Excel el cálculo de abajo con sus números ficticios.",
@@ -13609,6 +14624,45 @@
        "Contar horas que no se liberan.",
        "Si las horas ahorradas no se usan en otra cosa, el ahorro es solo en papel."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "ROI de una campaña",
+       "titulo": "Que es y cómo se calcula el ROI de tu marketing en 5 pasos (ejemplos)",
+       "canal": "HubSpot Español",
+       "url": "https://www.youtube.com/watch?v=XjYbdvPXnx8",
+       "publicado": "2026-05-05",
+       "vistas": 657,
+       "megusta": 39,
+       "minutos": 10,
+       "porQue": "De mayo de 2026: calcular el ROI en 5 pasos y cuándo medirlo sin sacar conclusiones falsas.",
+       "capitulos": [
+        {
+         "inicio": "01:29",
+         "fin": "02:31",
+         "nombre": "El error más común antes de planear una campaña de marketing",
+         "seg": 89
+        },
+        {
+         "inicio": "06:15",
+         "fin": "07:48",
+         "nombre": "Cuándo y cómo medir el ROI sin sacar conclusiones falsas",
+         "seg": 375
+        }
+       ]
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Como calcular el ROI ✍ Ejercicio con interpretación",
+       "canal": "Felipe Delgado",
+       "url": "https://www.youtube.com/watch?v=hip9PFpbqAs",
+       "publicado": "2021-06-07",
+       "vistas": 109247,
+       "megusta": 2047,
+       "razon": "Era el video de esta ruta: es de junio de 2021."
+      }
      ]
     },
     {
@@ -13651,7 +14705,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la misión «Mide lo que ahorras» del AI Dojo te guía con el cronómetro.",
+     "mira": "Mira la parte del cálculo y cronometra una tarea con y sin IA.",
      "hazlo": [
       "Haz en el AI Dojo la misión «Mide lo que ahorras».",
       "Haz una tarea tuya 3 veces sin IA y 3 con IA, cronometrando.",
@@ -13688,7 +14742,32 @@
        "Comparar tareas distintas.",
        "La misma tarea y del mismo tamaño."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Cómo calcular el ROI de un proyecto de IA",
+      "canal": "Inteligencia Artificial Pura y Dura",
+      "url": "https://www.youtube.com/watch?v=flE9ImnPEYk",
+      "publicado": "2026-09-24",
+      "vistas": 401,
+      "megusta": 24,
+      "minutos": 87,
+      "porQue": "De septiembre de 2026: cómo calcular el ROI de un proyecto de IA, en una clase larga. Tiene pocas vistas (401)."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Por qué no se ven resultados",
+       "titulo": "Por qué el 80% de empresas no ve resultados con AI",
+       "canal": "Platzi",
+       "url": "https://www.youtube.com/watch?v=KYGyvIjI2Vk",
+       "publicado": "2026-05-29",
+       "vistas": 244368,
+       "megusta": 6086,
+       "minutos": 22,
+       "porQue": "De mayo de 2026: por qué muchas empresas no ven resultados con IA, según Platzi. 6.086 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "indicadores-4",
@@ -13700,8 +14779,20 @@
      "practica": "Pon tus 3 KPI en un tablero de Excel o Power BI.",
      "recurso": {
       "nombre": "Introducción a la compilación con Power BI",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/training/modules/get-started-with-power-bi/"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/training/modules/get-started-with-power-bi/",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Al terminar",
+        "marca de aprobado en tu perfil de Learn (con sesión)"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "El módulo oficial para empezar con Power BI."
      },
      "logro": "mostrar tus indicadores en un tablero que se entienda en 10 segundos.",
      "idea": {
@@ -13730,7 +14821,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: repasa el punto 1 de la ruta de Power BI y el módulo de Microsoft Learn.",
+     "mira": "Mira los capítulos de la lista y arma un tablero con tus 3 indicadores y su meta.",
      "hazlo": [
       "Pon tus 3 indicadores en un tablero de Excel o de Power BI, cada uno con su meta.",
       "Agrega la fecha del dato.",
@@ -13766,9 +14857,106 @@
        "Colores sin significado.",
        "Si usas rojo, que sea solo para lo que está mal."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Qué es un KPI y cómo usarlo en el visual KPI de Power BI",
+      "canal": "datdata",
+      "url": "https://www.youtube.com/watch?v=aB8WejJSq7Y",
+      "publicado": "2026-09-22",
+      "vistas": 3707,
+      "megusta": 143,
+      "minutos": 27,
+      "porQue": "De septiembre de 2026: qué es un KPI, cómo definirlo con objetivos SMART y cómo mostrarlo con el visual KPI de Power BI. Trae el archivo de práctica.",
+      "capitulos": [
+       {
+        "inicio": "02:41",
+        "fin": "03:44",
+        "nombre": "Qué es un KPI?",
+        "seg": 161
+       },
+       {
+        "inicio": "03:44",
+        "fin": "07:37",
+        "nombre": "Objetivos SMART: cómo definir un KPI?",
+        "seg": 224
+       },
+       {
+        "inicio": "07:37",
+        "fin": "18:55",
+        "nombre": "Trabajar con gráficos de tipo KPI en Power BI: valor, eje de tendencia y destino",
+        "seg": 457
+       },
+       {
+        "inicio": "18:55",
+        "fin": null,
+        "nombre": "Ajustar formato y personalizar KPI en Power BI",
+        "seg": 1135
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "En Excel",
+       "titulo": "Cómo agregar tarjetas de datos a tu dashboard?",
+       "canal": "Excelereitor",
+       "url": "https://www.youtube.com/watch?v=mOHtDgMHC7w",
+       "publicado": "2025-02-18",
+       "vistas": 70192,
+       "megusta": 1588,
+       "minutos": 6,
+       "porQue": "De febrero de 2025: tarjetas de datos para un tablero en Excel. 1.588 me gusta.",
+       "capitulos": [
+        {
+         "inicio": "00:24",
+         "fin": "01:00",
+         "nombre": "Tarjetas de datos (Explicación general)",
+         "seg": 24
+        },
+        {
+         "inicio": "01:00",
+         "fin": "02:05",
+         "nombre": "Cómo insertar formas?",
+         "seg": 60
+        },
+        {
+         "inicio": "02:05",
+         "fin": "02:30",
+         "nombre": "Cómo añadir referencias a celdas?",
+         "seg": 125
+        },
+        {
+         "inicio": "04:21",
+         "fin": "05:35",
+         "nombre": "Personalización y diseño de formas",
+         "seg": 261
+        }
+       ]
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Qué es un KPI (1) y cómo calcular el ROI (2). Después mide lo que ahorra la IA (3) y muéstralo en un tablero (4).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "excel",
+      "porque": "Los cálculos de ROI salen en una hoja."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "power-bi",
+      "porque": "El tablero del punto 4 se hace en Power BI."
+     },
+     {
+      "ruta": "mejora-procesos",
+      "porque": "Medir el antes y el después es su punto 4."
+     }
+    ]
+   }
   },
   {
    "id": "erp",
