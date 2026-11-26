@@ -2137,10 +2137,11 @@
     },
     "gratis": null,
     "camino": {
-     "texto": "No hay una certificación oficial gratis. IIBA ofrece gratis algunos módulos de su preparación (ECBA Accelerator).",
+     "texto": "No hay una certificación oficial gratis. IIBA deja probar gratis su herramienta de preparación (ECBA Accelerator), sin comprar nada.",
      "url": "https://www.iiba.org/business-analysis-certifications/ecba/",
      "evidencia": [
-      "Free modules"
+      "Try the ECBA Accelerator free",
+      "No purchase required"
      ]
     },
     "enVacantes": "1 de 39 pide «una certificación en análisis de negocio, mejora de procesos o gestión de proyectos» sin nombrar una; ninguna nombra CBAP ni ECBA.",
@@ -2149,7 +2150,7 @@
      "url": "https://www.iiba.org/business-analysis-certifications/ecba/",
      "evidencia": [
       "Experience required None",
-      "Free modules. No purchase required."
+      "Try the ECBA Accelerator free"
      ],
      "datos": [
       [
@@ -2158,7 +2159,7 @@
       ],
       [
        "Práctica",
-       "módulos gratis"
+       "prueba gratis"
       ]
      ],
      "nota": "Datos de la página de IIBA. Los precios están en USD, con rebaja el 25-nov-2026: cambian.",
@@ -4406,9 +4407,14 @@
      "url": "https://www.efset.org/",
      "tipo": "certificado con nivel del Marco Común Europeo (MCER)",
      "evidencia": [
-      "free certification"
+      "free certification",
+      "4 skills (90 min)",
+      "2 skills (50 min)",
+      "4 skills (90 min)",
+      "2 skills (50 min)"
      ],
-     "nota": "Sirve para tu CV y LinkedIn; no reemplaza a IELTS o TOEFL cuando una empresa los exige."
+     "nota": "Prueba de 4 habilidades en 90 minutos o de 2 en 50 minutos.",
+     "punto": "ingles-5"
     },
     "enVacantes": "Ninguna de las 39 pide un examen (TOEFL, IELTS, Cambridge); 4 piden un nivel: B1 (1), B2 (2) y B2+ (1)."
    },
@@ -4429,9 +4435,14 @@
      },
      "practica": "Prepara tu respuesta a «Tell me about yourself» enfocada en implementación y procesos, y escribe aquí la versión final.",
      "video": {
-      "titulo": "English Job Interview Tips and Tricks - How to Answer Job Interview Questions in English",
-      "canal": "Oxford Online English",
-      "url": "https://www.youtube.com/watch?v=nhTcuUvLGOE"
+      "titulo": "Guía para SUPERAR una Entrevista de Trabajo en inglés (preguntas más comunes)",
+      "canal": "YouTalk TV",
+      "url": "https://www.youtube.com/watch?v=mJuwi3D3PZE",
+      "publicado": "2026-03-02",
+      "vistas": 25314,
+      "megusta": 850,
+      "minutos": 25,
+      "porQue": "De marzo de 2026: las preguntas más comunes de una entrevista en inglés y cómo responderlas, con 12 capítulos. 850 me gusta."
      },
      "logro": "responder «Tell me about yourself» enfocado en implementación y procesos.",
      "idea": {
@@ -4460,7 +4471,7 @@
        ]
       ]
      },
-     "mira": "Mira las partes «Make Your Answers More Concise» (1:56) y «How to Add Structure to Your Answers» (11:50).",
+     "mira": "Mira el video y prepara tus respuestas en 3-ENG.",
      "hazlo": [
       "Mira el video.",
       "Escribe tu respuesta con las 4 partes de la tabla, en máximo 6 frases.",
@@ -4496,7 +4507,35 @@
        "Ejemplos sin número.",
        "«I improved a process» pesa menos que un antes y un después medidos."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "15 preguntas con respuesta",
+       "titulo": "💼 15 Preguntas y Respuestas en Inglés para Entrevistas de Trabajo 🧠| ¡Prepárate y Gana el Empleo!",
+       "canal": "INGLES APLICADO",
+       "url": "https://www.youtube.com/watch?v=IP1o4efnswo",
+       "publicado": "2025-07-24",
+       "vistas": 31503,
+       "megusta": 1379,
+       "minutos": 12,
+       "porQue": "De julio de 2025: 15 preguntas y respuestas para entrevistas. 1.379 me gusta."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Todo en inglés",
+       "clasico": "Es de 2017 y todo en inglés. Se queda para practicar el oído: es el más visto del tema que medimos.",
+       "titulo": "English Job Interview Tips and Tricks - How to Answer Job Interview Questions in English",
+       "canal": "Oxford Online English",
+       "url": "https://www.youtube.com/watch?v=nhTcuUvLGOE",
+       "publicado": "2017-10-25",
+       "vistas": 3652723,
+       "megusta": 61663,
+       "minutos": 21,
+       "porQue": "3,6 millones de vistas y 61.663 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "ingles-2",
@@ -4512,8 +4551,20 @@
      },
      "recurso": {
       "nombre": "BBC Learning English",
-      "proveedor": "BBC (en inglés)",
-      "url": "https://www.bbc.co.uk/learningenglish/"
+      "proveedor": "BBC Learning English",
+      "url": "https://www.bbc.co.uk/learningenglish/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "lecciones de inglés de la BBC"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Lecciones cortas de la BBC."
      },
      "practica": "Agrega a tus tarjetas 20 palabras de las vacantes de la muestra (requirements, stakeholder, rollout, workflow…).",
      "logro": "usar en frases propias las palabras que más se repiten en las vacantes.",
@@ -4547,7 +4598,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: BBC Learning English trae vocabulario de trabajo con audio, y la pestaña Flashcards de 3-ENG lo repasa contigo.",
+     "mira": "Mira el video y escribe una frase tuya con 5 palabras de las vacantes.",
      "hazlo": [
       "Abre 3 vacantes de la muestra (al final del Mapa del rol) y subraya las palabras que se repiten.",
       "Agrega 20 de ellas a tus tarjetas en la pestaña Flashcards de 3-ENG.",
@@ -4579,7 +4630,19 @@
        "Pronunciar como se escribe.",
        "Escucha cada palabra en el diccionario antes de decirla."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Inglés para Negocios./ Vocabulario Esencial",
+      "canal": "Improve your english",
+      "url": "https://www.youtube.com/watch?v=CsMQh1_tMEI",
+      "publicado": "2026-02-21",
+      "vistas": 1465,
+      "megusta": 34,
+      "minutos": 12,
+      "porQue": "De febrero de 2026: vocabulario esencial de inglés para negocios. Tiene pocas vistas (1.465)."
+     },
+     "mas": [],
+     "descartados": []
     },
     {
      "id": "ingles-3",
@@ -4626,7 +4689,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: las pestañas Professional y Errores de 3-ENG traen frases de trabajo y tus errores frecuentes.",
+     "mira": "Mira el video y escribe en 3-ENG un correo de avance a un cliente ficticio.",
      "hazlo": [
       "Repasa las frases de la pestaña Professional de 3-ENG.",
       "Escribe en inglés el resumen de una práctica de otra ruta, en 5 a 8 líneas.",
@@ -4662,7 +4725,33 @@
        "No pedir algo concreto.",
        "Si necesitas algo, dilo con fecha: «Could you confirm by Friday?»."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "✍️✏️ Cómo ESCRIBIR EMAILS en INGLÉS / Escribe emails en inglés con estas 20 FRASES 📨🖥️",
+      "canal": "YouTalk TV",
+      "url": "https://www.youtube.com/watch?v=xSyLPtn-J8U",
+      "publicado": "2024-04-11",
+      "vistas": 12759,
+      "megusta": 568,
+      "minutos": 6,
+      "clasico": "Es de abril de 2024 (2 años y 7 meses). Se queda porque da 20 frases para correos con 568 me gusta; los recientes en español sobre el tema tienen menos de 300 vistas.",
+      "porQue": "Cómo escribir correos en inglés con 20 frases listas."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Correo urgente",
+       "titulo": "Cómo escribir un email urgente en inglés y sonar profesional (frases reales para el trabajo)",
+       "canal": "Tech English Lab",
+       "url": "https://www.youtube.com/watch?v=TvNm98RW6n4",
+       "publicado": "2026-04-06",
+       "vistas": 23,
+       "megusta": 8,
+       "minutos": 10,
+       "porQue": "De abril de 2026: cómo escribir un correo urgente y sonar profesional, con 11 capítulos. Muy pocas vistas (23)."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "ingles-4",
@@ -4678,14 +4767,31 @@
      },
      "recurso": {
       "nombre": "BBC Learning English",
-      "proveedor": "BBC (en inglés)",
-      "url": "https://www.bbc.co.uk/learningenglish/"
+      "proveedor": "BBC Learning English",
+      "url": "https://www.bbc.co.uk/learningenglish/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "lecciones de inglés de la BBC"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Para escuchar acentos distintos."
      },
      "practica": "Escucha un episodio y anota 5 frases que usarías en una reunión con un cliente.",
      "video": {
-      "titulo": "40 English Phrases You Need for Online Meetings",
-      "canal": "Maria Sheeran",
-      "url": "https://www.youtube.com/watch?v=PLhAzAymMsY"
+      "titulo": "🚀🇺🇸 Aprende Las 50 Frases Más Usadas En El Trabajo En Inglés | Práctica de Conversación en Inglés",
+      "canal": "Inglés Express",
+      "url": "https://www.youtube.com/watch?v=GiwQnuaOpmA",
+      "publicado": "2026-06-18",
+      "vistas": 349101,
+      "megusta": 13627,
+      "minutos": 27,
+      "porQue": "De junio de 2026: las 50 frases más usadas en el trabajo, con práctica de conversación. 349.101 vistas y 13.627 me gusta."
      },
      "logro": "seguir una reunión en inglés y pedir que repitan o aclaren.",
      "idea": {
@@ -4718,7 +4824,7 @@
        ]
       ]
      },
-     "mira": "El video trae 40 frases para reuniones en línea. Anota las que usarías con un cliente.",
+     "mira": "Mira el video y practica en 3-ENG las frases para pedir que repitan o aclaren.",
      "hazlo": [
       "Mira el video y anota 5 frases que usarías con un cliente.",
       "Escucha un episodio de BBC Learning English y practica en las pestañas Understand y Conversations de 3-ENG.",
@@ -4754,7 +4860,35 @@
        "Callar para no equivocarte.",
        "Una frase corta y clara vale más que el silencio."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Reuniones y videollamadas",
+       "titulo": "INGLÉS PARA EL TRABAJO | Reuniones, videollamadas y clientes",
+       "canal": "SpeakFlow EN–ES",
+       "url": "https://www.youtube.com/watch?v=oDHCimz_nn8",
+       "publicado": "2026-11-25",
+       "vistas": 567,
+       "megusta": 12,
+       "minutos": 117,
+       "porQue": "Del 25-nov-2026: inglés para reuniones, videollamadas y clientes, en una clase larga."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Reuniones en línea",
+       "clasico": "Es de julio de 2023 y en inglés. Se queda porque trae 40 frases justo para reuniones en línea.",
+       "titulo": "40 English Phrases You Need for Online Meetings",
+       "canal": "Maria Sheeran",
+       "url": "https://www.youtube.com/watch?v=PLhAzAymMsY",
+       "publicado": "2023-07-30",
+       "vistas": 291268,
+       "megusta": 11731,
+       "minutos": 5,
+       "porQue": "291.268 vistas y 11.731 me gusta, en 5 minutos."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "ingles-5",
@@ -4800,7 +4934,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la pestaña Defenderme de 3-ENG te pone objeciones para practicar.",
+     "mira": "Mira el video y defiende en 3-ENG por qué conviene automatizar una tarea.",
      "hazlo": [
       "Elige una automatización de práctica (la de la TRM o el consolidado de Excel).",
       "Llena las 5 frases de la tabla con tus números medidos.",
@@ -4836,9 +4970,50 @@
        "Ponerte a la defensiva.",
        "Una objeción es una pregunta: agradécela y responde."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Inglés en el Trabajo - 20 Minutos de Diálogos y Frases para el Negocio en Inglés",
+      "canal": "Blabbinit English",
+      "url": "https://www.youtube.com/watch?v=PDAmMq_QZGI",
+      "publicado": "2026-02-18",
+      "vistas": 3236,
+      "megusta": 168,
+      "minutos": 21,
+      "porQue": "De febrero de 2026: 20 minutos de diálogos y frases de negocios en inglés. 168 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Escribir una propuesta",
+       "clasico": "Es de abril de 2022. Se queda porque enseña la estructura de una propuesta escrita en inglés.",
+       "titulo": "Writing a PROPOSAL C1 en inglés- Ejemplo, estructura y vocabulario",
+       "canal": "Inglés Para Perezosos",
+       "url": "https://www.youtube.com/watch?v=84dB0DEpVWc",
+       "publicado": "2022-04-26",
+       "vistas": 92023,
+       "megusta": 4120,
+       "minutos": 12,
+       "porQue": "92.023 vistas y 4.120 me gusta."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Empieza por la entrevista (1): es lo primero que vas a necesitar. Después el vocabulario de las vacantes (2), escribir correos (3), entender reuniones (4) y defender una propuesta (5). La práctica diaria está en 3-ENG.",
+   "combina": {
+    "antes": [],
+    "abre": [
+     {
+      "ruta": "stakeholders",
+      "porque": "Su punto 4 es informar el avance, también en inglés."
+     },
+     {
+      "ruta": "documentacion",
+      "porque": "Muchas guías oficiales de las herramientas están en inglés."
+     }
+    ]
+   }
   },
   {
    "id": "n8n",
@@ -12758,11 +12933,47 @@
      "url": "https://www.scrumstudy.com/certification/scrum-fundamentals-certified",
      "tipo": "certificación con examen",
      "evidencia": [
-      "Free Primary Lifetime Membership"
+      "Free Primary Lifetime Membership",
+      "40 questions per exam",
+      "30 questions need to be answered correctly to pass",
+      "60 minutes duration",
+      "40 questions per exam",
+      "30 questions need to be answered correctly to pass",
+      "60 minutes duration"
      ],
-     "nota": "SCRUMstudy no es Scrum.org: son certificaciones distintas."
+     "nota": "40 preguntas en 60 minutos, en línea y sin vigilancia; se aprueba con 30 correctas.",
+     "punto": "proyectos-2"
     },
-    "enVacantes": "3 de 39: 2 piden PMP (en 1 es obligatoria) y 1 acepta «una certificación ágil»; ninguna nombra PSM ni CSM."
+    "enVacantes": "3 de 39: 2 piden PMP (en 1 es obligatoria) y 1 acepta «una certificación ágil»; ninguna nombra PSM ni CSM.",
+    "examen": {
+     "codigo": "PSM I",
+     "url": "https://www.scrum.org/assessments/professional-scrum-master-i-certification",
+     "evidencia": [
+      "Passing score: 85%",
+      "Time limit: 60 minutes",
+      "Number of Questions: 80"
+     ],
+     "datos": [
+      [
+       "Preguntas",
+       "80"
+      ],
+      [
+       "Tiempo",
+       "60 min"
+      ],
+      [
+       "Para aprobar",
+       "85 %"
+      ],
+      [
+       "Precio",
+       "200 USD"
+      ]
+     ],
+     "nota": "Datos de la página de Scrum.org. El examen se basa en la Guía de Scrum (punto 2).",
+     "enlaceTexto": "Ver la página oficial"
+    }
    },
    "queEs": "Organizar el trabajo para entregar a tiempo: Scrum trabaja en ciclos cortos con roles y reuniones fijas; Kanban muestra el trabajo en un tablero y limita lo que se hace a la vez.",
    "pasos": [
@@ -12777,13 +12988,30 @@
      "practica": "Explica la diferencia entre planear todo al inicio y trabajar en ciclos cortos, con un ejemplo de implementación.",
      "recurso": {
       "nombre": "¿Qué es ágil?",
-      "proveedor": "Atlassian (en español)",
-      "url": "https://www.atlassian.com/es/agile"
+      "proveedor": "Atlassian",
+      "url": "https://www.atlassian.com/es/agile",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la guía de ágil de Atlassian"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Ágil explicado con ejemplos."
      },
      "video": {
-      "titulo": "¿Qué es Scrum? - La mejor explicación en español",
-      "canal": "EDteam",
-      "url": "https://www.youtube.com/watch?v=sLexw-z13Fo"
+      "titulo": "TODAS las METODOLOGIAS AGILES Explicadas fácil",
+      "canal": "TICnoticos",
+      "url": "https://www.youtube.com/watch?v=w40tQpXsxV4",
+      "publicado": "2025-04-03",
+      "vistas": 12257,
+      "megusta": 278,
+      "minutos": 6,
+      "porQue": "De abril de 2025, 6 minutos: todas las metodologías ágiles explicadas fácil. 278 me gusta."
      },
      "logro": "explicar la diferencia entre planear todo al inicio y trabajar en ciclos cortos.",
      "idea": {
@@ -12812,7 +13040,7 @@
        ]
       ]
      },
-     "mira": "El video de EDteam explica Scrum: qué es una metodología ágil (0:46), los roles (3:13) y el sprint (14:00). La guía de Atlassian explica qué es ágil.",
+     "mira": "Mira el video y anota qué parte de tu trabajo ya se hace en ciclos cortos.",
      "hazlo": [
       "Mira el video y lee la guía de Atlassian.",
       "Toma la implementación ficticia de la ruta de requerimientos.",
@@ -12848,6 +13076,31 @@
        "Creer que ágil es no planear.",
        "Se planea, pero en tramos cortos."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Qué es Agile",
+       "titulo": "📘Curso SCRUM 01 - ¿Qué es Agile y por qué lo usan las mejores empresas del mundo?",
+       "canal": "Carlos Torras",
+       "url": "https://www.youtube.com/watch?v=ExTUJHwiuoU",
+       "publicado": "2025-07-12",
+       "vistas": 5510,
+       "megusta": 152,
+       "minutos": 36,
+       "porQue": "De julio de 2025: primera clase de un curso de Scrum, con 7 capítulos."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "¿Qué es Scrum? - La mejor explicación en español",
+       "canal": "EDteam",
+       "url": "https://www.youtube.com/watch?v=sLexw-z13Fo",
+       "publicado": "2020-03-04",
+       "vistas": 659331,
+       "megusta": 20176,
+       "razon": "Era el video de esta ruta: muy visto, pero es de marzo de 2020."
+      }
      ]
     },
     {
@@ -12861,8 +13114,20 @@
      "practica": "Lee la guía oficial y resume en una página los roles, los eventos y los artefactos.",
      "recurso": {
       "nombre": "La Guía de Scrum 2020",
-      "proveedor": "Ken Schwaber y Jeff Sutherland (en español)",
-      "url": "https://scrumguides.org/docs/scrumguide/v2020/2020-Scrum-Guide-Spanish-European.pdf"
+      "proveedor": "Ken Schwaber y Jeff Sutherland",
+      "url": "https://scrumguides.org/docs/scrumguide/v2020/2020-Scrum-Guide-Spanish-European.pdf",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la Guía de Scrum oficial (2020), en PDF"
+       ],
+       [
+        "Reseñas",
+        "no aplica"
+       ]
+      ],
+      "porQue": "La fuente oficial: es lo que evalúa el PSM I."
      },
      "logro": "nombrar los responsables, eventos y artefactos de Scrum y para qué sirve cada uno.",
      "idea": {
@@ -12899,7 +13164,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la Guía de Scrum 2020 (en español) es corta y es la fuente oficial.",
+     "mira": "Mira el video y lee la Guía de Scrum (es corta).",
      "hazlo": [
       "Lee la Guía de Scrum 2020.",
       "Resume en una página los 3 responsables, los 5 eventos y los 3 artefactos.",
@@ -12939,7 +13204,32 @@
        "Saltarse la retrospectiva.",
        "Es donde el equipo mejora su forma de trabajar."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Cómo Aplicar SCRUM en 2 Horas: La Guía Paso a Paso que Necesitas",
+      "canal": "marco calle",
+      "url": "https://www.youtube.com/watch?v=Yi7gHAYkNzc",
+      "publicado": "2025-10-08",
+      "vistas": 30387,
+      "megusta": 954,
+      "minutos": 113,
+      "porQue": "De octubre de 2025: cómo aplicar Scrum paso a paso, en 2 horas. 954 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Scrum en Jira",
+       "titulo": "Gestiona tu proyecto SCRUM en JIRA paso a paso",
+       "canal": "Ágil Es Por Cris Rúa",
+       "url": "https://www.youtube.com/watch?v=PetkMCaQjGE",
+       "publicado": "2026-02-04",
+       "vistas": 34235,
+       "megusta": 1089,
+       "minutos": 44,
+       "porQue": "De febrero de 2026: gestionar un proyecto Scrum en Jira paso a paso. 1.089 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "proyectos-3",
@@ -12952,13 +13242,30 @@
      "practica": "Arma un tablero Kanban para tus rutas de estudio: por hacer, haciendo, hecho.",
      "recurso": {
       "nombre": "¿Qué es kanban?",
-      "proveedor": "Atlassian (en español)",
-      "url": "https://www.atlassian.com/es/agile/kanban"
+      "proveedor": "Atlassian",
+      "url": "https://www.atlassian.com/es/agile/kanban",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la guía de Kanban de Atlassian"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Columnas, límites y flujo."
      },
      "video": {
-      "titulo": "Qué es KANBAN y cómo se implementa paso a 🏃 paso + ejemplos prácticos",
-      "canal": "Ingenio Empresa",
-      "url": "https://www.youtube.com/watch?v=B-uwQg7RgH8"
+      "titulo": "Cómo usar tableros KANBAN en tus Proyectos de Gestión de Procesos | Tutorial Completo",
+      "canal": "Glasses Procesos",
+      "url": "https://www.youtube.com/watch?v=w1PbAK8xJzg",
+      "publicado": "2025-11-20",
+      "vistas": 1093,
+      "megusta": 35,
+      "minutos": 18,
+      "porQue": "De noviembre de 2025: cómo usar tableros Kanban en proyectos de gestión de procesos, con 8 capítulos."
      },
      "logro": "armar un tablero Kanban con límite de trabajo en curso.",
      "idea": {
@@ -12987,7 +13294,7 @@
        ]
       ]
      },
-     "mira": "El video explica qué es Kanban y cómo se implementa con ejemplos.",
+     "mira": "Mira el video y arma un tablero Kanban con tus tareas de la semana.",
      "hazlo": [
       "Mira el video y lee la guía de Atlassian.",
       "Arma un tablero Kanban con tus 25 rutas: por hacer, haciendo (máximo 2) y hecho.",
@@ -13023,6 +13330,43 @@
        "No actualizarlo.",
        "Un tablero viejo engaña más que no tener ninguno."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Kanban en Excel",
+       "titulo": "🚀 Gestiona tus Proyectos con un Tablero Kanban Dinámico en Excel",
+       "canal": "Master Tech Academy",
+       "url": "https://www.youtube.com/watch?v=Db4S-w0SwW0",
+       "publicado": "2025-02-09",
+       "vistas": 24576,
+       "megusta": 620,
+       "minutos": 52,
+       "porQue": "De febrero de 2025: un tablero Kanban dinámico en Excel. 620 me gusta."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Kanban en Jira",
+       "titulo": "KANBAN con JIRA - Disminuye los tiempos de entrega de tu equipo",
+       "canal": "Ágil Es Por Cris Rúa",
+       "url": "https://www.youtube.com/watch?v=h2BZf9evgmA",
+       "publicado": "2026-05-11",
+       "vistas": 2676,
+       "megusta": 92,
+       "minutos": 41,
+       "porQue": "De mayo de 2026: Kanban con Jira para bajar los tiempos de entrega, con 19 capítulos."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Qué es KANBAN y cómo se implementa paso a 🏃 paso + ejemplos prácticos",
+       "canal": "Ingenio Empresa",
+       "url": "https://www.youtube.com/watch?v=B-uwQg7RgH8",
+       "publicado": "2022-03-07",
+       "vistas": 81414,
+       "megusta": 1130,
+       "razon": "Era el video de esta ruta: es de marzo de 2022."
+      }
      ]
     },
     {
@@ -13036,8 +13380,20 @@
      "practica": "Define 2 métricas para seguir un proyecto de automatización ficticio.",
      "recurso": {
       "nombre": "Cinco métricas ágiles que no odiarás",
-      "proveedor": "Atlassian (en español)",
-      "url": "https://www.atlassian.com/es/agile/project-management/metrics"
+      "proveedor": "Atlassian",
+      "url": "https://www.atlassian.com/es/agile/project-management/metrics",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "las métricas ágiles según Atlassian"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Tiempo de ciclo, velocidad y qué no medir."
      },
      "logro": "elegir dos métricas que digan cómo avanza un proyecto y calcular una.",
      "idea": {
@@ -13066,7 +13422,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la guía de Atlassian (en español) presenta cinco métricas ágiles.",
+     "mira": "Mira el video y calcula el tiempo de ciclo de tu tablero del punto 3.",
      "hazlo": [
       "Lee la guía de Atlassian.",
       "Define 2 métricas para un proyecto ficticio de automatización, con cómo se calculan.",
@@ -13102,9 +13458,54 @@
        "Métricas que nadie mira.",
        "Si no cambian una decisión, sobran."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Métricas de equipo Scrum - Velocidad y Tasa de Cumplimiento (desarrollo de software)",
+      "canal": "Sistémico",
+      "url": "https://www.youtube.com/watch?v=_7ybhaSc4_Q",
+      "publicado": "2025-04-21",
+      "vistas": 272,
+      "megusta": 5,
+      "minutos": 10,
+      "porQue": "De abril de 2025, 10 minutos: dos métricas de un equipo Scrum, la velocidad y la tasa de cumplimiento. Tiene muy pocas vistas (272)."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Equipos con IA",
+       "titulo": "Sin Scrum: así se organizan los equipos que usan IA",
+       "canal": "Javier Garzás",
+       "url": "https://www.youtube.com/watch?v=eOju3Z0VnHg",
+       "publicado": "2026-03-08",
+       "vistas": 16934,
+       "megusta": 588,
+       "minutos": 23,
+       "porQue": "De marzo de 2026: cómo se organizan los equipos que trabajan con IA. 588 me gusta."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Primero qué es ágil (1) y Scrum (2), que es lo que evalúa el PSM I. Después Kanban (3) y las métricas del equipo (4).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "requerimientos",
+      "porque": "Las historias de usuario salen del levantamiento de requerimientos."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "stakeholders",
+      "porque": "Un proyecto se sostiene con las áreas informadas."
+     },
+     {
+      "ruta": "cambio",
+      "porque": "Entregar es la mitad; que lo usen es la gestión del cambio."
+     }
+    ]
+   }
   },
   {
    "id": "cambio",
@@ -13144,13 +13545,30 @@
      "practica": "Aplica ADKAR a la llegada de una herramienta nueva a un área ficticia.",
      "recurso": {
       "nombre": "The Prosci ADKAR Model",
-      "proveedor": "Prosci (en inglés)",
-      "url": "https://www.prosci.com/methodology/adkar"
+      "proveedor": "Prosci",
+      "url": "https://www.prosci.com/methodology/adkar",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la explicación oficial de ADKAR"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La fuente: Prosci creó el modelo."
      },
      "video": {
-      "titulo": "The Prosci ADKAR Model | Tim Creasey Interview",
-      "canal": "Prosci",
-      "url": "https://www.youtube.com/watch?v=L_7I03LOyyk"
+      "titulo": "El método que salvará a tu empresa de la resistencia al cambio - ADKAR",
+      "canal": "Datademia",
+      "url": "https://www.youtube.com/watch?v=yxuF7wLn79I",
+      "publicado": "2025-05-05",
+      "vistas": 784,
+      "megusta": 15,
+      "minutos": 8,
+      "porQue": "De mayo de 2025, 8 minutos: el modelo ADKAR contra la resistencia al cambio, con 16 capítulos. Pocas vistas (784)."
      },
      "logro": "descubrir en qué parte del cambio se atasca cada grupo de personas.",
      "idea": {
@@ -13183,7 +13601,7 @@
        ]
       ]
      },
-     "mira": "El video es una entrevista sobre el modelo ADKAR, en inglés. La página de Prosci lo resume.",
+     "mira": "Mira el video y marca en qué letra de ADKAR se atascaría un compañero ante una automatización.",
      "hazlo": [
       "Mira el video y lee la página de Prosci.",
       "Imagina que llega una herramienta nueva a un área ficticia y separa a la gente en 2 o 3 grupos.",
@@ -13219,7 +13637,22 @@
        "Olvidar el refuerzo.",
        "Sin la R, la gente vuelve a lo de antes en unas semanas."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Otra explicación",
+       "titulo": "La Mejor Estrategia Para Gestionar El Cambio 🧠 | ADKAR",
+       "canal": "LEAL 3.0",
+       "url": "https://www.youtube.com/watch?v=RDiIOU6uTRU",
+       "publicado": "2025-11-16",
+       "vistas": 132,
+       "megusta": 8,
+       "minutos": 10,
+       "porQue": "De noviembre de 2025: ADKAR para gestionar el cambio. Muy pocas vistas (132)."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "cambio-2",
@@ -13232,13 +13665,30 @@
      "practica": "Escribe el mensaje de urgencia y la primera victoria rápida para esa herramienta.",
      "recurso": {
       "nombre": "The 8-Step Process for Leading Change",
-      "proveedor": "Kotter (en inglés)",
-      "url": "https://www.kotterinc.com/methodology/8-steps/"
+      "proveedor": "Kotter",
+      "url": "https://www.kotterinc.com/methodology/8-steps/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "los 8 pasos en la página oficial de Kotter"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La fuente oficial del método."
      },
      "video": {
-      "titulo": "Los 8 Pasos de Kotter - Gestión del Cambio",
-      "canal": "Cadena Critica Blog",
-      "url": "https://www.youtube.com/watch?v=IMf_L0ybonA"
+      "titulo": "Los Ocho Pasos para Liderar el Cambio John Kotter",
+      "canal": "Daniel Blanco",
+      "url": "https://www.youtube.com/watch?v=mz50E4LI-KQ",
+      "publicado": "2025-12-11",
+      "vistas": 473,
+      "megusta": 7,
+      "minutos": 7,
+      "porQue": "De diciembre de 2025, 7 minutos: los 8 pasos de Kotter para liderar el cambio. Pocas vistas (473)."
      },
      "logro": "escribir el mensaje de urgencia y planear la primera victoria rápida.",
      "idea": {
@@ -13275,7 +13725,7 @@
        ]
       ]
      },
-     "mira": "El video explica los 8 pasos de Kotter en español. La página de Kotter (en inglés) los resume.",
+     "mira": "Mira el video y escribe la victoria rápida que mostrarías en tu proceso.",
      "hazlo": [
       "Mira el video y lee la página de Kotter.",
       "Escribe en 3 frases el mensaje de urgencia para la herramienta ficticia.",
@@ -13311,7 +13761,22 @@
        "Cantar victoria muy pronto.",
        "Una buena primera semana no es el cambio terminado."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Otra explicación",
+       "titulo": "Gestión del Cambio Modelo 8 pasos Jhon Kotter",
+       "canal": "Formación Online MasterClassNow",
+       "url": "https://www.youtube.com/watch?v=-wkwEXe6pgA",
+       "publicado": "2025-07-21",
+       "vistas": 454,
+       "megusta": 7,
+       "minutos": 8,
+       "porQue": "De julio de 2025: el modelo de 8 pasos. Pocas vistas (454)."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "cambio-3",
@@ -13354,7 +13819,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la misión «Enséñaselo a alguien» del AI Dojo te guía.",
+     "mira": "Mira el video y arma una sesión de 30 minutos: objetivo, demostración y práctica.",
      "hazlo": [
       "Haz en el AI Dojo la misión «Enséñaselo a alguien».",
       "Prepara una capacitación de 20 minutos con las 4 partes, sobre tu app o tu flujo de práctica.",
@@ -13390,7 +13855,34 @@
        "Preguntar «¿entendieron?»",
        "Todos dicen que sí: pídeles que lo hagan."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Aprende a crear talleres de capacitación efectivos",
+      "canal": "Crecer En Equipo",
+      "url": "https://www.youtube.com/watch?v=irjXNAA7Qts",
+      "publicado": "2021-03-20",
+      "vistas": 36149,
+      "megusta": 1133,
+      "minutos": 26,
+      "clasico": "Es de marzo de 2021. Se queda porque enseña a armar un taller de capacitación paso a paso; en nuestra búsqueda no salió uno reciente en español sobre el tema.",
+      "porQue": "Cómo crear talleres de capacitación efectivos. 1.133 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Enseñar lo que sabes",
+       "clasico": "Es de septiembre de 2019. Se queda por sus 5 claves para enseñar a otros, con muchos me gusta.",
+       "titulo": "5 Claves para Impartir Cursos de Formacion, Enseñar tus Conocimientos y Posicionarte como Referente",
+       "canal": "Sebastián Lora",
+       "url": "https://www.youtube.com/watch?v=bQrtiioNOfA",
+       "publicado": "2019-09-02",
+       "vistas": 138429,
+       "megusta": 6035,
+       "minutos": 9,
+       "porQue": "138.429 vistas y 6.035 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "cambio-4",
@@ -13402,8 +13894,20 @@
      "practica": "Define 3 señales de que la herramienta se usa de verdad a los 30 días.",
      "recurso": {
       "nombre": "KPIs: What Are Key Performance Indicators?",
-      "proveedor": "Investopedia (en inglés)",
-      "url": "https://www.investopedia.com/terms/k/kpi.asp"
+      "proveedor": "Investopedia",
+      "url": "https://www.investopedia.com/terms/k/kpi.asp",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la definición de KPI de Investopedia"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Para escribir tu indicador de adopción."
      },
      "logro": "definir cómo sabrás, a los 30 días, si la gente usa de verdad la herramienta.",
      "idea": {
@@ -13432,7 +13936,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: repasa el artículo de indicadores de Investopedia (en inglés).",
+     "mira": "Mira el video y define cómo medirías el uso real (no solo el acceso) de una herramienta nueva.",
      "hazlo": [
       "Repasa el artículo de indicadores.",
       "Define 3 señales de que la herramienta se usa de verdad, cada una con fórmula y meta.",
@@ -13468,9 +13972,54 @@
        "Culpar a los usuarios.",
        "Si no la usan, algo del cambio falló: vuelve a ADKAR."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Microsoft 365 Copilot: las 3 herramientas para medir el uso y el ROI en tu empresa",
+      "canal": "M365 hoy",
+      "url": "https://www.youtube.com/watch?v=H9uw-eV9fsY",
+      "publicado": "2026-04-29",
+      "vistas": 245,
+      "megusta": 4,
+      "minutos": 19,
+      "porQue": "De abril de 2026: las herramientas de Microsoft para medir el uso y el retorno de Copilot en una empresa. Muy pocas vistas (245)."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Adopción de Gemini",
+       "titulo": "Impulsa la adopción de Gemini con datos de la consola de administración",
+       "canal": "Wursta",
+       "url": "https://www.youtube.com/watch?v=EAtLMFfn-pE",
+       "publicado": "2025-11-26",
+       "vistas": 263,
+       "megusta": 4,
+       "minutos": 36,
+       "porQue": "De noviembre de 2025: medir la adopción con los datos de la consola de administración."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Primero dos modelos de referencia: ADKAR (1), de Prosci, y los 8 pasos de Kotter (2). Después capacitar a los usuarios (3) y medir si de verdad usan lo nuevo (4).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "stakeholders",
+      "porque": "Saber quién gana y quién pierde con el cambio."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "indicadores",
+      "porque": "Medir la adopción (punto 4) es un indicador."
+     },
+     {
+      "ruta": "low-code",
+      "porque": "Toda app nueva necesita que la gente la adopte."
+     }
+    ]
+   }
   },
   {
    "id": "documentacion",
@@ -14023,13 +14572,30 @@
      "practica": "Arma la matriz de poder e interés para un proyecto ficticio de automatización.",
      "recurso": {
       "nombre": "Stakeholders de un proyecto: qué son y cómo gestionarlos",
-      "proveedor": "Asana (en español)",
-      "url": "https://asana.com/es/resources/project-stakeholder"
+      "proveedor": "Asana",
+      "url": "https://asana.com/es/resources/project-stakeholder",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la guía de Asana sobre stakeholders"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Qué son y cómo gestionarlos."
      },
      "video": {
-      "titulo": "¿Cómo Usar una Matriz de Stakeholders Para Mejorar Tu Proyecto?",
-      "canal": "marco calle",
-      "url": "https://www.youtube.com/watch?v=0hLFyZU7F4k"
+      "titulo": "¿Qué es un mapa de stakeholder y cómo crearlo?",
+      "canal": "Piensa Solutions",
+      "url": "https://www.youtube.com/watch?v=SOHEI0Gbf9Y",
+      "publicado": "2025-09-03",
+      "vistas": 2590,
+      "megusta": 20,
+      "minutos": 3,
+      "porQue": "De septiembre de 2025, 3 minutos: qué es un mapa de stakeholders y cómo crearlo."
      },
      "logro": "ubicar a cada persona en la matriz de poder e interés y saber cómo tratarla.",
      "idea": {
@@ -14058,7 +14624,7 @@
        ]
       ]
      },
-     "mira": "El video explica cómo usar una matriz de interesados en un proyecto. La guía de Asana (en español) sirve de repaso.",
+     "mira": "Mira el video y arma la matriz de poder e interés de un proyecto ficticio.",
      "hazlo": [
       "Mira el video y lee la guía de Asana.",
       "Lista las personas y áreas de un proyecto ficticio de automatización.",
@@ -14094,6 +14660,18 @@
        "Hacerla una sola vez.",
        "Las personas cambian de cuadrante: revísala cada mes."
       ]
+     ],
+     "mas": [],
+     "descartados": [
+      {
+       "titulo": "¿Cómo Usar una Matriz de Stakeholders Para Mejorar Tu Proyecto?",
+       "canal": "marco calle",
+       "url": "https://www.youtube.com/watch?v=0hLFyZU7F4k",
+       "publicado": "2022-10-25",
+       "vistas": 50599,
+       "megusta": 895,
+       "razon": "Era el video de esta ruta: es de octubre de 2022."
+      }
      ]
     },
     {
@@ -14105,8 +14683,20 @@
      "practica": "Haz la tabla RACI del mismo proyecto.",
      "recurso": {
       "nombre": "Tabla RACI: qué es y cómo usarla",
-      "proveedor": "Atlassian (en español)",
-      "url": "https://www.atlassian.com/es/work-management/project-management/raci-chart"
+      "proveedor": "Atlassian",
+      "url": "https://www.atlassian.com/es/work-management/project-management/raci-chart",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la guía de la tabla RACI de Atlassian"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Con ejemplo y plantilla."
      },
      "logro": "dejar claro quién hace, quién aprueba, a quién se consulta y a quién se informa.",
      "idea": {
@@ -14135,7 +14725,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la guía de Atlassian (en español) explica la tabla RACI con un ejemplo.",
+     "mira": "Mira el video y arma la tabla RACI de tu automatización ficticia.",
      "hazlo": [
       "Lee la guía de Atlassian.",
       "Lista 5 tareas del proyecto ficticio.",
@@ -14171,7 +14761,32 @@
        "No mostrarla.",
        "La tabla sirve si todos la conocen."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Cómo planificar un proyecto para NO perder el fondo (EDT, Gantt y RACI)",
+      "canal": "Will Cotrino",
+      "url": "https://www.youtube.com/watch?v=xmoBZr3inag",
+      "publicado": "2026-08-22",
+      "vistas": 764,
+      "megusta": 33,
+      "minutos": 7,
+      "porQue": "De agosto de 2026: planificar un proyecto con EDT, Gantt y la matriz RACI. 33 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Solo RACI",
+       "titulo": "Matriz RACI en proyectos: Cómo definir responsabilidades y evitar conflictos",
+       "canal": "Instituto Iberoamericano de Gerencia de Proyectos",
+       "url": "https://www.youtube.com/watch?v=V2Bdrtk_Jeo",
+       "publicado": "2025-12-11",
+       "vistas": 55,
+       "megusta": 8,
+       "minutos": 13,
+       "porQue": "De diciembre de 2025: cómo definir responsabilidades con RACI. Muy pocas vistas (55)."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "stakeholders-3",
@@ -14184,8 +14799,20 @@
      "practica": "Prepara la agenda y el correo de seguimiento de la primera reunión.",
      "recurso": {
       "nombre": "Reuniones de lanzamiento del proyecto",
-      "proveedor": "Atlassian Team Playbook (en español)",
-      "url": "https://www.atlassian.com/es/team-playbook/plays/project-kickoff"
+      "proveedor": "Atlassian Team Playbook",
+      "url": "https://www.atlassian.com/es/team-playbook/plays/project-kickoff",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la guía de Atlassian para la reunión de arranque"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Una agenda lista."
      },
      "logro": "preparar una reunión con agenda y cerrarla con acuerdos por escrito.",
      "idea": {
@@ -14214,7 +14841,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la guía de Atlassian sobre reuniones de lanzamiento trae una agenda de ejemplo.",
+     "mira": "Mira el video y escribe la agenda de tu primera reunión.",
      "hazlo": [
       "Lee la guía de Atlassian.",
       "Escribe la agenda de la primera reunión del proyecto ficticio (máximo 45 minutos).",
@@ -14254,7 +14881,33 @@
        "Mandar el resumen días después.",
        "El mismo día, mientras todos lo recuerdan."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Cómo hacer una reunión de kickoff efectiva: 3 preguntas que generan confianza y evitan fricciones",
+      "canal": "Sebastián Lora",
+      "url": "https://www.youtube.com/watch?v=b5LoFrSoJeg",
+      "publicado": "2025-09-08",
+      "vistas": 784,
+      "megusta": 29,
+      "minutos": 5,
+      "porQue": "De septiembre de 2025, 5 minutos: tres preguntas para una reunión de arranque que genera confianza."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Con plantilla",
+       "clasico": "Es de septiembre de 2021. Se queda porque trae la estructura de la presentación de arranque y una plantilla.",
+       "titulo": "🚀 LANZAMIENTO del Proyecto | Estructura de la PRESENTACIÓN del KICK OFF + Plantilla DESCARGABLE",
+       "canal": "OPM Integral",
+       "url": "https://www.youtube.com/watch?v=50dtCaIbj5k",
+       "publicado": "2021-09-22",
+       "vistas": 11840,
+       "megusta": 259,
+       "minutos": 8,
+       "porQue": "11.840 vistas y 259 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "stakeholders-4",
@@ -14297,7 +14950,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la pestaña Professional de 3-ENG trae frases para correos de avance.",
+     "mira": "Mira el video y escribe tu informe: hecho, sigue, riesgos y qué necesitas (también en inglés, en 3-ENG).",
      "hazlo": [
       "Escribe un correo semanal de avance del proyecto ficticio con las 4 partes.",
       "Escribe su versión en inglés (Done, Next, Risks, What I need).",
@@ -14333,9 +14986,53 @@
        "Pedir sin fecha.",
        "«Necesito el acceso» no es lo mismo que «antes del jueves»."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Como elaborar de un Informe de estado para tu proyecto",
+      "canal": "marco calle",
+      "url": "https://www.youtube.com/watch?v=mDgqi3sMqK8",
+      "publicado": "2025-08-26",
+      "vistas": 3034,
+      "megusta": 115,
+      "minutos": 13,
+      "porQue": "De agosto de 2025: cómo elaborar un informe de estado del proyecto. 115 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Informes rápidos",
+       "titulo": "Preparar Informes de Seguimiento del proyecto en minutos",
+       "canal": "PMPeople",
+       "url": "https://www.youtube.com/watch?v=RkFut5G8P20",
+       "publicado": "2025-11-17",
+       "vistas": 336,
+       "megusta": 2,
+       "minutos": 15,
+       "porQue": "De noviembre de 2025: preparar informes de seguimiento en minutos."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Identifica quiénes son y qué quieren (1), reparte las responsabilidades con RACI (2), prepara la primera reunión (3) e informa el avance (4).",
+   "combina": {
+    "antes": [],
+    "abre": [
+     {
+      "ruta": "requerimientos",
+      "porque": "Levantar requerimientos es, sobre todo, hablar con ellos."
+     },
+     {
+      "ruta": "proyectos",
+      "porque": "Un proyecto se sostiene con las áreas informadas."
+     },
+     {
+      "ruta": "ingles",
+      "porque": "El punto 4 también se hace en inglés."
+     }
+    ]
+   }
   },
   {
    "id": "indicadores",
@@ -14980,7 +15677,11 @@
     },
     "gratis": null,
     "camino": {
-     "texto": "No encontré una certificación oficial de ERP gratis que pudiera confirmar en una página oficial."
+     "texto": "No encontré una certificación oficial de ERP gratis. SAP ofrece gratis sus rutas de aprendizaje para preparar las certificaciones (lo dice su página).",
+     "url": "https://learning.sap.com/certification",
+     "evidencia": [
+      "Explore our free SAP Learning Journeys"
+     ]
     },
     "enVacantes": "Ninguna de las 39 nombra una certificación de ERP (SAP, NetSuite, Oracle)."
    },
@@ -14996,13 +15697,62 @@
      "practica": "Dibuja los módulos de un ERP y qué información pasa entre ellos: compras, inventario y contabilidad.",
      "recurso": {
       "nombre": "SAP Learning",
-      "proveedor": "SAP (en inglés)",
-      "url": "https://learning.sap.com/"
+      "proveedor": "SAP",
+      "url": "https://learning.sap.com/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la plataforma de aprendizaje de SAP"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Las rutas gratis de SAP."
      },
      "video": {
-      "titulo": "Qué es un ERP y para qué sirve - Definición de ERP - Aplimedia",
-      "canal": "Aplimedia",
-      "url": "https://www.youtube.com/watch?v=7_r7rGHmh1c"
+      "titulo": "Qué es un ERP y qué NO es un ERP",
+      "canal": "Jorge Monzonís SAP",
+      "url": "https://www.youtube.com/watch?v=LduNaREbnyo",
+      "publicado": "2026-08-26",
+      "vistas": 9788,
+      "megusta": 206,
+      "minutos": 12,
+      "porQue": "De agosto de 2026: qué es y qué no es un ERP, con el ejemplo de un pedido con y sin ERP, y por qué fracasan los proyectos. 206 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "00:00",
+        "fin": "00:34",
+        "nombre": "Qué software NO es un ERP",
+        "seg": 0
+       },
+       {
+        "inicio": "00:34",
+        "fin": "02:11",
+        "nombre": "Un pedido de un sofá, con ERP y sin ERP",
+        "seg": 34
+       },
+       {
+        "inicio": "02:11",
+        "fin": "05:43",
+        "nombre": "Una única base de datos: la definición real",
+        "seg": 131
+       },
+       {
+        "inicio": "07:02",
+        "fin": "09:48",
+        "nombre": "Horizontal, vertical y cuándo necesitas uno",
+        "seg": 422
+       },
+       {
+        "inicio": "09:48",
+        "fin": null,
+        "nombre": "Las tres cosas que hacen fracasar un proyecto",
+        "seg": 588
+       }
+      ]
      },
      "logro": "dibujar los módulos de un ERP y qué información pasa entre ellos.",
      "idea": {
@@ -15031,7 +15781,7 @@
        ]
       ]
      },
-     "mira": "El video explica qué es un ERP y para qué sirve. SAP Learning (en inglés) tiene cursos introductorios si quieres más.",
+     "mira": "Mira los capítulos de la lista y dibuja cómo pasa un dato de compras a contabilidad.",
      "hazlo": [
       "Mira el video.",
       "Dibuja los módulos de compras, inventario y contabilidad, con flechas de lo que pasa entre ellos.",
@@ -15067,6 +15817,43 @@
        "Pensar que todos los ERP son iguales.",
        "SAP, Oracle, NetSuite y Odoo comparten la idea, no las pantallas."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Guía completa",
+       "titulo": "¿Qué es un ERP? [Guía Definitiva] Para Qué Sirve, Módulos, Beneficios y Cómo Elegir | Alberto López",
+       "canal": "AlbertoLopez TECH TIPS",
+       "url": "https://www.youtube.com/watch?v=kuAzslFFYAs",
+       "publicado": "2025-06-08",
+       "vistas": 23604,
+       "megusta": 629,
+       "minutos": 18,
+       "porQue": "De junio de 2025: para qué sirve, módulos y cómo elegir un ERP. 629 me gusta."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "ERP o CRM",
+       "titulo": "7 Diferencias entre ERP y CRM",
+       "canal": "Irene Calcáneo",
+       "url": "https://www.youtube.com/watch?v=IYtBVNS16sM",
+       "publicado": "2026-03-02",
+       "vistas": 1171,
+       "megusta": 46,
+       "minutos": 6,
+       "porQue": "De marzo de 2026: 7 diferencias entre ERP y CRM, con 10 capítulos."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Qué es un ERP y para qué sirve - Definición de ERP - Aplimedia",
+       "canal": "Aplimedia",
+       "url": "https://www.youtube.com/watch?v=7_r7rGHmh1c",
+       "publicado": "2017-09-25",
+       "vistas": 521254,
+       "megusta": 6800,
+       "razon": "Era el video de esta ruta: es de septiembre de 2017."
+      }
      ]
     },
     {
@@ -15079,13 +15866,30 @@
      "practica": "En una prueba de Odoo (la cuenta la creas tú), registra una compra, recíbela y mira el asiento contable que genera.",
      "recurso": {
       "nombre": "Odoo Learn",
-      "proveedor": "Odoo (en inglés)",
-      "url": "https://www.odoo.com/slides"
+      "proveedor": "Odoo",
+      "url": "https://www.odoo.com/slides",
+      "idioma": "Inglés y español",
+      "datos": [
+       [
+        "Qué es",
+        "los cursos oficiales de Odoo"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Los cursos oficiales, por módulo."
      },
      "video": {
-      "titulo": "Curso de Odoo para principiantes y desarrolladores (Odoo, Odoo.sh, y Odoo.com)",
-      "canal": "Fazt",
-      "url": "https://www.youtube.com/watch?v=jzpp-sLP-gI"
+      "titulo": "Odoo desde cero: Ordenes de compra",
+      "canal": "Tono Ibarra",
+      "url": "https://www.youtube.com/watch?v=qq6tMqiT5w0",
+      "publicado": "2025-10-15",
+      "vistas": 3701,
+      "megusta": 45,
+      "minutos": 7,
+      "porQue": "De octubre de 2025, 7 minutos: una orden de compra en Odoo desde cero. 45 me gusta."
      },
      "logro": "recorrer una compra de punta a punta y ver el asiento que genera.",
      "idea": {
@@ -15114,7 +15918,7 @@
        ]
       ]
      },
-     "mira": "Mira hasta el capítulo «Módulos» (9:25 a 23:12): cómo crear la cuenta y activar los módulos. El recorrido de la compra lo haces tú con los pasos de este punto.",
+     "mira": "Mira el video y haz tú la compra en una prueba de Odoo (la cuenta la creas tú).",
      "hazlo": [
       "Crea una prueba de Odoo (la cuenta la creas tú) con los módulos de Compras y Contabilidad.",
       "Haz una compra ficticia de punta a punta: pedido, recepción y factura.",
@@ -15150,6 +15954,43 @@
        "Buscar el asiento en Compras.",
        "Está en Contabilidad, dentro de la factura confirmada."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Contabilidad en Odoo",
+       "titulo": "Odoo Training Session | Taller de Conta para principiantes",
+       "canal": "Odoo Español",
+       "url": "https://www.youtube.com/watch?v=3aT8QLv5dyg",
+       "publicado": "2026-08-06",
+       "vistas": 5337,
+       "megusta": 150,
+       "minutos": 157,
+       "porQue": "De agosto de 2026: taller de contabilidad para principiantes del canal Odoo Español. 150 me gusta."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Curso completo",
+       "titulo": "🚀 Curso Completo Odoo: De Principiante a Experto en 2 Horas | Tutorial GRATIS en Español",
+       "canal": "Juanjo Digital",
+       "url": "https://www.youtube.com/watch?v=8EZUSmV3WUI",
+       "publicado": "2025-09-30",
+       "vistas": 108795,
+       "megusta": 2535,
+       "minutos": 108,
+       "porQue": "De septiembre de 2025: Odoo de principiante a experto en 2 horas, con 38 capítulos. 2.535 me gusta."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Curso de Odoo para principiantes y desarrolladores (Odoo, Odoo.sh, y Odoo.com)",
+       "canal": "Fazt",
+       "url": "https://www.youtube.com/watch?v=jzpp-sLP-gI",
+       "publicado": "2024-07-24",
+       "vistas": 437319,
+       "megusta": 10070,
+       "razon": "Era el video de esta ruta: es de julio de 2024 (más de dos años)."
+      }
      ]
     },
     {
@@ -15163,8 +16004,20 @@
      "practica": "Escribe las fases de implementación de un ERP para una empresa ficticia y qué sale de cada una.",
      "recurso": {
       "nombre": "SAP Learning",
-      "proveedor": "SAP (en inglés)",
-      "url": "https://learning.sap.com/"
+      "proveedor": "SAP",
+      "url": "https://learning.sap.com/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la plataforma de aprendizaje de SAP"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Sus rutas gratis incluyen la metodología de implementación."
      },
      "logro": "escribir las fases de implementación de un ERP y qué sale de cada una.",
      "idea": {
@@ -15197,7 +16050,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: en SAP Learning (en inglés) busca un curso introductorio de implementación.",
+     "mira": "Mira el video y ordena las fases: levantamiento, configuración, migración, pruebas y salida en vivo.",
      "hazlo": [
       "Explora SAP Learning y busca un curso introductorio de implementación.",
       "Escribe las fases para una empresa ficticia, por ejemplo una distribuidora de 20 personas.",
@@ -15233,7 +16086,52 @@
        "Arrancar sin saldos cuadrados.",
        "Los saldos iniciales del ERP deben cuadrar con el sistema anterior."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "👉 SAP ACTIVATE explicado fácil (Las 6 fases de un proyecto SAP S/4HANA)",
+      "canal": "Clases de SAP | Certificación y Carrera SAP",
+      "url": "https://www.youtube.com/watch?v=8byD5KmVYwA",
+      "publicado": "2026-03-19",
+      "vistas": 286,
+      "megusta": 4,
+      "minutos": 6,
+      "porQue": "De marzo de 2026, 6 minutos: SAP Activate, las 6 fases de un proyecto SAP S/4HANA. Muy pocas vistas (286)."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "ERP con IA",
+       "titulo": "ERP en la era de la IA | MASTERCLASS",
+       "canal": "Berninimo",
+       "url": "https://www.youtube.com/watch?v=QzTx7XlpiZs",
+       "publicado": "2026-02-01",
+       "vistas": 2422,
+       "megusta": 67,
+       "minutos": 19,
+       "porQue": "De febrero de 2026: el ERP en la era de la IA, con casos de finanzas y compras.",
+       "capitulos": [
+        {
+         "inicio": "08:06",
+         "fin": "10:18",
+         "nombre": "Casos de uso en finanzas y compras",
+         "seg": 486
+        },
+        {
+         "inicio": "12:34",
+         "fin": "14:53",
+         "nombre": "Trampas y controles en la implementación de IA",
+         "seg": 754
+        },
+        {
+         "inicio": "14:53",
+         "fin": "18:09",
+         "nombre": "Implementación de ERP: Nuevas estrategias y procesos",
+         "seg": 893
+        }
+       ]
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "erp-4",
@@ -15246,8 +16144,20 @@
      "practica": "Identifica qué datos tendría que enviar el ERP a un sistema de conciliación ficticio, en qué formato y cada cuánto.",
      "recurso": {
       "nombre": "Generalidades del protocolo HTTP",
-      "proveedor": "MDN (en español)",
-      "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Guides/Overview"
+      "proveedor": "MDN",
+      "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Guides/Overview",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la referencia de HTTP de Mozilla"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Cómo viaja una petición entre sistemas."
      },
      "logro": "definir qué datos le pasa el ERP a otro sistema, en qué formato y cada cuánto.",
      "idea": {
@@ -15280,7 +16190,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: repasa en MDN las generalidades de HTTP (ruta de APIs, punto 1).",
+     "mira": "Mira el video y escribe qué datos saldrían del ERP, en qué formato y cada cuánto.",
      "hazlo": [
       "Repasa las generalidades de HTTP en MDN.",
       "Responde las 5 preguntas para un ERP ficticio que manda datos a un sistema de conciliación.",
@@ -15320,9 +16230,68 @@
        "Formatos que cambian sin aviso.",
        "Si el ERP cambia una columna, la integración se rompe: acuerden el formato por escrito."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Integración de ERP, SCM y CRM",
+      "canal": "IngComp",
+      "url": "https://www.youtube.com/watch?v=icO83c79AMI",
+      "publicado": "2026-11-02",
+      "vistas": 20,
+      "megusta": 1,
+      "minutos": 6,
+      "porQue": "De noviembre de 2026, 6 minutos: cómo se integran ERP, cadena de suministro y CRM. Muy pocas vistas (20)."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "De transacciones a orquestación",
+       "titulo": "ERP en la era de la IA | MASTERCLASS",
+       "canal": "Berninimo",
+       "url": "https://www.youtube.com/watch?v=QzTx7XlpiZs",
+       "publicado": "2026-02-01",
+       "vistas": 2422,
+       "megusta": 67,
+       "minutos": 19,
+       "porQue": "De febrero de 2026: cómo cambia el ERP cuando lo conectan con IA.",
+       "capitulos": [
+        {
+         "inicio": "02:01",
+         "fin": "04:01",
+         "nombre": "Transformación del ERP: De transacciones a orquestación",
+         "seg": 121
+        },
+        {
+         "inicio": "04:01",
+         "fin": "08:06",
+         "nombre": "Interacción y funcionalidad del ERP en la era digital",
+         "seg": 241
+        }
+       ]
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Qué es un ERP (1) y cómo se ve una compra de punta a punta en Odoo (2). Después cómo se implementa (3) y cómo se integra con otros sistemas (4).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "finanzas",
+      "porque": "Una compra en el ERP genera un asiento contable."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "apis",
+      "porque": "Integrar el ERP (punto 4) es, casi siempre, una API."
+     },
+     {
+      "ruta": "requerimientos",
+      "porque": "Implementar un ERP empieza levantando requerimientos."
+     }
+    ]
+   }
   },
   {
    "id": "crm",
@@ -15353,7 +16322,8 @@
       "FREE Certification Course"
      ],
      "comprobadoEnNavegador": "2026-11-25",
-     "nota": "La página se arma en el navegador: se comprobó a mano el 25-nov-2026."
+     "nota": "La página se arma en el navegador: se comprobó a mano el 25-nov-2026.",
+     "punto": "crm-2"
     },
     "enVacantes": "2 de 39: 1 pide certificaciones de HubSpot (Revenue Operations o Platform Consulting) y 1 de Salesforce (Data Cloud Consultant, Agentforce Specialist…)."
    },
@@ -15369,13 +16339,30 @@
      "practica": "Lista qué datos de un cliente guarda un CRM y qué área usa cada uno.",
      "recurso": {
       "nombre": "HubSpot Academy",
-      "proveedor": "HubSpot",
-      "url": "https://academy.hubspot.com/"
+      "proveedor": "HubSpot Academy",
+      "url": "https://academy.hubspot.com/",
+      "idioma": "Inglés y español",
+      "datos": [
+       [
+        "Qué es",
+        "la academia de HubSpot"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Los cursos de HubSpot; su certificación de ventas es la oficial y gratis de esta ruta."
      },
      "video": {
-      "titulo": "Qué es un CRM?",
-      "canal": "HubSpot Español",
-      "url": "https://www.youtube.com/watch?v=cgNTtM44-Dk"
+      "titulo": "¿Qué es un CRM y Cómo Funciona? Todo lo que necesitas saber",
+      "canal": "Leadsales - CRM para WhatsApp",
+      "url": "https://www.youtube.com/watch?v=u39d6Okb9MQ",
+      "publicado": "2024-12-23",
+      "vistas": 13920,
+      "megusta": 166,
+      "minutos": 4,
+      "porQue": "De diciembre de 2024, 4 minutos: qué es un CRM y cómo funciona, con 11 capítulos. 166 me gusta."
      },
      "logro": "saber qué datos guarda un CRM y qué área usa cada uno.",
      "idea": {
@@ -15404,7 +16391,7 @@
        ]
       ]
      },
-     "mira": "El video de HubSpot Español explica qué es un CRM en pocos minutos.",
+     "mira": "Mira el video y anota qué área de tu empresa usaría cada dato del CRM.",
      "hazlo": [
       "Mira el video.",
       "Lista qué datos de un cliente guarda un CRM.",
@@ -15436,6 +16423,31 @@
        "Texto libre para todo.",
        "Las etapas y los estados van en listas, para poder contarlos."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Trabajar en CRM",
+       "titulo": "Trabajar en CRM: qué hacen y cómo empezar",
+       "canal": "Maxi Programa",
+       "url": "https://www.youtube.com/watch?v=gjvZFwWDkKk",
+       "publicado": "2026-10-09",
+       "vistas": 7143,
+       "megusta": 144,
+       "minutos": 16,
+       "porQue": "De octubre de 2026: qué hacen quienes trabajan en CRM y cómo empezar, con 10 capítulos."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Qué es un CRM?",
+       "canal": "HubSpot Español",
+       "url": "https://www.youtube.com/watch?v=cgNTtM44-Dk",
+       "publicado": "2019-07-24",
+       "vistas": 160601,
+       "megusta": 1453,
+       "razon": "Era el video de esta ruta: es de julio de 2019."
+      }
      ]
     },
     {
@@ -15449,13 +16461,30 @@
      "practica": "En una cuenta de práctica que crees tú, registra 5 contactos y 2 negocios ficticios.",
      "recurso": {
       "nombre": "CRM for beginners",
-      "proveedor": "HubSpot Academy (en inglés)",
-      "url": "https://academy.hubspot.com/courses/crm-for-beginners"
+      "proveedor": "HubSpot Academy",
+      "url": "https://academy.hubspot.com/courses/crm-for-beginners",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "el curso CRM for beginners de HubSpot"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "El curso oficial para empezar."
      },
      "video": {
-      "titulo": "Cómo Usar el CRM de HubSpot: Tutorial Completo en Español 2026",
-      "canal": "HubSpot Español",
-      "url": "https://www.youtube.com/watch?v=YSb7wuel69A"
+      "titulo": "Tutorial de HubSpot CRM para Principiantes (Actualizado 2026)",
+      "canal": "Metics Media | Español",
+      "url": "https://www.youtube.com/watch?v=boldPZebrLc",
+      "publicado": "2025-07-21",
+      "vistas": 24269,
+      "megusta": 461,
+      "minutos": 22,
+      "porQue": "De julio de 2025: HubSpot CRM para principiantes, actualizado a 2026, con 7 capítulos. 461 me gusta."
      },
      "logro": "registrar contactos y negocios en HubSpot y moverlos por sus etapas.",
      "idea": {
@@ -15484,7 +16513,7 @@
        ]
       ]
      },
-     "mira": "El tutorial del video recorre el CRM de HubSpot en español. Síguelo con tu cuenta de práctica abierta.",
+     "mira": "Mira el video y registra en HubSpot un contacto y un negocio ficticios.",
      "hazlo": [
       "Crea una cuenta de práctica en HubSpot (la creas tú; usa solo datos ficticios).",
       "Registra 5 contactos y 2 negocios ficticios.",
@@ -15524,7 +16553,22 @@
        "Etapas que nadie actualiza.",
        "El tablero sirve si refleja lo que pasa hoy."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "El oficial de HubSpot",
+       "titulo": "Cómo Usar el CRM de HubSpot: Tutorial Completo en Español 2026",
+       "canal": "HubSpot Español",
+       "url": "https://www.youtube.com/watch?v=YSb7wuel69A",
+       "publicado": "2024-12-10",
+       "vistas": 205870,
+       "megusta": 4217,
+       "minutos": 21,
+       "porQue": "De diciembre de 2024: era el video de esta ruta y sigue vigente. 205.877 vistas y 4.217 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "crm-3",
@@ -15536,8 +16580,20 @@
      "practica": "Termina un módulo de introducción en Trailhead y anota en qué se parece a HubSpot.",
      "recurso": {
       "nombre": "Trailhead",
-      "proveedor": "Salesforce (en español)",
-      "url": "https://trailhead.salesforce.com/es"
+      "proveedor": "Salesforce",
+      "url": "https://trailhead.salesforce.com/es",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la plataforma de aprendizaje de Salesforce"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Las rutas oficiales para la certificación."
      },
      "logro": "reconocer en Salesforce lo que ya aprendiste en HubSpot.",
      "idea": {
@@ -15570,7 +16626,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: Trailhead (en español) enseña Salesforce con módulos cortos y ejercicios.",
+     "mira": "Mira el video y haz el primer módulo de Trailhead.",
      "hazlo": [
       "Entra a Trailhead (la cuenta la creas tú) y haz un módulo de introducción a Salesforce.",
       "Comprueba la tabla de equivalencias con lo que viste.",
@@ -15606,7 +16662,19 @@
        "Confundir Lead con Contact.",
        "El lead aún no compra; al convertirlo pasa a contacto, cuenta y oportunidad."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Como Usar Salesforce Crm | Salesforce Tutorial Español (2026)",
+      "canal": "Soluciones Inmediatas",
+      "url": "https://www.youtube.com/watch?v=omD8_0BJTxQ",
+      "publicado": "2025-03-18",
+      "vistas": 3999,
+      "megusta": 40,
+      "minutos": 10,
+      "porQue": "De marzo de 2025, 10 minutos: cómo usar el CRM de Salesforce. 40 me gusta."
+     },
+     "mas": [],
+     "descartados": []
     },
     {
      "id": "crm-4",
@@ -15618,8 +16686,20 @@
      "practica": "Diseña una automatización: cuando un negocio pasa a «ganado», se crea la factura en el ERP y se avisa a finanzas.",
      "recurso": {
       "nombre": "Zapier Guides",
-      "proveedor": "Zapier (en inglés)",
-      "url": "https://zapier.com/resources/guides"
+      "proveedor": "Zapier",
+      "url": "https://zapier.com/resources/guides",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "guías oficiales de Zapier"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Ejemplos de disparadores entre aplicaciones."
      },
      "logro": "diseñar la automatización que factura y avisa a finanzas cuando se gana un negocio.",
      "idea": {
@@ -15648,7 +16728,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: las guías de Zapier (en inglés) explican disparadores y acciones entre aplicaciones.",
+     "mira": "Mira el video y diseña el aviso que el CRM le mandaría a finanzas cuando se gana un negocio.",
      "hazlo": [
       "Lee una guía de Zapier sobre disparadores y acciones.",
       "Diseña la automatización de abajo para tu caso ficticio.",
@@ -15688,9 +16768,49 @@
        "Que nadie revise al principio.",
        "Las primeras semanas, una persona aprueba antes de enviar."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "🧾 Automatiza la gestión de facturas con n8n + IA (Gemini + OpenAI) 🚀 | ⚡️ OCR avanzado",
+      "canal": "Julio Arciniega | N8N | IA y Automatizaciones",
+      "url": "https://www.youtube.com/watch?v=4n-pkh0UFVg",
+      "publicado": "2025-10-14",
+      "vistas": 2727,
+      "megusta": 97,
+      "minutos": 27,
+      "porQue": "De octubre de 2025: automatizar la gestión de facturas con n8n e IA, con 14 capítulos. 97 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Con Zapier",
+       "titulo": "Automatización IMPARABLE con Zapier AI 🟧 | Guía paso a paso 2025 para dominar tareas en minutos 🚀",
+       "canal": "EdTrainer Tv",
+       "url": "https://www.youtube.com/watch?v=mBXEpNt1Hg4",
+       "publicado": "2025-03-21",
+       "vistas": 61068,
+       "megusta": 1241,
+       "minutos": 16,
+       "porQue": "De marzo de 2025: automatización con Zapier paso a paso, con 10 capítulos. 1.241 me gusta."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Qué es un CRM (1) y úsalo en HubSpot (2); después Salesforce con Trailhead (3) y automatiza el paso del CRM a finanzas (4).",
+   "combina": {
+    "antes": [],
+    "abre": [
+     {
+      "ruta": "n8n",
+      "porque": "El punto 4 conecta el CRM con otra área con un flujo."
+     },
+     {
+      "ruta": "stakeholders",
+      "porque": "El CRM guarda la relación con los clientes."
+     }
+    ]
+   }
   },
   {
    "id": "finanzas",
@@ -15716,7 +16836,27 @@
     "camino": {
      "texto": "No encontré una certificación oficial gratis de conciliaciones o contabilidad."
     },
-    "enVacantes": "1 de 39 valora CPA, CIMA, CMA o APICS, como un plus."
+    "enVacantes": "1 de 39 valora CPA, CIMA, CMA o APICS, como un plus.",
+    "examen": {
+     "codigo": "Excel for Accounting",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/mos-excel-for-accounting-associate/",
+     "evidencia": [
+      "You will have 50 minutes to complete this assessment",
+      "approximately 150 hours of instruction"
+     ],
+     "datos": [
+      [
+       "Tiempo",
+       "50 min"
+      ],
+      [
+       "Preparación sugerida",
+       "unas 150 horas"
+      ]
+     ],
+     "nota": "Datos de la página de Microsoft.",
+     "enlaceTexto": "Ver la página oficial"
+    }
    },
    "queEs": "Conciliar es comprobar que dos registros del mismo dinero coinciden (el banco y la contabilidad, una pasarela de pagos y las ventas) y explicar las diferencias. En la muestra lo piden 8 de las 39 vacantes.",
    "pasos": [
@@ -15731,13 +16871,30 @@
      "practica": "Haz la conciliación de un mes ficticio con 15 movimientos y 3 diferencias.",
      "recurso": {
       "nombre": "Conciliación bancaria: pasos básicos para realizarla",
-      "proveedor": "Actualícese (en español, Colombia)",
-      "url": "https://actualicese.com/archivo/conciliacion-bancaria/"
+      "proveedor": "Actualícese",
+      "url": "https://actualicese.com/archivo/conciliacion-bancaria/",
+      "idioma": "Español (Colombia)",
+      "datos": [
+       [
+        "Qué es",
+        "la guía de Actualícese"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Los pasos, con el lenguaje contable de Colombia."
      },
      "video": {
-      "titulo": "Paso a paso para realizar la conciliación bancaria",
-      "canal": "Actualícese Video",
-      "url": "https://www.youtube.com/watch?v=9uN_qESnXms"
+      "titulo": "📊 CONCILIACIÓN BANCARIA Explicada Fácil con Ejemplo",
+      "canal": "Contabilidad para Todos",
+      "url": "https://www.youtube.com/watch?v=YnWclSYqDwc",
+      "publicado": "2025-08-11",
+      "vistas": 22838,
+      "megusta": 912,
+      "minutos": 10,
+      "porQue": "De agosto de 2025, 10 minutos: la conciliación bancaria explicada fácil con un ejemplo. 912 me gusta."
      },
      "logro": "hacer una conciliación bancaria y explicar cada diferencia.",
      "idea": {
@@ -15815,7 +16972,7 @@
       ],
       "resaltar": 8
      },
-     "mira": "El video de Actualícese hace una conciliación bancaria paso a paso. El artículo del mismo sitio sirve de guía.",
+     "mira": "Mira el video y explica con tus palabras qué es una partida en tránsito.",
      "hazlo": [
       "Mira el video y lee el artículo de Actualícese.",
       "Copia en Excel la conciliación de ejemplo (ficticia) y comprueba que los dos saldos ajustados dan igual.",
@@ -15851,6 +17008,31 @@
        "Olvidar el 4x1000 y las comisiones.",
        "Son pequeñas, pero aparecen cada mes."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Paso a paso",
+       "titulo": "CONCILIACIÓN BANCARIA PASO A PASO: Guía para Estudiantes 2026",
+       "canal": "Gabioud | Contador",
+       "url": "https://www.youtube.com/watch?v=jD5YzXUQB3Y",
+       "publicado": "2026-05-12",
+       "vistas": 7436,
+       "megusta": 265,
+       "minutos": 13,
+       "porQue": "De mayo de 2026: guía paso a paso para estudiantes. 265 me gusta."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Paso a paso para realizar la conciliación bancaria",
+       "canal": "Actualícese Video",
+       "url": "https://www.youtube.com/watch?v=9uN_qESnXms",
+       "publicado": "2021-05-31",
+       "vistas": 91552,
+       "megusta": 1218,
+       "razon": "Era el video de esta ruta: es de mayo de 2021."
+      }
      ]
     },
     {
@@ -15864,13 +17046,30 @@
      "practica": "Concilia dos listas ficticias en Excel y marca las partidas abiertas.",
      "recurso": {
       "nombre": "Reconciliation",
-      "proveedor": "Corporate Finance Institute (en inglés)",
-      "url": "https://corporatefinanceinstitute.com/resources/accounting/reconciliation/"
+      "proveedor": "Corporate Finance Institute",
+      "url": "https://corporatefinanceinstitute.com/resources/accounting/reconciliation/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la explicación de conciliación de CFI"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Tipos de conciliación y su método."
      },
      "video": {
-      "titulo": "Cómo hacer una CONCILIACIÓN BANCARIA en EXCEL ✅",
-      "canal": "Contador Contado",
-      "url": "https://www.youtube.com/watch?v=JguCZCEl5Jg"
+      "titulo": "Conciliación bancaria l Casos de estudio🤓",
+      "canal": "Julianatuconta",
+      "url": "https://www.youtube.com/watch?v=muzkI2gzfEY",
+      "publicado": "2024-12-04",
+      "vistas": 6266,
+      "megusta": 265,
+      "minutos": 14,
+      "porQue": "De diciembre de 2024: conciliación bancaria con casos de estudio. 265 me gusta."
      },
      "logro": "cruzar dos listas en Excel y dejar las partidas abiertas a la vista.",
      "idea": {
@@ -15938,7 +17137,7 @@
        ]
       ]
      },
-     "mira": "El video hace una conciliación bancaria completa en Excel. La guía de CFI (en inglés) explica los tipos de conciliación.",
+     "mira": "Mira el video y haz la conciliación del punto en tu Excel con BUSCARX.",
      "hazlo": [
       "Haz dos hojas ficticias. Libros: P-01 120.000, P-02 80.000 y P-03 200.000. Banco: P-01 120.000, P-03 200.000 y B-09 15.000.",
       "Escribe la llave (columna D) en las dos hojas y el estado (columna E) en Libros, con las fórmulas de abajo.",
@@ -15978,6 +17177,32 @@
        "Cruzar en un solo sentido.",
        "Haz el cruce desde los dos lados: lo abierto del banco también cuenta."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Automática en Excel",
+       "clasico": "Es de enero de 2022. Se queda porque arma una conciliación automática en Excel; los recientes en español sobre conciliación en Excel que medimos tienen menos de mil vistas.",
+       "titulo": "#142 CONCILIACIONES BANCARIAS Automaticas EN EXCEL",
+       "canal": "Rosa Bravo",
+       "url": "https://www.youtube.com/watch?v=RQzn7dibQ3Q",
+       "publicado": "2022-01-15",
+       "vistas": 98046,
+       "megusta": 2783,
+       "minutos": 21,
+       "porQue": "98.046 vistas y 2.783 me gusta."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Cómo hacer una CONCILIACIÓN BANCARIA en EXCEL ✅",
+       "canal": "Contador Contado",
+       "url": "https://www.youtube.com/watch?v=JguCZCEl5Jg",
+       "publicado": "2019-01-03",
+       "vistas": 1025013,
+       "megusta": 21398,
+       "razon": "Era el video de esta ruta: muy visto (1.025.013), pero es de enero de 2019."
+      }
      ]
     },
     {
@@ -15991,8 +17216,30 @@
      "practica": "Repite el paso 2 con pandas y compara el tiempo con Excel.",
      "recurso": {
       "nombre": "Pandas",
-      "proveedor": "Kaggle Learn (en inglés, interactivo)",
-      "url": "https://www.kaggle.com/learn/pandas"
+      "proveedor": "Kaggle Learn",
+      "url": "https://www.kaggle.com/learn/pandas",
+      "idioma": "Inglés, en cuadernos de Kaggle",
+      "gratis": {
+       "evidencia": [
+        "No cost, like all Kaggle Learn Courses"
+       ],
+       "comprobadoEnNavegador": "2026-11-25"
+      },
+      "datos": [
+       [
+        "Certificado",
+        "sí, al terminar"
+       ],
+       [
+        "Horas estimadas",
+        "4"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Su lección 6 («Renaming and Combining») enseña a unir tablas."
      },
      "logro": "hacer la misma conciliación con Python y comparar el tiempo con Excel.",
      "idea": {
@@ -16025,7 +17272,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la lección «Renaming and Combining» del curso Pandas de Kaggle (en inglés) explica cómo unir tablas.",
+     "mira": "Mira el video, corre el código de abajo y compáralo con tu Excel del punto 2.",
      "hazlo": [
       "Repasa en Kaggle la lección «Renaming and Combining» del curso Pandas.",
       "Corre el código de abajo con las mismas partidas del punto 2 y compáralo con tu Excel.",
@@ -16067,7 +17314,32 @@
        "Olvidar indicator=True.",
        "Sin esa columna no sabes de qué lado quedó cada partida."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Aprende Análisis de Datos en Python con un Caso Real (Paso a Paso)",
+      "canal": "Winder Osorio",
+      "url": "https://www.youtube.com/watch?v=nRJTohyEpUU",
+      "publicado": "2025-06-15",
+      "vistas": 7995,
+      "megusta": 250,
+      "minutos": 11,
+      "porQue": "De junio de 2025: análisis de datos en Python con un caso real, paso a paso. 250 me gusta. La conciliación con pandas está en el código de abajo."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Con IA y Power BI",
+       "titulo": "Adiós Excel Manual: Conciliación Bancaria con IA y Power BI sin Pagar un Peso de Software",
+       "canal": "Sintetix Data",
+       "url": "https://www.youtube.com/watch?v=KhhBeSgLChc",
+       "publicado": "2026-05-08",
+       "vistas": 1302,
+       "megusta": 24,
+       "minutos": 29,
+       "porQue": "De mayo de 2026: conciliación bancaria con IA y Power BI, sin Excel manual, con 7 capítulos."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "finanzas-4",
@@ -16113,7 +17385,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: el módulo de Contabilidad del Cerebro (11-ACC) trae estos conceptos.",
+     "mira": "Mira el video y repasa el módulo de contabilidad del Cerebro.",
      "hazlo": [
       "Abre 11-ACC y repasa cuentas por cobrar, cuentas por pagar y asientos.",
       "Escribe el asiento de una venta a crédito ficticia de 1.000.000 y el de su cobro.",
@@ -16153,7 +17425,32 @@
        "Olvidar los impuestos en la vida real.",
        "Aquí se simplificó: una factura real lleva IVA y retenciones."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Contabilidad desde Cero: Cuentas T, Partida Doble, Asientos Contables y Clasificación de Cuentas",
+      "canal": "Aprendiendo - Ando",
+      "url": "https://www.youtube.com/watch?v=CbQbuNbR49U",
+      "publicado": "2026-07-11",
+      "vistas": 16979,
+      "megusta": 525,
+      "minutos": 22,
+      "porQue": "De julio de 2026: contabilidad desde cero, cuentas T, partida doble y asientos. 525 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Asientos sin memorizar",
+       "titulo": "🪄 El TRUCO para hacer ASIENTOS CONTABLES sin memorizar",
+       "canal": "manu_economía: tu profe de contabilidad",
+       "url": "https://www.youtube.com/watch?v=yvloaIyYSus",
+       "publicado": "2026-11-19",
+       "vistas": 310,
+       "megusta": 14,
+       "minutos": 10,
+       "porQue": "De noviembre de 2026: un truco para hacer asientos contables."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "finanzas-5",
@@ -16199,7 +17496,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio. Antes de escribir, mira en 5-JOB qué piden las vacantes de conciliación.",
+     "mira": "Mira el video y escribe tu caso: problema, solución, antes y después, todo con datos ficticios.",
      "hazlo": [
       "Escribe el caso con las 5 partes, en una página.",
       "Agrega el código del punto 3 y una tabla con el antes y el después.",
@@ -16235,9 +17532,59 @@
        "Números sin medir.",
        "El antes y el después salen de tus pruebas cronometradas."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Automatización de Procesos: Qué Es y 6 Tareas que Puedes Automatizar como Analista",
+      "canal": "Glasses Procesos",
+      "url": "https://www.youtube.com/watch?v=NeRjDuJBO7c",
+      "publicado": "2026-05-16",
+      "vistas": 1231,
+      "megusta": 43,
+      "minutos": 23,
+      "porQue": "De mayo de 2026: qué es automatizar procesos y 6 tareas que puede automatizar un analista, con 17 capítulos."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Ideas de portafolio",
+       "clasico": "Es de septiembre de 2023. Se queda por sus 5 ideas de proyectos de portafolio; los recientes sobre el tema tienen pocas vistas.",
+       "titulo": "Portfolio de Proyectos como Data Analyst - 5 Ideas de Proyectos",
+       "canal": "Eze Talamona",
+       "url": "https://www.youtube.com/watch?v=byC2KcCHR28",
+       "publicado": "2023-09-15",
+       "vistas": 104788,
+       "megusta": 7495,
+       "minutos": 17,
+       "porQue": "104.788 vistas y 7.495 me gusta."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "La conciliación bancaria (1), luego en Excel (2) y con Python (3). Repasa la contabilidad (4) y cierra con una pieza de portafolio (5): tu trabajo de hoy contado como una implementación.",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "excel",
+      "porque": "El punto 2 cruza con BUSCARX."
+     },
+     {
+      "ruta": "python",
+      "porque": "El punto 3 concilia con pandas."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "power-bi",
+      "porque": "El resultado de una conciliación se muestra en un tablero."
+     },
+     {
+      "ruta": "erp",
+      "porque": "El ERP genera los asientos que se concilian."
+     }
+    ]
+   }
   }
  ]
 }

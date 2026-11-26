@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "actualizado": "2026-11-25",
+  "actualizado": "2026-11-26",
   "titulo": "Plan de desarrollo del Cerebro",
   "premisa": "Llevar los 16 módulos al nivel de 12-FIN y 5-JOB. Ese nivel tiene una definición concreta, no es una sensación — está en los 7 criterios de abajo. Un módulo 'terminado' es el que los cumple todos.",
   "criterios": [
@@ -342,8 +342,8 @@
     {
       "id": "H14",
       "modulo": "14-WORK",
-      "fecha": "2026-11-25",
-      "que": "Ruta de Python por puntos (muestra; Miguel: «una ruta de aprendizaje sólida… pasando puntos de aprendizaje», «los videos son viejos», «certificaciones abajo», «no quiero jugar en el módulo»): la meta arriba (PCEP-30-03: 35 preguntas, 50 min, 70 %, 5 años, sus 5 temas con su peso y en qué punto se aprenden; 3 credenciales gratis en el camino), un camino de 5 puntos con la bandera del examen, qué conviene antes y qué abre, y lo que se pide junto (medido en las 39 vacantes: SQL en 8 de las 14 que piden Python). Cada punto: video principal medido en YouTube (fecha, vistas, me gusta, duración) con los capítulos que abren el video en su minuto, curso con lo que muestra su página, más opciones y descartados con su razón; los 3 videos de 2020-2021 salieron. El verificador vuelve a medir los 19 videos y 31 capítulos. Falta: el sí de Miguel y las otras 24 rutas por lotes."
+      "fecha": "2026-11-26",
+      "que": "Las 25 rutas de estudio rehechas «por puntos» (Miguel: «una ruta de aprendizaje sólida… pasando puntos de aprendizaje», «los videos son viejos», «certificaciones abajo», «no quiero jugar en el módulo»; aprobó la muestra de Python el 25-nov: «Sí, sigue con las 24»). Cada ruta: la meta arriba (la certificación de referencia con su examen cuando la página lo publica: preguntas, tiempo, nota, precio y temario con pesos; la oficial gratis; las credenciales gratis del camino), qué aprender primero, con qué se combina (lo que conviene antes y lo que abre, y lo que se pide junto medido en las 39 vacantes), y cada punto con su video principal medido en YouTube (fecha, vistas, me gusta, duración y los capítulos que abren el video en su minuto), cursos con lo que muestra su página, más opciones y descartados con su razón. Los videos viejos salieron o se quedan como clásicos con su razón; donde en español solo hay videos con pocas vistas, la ruta lo dice. El verificador vuelve a medir cada video y cazó dos errores propios y un video que cambió sus capítulos. Sin XP ni desafíos dentro de la ruta. Pendiente de Miguel: si el centro de mando conserva XP, rango y logros."
     },
     {
       "id": "H13",

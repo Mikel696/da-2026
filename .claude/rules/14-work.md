@@ -57,6 +57,13 @@ implementación de proyectos y optimización de procesos con IA. El plan está *
   vistas (p. ej. funciones de ventana en SQL, el tutorial de datos.gov.co del Ministerio TIC); `clasico` dice por qué.
 - **Bloque «Oficial y gratis»:** la vista muestra `certificacion.gratis` (10 rutas) con el punto donde se gana
   (`gratis.punto`).
+- **Estado al 26-nov: las 25 rutas son «por puntos»** (todas traen `medido`). `work-ruta-vista.js` queda solo de
+  respaldo para una ruta sin `medido`. En los textos se dice «punto», no «estación» (`estacion-a-punto.cjs`).
+- **Lo que aprendimos midiendo:** (1) los creadores cambian capítulos después de publicar: el verificador lo caza y
+  se vuelve a medir con `yt-medir.mjs`; (2) algunos canales ocultan los me gusta (Prosci, uno de Kotter): no se citan,
+  porque el verificador exige el dato; (3) YouTube frena si se le piden muchas páginas seguidas: el verificador va de a
+  2, con pausa, reintentos y una segunda vuelta, y una corrida completa tarda unos 15 minutos; (4) no correr búsquedas
+  de candidatos al mismo tiempo que el verificador.
 
 ### `work_rutas` · avance de las rutas (P0)
 - Array de registros `{id, tipo:'ruta'|'paso'|'tarea', ruta, hecho?, empezada?, nb?, updated}`; ids `'<ruta>'`, `'<ruta>:<paso>'` y
