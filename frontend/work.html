@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="css/components.css">
 
 <link rel="stylesheet" href="css/nb-shared.css?v=p21">
-<link rel="stylesheet" href="css/work.css?v=p39">
+<link rel="stylesheet" href="css/work.css?v=p43">
 </head>
 <body>
 <nav class="nv">
@@ -30,27 +30,36 @@
 </nav>
 
 <div class="wr">
-  <div class="hero">
-    <h1>Trabajo · <em>en reconstrucción</em>.</h1>
-    <p>Este módulo se está rehaciendo como <b>Coach de trabajo</b>: implementación de proyectos y optimización de procesos con IA. La primera pieza es el mapa del rol: qué piden las vacantes reales y qué de eso ya muestra tu perfil. El material interno del trabajo salió del sitio público el 28-oct-2026 y se guarda en privado.</p>
-  </div>
+  <section class="juego" id="workJuego" aria-label="Tu ruta al rol"></section>
 
-  <section class="juego" id="workJuego" aria-label="Tu progreso en el rol"></section>
+  <!-- 26-nov: lo que no es la ruta va plegado (pedido de Miguel: «hazlo desplegable… no puedes quitar funciones»). -->
+  <!-- ═══ CUADERNOS ═══ -->
+  <details class="wk-fold" id="workNbFold">
+    <summary><span class="wk-fold-t">📓 Cuadernos <span class="wk-cnt" id="sNbs">0</span></span><span id="syncOutboxBadge" style="display:none;font-size:10.5px;font-family:'IBM Plex Mono',monospace;background:rgba(234,179,8,.15);border:1px solid #eab308;color:#eab308;border-radius:6px;padding:2px 8px"></span></summary>
+    <div class="pnl on wk-fold-c" id="p-nb">
+      <div class="wk-nbnuevo">
+        <input class="inp" id="workNbName" placeholder="Nombre del cuaderno" style="flex:1;min-width:200px" onkeydown="if(event.key==='Enter')WorkNB.create()">
+        <input type="hidden" id="workNbIconValue" value="💼">
+        <input type="hidden" id="workNbCoverValue" value="c6">
+        <button class="btn bo" onclick="WorkNB.openDesignPicker()" style="display:flex;align-items:center;gap:6px"><span id="workNbDesignPreview" style="display:inline-block;width:18px;height:18px;border-radius:4px" class="nb-cover-c6"></span><span id="workNbDesignIconPreview">💼</span> Diseño</button>
+        <button class="btn bg" onclick="WorkNB.create()">+ Crear</button>
+      </div>
+      <div id="workNbWrap"></div>
+      <p class="wk-fold-nota">Compartidos con 10-SYS y 13-NOT. Se sincronizan solos al iniciar sesión y al volver a la pestaña.
+        <button class="btn bo bs" title="Mueve las imágenes pegadas a almacenamiento separado (Storage + IndexedDB) y aligera los cuadernos. Seguro: no quita nada hasta confirmar que la copia subió." onclick="NBShared.optimizeImagesUI('work_nb_data', this, function(){ if(window.WorkNB&&WorkNB.render)WorkNB.render(); })">🗜️ Optimizar imágenes</button>
+      </p>
+    </div>
+  </details>
 
   <section class="rol" id="workRol" aria-label="Mapa del rol"></section>
 
-  <div class="cd" style="margin-bottom:14px">
-    <div style="font-size:14px;font-weight:600;margin-bottom:4px">🔒 Tus registros siguen guardados</div>
-    <div style="font-size:12px;color:var(--t2);margin-bottom:10px">Casos, errores, aprendizajes, reuniones y apuntes viven en este navegador y en tu cuenta (se sincronizan al iniciar sesión). No están en el repositorio público. Vuelven a verse en el Coach. Para una copia de seguridad: <a href="pages/configurar.html" style="color:var(--ac)">Configurar → Respaldo</a>.</div>
-    <div class="stats" id="workPrivateCounts" style="flex-wrap:wrap"></div>
-  </div>
-
-  <div style="background:linear-gradient(90deg,rgba(6,182,212,.10),rgba(167,139,250,.08));border:1px solid var(--bd);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px">
-    <span style="font-size:16px">☁</span>
-    <span style="color:var(--t2);flex:1;min-width:200px"><b style="color:var(--tx)">Cuadernos: <span id="sNbs">0</span>.</b> Se sincronizan solos al iniciar sesión y al volver a la pestaña.</span>
-    <button class="btn bo bs" title="Mueve las imágenes pegadas a almacenamiento separado (Storage + IndexedDB) y aligera los cuadernos. Seguro: no quita nada hasta confirmar que la copia subió." onclick="NBShared.optimizeImagesUI('work_nb_data', this, function(){ if(window.WorkNB&&WorkNB.render)WorkNB.render(); })">🗜️ Optimizar imágenes</button>
-    <span id="syncOutboxBadge" style="display:none;font-size:10.5px;font-family:'IBM Plex Mono',monospace;background:rgba(234,179,8,.15);border:1px solid #eab308;color:#eab308;border-radius:6px;padding:2px 8px"></span>
-  </div>
+  <details class="wk-fold">
+    <summary><span class="wk-fold-t">🔒 Tus registros privados</span></summary>
+    <div class="wk-fold-c">
+      <p class="wk-fold-nota">Casos, errores, aprendizajes, reuniones y apuntes viven en este navegador y en tu cuenta (se sincronizan al iniciar sesión). No están en el repositorio público. Vuelven a verse en el Coach. Copia de seguridad: <a href="pages/configurar.html" style="color:var(--ac)">Configurar → Respaldo</a>.</p>
+      <div class="stats" id="workPrivateCounts" style="flex-wrap:wrap"></div>
+    </div>
+  </details>
   <script>
   (function(){
     const b=document.getElementById('syncOutboxBadge');
@@ -64,22 +73,6 @@
     try{ upd(JSON.parse(localStorage.getItem('cloud_outbox')||'[]').length); }catch(e){}
   })();
   </script>
-
-  <!-- ═══ CUADERNOS ═══ -->
-  <div class="pnl on" id="p-nb">
-    <div class="cd" style="margin-bottom:14px">
-      <div style="font-size:14px;font-weight:600;margin-bottom:4px">📓 Nuevo cuaderno</div>
-      <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Cuadernos compartidos con 10-SYS y 13-NOT. Mismo editor: páginas, imágenes (IDB), adjuntos, auto-save.</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
-        <input class="inp" id="workNbName" placeholder="Nombre del cuaderno" style="flex:1;min-width:200px" onkeydown="if(event.key==='Enter')WorkNB.create()">
-        <input type="hidden" id="workNbIconValue" value="💼">
-        <input type="hidden" id="workNbCoverValue" value="c6">
-        <button class="btn bo" onclick="WorkNB.openDesignPicker()" style="display:flex;align-items:center;gap:6px"><span id="workNbDesignPreview" style="display:inline-block;width:18px;height:18px;border-radius:4px" class="nb-cover-c6"></span><span id="workNbDesignIconPreview">💼</span> Diseño</button>
-        <button class="btn bg" onclick="WorkNB.create()">+ Crear</button>
-      </div>
-    </div>
-    <div id="workNbWrap"></div>
-  </div>
 </div>
 
 <!-- Auth chain (platform-wide rule — must load on every page) -->
@@ -90,12 +83,12 @@
 <!-- 14-WORK · solo el motor de cuadernos -->
 <script src="js/nb-shared.js?v=p28"></script>
 <script src="js/nb-engine.js"></script>
-<script src="js/work.js?v=p35"></script>
+<script src="js/work.js?v=p36"></script>
 <!-- 14-WORK · Mapa del rol (lee rol-objetivo.json y el radar de 5-JOB) y rutas de estudio (avance en work_rutas) -->
 <script src="js/work-rutas.js?v=4"></script>
-<script src="js/work-juego.js?v=4"></script>
+<script src="js/work-juego.js?v=5"></script>
 <script src="js/work-ruta-vista.js?v=4"></script>
-<script src="js/work-ruta-puntos.js?v=5"></script>
-<script src="js/work-rol.js?v=12"></script>
+<script src="js/work-ruta-puntos.js?v=6"></script>
+<script src="js/work-rol.js?v=13"></script>
 </body>
 </html>

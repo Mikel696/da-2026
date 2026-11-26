@@ -113,6 +113,8 @@ const WorkNB = (function(){
   function open(id){
     if (activeNbId) _flushPending(activeNbId);
     setActive(id); activePageId = null; render();
+    // 26-nov: los cuadernos van plegados en work.html; abrir uno despliega la sección.
+    const f = document.getElementById('workNbFold'); if (f) f.open = true;
     const w = document.getElementById('workNbWrap');
     if (w && w.scrollIntoView) w.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }

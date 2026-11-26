@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-26 (14-WORK: las 25 rutas de estudio rehechas «por puntos», con recursos medidos y la certificación arriba)
+- **Última actualización:** 2026-11-26 (14-WORK: interfaz limpia: inicio con «Comienza aquí», ruta por pasos en el mismo lugar, lo demás plegado)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,37 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🧹 14-WORK · Interfaz limpia (26-nov)
+
+Crítica de Miguel al ver las 25 rutas dentro de la portada (`index.html#work`): «todo confuso, mucho texto, no cuadra
+dentro de la página, al darle un clic se va hacia otro lado… no tiene un orden… comienza aquí, primero haz esto…
+quiero una página intuitiva, sin tanto texto, interfaz limpia». A mitad del arreglo: **«hazlo desplegable, lo que sí
+sea necesario, no puedes quitar funciones, solo la parte visual»**.
+
+- **Inicio (`WorkJuego`, solo lee):** tu avance en una línea (con la fecha de la muestra), «Comienza aquí» con el paso
+  que toca (la ruta que tocaste último y no terminaste, o la más pedida que no está en tu perfil) y las 25 habilidades en
+  tarjetas: «Por aprender» de la más pedida a la menos, después «Ya en tu perfil». Plegado: «Tu avance en detalle»
+  (mayor salto, 6 disciplinas con sus habilidades, actividad de 28 días y cómo se calcula el %). Se fueron XP, rango,
+  pase y logros (su «Sí, quítalos»).
+- **Ruta (`WorkRutaPuntos`, solo pinta):** aparece **en el mismo lugar** del inicio, con «← Todas las habilidades»
+  (antes se abría dentro de una tarjeta y la página saltaba). Lista de pasos; solo el que toca (o el que tocas) está
+  abierto: Mira (video con fecha, me gusta y duración), Practica (curso), Hazlo (tareas) y «Ya lo aprendí: pasar al
+  paso N», que abre el siguiente. Plegado: meta y examen, plan (por dónde empezar, portafolio), lo que aprendes, qué
+  muestra el video y por qué, qué hacer en el curso, otras opciones y descartados, el ejercicio completo, con qué se
+  combina (con su porqué) y cómo se eligieron los recursos. «Escuchar la idea» sigue.
+- **Página:** sin el párrafo de portada. Cuadernos, Mapa del rol y Tus registros privados son una línea cada uno que se
+  abre con un clic; el aviso de cambios sin subir se ve aunque Cuadernos esté plegado, y «Abrir mi cuaderno» lo
+  despliega (`WorkNB.open` abre `#workNbFold`).
+- **Contraparte (antes de publicar): CORREGIR.** La primera versión limpia había quitado funciones (Escuchar, lo que
+  aprendes, mira, práctica, plan, portafolio, porqués, mayor salto, disciplinas, actividad) y dejaba números sin
+  período; todo volvió plegado. Además los plegables se cerraban al marcar una casilla: ahora cada uno lleva `data-k` y
+  WorkJuego recuerda cuáles estaban abiertos.
+- **Pruebas:** `simular-puntos.cjs` (notas de la sesión) 265 comprobaciones, entre ellas que no falte nada de lo de
+  antes; `prueba-sync-carrera.mjs` 28/28. En la vista previa: 700 px y 375 px sin desbordes, dentro de la portada,
+  marcar y desmarcar una tarea, Escuchar interceptado sin sonido, 0 errores.
 
 ---
 

@@ -103,7 +103,9 @@ const WorkRol = (function(){
     const mod = D.modalidad, niv = D.nivel;
     const vac = D.vacantes.map(v => `<li><a href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.titulo)}</a><span>${esc(v.empresa)}, ${esc(v.lugar)}</span></li>`).join('');
     const d = dias(M.fecha);
-    el.innerHTML = `
+    // 26-nov: plegado por defecto (Miguel: «sin tanto texto»); se abre si lo pides.
+    const plegado = !!el.querySelector('details.rol-plegado[open]');
+    el.innerHTML = `<details class="rol-plegado"${plegado ? ' open' : ''}><summary><span class="wk-fold-t">🗺️ Mapa del rol <small>de dónde salen las 25 habilidades · ${n} vacantes</small></span></summary>
       <header class="rol-cab">
         <h2>Mapa del rol</h2>
         <p class="rol-nombre">${esc(D.rol)}</p>
@@ -115,7 +117,7 @@ const WorkRol = (function(){
         <p>${mod.remoto || 0} remotas, ${mod.hibrido || 0} híbridas y ${mod.presencial || 0} presenciales${mod['sin dato'] ? `; ${mod['sin dato']} no lo dice` : ''}.</p>
         <p>${niv.senior || 0} piden perfil senior o de liderazgo y ${niv.junior || 0} dicen junior; las otras ${n - (niv.senior || 0) - (niv.junior || 0)} no lo dicen en el título.</p>
       </div>
-      <p class="rol-nota">Cómo se cuenta: ${esc(M.metodo || 'una habilidad cuenta si la descripción la nombra.')} «En tu perfil» es lo que el radar de 5-JOB anota que ya manejas; el inglés está en progreso. Que algo no figure no quiere decir que no lo sepas: quiere decir que tu perfil todavía no lo muestra. Las 25 habilidades, con su ruta, están arriba en las tarjetas de disciplina.</p>
+      <p class="rol-nota">Cómo se cuenta: ${esc(M.metodo || 'una habilidad cuenta si la descripción la nombra.')} «En tu perfil» es lo que el radar de 5-JOB anota que ya manejas; el inglés está en progreso. Que algo no figure no quiere decir que no lo sepas: quiere decir que tu perfil todavía no lo muestra. Las 25 habilidades, con su ruta, están arriba.</p>
       <section class="rol-donde" aria-labelledby="rolDondeT">
         <h3 id="rolDondeT">Dónde verlas hoy</h3>
         ${renderRadar()}
@@ -125,20 +127,24 @@ const WorkRol = (function(){
         <summary>Ver las ${n} vacantes de la muestra</summary>
         <p class="rol-nota">Leídas el ${fecha(M.fecha)} con las búsquedas ${M.busquedas.map(b => `«${esc(b)}»`).join(', ')} (${esc(M.resultadosPorBusqueda)}). ${esc(M.criterio)} Algunas ya pueden estar cerradas.</p>
         <ul>${vac}</ul>
-      </details>`;
+      </details></details>`;
     if (window.WorkJuego) WorkJuego.render(D);
   }
 
-  /* El centro de mando abre la ruta dentro de la tarjeta de su disciplina (25-nov): otro clic en la misma habilidad la
-     cierra; con `paso` (las misiones) siempre la abre en esa estación. */
+  /* 26-nov: la ruta reemplaza al inicio en el mismo lugar (#workJuego); «Volver» regresa al inicio. Solo se desplaza
+     hasta el comienzo de esa sección si quedó fuera de la vista. */
+  function alInicio(){
+    const j = document.getElementById('workJuego');
+    if (j && j.getBoundingClientRect && j.getBoundingClientRect().top < 0 && j.scrollIntoView) j.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
   function abrir(id, paso){
-    rutaAbierta = rutaAbierta === id && !paso ? null : id;
+    rutaAbierta = id;
     if (paso) estacion[id] = paso;
     render();
-    const v = rutaAbierta && document.getElementById('ruta-' + rutaAbierta);
-    if (v && v.scrollIntoView) v.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    alInicio();
   }
-  /* El HTML de la ruta abierta, para que WorkJuego lo pinte dentro de su tarjeta. */
+  function cerrar(){ rutaAbierta = null; render(); alInicio(); }
+  /* El HTML de la ruta abierta, para que WorkJuego lo pinte en lugar del inicio. */
   function rutaHtml(){
     const R = window.WorkRutas, D = datos && datos.d;
     const r = rutaAbierta && R && R.ruta(rutaAbierta), c = r && D && D.competencias.find(k => k.nombre === r.competencia);
@@ -184,7 +190,7 @@ const WorkRol = (function(){
     const el = document.getElementById('workRol');
     if (!el) return;
     datos = undefined; radar = undefined; render();
-    // La ruta abierta vive dentro del centro de mando (#workJuego): los clics se escuchan en el contenedor de los dos.
+    // La ruta abierta se pinta en #workJuego: los clics se escuchan en el contenedor de los dos.
     const raiz = el.parentElement || el;
     const foco = sel => { const x = raiz.querySelector(sel); if (x && x.focus) x.focus(); return x; };
     raiz.addEventListener('click', e => {
@@ -192,9 +198,9 @@ const WorkRol = (function(){
       if (es) {
         estacion[es.dataset.de] = es.dataset.estacion;
         render();
-        const det = raiz.querySelector(`#ruta-${es.dataset.de} .rv-det`);
-        foco(`[data-estacion="${es.dataset.estacion}"]`);
-        if (det && det.scrollIntoView && window.matchMedia && matchMedia('(max-width: 760px)').matches) det.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // El paso abierto queda a la vista (sin saltar si ya se ve).
+        const cab = foco(`.wk-paso-cab[data-estacion="${es.dataset.estacion}"]`) || foco(`[data-estacion="${es.dataset.estacion}"]`);
+        if (cab && cab.scrollIntoView) cab.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         return;
       }
       const oy = e.target.closest('[data-escuchar]');
@@ -225,9 +231,14 @@ const WorkRol = (function(){
       }
       const c = e.target.closest('[data-paso]');
       if (!c || !window.WorkRutas) return;
-      estacion[c.dataset.de] = c.dataset.paso;   // la estación sigue a la vista, con «Seguir con la…»
+      // «Ya lo aprendí» abre el paso siguiente (26-nov: «primero haz esto, luego esto»); desmarcar deja el mismo.
+      const rr = WorkRutas.ruta(c.dataset.de), k = rr ? rr.pasos.findIndex(p => p.id === c.dataset.paso) : -1;
+      const sig = c.checked && rr && k >= 0 && k < rr.pasos.length - 1 ? rr.pasos[k + 1].id : c.dataset.paso;
+      estacion[c.dataset.de] = sig;
       WorkRutas.marcar(c.dataset.de, c.dataset.paso, !!c.checked);
-      render(); foco(`[data-paso="${c.dataset.paso}"]`);
+      render();
+      const cab = foco(`.wk-paso-cab[data-estacion="${sig}"]`) || foco(`[data-paso="${c.dataset.paso}"]`);
+      if (cab && cab.scrollIntoView) cab.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     // Otro equipo marcó pasos: la nube los trae y el mapa se vuelve a pintar.
     window.addEventListener('cloud:realtime_change', e => { if (e.detail && e.detail.key === 'work_rutas') render(); });
@@ -239,7 +250,7 @@ const WorkRol = (function(){
     render();
   }
 
-  return { init, render, esDelRol, abrir, rutaHtml, abierta: () => rutaAbierta };
+  return { init, render, esDelRol, abrir, cerrar, rutaHtml, abierta: () => rutaAbierta };
 })();
 window.WorkRol = WorkRol;
 document.addEventListener('DOMContentLoaded', () => WorkRol.init());

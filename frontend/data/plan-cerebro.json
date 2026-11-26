@@ -340,6 +340,13 @@
   ],
   "hecho": [
     {
+      "id": "H15",
+      "modulo": "14-WORK",
+      "fecha": "2026-11-26",
+      "que": "Interfaz de 14-WORK rehecha tras la crítica de Miguel («todo confuso, mucho texto, no cuadra dentro de la página, al darle clic se va hacia otro lado… comienza aquí, primero haz esto… interfaz limpia») y su pedido siguiente («hazlo desplegable… no puedes quitar funciones, solo la parte visual»). El inicio: tu avance en una línea, «Comienza aquí» con el paso que toca y las 25 habilidades en orden (de la más pedida a la menos, luego las que ya están en tu perfil). Al tocar una, su ruta aparece en el mismo lugar con «← Todas las habilidades»: una lista de pasos con solo el paso que toca abierto (Mira, Practica, Hazlo y «Ya lo aprendí», que abre el siguiente). Todo lo demás sigue, plegado: meta y examen, plan de la ruta, lo que aprendes, qué muestra el video, otras opciones y descartados, con qué se combina, el ejercicio completo, Escuchar la idea; en el inicio, «Tu avance en detalle» (mayor salto, 6 disciplinas, actividad de 28 días, cómo se calcula el %). Cuadernos, Mapa del rol y Tus registros privados quedan en una línea cada uno. Se quitaron XP, rango y logros (su «Sí, quítalos»). Los plegables siguen abiertos al marcar una casilla. work_rutas no cambia (mismos ids). Simulación de 265 comprobaciones.",
+      "verificacion": "En producción, en su Chrome, solo mirando: work.html e index.html#work cargan el inicio con 25 habilidades, abrir una ruta la muestra en el mismo lugar y «Volver» regresa; 0 errores de consola; work_rutas igual antes y después."
+    },
+    {
       "id": "H14",
       "modulo": "14-WORK",
       "fecha": "2026-11-26",
