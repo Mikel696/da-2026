@@ -247,7 +247,7 @@ const WorkRutaPuntos = (function(){
         <div class="rp-hero">
           <div class="rv-hero-cab">
             <span class="rv-emb">${svg(ICO[r.disciplina] || ICO['Datos'], 28)}</span>
-            <div><p class="rv-kick">Ruta de aprendizaje · disciplina ${esc(r.disciplina)}</p><h3 class="rv-tit">${esc(nombre)}</h3></div>
+            <div><p class="rv-kick">Ruta de aprendizaje · disciplina ${esc(r.disciplina)}</p><h3 class="rv-tit${nombre.length > 18 ? ' rp-tit-largo' : ''}">${esc(nombre)}</h3></div>
           </div>
           <p class="rv-frase">${esc(r.frase)}</p>
           <div class="rp-hero-datos">
