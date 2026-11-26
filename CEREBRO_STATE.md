@@ -44,7 +44,15 @@ arma hacia atrás desde el temario oficial del examen; «cómo se combina» medi
 - **Pruebas:** simulación nueva 27/27 (fuera del repo, `simular-puntos.cjs`), sync 28/28, vista previa 1366 y 375 px
   sin desbordes. **Producción** (`0676d27`; Pages falló por O5.6 y salió con `6167a72`): en su Chrome con sesión,
   sincronizado, 0 errores, `work_rutas` idéntico antes y después (Python solo «empezada»), cuaderno intacto.
-- **Pendiente:** el sí de Miguel al enfoque; después las otras 24 por lotes (un commit y un despliegue por lote).
+- **Miguel dijo sí (25-nov): «Sí, sigue con las 24».** Lotes por disciplina, un commit y un despliegue por lote.
+  Herramientas en la carpeta de notas de la sesión (`candidatos.mjs` busca y mide por punto; `lib-rutas.cjs`;
+  `loteN.cjs`; `temario.mjs`; `sondear-curso.mjs`; `simular-puntos.cjs` prueba todas las rutas medidas).
+  - **Lote 1 Datos — EN PRODUCCIÓN (`4fdb9b4`, verificado en su Chrome):** SQL (sin certificación de referencia;
+    certificados gratis de Kaggle Intro y Advanced SQL; freeCodeCamp Español mar-2026 con capítulos), Excel (la meta
+    pasa a **MO-211 Excel Expert**: su temario oficial en PDF incluye tablas dinámicas, BUSCARX y macros; 4 temas con
+    peso en rango), Power BI (temario PL-300 vigente desde el 20-abr-2026, 4 áreas, 100 min). Verificador: 64/64
+    medidas de video y 100 capítulos. Vista: pesos en rango, temario en PDF, bloque «Oficial y gratis».
+  - **Siguientes:** lote 2 IA (en curso), 3 Automatización, 4 Procesos, 5 Personas, 6 Negocio.
   **Preguntarle:** el centro de mando sigue con XP, rango, misiones y logros (él lo aprobó el 25-nov) y ahora dijo «no
   quiero jugar en el módulo». Su cuaderno «Ruta · Python» conserva los enlaces viejos (no se reescribe para no tocar
   sus apuntes).

@@ -1276,9 +1276,34 @@
      "evidencia": [
       "Register | FREE",
       "certificate of completion"
-     ]
+     ],
+     "punto": "ia-generativa-3"
     },
-    "enVacantes": "1 de 39 valora «certificaciones en inteligencia artificial» sin nombrar una; ninguna pide AI-900 ni otra concreta."
+    "enVacantes": "1 de 39 valora «certificaciones en inteligencia artificial» sin nombrar una; ninguna pide AI-900 ni otra concreta.",
+    "examen": {
+     "codigo": "AI-900",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-900",
+     "evidencia": [
+      "Describe features of generative AI workloads on Azure (20–25%)",
+      "Skills measured as of May 2, 2025",
+      "Take a free Practice Assessment"
+     ],
+     "datos": [
+      [
+       "Temas",
+       "5"
+      ],
+      [
+       "Temario desde",
+       "2-may-2025"
+      ],
+      [
+       "Simulacro",
+       "gratis en Learn"
+      ]
+     ],
+     "nota": "Su temario es de Azure: cargas de IA, machine learning, visión, lenguaje e IA generativa (20–25 %). Esta ruta cubre la IA generativa y su uso responsable; lo de Azure se repasa con la guía de estudio."
+    }
    },
    "queEs": "Herramientas como ChatGPT, Claude o Copilot que escriben, resumen y analizan a partir de un encargo en lenguaje natural. En estos puestos se pide saber encargarles bien, comprobar lo que producen y meterlas en un proceso de la empresa.",
    "pasos": [
@@ -1292,14 +1317,67 @@
      ],
      "recurso": {
       "nombre": "Introducción a la inteligencia artificial y los agentes generativos",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/training/modules/fundamentals-generative-ai/"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/training/modules/fundamentals-generative-ai/",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Al terminar",
+        "marca de aprobado en tu perfil de Learn (con sesión)"
+       ],
+       [
+        "Fecha del contenido",
+        "21-jul-2026"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "El módulo oficial de Microsoft sobre IA generativa y agentes, en español."
      },
      "practica": "Explica en esta página, con tus palabras, qué es un modelo de lenguaje y por qué puede inventar un dato.",
      "video": {
       "titulo": "Curso gratis: Inteligencia Artificial para todos (2026)",
       "canal": "EDteam",
-      "url": "https://www.youtube.com/watch?v=DjshEwI6pVk"
+      "url": "https://www.youtube.com/watch?v=DjshEwI6pVk",
+      "publicado": "2026-01-13",
+      "vistas": 552516,
+      "megusta": 15134,
+      "minutos": 48,
+      "porQue": "De enero de 2026, el curso gratis de EDteam: qué es la IA, sus niveles, qué pueden hacer los chatbots y los 4 pasos para usarla bien. 15.134 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "06:10",
+        "fin": "09:46",
+        "nombre": "¿Qué es la IA y cómo usarla?",
+        "seg": 370
+       },
+       {
+        "inicio": "09:46",
+        "fin": "19:48",
+        "nombre": "Niveles de la Inteligencia Artificial",
+        "seg": 586
+       },
+       {
+        "inicio": "19:48",
+        "fin": "25:10",
+        "nombre": "Chatbots: ChatGPT, Gemini, Copilot y Claude",
+        "seg": 1188
+       },
+       {
+        "inicio": "25:10",
+        "fin": "33:05",
+        "nombre": "¿Qué pueden hacer los chatbots?",
+        "seg": 1510
+       },
+       {
+        "inicio": "33:05",
+        "fin": "38:41",
+        "nombre": "El loop de la IA y el workslop",
+        "seg": 1985
+       }
+      ]
      },
      "logro": "explicar con tus palabras qué es un modelo de lenguaje y por qué a veces inventa.",
      "idea": {
@@ -1328,7 +1406,7 @@
        ]
       ]
      },
-     "mira": "Mira de «¿Qué es la IA y cómo usarla?» (6:10) a «Chatbots: ChatGPT, Gemini, Copilot y Claude» (19:48).",
+     "mira": "Mira los capítulos de la lista; cada uno abre el video en su minuto.",
      "hazlo": [
       "Haz el módulo de Microsoft Learn de esta estación (en español).",
       "Pregúntale a una IA la TRM de ayer y compárala con la de datos.gov.co.",
@@ -1364,7 +1442,34 @@
        "Pegarle datos internos.",
        "Lo que le escribes sale de tu equipo: practica con casos ficticios."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "El más visto de los recientes",
+       "titulo": "Así Funciona la Inteligencia Artificial · La Explicación MÁS SIMPLE | ¿Qué es la IA?",
+       "canal": "Lógica Neuronal",
+       "url": "https://www.youtube.com/watch?v=3EUrvSLnTw8",
+       "publicado": "2026-05-26",
+       "vistas": 1041821,
+       "megusta": 7914,
+       "minutos": 21,
+       "porQue": "De mayo de 2026: la explicación más simple de cómo funciona la IA, según su título. 1.041.821 vistas."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Explicado con dibujos",
+       "titulo": "Así funciona ChatGPT (explicado visualmente)",
+       "canal": "Benjamín Cordero",
+       "url": "https://www.youtube.com/watch?v=lVGV5-5TdTU",
+       "publicado": "2024-12-19",
+       "vistas": 140995,
+       "megusta": 4866,
+       "minutos": 9,
+       "porQue": "De diciembre de 2024: cómo funciona ChatGPT, explicado visualmente. 4.866 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "ia-generativa-2",
@@ -1376,8 +1481,20 @@
      ],
      "recurso": {
       "nombre": "Cursos de Anthropic",
-      "proveedor": "Anthropic (en inglés)",
-      "url": "https://anthropic.skilljar.com/"
+      "proveedor": "Anthropic",
+      "url": "https://anthropic.skilljar.com/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "el catálogo de cursos de Anthropic"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Ahí están AI Fluency y Claude 101, los dos gratis y con certificado de finalización (lo dicen sus páginas)."
      },
      "practica": "Haz las misiones del cinturón Blanco del AI Dojo (de «El mismo encargo, dos veces» a «Tu primera plantilla») y guarda aquí tu plantilla de encargo para documentar un proceso.",
      "enlace": {
@@ -1412,7 +1529,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: los cursos de Anthropic y las misiones del AI Dojo enseñan haciendo.",
+     "mira": "Mira los capítulos de la lista y practica en el AI Dojo con un encargo de tu trabajo (sin datos reales).",
      "hazlo": [
       "Haz en el AI Dojo las misiones del cinturón Blanco, de «El mismo encargo, dos veces» a «Tu primera plantilla».",
       "Llena la plantilla de abajo para documentar un proceso ficticio.",
@@ -1452,7 +1569,70 @@
        "Empezar de cero cada vez.",
        "Guarda el encargo como plantilla y cambia solo lo que varía."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "La Fórmula del Prompt Perfecto para ChatGPT (Guía Definitiva)",
+      "canal": "Cyberclick • Marketing Digital",
+      "url": "https://www.youtube.com/watch?v=p2PqfRte46k",
+      "publicado": "2025-04-15",
+      "vistas": 394707,
+      "megusta": 10376,
+      "minutos": 11,
+      "porQue": "De abril de 2025: tres plantillas para escribir un encargo completo y consejos de privacidad. 394.707 vistas y 10.376 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "01:00",
+        "fin": "02:28",
+        "nombre": "Qué es un buen prompt y cómo evitar errores comunes",
+        "seg": 60
+       },
+       {
+        "inicio": "02:28",
+        "fin": "03:50",
+        "nombre": "Qué es un Framework y cómo te ayudará a mejorar tus prompts",
+        "seg": 148
+       },
+       {
+        "inicio": "03:50",
+        "fin": "04:42",
+        "nombre": "Framework ASPECCT para prompts detallados",
+        "seg": 230
+       },
+       {
+        "inicio": "04:42",
+        "fin": "05:52",
+        "nombre": "Framework TAREA para prompts rápidos y efectivos",
+        "seg": 282
+       },
+       {
+        "inicio": "05:52",
+        "fin": "06:43",
+        "nombre": "Framework CICLO para tareas con reglas estrictas",
+        "seg": 352
+       },
+       {
+        "inicio": "08:20",
+        "fin": "09:40",
+        "nombre": "Consejos de privacidad y seguridad al usar IA",
+        "seg": 500
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Curso completo",
+       "titulo": "Curso gratis de prompt engineering (2026)",
+       "canal": "EDteam",
+       "url": "https://www.youtube.com/watch?v=8Wqgr7Ry3dk",
+       "publicado": "2025-10-01",
+       "vistas": 307862,
+       "megusta": 9837,
+       "minutos": 46,
+       "porQue": "De octubre de 2025: el curso gratis de prompt engineering de EDteam, 46 minutos. 9.837 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "ia-generativa-3",
@@ -1495,7 +1675,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: el cinturón Amarillo del AI Dojo trae misiones para cazar alucinaciones.",
+     "mira": "Mira los capítulos de la lista. Después caza una alucinación en el AI Dojo.",
      "hazlo": [
       "Haz en el AI Dojo las misiones del cinturón Amarillo, de «Caza tu primera alucinación» a «La escalera aplicada».",
       "Pide a una IA el resumen de un documento público, por ejemplo la descripción de un conjunto de datos.gov.co.",
@@ -1518,7 +1698,95 @@
        "Aceptarla porque te dio la razón.",
        "Si solo confirma lo que dijiste, pídele que busque qué está mal."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Aprende Prompt Engineering ahora! curso tutorial gratuito desde cero",
+      "canal": "HolaMundo",
+      "url": "https://www.youtube.com/watch?v=x-iTco25VGI",
+      "publicado": "2025-08-01",
+      "vistas": 267139,
+      "megusta": 8401,
+      "minutos": 110,
+      "porQue": "De agosto de 2025: qué son los modelos de lenguaje, por qué inventan (alucinaciones) y cómo pedirle que verifique y revise su propio trabajo.",
+      "capitulos": [
+       {
+        "inicio": "00:15:28",
+        "fin": "00:23:33",
+        "nombre": "¿Qué son los LLM?",
+        "seg": 928
+       },
+       {
+        "inicio": "00:23:33",
+        "fin": "00:25:33",
+        "nombre": "AI Hallucinations",
+        "seg": 1413
+       },
+       {
+        "inicio": "00:50:07",
+        "fin": "00:55:21",
+        "nombre": "Verificación de condiciones",
+        "seg": 3007
+       },
+       {
+        "inicio": "00:59:13",
+        "fin": "01:05:08",
+        "nombre": "Reflexión",
+        "seg": 3553
+       }
+      ]
+     },
+     "recurso": {
+      "nombre": "AI Fluency: Framework & Foundations",
+      "proveedor": "Anthropic",
+      "idioma": "Inglés",
+      "url": "https://anthropic.skilljar.com/ai-fluency-framework-foundations",
+      "gratis": {
+       "evidencia": [
+        "Register | FREE",
+        "certificate of completion"
+       ]
+      },
+      "datos": [
+       [
+        "Certificado",
+        "de finalización, gratis (lo dice su página)"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Es la certificación oficial y gratis de esta ruta: un curso de Anthropic sobre usar la IA con criterio."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Por qué inventa",
+       "titulo": "ChatGPT tiene un problema que ni miles de millones pueden resolver",
+       "canal": "Inteligencia Artificial",
+       "url": "https://www.youtube.com/watch?v=-bjWk792uYI",
+       "publicado": "2026-11-19",
+       "vistas": 87164,
+       "megusta": 1448,
+       "minutos": 90,
+       "porQue": "De noviembre de 2026: una entrevista con Gary Marcus sobre los límites de los modelos de lenguaje y sus errores.",
+       "capitulos": [
+        {
+         "inicio": "06:21",
+         "fin": "07:28",
+         "nombre": "Los límites de los LLM",
+         "seg": 381
+        },
+        {
+         "inicio": "07:28",
+         "fin": "09:26",
+         "nombre": "Alucinaciones y errores de ChatGPT",
+         "seg": 448
+        }
+       ]
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "ia-generativa-4",
@@ -1561,7 +1829,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: el cinturón Naranja del AI Dojo compara herramientas con la misma tarea.",
+     "mira": "Mira los capítulos de la lista. Después compara dos IA con la misma tarea en el AI Dojo.",
      "hazlo": [
       "Haz en el AI Dojo las misiones del cinturón Naranja.",
       "Da la misma tarea a dos IA distintas y compara en una tabla: calidad, tiempo y errores.",
@@ -1597,7 +1865,70 @@
        "Decidir por la publicidad.",
        "Decide con tu propia prueba y anota el resultado."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "ChatGPT vs Gemini vs Claude: cuál pagaría en 2026",
+      "canal": "Migue Baena IA",
+      "url": "https://www.youtube.com/watch?v=Zim8hNQadqc",
+      "publicado": "2026-06-25",
+      "vistas": 459049,
+      "megusta": 8510,
+      "minutos": 27,
+      "porQue": "De junio de 2026: compara ChatGPT, Gemini y Claude tarea por tarea (escritura, investigación, código, integraciones y límites). 8.510 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "5:10",
+        "fin": "7:26",
+        "nombre": "Chat General y uso diario",
+        "seg": 310
+       },
+       {
+        "inicio": "9:02",
+        "fin": "12:46",
+        "nombre": "Escritura",
+        "seg": 542
+       },
+       {
+        "inicio": "15:50",
+        "fin": "18:48",
+        "nombre": "Investigación",
+        "seg": 950
+       },
+       {
+        "inicio": "18:48",
+        "fin": "21:16",
+        "nombre": "Código, agentes y herramientas extra",
+        "seg": 1128
+       },
+       {
+        "inicio": "21:16",
+        "fin": "23:54",
+        "nombre": "Integraciones",
+        "seg": 1276
+       },
+       {
+        "inicio": "23:54",
+        "fin": "25:46",
+        "nombre": "Límites de uso",
+        "seg": 1434
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Los modelos de IA en 18 minutos",
+       "titulo": "Todos los modelos de IA explicados en 18 minutos",
+       "canal": "Explainer Chris ESP",
+       "url": "https://www.youtube.com/watch?v=TS0_V5LcUWk",
+       "publicado": "2026-04-24",
+       "vistas": 463265,
+       "megusta": 14161,
+       "minutos": 18,
+       "porQue": "De abril de 2026: 463.265 vistas y 14.161 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "ia-generativa-5",
@@ -1609,8 +1940,20 @@
      ],
      "recurso": {
       "nombre": "Introducción a las aplicaciones y agentes de inteligencia artificial",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/training/paths/get-started-ai-apps-agents/"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/training/paths/get-started-ai-apps-agents/",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Fecha del contenido",
+        "31-jul-2026"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La ruta oficial de Microsoft sobre aplicaciones y agentes de IA."
      },
      "practica": "Toma un proceso repetitivo (caso ficticio o público), describe cómo es hoy y cómo sería con IA, y estima el tiempo ahorrado con una cuenta que puedas explicar.",
      "logro": "ubicar dónde entra la IA en un proceso y calcular el tiempo que ahorra con una cuenta que puedas explicar.",
@@ -1640,7 +1983,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: el módulo de Microsoft Learn explica qué es una aplicación o un agente de IA dentro de una empresa.",
+     "mira": "Mira los capítulos de la lista: es un proceso de facturas, como los de tu trabajo.",
      "hazlo": [
       "Haz el módulo de Microsoft Learn de esta estación.",
       "Elige un proceso repetitivo ficticio y escribe sus pasos de hoy con el tiempo de cada uno.",
@@ -1677,9 +2020,97 @@
        "Sacar a la persona de las decisiones.",
        "Lo que tiene consecuencias (pagar, rechazar) lo aprueba alguien."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Cómo automatizar tareas difíciles con IA en 20 minutos (y que no fallen)",
+      "canal": "Xavier Mitjana",
+      "url": "https://www.youtube.com/watch?v=XywyUZo1kL4",
+      "publicado": "2026-11-25",
+      "vistas": 12290,
+      "megusta": 299,
+      "minutos": 22,
+      "porQue": "Publicado el 25-nov-2026: por qué no basta con un agente y cómo armar un proceso con IA que no falle, con facturas de ejemplo.",
+      "capitulos": [
+       {
+        "inicio": "01:28",
+        "fin": "02:50",
+        "nombre": "Por qué no basta con un agente",
+        "seg": 88
+       },
+       {
+        "inicio": "04:50",
+        "fin": "05:40",
+        "nombre": "Tutorial: las facturas como pretexto",
+        "seg": 290
+       },
+       {
+        "inicio": "06:34",
+        "fin": "11:21",
+        "nombre": "Paso 1",
+        "seg": 394
+       },
+       {
+        "inicio": "11:21",
+        "fin": "14:02",
+        "nombre": "Paso 2",
+        "seg": 681
+       },
+       {
+        "inicio": "14:02",
+        "fin": "16:03",
+        "nombre": "Paso 3",
+        "seg": 842
+       },
+       {
+        "inicio": "16:03",
+        "fin": "19:06",
+        "nombre": "Paso 4",
+        "seg": 963
+       },
+       {
+        "inicio": "19:06",
+        "fin": null,
+        "nombre": "Paso 5",
+        "seg": 1146
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Para una empresa",
+       "titulo": "El Orden Correcto para utilizar la IA en tu Empresa (en 2027)",
+       "canal": "David Hurtado Torán",
+       "url": "https://www.youtube.com/watch?v=WNuZNZHZb3c",
+       "publicado": "2026-09-28",
+       "vistas": 35495,
+       "megusta": 1044,
+       "minutos": 23,
+       "porQue": "De septiembre de 2026: en qué orden adoptar la IA en una empresa, según su autor. 1.044 me gusta."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Empieza por entender cómo funciona (1) y cómo encargar bien (2). Después lo que más cuida tu nombre: comprobar lo que produce (3). Elegir la herramienta para cada tarea (4) y meter la IA en un proceso (5) cierran la ruta.",
+   "combina": {
+    "antes": [],
+    "abre": [
+     {
+      "ruta": "prompts",
+      "porque": "La ruta de prompts profundiza el punto 2: encargar bien."
+     },
+     {
+      "ruta": "agentes",
+      "porque": "Un agente es IA generativa con herramientas y pasos."
+     },
+     {
+      "ruta": "n8n",
+      "porque": "Meter la IA en un proceso (punto 5) se hace con flujos automáticos."
+     }
+    ]
+   }
   },
   {
    "id": "requerimientos",
@@ -4231,9 +4662,43 @@
      "tipo": "certificado de un curso oficial",
      "evidencia": [
       "The certification process is completely free"
-     ]
+     ],
+     "punto": "agentes-2"
     },
-    "enVacantes": "1 de 39 valora «certificaciones en inteligencia artificial» sin nombrar una; ninguna nombra una de agentes."
+    "enVacantes": "1 de 39 valora «certificaciones en inteligencia artificial» sin nombrar una; ninguna nombra una de agentes.",
+    "examen": {
+     "codigo": "AB-620",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-620",
+     "evidencia": [
+      "Plan and configure agent solutions (50–55%)",
+      "Integrate and extend agents in Copilot Studio (20–25%)",
+      "Test and manage agents (25–30%)",
+      "Skills measured as of December 18, 2026"
+     ],
+     "otras": [
+      {
+       "url": "https://learn.microsoft.com/en-us/credentials/certifications/ai-agent-builder-associate/",
+       "evidencia": [
+        "You will have 120 minutes to complete this assessment"
+       ]
+      }
+     ],
+     "datos": [
+      [
+       "Tiempo",
+       "120 min"
+      ],
+      [
+       "Temas",
+       "3"
+      ],
+      [
+       "Temario desde",
+       "18-dic-2026"
+      ]
+     ],
+     "nota": "Su temario es de Copilot Studio (Microsoft): planear y configurar agentes, incluida la aprobación humana y la seguridad (50–55 %), integrarlos (20–25 %) y probarlos y administrarlos (25–30 %). Esta ruta enseña los conceptos con n8n; para el examen, practica en Copilot Studio."
+    }
    },
    "queEs": "Un agente es una IA que no solo responde: sigue pasos, usa herramientas (buscar, leer un archivo, llamar a una API) y decide qué hacer después. Un chatbot es la versión que conversa con clientes o empleados.",
    "pasos": [
@@ -4248,13 +4713,68 @@
      "practica": "Explica con tus palabras la diferencia entre un flujo fijo y un agente, con un ejemplo de trabajo (sin datos internos).",
      "recurso": {
       "nombre": "Building effective AI agents",
-      "proveedor": "Anthropic (en inglés)",
-      "url": "https://www.anthropic.com/research/building-effective-agents"
+      "proveedor": "Anthropic",
+      "url": "https://www.anthropic.com/research/building-effective-agents",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "el artículo de Anthropic sobre cuándo usar un agente y cuándo un flujo fijo"
+       ],
+       [
+        "Página modificada",
+        "9-oct-2026"
+       ]
+      ],
+      "porQue": "Explica cuándo conviene un flujo fijo y cuándo un agente."
      },
      "video": {
-      "titulo": "Qué es un agente de AI",
-      "canal": "Platzi",
-      "url": "https://www.youtube.com/watch?v=4bXNYw_dTeY"
+      "titulo": "Agentes IA en 18 minutos (lo que el 95% no entiende)",
+      "canal": "Benjamín Cordero",
+      "url": "https://www.youtube.com/watch?v=7HlfFHLoYK8",
+      "publicado": "2026-04-03",
+      "vistas": 607378,
+      "megusta": 41272,
+      "minutos": 19,
+      "porQue": "De abril de 2026: qué es un agente (observar, pensar, actuar), sus cuatro elementos y en qué se diferencia de un chat. 41.272 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "1:15",
+        "fin": "1:46",
+        "nombre": "¿Qué es un agente de IA?",
+        "seg": 75
+       },
+       {
+        "inicio": "1:46",
+        "fin": "2:15",
+        "nombre": "El Agent Loop: observar, pensar, actuar",
+        "seg": 106
+       },
+       {
+        "inicio": "3:07",
+        "fin": "3:17",
+        "nombre": "Sin loop no hay agente, solo hay chatbot",
+        "seg": 187
+       },
+       {
+        "inicio": "4:20",
+        "fin": "4:28",
+        "nombre": "Los 4 elementos de un agente completo",
+        "seg": 260
+       },
+       {
+        "inicio": "7:52",
+        "fin": "8:48",
+        "nombre": "Elemento 3 — La Memoria (memory.md)",
+        "seg": 472
+       },
+       {
+        "inicio": "9:30",
+        "fin": "9:45",
+        "nombre": "Elemento 4 — Herramientas (MCP + Skills)",
+        "seg": 570
+       }
+      ]
      },
      "logro": "distinguir un flujo fijo de un agente y saber cuándo conviene cada uno.",
      "idea": {
@@ -4283,7 +4803,7 @@
        ]
       ]
      },
-     "mira": "El video explica qué es un agente de IA. El artículo de Anthropic (en inglés) recomienda empezar por lo más simple que funcione.",
+     "mira": "Mira los capítulos de la lista. Después lee en el artículo de Anthropic cuándo NO usar un agente.",
      "hazlo": [
       "Mira el video y lee la primera parte del artículo de Anthropic.",
       "Escribe dos tareas de trabajo, sin datos internos: una para un flujo fijo y otra para un agente.",
@@ -4319,7 +4839,34 @@
        "No saber qué hizo.",
        "Un agente debe dejar registro de cada paso para poder revisarlo."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Platzi",
+       "titulo": "Qué es un agente de AI",
+       "canal": "Platzi",
+       "url": "https://www.youtube.com/watch?v=4bXNYw_dTeY",
+       "publicado": "2026-05-09",
+       "vistas": 502791,
+       "megusta": 11037,
+       "minutos": 23,
+       "porQue": "De mayo de 2026: era el video de esta ruta y sigue vigente. 11.037 me gusta."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Curso corto",
+       "titulo": "Agentes de IA en 30 Minutos - Curso Completo de Principiante a Experto",
+       "canal": "Juan Gabriel Gomila",
+       "url": "https://www.youtube.com/watch?v=nU4aONpAK0g",
+       "publicado": "2026-03-30",
+       "vistas": 296833,
+       "megusta": 8710,
+       "minutos": 32,
+       "porQue": "De marzo de 2026: agentes de principiante a experto en 32 minutos, con 20 capítulos."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "agentes-2",
@@ -4338,7 +4885,44 @@
      "video": {
       "titulo": "Curso GRATIS: Agentes de IA para todos, desde cero",
       "canal": "EDteam",
-      "url": "https://www.youtube.com/watch?v=O4v9EWC47Go"
+      "url": "https://www.youtube.com/watch?v=O4v9EWC47Go",
+      "publicado": "2026-07-03",
+      "vistas": 234256,
+      "megusta": 6410,
+      "minutos": 55,
+      "porQue": "De julio de 2026, el curso gratis de EDteam: la diferencia entre un chat y un agente, los cuatro niveles de agentes y dónde viven.",
+      "capitulos": [
+       {
+        "inicio": "01:34",
+        "fin": "09:07",
+        "nombre": "Cual es la diferencia entre un chat y un agente de IA?",
+        "seg": 94
+       },
+       {
+        "inicio": "09:07",
+        "fin": "15:31",
+        "nombre": "¿Cómo funciona un agente?",
+        "seg": 547
+       },
+       {
+        "inicio": "15:31",
+        "fin": "24:42",
+        "nombre": "Los cuatro niveles de agentes (teoría)",
+        "seg": 931
+       },
+       {
+        "inicio": "24:42",
+        "fin": "34:45",
+        "nombre": "Los cuatro niveles de agentes (práctica)",
+        "seg": 1482
+       },
+       {
+        "inicio": "34:45",
+        "fin": "45:03",
+        "nombre": "Asistentes personalizados (GPTs, Gems) vs agentes de IA",
+        "seg": 2085
+       }
+      ]
      },
      "logro": "poner a una IA a producir y a otra a revisar con tu criterio.",
      "idea": {
@@ -4367,7 +4951,7 @@
        ]
       ]
      },
-     "mira": "El curso de EDteam explica los agentes desde cero; el cinturón Verde del AI Dojo te pone a orquestar varias IA.",
+     "mira": "Mira los capítulos de la lista. Después arma en el AI Dojo un par generador y crítico.",
      "hazlo": [
       "Haz en el AI Dojo las misiones del cinturón Verde, de «Generador y crítico» a «Tu primera partitura propia».",
       "Pon a una IA a escribir un procedimiento ficticio y a otra a revisarlo con tu criterio de éxito.",
@@ -4403,7 +4987,48 @@
        "Dejar que decidan solas.",
        "En algo importante, la última palabra es de una persona."
       ]
-     ]
+     ],
+     "recurso": {
+      "nombre": "AI Agents Course",
+      "proveedor": "Hugging Face",
+      "idioma": "Inglés",
+      "url": "https://huggingface.co/learn/agents-course/unit0/introduction",
+      "gratis": {
+       "evidencia": [
+        "The certification process is completely free"
+       ]
+      },
+      "datos": [
+       [
+        "Ritmo sugerido",
+        "3 a 4 horas por semana"
+       ],
+       [
+        "Certificado",
+        "gratis (lo dice su página)"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Es la certificación oficial y gratis de esta ruta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Varios agentes en una empresa",
+       "titulo": "Agentes de IA y LangGraph: cómo las empresas reducen costos con sistemas multiagentes",
+       "canal": "Código Espinoza - Automatiza tu Vida",
+       "url": "https://www.youtube.com/watch?v=FPQpVGoj0rI",
+       "publicado": "2025-12-27",
+       "vistas": 2246,
+       "megusta": 104,
+       "minutos": 11,
+       "porQue": "De diciembre de 2025: sistemas multiagente con LangGraph y cómo bajan costos, según su título."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "agentes-3",
@@ -4416,8 +5041,20 @@
      "practica": "Arma un agente que lea correos de prueba y los clasifique en reclamo, pago u otro.",
      "recurso": {
       "nombre": "Integrate AI",
-      "proveedor": "Documentación de n8n (en inglés)",
-      "url": "https://docs.n8n.io/build/integrate-ai"
+      "proveedor": "Documentación de n8n",
+      "url": "https://docs.n8n.io/build/integrate-ai",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la documentación oficial de n8n"
+       ],
+       [
+        "Última actualización",
+        "hace 28 días al 25-nov-2026, según la página"
+       ]
+      ],
+      "porQue": "La referencia oficial del nodo de agente y sus herramientas."
      },
      "logro": "armar un agente que lee correos de prueba y los clasifica.",
      "idea": {
@@ -4446,7 +5083,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la guía «Integrate AI» de la documentación de n8n (en inglés) muestra el nodo de agente.",
+     "mira": "Mira los capítulos de la lista con n8n abierto y construye el agente con un caso ficticio.",
      "hazlo": [
       "Lee la guía «Integrate AI» de n8n. El nodo pide conectar un modelo; la cuenta o clave la creas tú.",
       "Arma el flujo: disparador manual con 5 correos ficticios (2 reclamos, 2 pagos y 1 otro), el nodo AI Agent con la instrucción de abajo y una tabla de salida.",
@@ -4483,7 +5120,76 @@
        "No dejar la opción «revisar».",
        "Sin ella, el agente clasifica a la fuerza lo que no entiende."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Tutorial de n8n para Principiantes 2026: Crea Agentes de IA Paso a Paso",
+      "canal": "Metics Media | Español",
+      "url": "https://www.youtube.com/watch?v=AJfd-eVf5eU",
+      "publicado": "2025-07-22",
+      "vistas": 269115,
+      "megusta": 6004,
+      "minutos": 28,
+      "porQue": "De julio de 2025: crear en n8n un agente con memoria y herramientas, que corre solo, escribe en Google Sheets y evita duplicados. 6.004 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "1:59",
+        "fin": "2:52",
+        "nombre": "Creando tu primer agente de IA",
+        "seg": 119
+       },
+       {
+        "inicio": "2:52",
+        "fin": "4:55",
+        "nombre": "Conectando OpenAI como el cerebro del agente",
+        "seg": 172
+       },
+       {
+        "inicio": "4:55",
+        "fin": "7:08",
+        "nombre": "Dando memoria y herramientas al agente",
+        "seg": 295
+       },
+       {
+        "inicio": "7:31",
+        "fin": "8:26",
+        "nombre": "Agregando disparadores para automatización",
+        "seg": 451
+       },
+       {
+        "inicio": "15:32",
+        "fin": "18:38",
+        "nombre": "Registrando resultados en Google Sheets",
+        "seg": 932
+       },
+       {
+        "inicio": "18:38",
+        "fin": "21:35",
+        "nombre": "Evitando duplicados con revisión de base de conocimiento",
+        "seg": 1118
+       },
+       {
+        "inicio": "22:48",
+        "fin": "24:16",
+        "nombre": "Consejos pro para un agente estable",
+        "seg": 1368
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Curso completo",
+       "titulo": "Curso Completo De N8N: Cómo Crear y Vender Automatizaciones IA",
+       "canal": "Adrián Sáenz",
+       "url": "https://www.youtube.com/watch?v=7Z-vRvIUqNs",
+       "publicado": "2026-01-31",
+       "vistas": 494846,
+       "megusta": 22059,
+       "minutos": 510,
+       "porQue": "De enero de 2026: n8n de cero a vender automatizaciones con IA, 8 horas. 22.059 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "agentes-4",
@@ -4501,8 +5207,20 @@
      },
      "recurso": {
       "nombre": "Introducción a las aplicaciones y agentes de inteligencia artificial",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/training/paths/get-started-ai-apps-agents/"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/training/paths/get-started-ai-apps-agents/",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Fecha del contenido",
+        "31-jul-2026"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La ruta oficial de Microsoft, con su parte de IA responsable."
      },
      "logro": "marcar en un agente dónde decide una persona y qué datos nunca debe recibir.",
      "idea": {
@@ -4531,7 +5249,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: el módulo de Microsoft Learn y el cinturón Azul del AI Dojo tratan la aprobación y la privacidad.",
+     "mira": "Mira el video. Después marca en el AI Dojo dónde debe decidir una persona en tu proceso.",
      "hazlo": [
       "Haz en el AI Dojo las misiones «Auditoría de privacidad» y «El punto de aprobación».",
       "Dibuja tu agente de la estación 3 y marca dónde aprueba una persona.",
@@ -4567,9 +5285,58 @@
        "No dejar registro.",
        "Si no queda rastro de lo que hizo el agente, no se puede auditar."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Ciberseguridad en la era de los Agentes de Inteligencia Artificial",
+      "canal": "Marcelo Felman",
+      "url": "https://www.youtube.com/watch?v=HTHtXkeIQ7o",
+      "publicado": "2026-02-13",
+      "vistas": 3057,
+      "megusta": 65,
+      "minutos": 11,
+      "porQue": "De febrero de 2026: ciberseguridad cuando los agentes ya toman decisiones dentro de las empresas (lo dice su descripción). Tiene pocas vistas (3.057)."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Privacidad",
+       "titulo": "Tu IA local NO es tan privada como crees…",
+       "canal": "Cognix",
+       "url": "https://www.youtube.com/watch?v=nVi_0jq7-4w",
+       "publicado": "2026-10-22",
+       "vistas": 24654,
+       "megusta": 396,
+       "minutos": 29,
+       "porQue": "De octubre de 2026: por qué una IA local no es tan privada como parece, con 21 capítulos."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Primero entiende qué es un agente y cuándo conviene (1); luego cómo trabajan varias IA juntas (2); construye uno en n8n (3) y termina con lo que lo hace seguro en una empresa: aprobación humana y privacidad (4).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "ia-generativa",
+      "porque": "Un agente es un modelo de lenguaje con herramientas: primero entiende el modelo."
+     },
+     {
+      "ruta": "prompts",
+      "porque": "Un agente sigue instrucciones escritas: son prompts."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "n8n",
+      "porque": "El punto 3 se construye en n8n."
+     },
+     {
+      "ruta": "apis",
+      "porque": "Las herramientas de un agente casi siempre son APIs."
+     }
+    ]
+   }
   },
   {
    "id": "prompts",
@@ -4595,7 +5362,8 @@
      "evidencia": [
       "Register | FREE",
       "certificate of completion"
-     ]
+     ],
+     "punto": "prompts-2"
     },
     "enVacantes": "Ninguna de las 39 nombra una certificación de prompts."
    },
@@ -4612,13 +5380,68 @@
      "practica": "Reescribe 3 encargos que le hiciste a una IA esta semana con contexto, formato y criterio de éxito, y compara los resultados.",
      "recurso": {
       "nombre": "Descripción general de la ingeniería de prompts",
-      "proveedor": "Documentación de Claude (en español)",
-      "url": "https://platform.claude.com/docs/es/build-with-claude/prompt-engineering/overview"
+      "proveedor": "Documentación de Claude",
+      "url": "https://platform.claude.com/docs/es/build-with-claude/prompt-engineering/overview",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la guía oficial de Anthropic"
+       ],
+       [
+        "Reseñas",
+        "no aplica"
+       ]
+      ],
+      "porQue": "La guía oficial, en español."
      },
      "video": {
-      "titulo": "Curso gratis de prompt engineering (2026)",
-      "canal": "EDteam",
-      "url": "https://www.youtube.com/watch?v=8Wqgr7Ry3dk"
+      "titulo": "Aprende Prompt Engineering ahora! curso tutorial gratuito desde cero",
+      "canal": "HolaMundo",
+      "url": "https://www.youtube.com/watch?v=x-iTco25VGI",
+      "publicado": "2025-08-01",
+      "vistas": 267139,
+      "megusta": 8401,
+      "minutos": 110,
+      "porQue": "De agosto de 2025: curso completo y por capítulos (delimitadores, ejemplos, roles, cadena de pensamiento). 8.401 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "00:02:58",
+        "fin": "00:06:13",
+        "nombre": "¿Qué es prompt engineering?",
+        "seg": 178
+       },
+       {
+        "inicio": "00:31:40",
+        "fin": "00:38:57",
+        "nombre": "Delimitadores",
+        "seg": 1900
+       },
+       {
+        "inicio": "00:38:57",
+        "fin": "00:45:08",
+        "nombre": "In-Context Learning",
+        "seg": 2337
+       },
+       {
+        "inicio": "01:10:51",
+        "fin": "01:15:51",
+        "nombre": "Chained Promting",
+        "seg": 4251
+       },
+       {
+        "inicio": "01:20:43",
+        "fin": "01:25:23",
+        "nombre": "Role Prompting",
+        "seg": 4843
+       },
+       {
+        "inicio": "01:30:10",
+        "fin": "01:33:43",
+        "nombre": "Chain of Thoughts",
+        "seg": 5410
+       }
+      ]
      },
      "logro": "escribir un encargo con contexto, formato, ejemplo y criterio de éxito.",
      "idea": {
@@ -4647,7 +5470,7 @@
        ]
       ]
      },
-     "mira": "Mira el curso de EDteam y lee la descripción general de ingeniería de prompts en la documentación de Claude (en español).",
+     "mira": "Mira los capítulos de la lista y anota en tu cuaderno una plantilla de encargo.",
      "hazlo": [
       "Busca 3 encargos que le hiciste a una IA esta semana.",
       "Reescríbelos con contexto, formato, ejemplo y criterio de éxito.",
@@ -4683,7 +5506,22 @@
        "Olvidar quién lo va a leer.",
        "El mismo resumen cambia si es para un gerente o para un analista nuevo."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Curso de EDteam",
+       "titulo": "Curso gratis de prompt engineering (2026)",
+       "canal": "EDteam",
+       "url": "https://www.youtube.com/watch?v=8Wqgr7Ry3dk",
+       "publicado": "2025-10-01",
+       "vistas": 307862,
+       "megusta": 9837,
+       "minutos": 46,
+       "porQue": "De octubre de 2025: era el video de esta ruta y sigue vigente. 9.837 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "prompts-2",
@@ -4722,7 +5560,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: se aprende haciendo las misiones del cinturón Blanco.",
+     "mira": "Mira el video y practica cada clave en el AI Dojo.",
      "hazlo": [
       "Haz en el AI Dojo «El formato exacto», «El criterio de éxito» y «Dale un ejemplo».",
       "Después de cada misión, anota en el cuaderno qué cambió en la respuesta.",
@@ -4758,7 +5596,105 @@
        "Criterios que no se pueden revisar.",
        "«Que quede bien» no se comprueba; «máximo 10 pasos», sí."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Cómo ESCRIBIR PROMPTS perfectos  🚀 Aprende prompt engineering con el método de GOOGLE",
+      "canal": "Xavier Mitjana",
+      "url": "https://www.youtube.com/watch?v=BRy7Z3ZoQZk",
+      "publicado": "2026-01-28",
+      "vistas": 120204,
+      "megusta": 4712,
+      "minutos": 15,
+      "porQue": "De enero de 2026: siete claves para escribir prompts y un ejemplo final, según el método que publicó Google. 4.712 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "00:55",
+        "fin": "02:00",
+        "nombre": "Clave 1",
+        "seg": 55
+       },
+       {
+        "inicio": "02:00",
+        "fin": "03:04",
+        "nombre": "Clave 2",
+        "seg": 120
+       },
+       {
+        "inicio": "03:04",
+        "fin": "05:12",
+        "nombre": "Clave 3",
+        "seg": 184
+       },
+       {
+        "inicio": "05:12",
+        "fin": "06:27",
+        "nombre": "Clave 4",
+        "seg": 312
+       },
+       {
+        "inicio": "06:27",
+        "fin": "07:49",
+        "nombre": "Clave 5",
+        "seg": 387
+       },
+       {
+        "inicio": "07:49",
+        "fin": "09:05",
+        "nombre": "Clave 6",
+        "seg": 469
+       },
+       {
+        "inicio": "09:05",
+        "fin": "11:44",
+        "nombre": "Clave 7",
+        "seg": 545
+       },
+       {
+        "inicio": "11:44",
+        "fin": null,
+        "nombre": "Ejemplo final",
+        "seg": 704
+       }
+      ]
+     },
+     "recurso": {
+      "nombre": "Claude 101",
+      "proveedor": "Anthropic",
+      "idioma": "Inglés",
+      "url": "https://anthropic.skilljar.com/claude-101",
+      "gratis": {
+       "evidencia": [
+        "Register | FREE",
+        "certificate of completion"
+       ]
+      },
+      "datos": [
+       [
+        "Certificado",
+        "de finalización, gratis (lo dice su página)"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Es la credencial oficial y gratis de esta ruta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Plantillas",
+       "titulo": "La Fórmula del Prompt Perfecto para ChatGPT (Guía Definitiva)",
+       "canal": "Cyberclick • Marketing Digital",
+       "url": "https://www.youtube.com/watch?v=p2PqfRte46k",
+       "publicado": "2025-04-15",
+       "vistas": 394707,
+       "megusta": 10376,
+       "minutos": 11,
+       "porQue": "De abril de 2025: tres plantillas de encargo. 10.376 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "prompts-3",
@@ -4771,8 +5707,20 @@
      "practica": "Pide a una IA que convierta un texto desordenado en una tabla con columnas fijas, y comprueba que cada campo esté. Misión del Dojo: «La salida rígida».",
      "recurso": {
       "nombre": "Prompt engineering",
-      "proveedor": "OpenAI (en inglés)",
-      "url": "https://developers.openai.com/api/docs/guides/prompt-engineering"
+      "proveedor": "OpenAI",
+      "url": "https://developers.openai.com/api/docs/guides/prompt-engineering",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la guía oficial de OpenAI"
+       ],
+       [
+        "Reseñas",
+        "no aplica"
+       ]
+      ],
+      "porQue": "La guía oficial de OpenAI."
      },
      "enlace": {
       "modulo": "17-IA",
@@ -4806,7 +5754,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: lee en la guía de OpenAI (en inglés) la parte de formatos de salida, y haz la misión «La salida rígida».",
+     "mira": "Mira los dos capítulos y pide en el AI Dojo una tabla o un JSON que puedas comprobar campo por campo.",
      "hazlo": [
       "Haz en el AI Dojo la misión «La salida rígida».",
       "Pega el encargo de abajo en una IA.",
@@ -4834,7 +5782,66 @@
        "Montos con formato.",
        "«$120.000» es texto; pide el número solo: 120000."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Aprende Prompt Engineering ahora! curso tutorial gratuito desde cero",
+      "canal": "HolaMundo",
+      "url": "https://www.youtube.com/watch?v=x-iTco25VGI",
+      "publicado": "2025-08-01",
+      "vistas": 267139,
+      "megusta": 8401,
+      "minutos": 110,
+      "porQue": "El curso del punto 1: salidas estructuradas y cómo pedirle que verifique condiciones.",
+      "capitulos": [
+       {
+        "inicio": "00:45:08",
+        "fin": "00:50:07",
+        "nombre": "Salidas estructuradas",
+        "seg": 2708
+       },
+       {
+        "inicio": "00:50:07",
+        "fin": "00:55:21",
+        "nombre": "Verificación de condiciones",
+        "seg": 3007
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "JSON sin programar",
+       "titulo": "Domina el Prompting como un Pro con código JSON ¡Sin saber programar!",
+       "canal": "El TIC nervioso (Tecnología, IA y otras manías)",
+       "url": "https://www.youtube.com/watch?v=_XYPa3Vjo2k",
+       "publicado": "2025-06-23",
+       "vistas": 3412,
+       "megusta": 94,
+       "minutos": 18,
+       "porQue": "De junio de 2025: escribir el prompt en JSON sin saber programar.",
+       "capitulos": [
+        {
+         "inicio": "00:54",
+         "fin": "03:24",
+         "nombre": "Ventajas de crear un prompt en un JSON",
+         "seg": 54
+        },
+        {
+         "inicio": "04:13",
+         "fin": "10:52",
+         "nombre": "Comenzamos nuestro Prompt de ejemplo",
+         "seg": 253
+        },
+        {
+         "inicio": "10:52",
+         "fin": "17:20",
+         "nombre": "Vamos a ver cómo funciona nuestro Prompt",
+         "seg": 652
+        }
+       ]
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "prompts-4",
@@ -4876,7 +5883,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: los guardas en el Prompt Lab del Cerebro (8-PRO).",
+     "mira": "Mira el video y guarda tus mejores encargos en el Prompt Lab (8-PRO).",
      "hazlo": [
       "Elige tus 5 mejores encargos de las estaciones anteriores.",
       "Guárdalos en el Prompt Lab, cada uno con un ejemplo de buen resultado.",
@@ -4912,9 +5919,74 @@
        "No actualizarlos.",
        "Cuando un encargo falla, corrígelo y guarda la versión nueva."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Por qué necesitas una Biblioteca de Prompts ahora y Cómo crear una",
+      "canal": "Cyberclick • Marketing Digital",
+      "url": "https://www.youtube.com/watch?v=Nj4jF2cTXbo",
+      "publicado": "2025-10-07",
+      "vistas": 35766,
+      "megusta": 1721,
+      "minutos": 12,
+      "porQue": "De octubre de 2025: qué es una biblioteca de prompts y cómo crear una paso a paso. 1.721 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "00:48",
+        "fin": "01:20",
+        "nombre": "¿Qué es exactamente una biblioteca de prompts?",
+        "seg": 48
+       },
+       {
+        "inicio": "03:47",
+        "fin": "10:00",
+        "nombre": "Paso a paso para crear una biblioteca de prompts",
+        "seg": 227
+       },
+       {
+        "inicio": "10:00",
+        "fin": "11:25",
+        "nombre": "Bibliotecas de prompts existentes",
+        "seg": 600
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Bibliotecas que ya existen",
+       "titulo": "Mejores Bibliotecas de Prompts para ChatGPT y Otras IA",
+       "canal": "Cyberclick • Marketing Digital",
+       "url": "https://www.youtube.com/watch?v=E3bVkpFVuVE",
+       "publicado": "2025-11-11",
+       "vistas": 8426,
+       "megusta": 336,
+       "minutos": 6,
+       "porQue": "De noviembre de 2025: bibliotecas de prompts públicas para ChatGPT y otras IA."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Aprende las partes de un buen encargo (1) y practícalas en el Dojo (2). Después pide salidas que otra máquina pueda leer (3), que es lo que conecta la IA con un proceso, y guarda lo que funciona (4).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "ia-generativa",
+      "porque": "Entender cómo responde un modelo explica por qué funciona un buen prompt."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "agentes",
+      "porque": "Las instrucciones de un agente son prompts."
+     },
+     {
+      "ruta": "n8n",
+      "porque": "En n8n el nodo de IA recibe un prompt y debe devolver datos ordenados (punto 3)."
+     }
+    ]
+   }
   },
   {
    "id": "ml",
@@ -4933,8 +6005,11 @@
     "referencia": {
      "nombre": "Google Cloud Professional Machine Learning Engineer",
      "emisor": "Google Cloud",
-     "url": "https://cloud.google.com/learn/certification/machine-learning-engineer",
-     "costo": "Examen pago."
+     "url": "https://cloud.google.com/learn/certification/machine-learning-engineer?hl=es",
+     "costo": "Examen pago: 200 USD más impuestos, según su página.",
+     "evidencia": [
+      "Cuota de inscripción: 200 USD"
+     ]
     },
     "gratis": null,
     "camino": {
@@ -4944,7 +6019,35 @@
       "Building AI is a free online course"
      ]
     },
-    "enVacantes": "Ninguna de las 39 nombra una certificación de machine learning."
+    "enVacantes": "Ninguna de las 39 nombra una certificación de machine learning.",
+    "examen": {
+     "codigo": "Professional ML Engineer",
+     "url": "https://cloud.google.com/learn/certification/machine-learning-engineer?hl=es",
+     "evidencia": [
+      "Duración: 2 horas",
+      "50-60 preguntas",
+      "Idiomas: inglés y japonés"
+     ],
+     "datos": [
+      [
+       "Tiempo",
+       "2 horas"
+      ],
+      [
+       "Preguntas",
+       "50 a 60"
+      ],
+      [
+       "Precio",
+       "200 USD"
+      ],
+      [
+       "Idiomas",
+       "inglés y japonés"
+      ]
+     ],
+     "nota": "Es una certificación profesional, para quien ya trabaja con modelos: no es un primer paso."
+    }
    },
    "queEs": "Que un programa aprenda patrones a partir de datos para predecir o clasificar, por ejemplo qué transacción parece sospechosa. En la muestra lo pide 1 de las 39 vacantes.",
    "pasos": [
@@ -4959,13 +6062,61 @@
      "practica": "Explica la diferencia entre IA, machine learning y deep learning con un ejemplo de finanzas.",
      "recurso": {
       "nombre": "Elements of AI",
-      "proveedor": "Universidad de Helsinki y MinnaLearn (en español)",
-      "url": "https://www.elementsofai.com/es/"
+      "proveedor": "Universidad de Helsinki y MinnaLearn",
+      "url": "https://www.elementsofai.com/es/",
+      "idioma": "Español",
+      "gratis": {
+       "evidencia": [
+        "es un curso gratuito en línea"
+       ]
+      },
+      "datos": [
+       [
+        "Personas",
+        "más de 2 millones, según su página"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Curso gratis y sin fórmulas, en español."
      },
      "video": {
-      "titulo": "¿Qué es el Machine Learning?¿Y Deep Learning? Un mapa conceptual | DotCSV",
-      "canal": "Dot CSV",
-      "url": "https://www.youtube.com/watch?v=KytW151dpqU"
+      "titulo": "DIFERENCIAS entre IA, Machine Learning y Deep Learning | Curso IA 🧠🤖",
+      "canal": "TodoCode",
+      "url": "https://www.youtube.com/watch?v=6kDGzmyLDsA",
+      "publicado": "2026-06-18",
+      "vistas": 9195,
+      "megusta": 481,
+      "minutos": 8,
+      "porQue": "De junio de 2026, 8 minutos: qué es la IA, el machine learning y el deep learning, y en qué se diferencian.",
+      "capitulos": [
+       {
+        "inicio": "00:57",
+        "fin": "02:28",
+        "nombre": "¿Qué es la Inteligencia Artificial?",
+        "seg": 57
+       },
+       {
+        "inicio": "02:28",
+        "fin": "04:12",
+        "nombre": "¿Qué es el Machine Learning?",
+        "seg": 148
+       },
+       {
+        "inicio": "04:12",
+        "fin": "05:53",
+        "nombre": "Deep Learning",
+        "seg": 252
+       },
+       {
+        "inicio": "05:53",
+        "fin": "06:06",
+        "nombre": "Diferencias entre IA, ML y DL",
+        "seg": 353
+       }
+      ]
      },
      "logro": "explicar la diferencia entre IA, machine learning y deep learning con un ejemplo de finanzas.",
      "idea": {
@@ -4994,7 +6145,7 @@
        ]
       ]
      },
-     "mira": "El video de Dot CSV dibuja el mapa completo: IA, machine learning y deep learning. Míralo entero.",
+     "mira": "Mira los capítulos de la lista y haz el primer capítulo de Elements of AI.",
      "hazlo": [
       "Mira el video.",
       "Haz el primer capítulo de Elements of AI (en español).",
@@ -5030,6 +6181,31 @@
        "Confundir que dos cosas pasen juntas con que una cause la otra.",
        "Los datos muestran relaciones; la causa hay que demostrarla aparte."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "En una empresa",
+       "titulo": "Todos los modelos de Machine Learning que usa tu empresa explicados simple en 17 minutos",
+       "canal": "DataScience ForBusiness",
+       "url": "https://www.youtube.com/watch?v=XkkOyfo8gvI",
+       "publicado": "2026-09-01",
+       "vistas": 107531,
+       "megusta": 2931,
+       "minutos": 17,
+       "porQue": "De septiembre de 2026: los modelos de machine learning que usa una empresa, explicados en 17 minutos. 2.931 me gusta."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "¿Qué es el Machine Learning?¿Y Deep Learning? Un mapa conceptual | DotCSV",
+       "canal": "Dot CSV",
+       "url": "https://www.youtube.com/watch?v=KytW151dpqU",
+       "publicado": "2017-11-01",
+       "vistas": 695617,
+       "megusta": 21962,
+       "razon": "Era el video de esta ruta: muy visto, pero es de noviembre de 2017."
+      }
      ]
     },
     {
@@ -5044,12 +6220,67 @@
      "recurso": {
       "nombre": "Machine Learning Crash Course",
       "proveedor": "Google for Developers",
-      "url": "https://developers.google.com/machine-learning/crash-course?hl=es-419"
+      "url": "https://developers.google.com/machine-learning/crash-course?hl=es-419",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "el curso de Google, actualizado con los avances recientes de la IA (lo dice su página)"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "El curso de Google, con ejercicios interactivos."
      },
      "video": {
-      "titulo": "MACHINE LEARNING | Aprendizaje Supervisado, No Supervisado y Por Refuerzo",
-      "canal": "BitBoss",
-      "url": "https://www.youtube.com/watch?v=FMkxSsfvMI4"
+      "titulo": "Curso Completo de Machine Learning",
+      "canal": "El Próximo Framework en Ingeniería",
+      "url": "https://www.youtube.com/watch?v=wBg21SxC-2o",
+      "publicado": "2026-10-27",
+      "vistas": 8017,
+      "megusta": 203,
+      "minutos": 48,
+      "porQue": "De octubre de 2026: qué es el machine learning, los pasos de un proyecto real, los tipos de aprendizaje y sus primeros modelos.",
+      "capitulos": [
+       {
+        "inicio": "01:10",
+        "fin": "01:51",
+        "nombre": "¿Qué es Realmente el Machine Learning?",
+        "seg": 70
+       },
+       {
+        "inicio": "01:51",
+        "fin": "05:00",
+        "nombre": "Flujo de Trabajo: Los 8 Pasos de un Proyecto Real",
+        "seg": 111
+       },
+       {
+        "inicio": "05:00",
+        "fin": "07:30",
+        "nombre": "Paradigmas: Supervisado, No Supervisado y Refuerzo",
+        "seg": 300
+       },
+       {
+        "inicio": "07:30",
+        "fin": "10:57",
+        "nombre": "Regresión Lineal y Regresión Polinomial",
+        "seg": 450
+       },
+       {
+        "inicio": "10:57",
+        "fin": "12:35",
+        "nombre": "Clasificación y Regresión Logística",
+        "seg": 657
+       },
+       {
+        "inicio": "19:00",
+        "fin": "23:37",
+        "nombre": "Clustering: K-Means (Blobs vs Moons) y Fuzzy C-Means",
+        "seg": 1140
+       }
+      ]
      },
      "logro": "decir si un problema es de predecir, clasificar o agrupar.",
      "idea": {
@@ -5078,7 +6309,7 @@
        ]
       ]
      },
-     "mira": "El video explica el aprendizaje supervisado, el no supervisado y el de refuerzo. El curso de Google (en inglés) sirve para profundizar.",
+     "mira": "Mira los capítulos de la lista y haz el módulo de clasificación del curso de Google.",
      "hazlo": [
       "Mira el video.",
       "Haz la introducción del Machine Learning Crash Course de Google.",
@@ -5114,7 +6345,23 @@
        "Creer que los grupos son categorías reales.",
        "Los grupos los propone el programa; una persona decide qué significan."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Corto",
+       "clasico": "Es de febrero de 2023. Se queda porque explica los tres tipos de aprendizaje en 8 minutos, más corto que el curso de arriba.",
+       "titulo": "MACHINE LEARNING | Aprendizaje Supervisado, No Supervisado y Por Refuerzo",
+       "canal": "BitBoss",
+       "url": "https://www.youtube.com/watch?v=FMkxSsfvMI4",
+       "publicado": "2023-02-24",
+       "vistas": 71805,
+       "megusta": 2863,
+       "minutos": 8,
+       "porQue": "2.863 me gusta, en 8 minutos."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "ml-3",
@@ -5127,8 +6374,31 @@
      "practica": "Termina el curso y anota qué tan bien predijo tu modelo y por qué.",
      "recurso": {
       "nombre": "Intro to Machine Learning",
-      "proveedor": "Kaggle Learn (en inglés, interactivo)",
-      "url": "https://www.kaggle.com/learn/intro-to-machine-learning"
+      "proveedor": "Kaggle Learn",
+      "url": "https://www.kaggle.com/learn/intro-to-machine-learning",
+      "idioma": "Inglés, en cuadernos de Kaggle",
+      "parte": "Lecciones 1 a 5",
+      "gratis": {
+       "evidencia": [
+        "No cost, like all Kaggle Learn Courses"
+       ],
+       "comprobadoEnNavegador": "2026-11-25"
+      },
+      "datos": [
+       [
+        "Certificado",
+        "sí, al terminar"
+       ],
+       [
+        "Horas estimadas",
+        "3"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Su lección 3 es tu primer modelo y la 4, medir si acierta. Certificado gratis."
      },
      "logro": "entrenar un modelo pequeño y medir su error con datos que no vio.",
      "idea": {
@@ -5157,7 +6427,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: el curso Intro to Machine Learning de Kaggle (en inglés) lo enseña con ejercicios que se corrigen solos.",
+     "mira": "Mira los capítulos de la lista y haz las lecciones 1 a 5 de Kaggle.",
      "hazlo": [
       "Haz en Kaggle el curso Intro to Machine Learning hasta la lección «Model Validation».",
       "Corre el código de abajo: entrena con 6 días ficticios y prueba con 2 que el modelo no vio.",
@@ -5199,7 +6469,45 @@
        "Pedirle lo que nunca vio.",
        "Un árbol de decisión no predice más allá de los valores con que se entrenó."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Curso Completo de Machine Learning",
+      "canal": "El Próximo Framework en Ingeniería",
+      "url": "https://www.youtube.com/watch?v=wBg21SxC-2o",
+      "publicado": "2026-10-27",
+      "vistas": 8017,
+      "megusta": 203,
+      "minutos": 48,
+      "porQue": "El curso del punto 2: árboles de decisión y cómo medir si el modelo acierta.",
+      "capitulos": [
+       {
+        "inicio": "14:05",
+        "fin": "16:28",
+        "nombre": "Árboles de Decisión y Random Forest",
+        "seg": 845
+       },
+       {
+        "inicio": "35:02",
+        "fin": "37:44",
+        "nombre": "Evaluación de Modelos: Matriz de Confusión y F1-Score",
+        "seg": 2102
+       },
+       {
+        "inicio": "37:44",
+        "fin": "38:32",
+        "nombre": "Métricas de Regresión: MAE vs RMSE",
+        "seg": 2264
+       },
+       {
+        "inicio": "39:58",
+        "fin": "41:22",
+        "nombre": "El Dilema: Subajuste (Underfitting) vs Sobreajuste (Overfitting)",
+        "seg": 2398
+       }
+      ]
+     },
+     "mas": [],
+     "descartados": []
     },
     {
      "id": "ml-4",
@@ -5241,7 +6549,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la misión «El caso donde NO se usa» del cinturón Negro del AI Dojo trabaja justo esto.",
+     "mira": "Mira el video y escribe en el AI Dojo un caso de tu trabajo que se resuelva con una regla simple.",
      "hazlo": [
       "Haz en el AI Dojo la misión «El caso donde NO se usa».",
       "Toma un problema ficticio que alguien quiera resolver con machine learning.",
@@ -5277,9 +6585,50 @@
        "No poder explicarlo.",
        "Si no puedes decir por qué marcó algo, nadie va a confiar en él."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Inteligencia Artificial vs Machine Learning: Diferencias y ¿cuál usar?",
+      "canal": "codigofacilito",
+      "url": "https://www.youtube.com/watch?v=O5n7ox8Fpo4",
+      "publicado": "2025-03-07",
+      "vistas": 1855,
+      "megusta": 100,
+      "minutos": 9,
+      "porQue": "De marzo de 2025: diferencias entre IA y machine learning y cuál usar en cada caso. 100 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Sin magia",
+       "titulo": "Machine learning no es magia: las 3 ideas que lo explican todo",
+       "canal": "Código Espinoza - IA y Machine Learning",
+       "url": "https://www.youtube.com/watch?v=w6ZQhbVMEEo",
+       "publicado": "2026-07-28",
+       "vistas": 246,
+       "megusta": 11,
+       "minutos": 7,
+       "porQue": "De julio de 2026: las tres ideas que explican el machine learning, según su título."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Primero la idea sin fórmulas (1) y los tipos de aprendizaje (2). Después tu primer modelo en Python (3) y, lo más útil para el rol, saber cuándo no hace falta (4). Lo pide 1 de las 39 vacantes: no es prioridad.",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "python",
+      "porque": "El punto 3 entrena un modelo en Python."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "ia-generativa",
+      "porque": "Los modelos de lenguaje son machine learning a gran escala."
+     }
+    ]
+   }
   },
   {
    "id": "sql",
