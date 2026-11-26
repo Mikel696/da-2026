@@ -52,43 +52,9 @@ const WorkRol = (function(){
     return `<p class="rol-radar">El radar de 5-JOB trae <b>${n}</b> vacante${n === 1 ? '' : 's'} del rol entre las ${j.length} que muestra (datos del ${esc(cuando)}${radar.guardado ? ', copia guardada sin conexión' : ''}). El radar no lee LinkedIn, que es de donde salió la muestra de este mapa: para eso están las búsquedas del rol en 5-JOB.</p>`;
   }
 
-  /* Panel de una ruta, debajo de su fila. */
+  /* La ruta abierta (26-nov): todas las rutas traen `medido` (el verificador lo exige), así que hay una sola vista. */
   function renderRuta(r, c, D){
-    const R = window.WorkRutas;
-    // Ruta por puntos con recursos medidos (25-nov): la que trae fecha de corte de sus medidas.
-    if (r.medido && window.WorkRutaPuntos) return WorkRutaPuntos.html(r, c, D, estacion[r.id], R);
-    if (r.frase && window.WorkRutaVista) return WorkRutaVista.html(r, c, D, estacion[r.id], R);
-    const empresas = [...new Set(D.vacantes.filter(v => v.competencias.includes(c.nombre)).map(v => v.empresa))];
-    const nombres = empresas.slice(0, 8).join(', ') + (empresas.length > 8 ? ` y ${empresas.length - 8} más` : '');
-    const hechos = r.pasos.filter(p => R.hecho(r.id, p.id)).length, p = R.pct(r.id);
-    const pasos = r.pasos.map((s, i) => {
-      const ok = R.hecho(r.id, s.id);
-      return `<li class="ruta-paso${ok ? ' hecho' : ''}">
-          <label><input type="checkbox" data-paso="${esc(s.id)}" data-de="${esc(r.id)}"${ok ? ' checked' : ''}> <span>${i + 1}. ${esc(s.titulo)}</span></label>
-          <ul class="ruta-aprender">${s.aprender.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
-          ${s.recurso ? `<p class="ruta-rec">Recurso: <a href="${esc(s.recurso.url)}" target="_blank" rel="noopener">${esc(s.recurso.nombre)}</a> · ${esc(s.recurso.proveedor)}</p>` : ''}
-          ${s.video ? `<p class="ruta-rec ruta-video">▶ Video: <a href="${esc(s.video.url)}" target="_blank" rel="noopener">${esc(s.video.titulo)}</a> · ${esc(s.video.canal)}</p>` : ''}
-          ${s.enlace ? `<p class="ruta-rec">En el Cerebro: <a href="${esc(s.enlace.url)}"${/^https?:/.test(s.enlace.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(s.enlace.texto)}</a></p>` : ''}
-          <p class="ruta-prac"><b>Práctica:</b> ${esc(s.practica)}</p>
-        </li>`;
-    }).join('');
-    const nb = R.empezada(r.id) ? 'work_nb_ruta_' + r.id : '';
-    return `<li class="ruta" id="ruta-${esc(r.id)}" role="region" aria-label="Ruta de estudio: ${esc(R.nombreCorto(r))}">
-        <div class="ruta-cab">
-          <span class="ruta-ico" aria-hidden="true">${esc(r.icono || '')}</span>
-          <div><p class="ruta-tit">Ruta · ${esc(R.nombreCorto(r))}</p><p class="ruta-pct">Ruta al ${p} % · ${hechos} de ${r.pasos.length} pasos</p></div>
-          <span class="avance-barra ruta-barra" role="img" aria-label="${p} %"><i style="width:${p}%"></i></span>
-        </div>
-        <p class="ruta-que">${esc(r.queEs)}</p>
-        ${c.perfil === 'si' ? '<p class="ruta-perfil">Ya figura en tu perfil, así que en tu % global cuenta completa. Esta ruta sirve para repasarla y demostrarla con algo que puedas enseñar en una entrevista.</p>' : ''}
-        <p class="ruta-piden">La piden ${c.vacantes} de las ${D.muestra.n} vacantes, entre ellas ${esc(nombres)}.</p>
-        <ol class="ruta-pasos">${pasos}</ol>
-        <div class="ruta-acc">${nb
-          ? `<button type="button" class="btn bo bs" data-cuaderno="${esc(nb)}">Abrir mi cuaderno de ${esc(R.nombreCorto(r))}</button>`
-          : `<button type="button" class="btn bp bs" data-empezar="${esc(r.id)}">Empezar: crear mi cuaderno de ${esc(R.nombreCorto(r))}</button>`}
-          <span class="ruta-nota">El cuaderno trae una página por paso, con la práctica y espacio para tus apuntes.</span>
-        </div>
-      </li>`;
+    return window.WorkRutaPuntos ? WorkRutaPuntos.html(r, c, D, estacion[r.id], window.WorkRutas) : '';
   }
 
   function render(){
@@ -164,7 +130,7 @@ const WorkRol = (function(){
     const txt = b.querySelector('span');
     if (!s || !window.SpeechSynthesisUtterance || !r) { if (txt) txt.textContent = 'Este navegador no tiene voz'; return; }
     if (s.speaking) { s.cancel(); return; }
-    const u = new SpeechSynthesisUtterance(WorkRutaVista.textoOir(r));
+    const u = new SpeechSynthesisUtterance(WorkRutaPuntos.textoOir(r));
     const es = (await vocesListas(s)).filter(x => /^es/i.test(x.lang)), latam = x => /^es[-_](CO|MX|US|419)/i.test(x.lang);
     const v = es.find(x => x.localService && latam(x)) || es.find(x => x.localService) || es.find(latam) || es[0];
     if (v) u.voice = v;

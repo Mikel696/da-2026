@@ -42,6 +42,10 @@ sea necesario, no puedes quitar funciones, solo la parte visual»**.
 - **Publicado y verificado (6c059d4):** en su Chrome, solo mirando: portada y work.html con 25 habilidades, «Continuar»
   abre Python en el mismo lugar con un solo paso abierto, «Volver» regresa, 0 errores, `work_rutas` idéntico.
   **Miguel lo aprobó el 26-nov: «Sí, así está bien».** Sin probar en producción: Escuchar y «Abrir mi cuaderno».
+- **Limpieza (P2, con su «Sí, quítalo»):** fuera `work-ruta-vista.js` (14 KB), la lista vieja de rutas de `work-rol.js` y
+  13 KB de estilos que solo usaban ellas (`.rv-*` de la vista vieja, `.ruta-*`, `.rol-*` de la lista «Lo que piden»).
+  Escuchar toma el texto de `WorkRutaPuntos.textoOir`. El verificador exige `medido` en toda ruta (si falta, la
+  página no sabría pintarla). Simulación 265/265 sin cargar el archivo viejo; sync 28/28.
 
 ---
 

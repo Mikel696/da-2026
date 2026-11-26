@@ -157,7 +157,8 @@ for (const r of rutas.rutas || []) {
 // fecha de corte de las medidas. Lo que se vuelve a medir en YouTube va más abajo.
 const medidos = [];   // {donde, v, medido, reciente}
 for (const r of rutas.rutas || []) {
-  if (!r.medido) continue;
+  // 26-nov: la página solo sabe pintar rutas medidas (se quitaron las vistas viejas), así que toda ruta la trae.
+  if (!r.medido) { mal(`${r.id}: falta «medido» (la página solo pinta rutas por puntos)`); continue; }
   if (!fecha(r.medido)) mal(`${r.id}: «medido» sin fecha válida`);
   if (!texto(r.orden)) mal(`${r.id}: falta «orden» (qué aprender primero)`);
   const cb = r.combina || {};
