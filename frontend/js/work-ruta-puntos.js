@@ -37,6 +37,10 @@ const WorkRutaPuntos = (function(){
   const seg = t => t.split(':').map(Number).reduce((a, b) => a * 60 + b, 0);
   const idYT = url => (url.match(/[?&]v=([\w-]{11})/) || [])[1];
   const nombreDe = (R, id) => { const r = R.ruta(id); return r ? R.nombreCorto(r) : id; };
+  // Peso de un tema del examen: un número o un rango que publica el emisor (Microsoft: «25–30 %»).
+  const pesoTxt = t => t.pesoRango ? `${t.pesoRango[0]}–${t.pesoRango[1]} %` : `${t.peso} %`;
+  const pesoMedio = t => t.pesoRango ? (t.pesoRango[0] + t.pesoRango[1]) / 2 : t.peso;
+  const sumaPeso = ts => ts.some(t => t.pesoRango) ? `${ts.reduce((s, t) => s + (t.pesoRango ? t.pesoRango[0] : t.peso), 0)}–${ts.reduce((s, t) => s + (t.pesoRango ? t.pesoRango[1] : t.peso), 0)} %` : `${ts.reduce((s, t) => s + t.peso, 0)} %`;
 
   /* Estado de cada punto: el elegido; si no, el primero sin aprender; si todos están, el último. */
   function elegido(r, sel, R){
@@ -49,8 +53,9 @@ const WorkRutaPuntos = (function(){
   function meta(r, R){
     const c = r.certificacion || {}, ref = c.referencia, e = c.examen;
     const n = id => r.pasos.findIndex(p => p.id === id) + 1;
-    const barra = e ? `<div class="rp-temas-barra" role="img" aria-label="Peso de cada tema en el puntaje: ${e.temas.map(t => `tema ${t.n}, ${t.peso} %`).join('; ')}">${e.temas.map(t => `<span style="flex:${t.peso}"><b>${t.n}</b></span>`).join('')}</div>` : '';
-    const temas = e ? `<ol class="rp-temas">${e.temas.map(t => `<li><span class="rp-tema-n">${t.n}</span><span class="rp-tema-t">${esc(t.nombre)}</span><span class="rp-tema-p">${t.peso} %</span><button type="button" class="rp-tema-ir" data-estacion="${esc(t.punto)}" data-de="${esc(r.id)}">Punto ${n(t.punto)}</button></li>`).join('')}</ol>` : '';
+    const ts = (e && e.temas) || [];
+    const barra = ts.length ? `<div class="rp-temas-barra" role="img" aria-label="Peso de cada tema en el puntaje: ${ts.map(t => `tema ${t.n}, ${pesoTxt(t)}`).join('; ')}">${ts.map(t => `<span style="flex:${pesoMedio(t)}"><b>${t.n}</b></span>`).join('')}</div>` : '';
+    const temas = ts.length ? `<ol class="rp-temas">${ts.map(t => `<li><span class="rp-tema-n">${t.n}</span><span class="rp-tema-t">${esc(t.nombre)}</span><span class="rp-tema-p">${pesoTxt(t)}</span><button type="button" class="rp-tema-ir" data-estacion="${esc(t.punto)}" data-de="${esc(r.id)}">Punto ${n(t.punto)}</button></li>`).join('')}</ol>` : '';
     const creds = (c.credenciales || []).map(k => `<li><span class="rp-cred-ico">${svg(I.insignia, 18)}</span><span><a href="${esc(k.url)}" target="_blank" rel="noopener">${esc(k.nombre)}</a><small>${esc(k.emisor)} · al terminar el punto ${n(k.punto)}</small></span></li>`).join('');
     return `<section class="rp-meta" aria-labelledby="rp-m-${esc(r.id)}">
         <div class="rp-meta-cab">
@@ -62,8 +67,8 @@ const WorkRutaPuntos = (function(){
           </div>
         </div>
         ${e ? `<dl class="rp-meta-datos">${e.datos.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
-        <div class="rp-meta-temario"><p class="rp-meta-sub">Lo que pregunta el examen y en qué punto lo aprendes</p>${barra}${temas}
-        <p class="rp-pie">${esc(e.nota)} <a href="${esc(e.url)}" target="_blank" rel="noopener">Ver el temario oficial</a></p></div>` : ''}
+        ${ts.length ? `<div class="rp-meta-temario"><p class="rp-meta-sub">Lo que pregunta el examen y en qué punto lo aprendes</p>${barra}${temas}</div>` : ''}
+        <p class="rp-pie">${esc(e.nota || '')} <a href="${esc(e.temarioUrl || e.url)}" target="_blank" rel="noopener">Ver el temario oficial${/\.pdf$/i.test(e.temarioUrl || '') ? ' (PDF)' : ''}</a></p>` : ''}
         ${creds ? `<div class="rp-creds"><p class="rp-meta-sub">Credenciales gratis en el camino</p><ul>${creds}</ul></div>` : ''}
         ${c.camino ? `<p class="rp-pie">${esc(c.camino.texto)}</p>` : ''}
         ${c.enVacantes ? `<p class="rp-meta-vac"><b>Lo que piden las vacantes:</b> ${esc(c.enVacantes)}</p>` : ''}
@@ -74,7 +79,7 @@ const WorkRutaPuntos = (function(){
   function camino(r, R, idSel){
     const toca = (r.pasos.find(p => !R.hecho(r.id, p.id)) || {}).id;
     const e = (r.certificacion || {}).examen;
-    const ultimoExamen = e ? Math.max(...e.temas.map(t => r.pasos.findIndex(p => p.id === t.punto))) : -1;
+    const ultimoExamen = e && e.temas && e.temas.length ? Math.max(...e.temas.map(t => r.pasos.findIndex(p => p.id === t.punto))) : -1;
     const nodos = r.pasos.map((p, i) => {
       const ok = R.hecho(r.id, p.id), es = p.id === idSel;
       const estado = ok ? 'Aprendido' : p.id === toca ? 'Aquí vas' : 'Después';
@@ -144,6 +149,7 @@ const WorkRutaPuntos = (function(){
         <h5><a href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.titulo)}</a></h5>
         <p class="rp-rec-de">${esc(v.canal)} en YouTube</p>
         ${metricas(v)}
+        ${v.clasico ? `<p class="rp-porque"><b>Por qué se queda aunque tiene más de dos años:</b> ${esc(v.clasico)}</p>` : ''}
         <p class="rp-porque"><b>Por qué este:</b> ${esc(v.porQue)}</p>
         ${capitulos(v)}
       </article>`;
@@ -205,12 +211,12 @@ const WorkRutaPuntos = (function(){
 
   function punto(r, p, i, R){
     const n = r.pasos.length, ok = R.hecho(r.id, p.id), e = (r.certificacion || {}).examen;
-    const temas = e && p.examen ? e.temas.filter(t => p.examen.includes(t.n)) : [];
+    const temas = e && e.temas && p.examen ? e.temas.filter(t => p.examen.includes(t.n)) : [];
     const sig = i < n - 1 ? r.pasos[i + 1] : null;
     return `<section class="rp-punto" aria-labelledby="rp-t-${esc(p.id)}">
         <header class="rp-punto-cab">
           <span class="rp-hex grande"><span>${i + 1}</span></span>
-          <div><p class="rp-punto-k">Punto ${i + 1} de ${n}${temas.length ? ` · del examen: tema${temas.length > 1 ? 's' : ''} ${temas.map(t => t.n).join(' y ')} (${temas.reduce((s, t) => s + t.peso, 0)} % del puntaje)` : ''}</p>
+          <div><p class="rp-punto-k">Punto ${i + 1} de ${n}${temas.length ? ` · del examen: tema${temas.length > 1 ? 's' : ''} ${temas.map(t => t.n).join(' y ')} (${sumaPeso(temas)} del puntaje)` : ''}</p>
             <h4 id="rp-t-${esc(p.id)}">${esc(p.titulo)}</h4>
             <p class="rp-logro">Al terminar podrás ${esc(p.logro)}</p></div>
         </header>

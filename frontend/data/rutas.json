@@ -5299,9 +5299,33 @@
     "referenciaNota": "No encontré una certificación de SQL que sea la de referencia para este rol; demuéstralo con consultas en tu portafolio.",
     "gratis": null,
     "camino": {
-     "texto": "SQLBolt y el curso Intro to SQL de Kaggle son gratis, pero no dan una certificación oficial."
+     "texto": "No hay una certificación de referencia de SQL para este rol. Lo más cercano y gratis son los certificados de Kaggle (Intro to SQL y Advanced SQL): prueban que terminaste el curso, no que pasaste un examen."
     },
-    "enVacantes": "Ninguna de las 39 nombra una certificación de SQL."
+    "enVacantes": "Ninguna de las 39 nombra una certificación de SQL.",
+    "credenciales": [
+     {
+      "nombre": "Certificado de Kaggle Learn · Intro to SQL",
+      "emisor": "Kaggle",
+      "url": "https://www.kaggle.com/learn/intro-to-sql",
+      "punto": "sql-3",
+      "comprobadoEnNavegador": "2026-11-25",
+      "evidencia": [
+       "Hours to earn certificate",
+       "No cost, like all Kaggle Learn Courses"
+      ]
+     },
+     {
+      "nombre": "Certificado de Kaggle Learn · Advanced SQL",
+      "emisor": "Kaggle",
+      "url": "https://www.kaggle.com/learn/advanced-sql",
+      "punto": "sql-4",
+      "comprobadoEnNavegador": "2026-11-25",
+      "evidencia": [
+       "Hours to earn certificate",
+       "No cost, like all Kaggle Learn Courses"
+      ]
+     }
+    ]
    },
    "queEs": "El lenguaje para pedirle datos a una base de datos: filtrar, unir tablas y resumir. Es la forma más común de sacar información de los sistemas de una empresa.",
    "pasos": [
@@ -5316,13 +5340,72 @@
      "practica": "Termina las primeras lecciones de SQLBolt y guarda aquí tus consultas.",
      "recurso": {
       "nombre": "SQLBolt",
-      "proveedor": "SQLBolt (en inglés, interactivo)",
-      "url": "https://sqlbolt.com/"
+      "proveedor": "SQLBolt",
+      "url": "https://sqlbolt.com/",
+      "idioma": "Inglés, interactivo en el navegador",
+      "datos": [
+       [
+        "Qué es",
+        "lecciones con ejercicios en el navegador"
+       ],
+       [
+        "Certificado",
+        "la página no ofrece"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Practicas cada consulta ahí mismo, sin instalar nada."
      },
      "video": {
-      "titulo": "Curso COMPLETO de SQL y BASES DE DATOS Desde Cero para PRINCIPIANTES",
-      "canal": "MoureDev by Brais Moure",
-      "url": "https://www.youtube.com/watch?v=OuJerKzV5T0"
+      "titulo": "Aprende SQL - Curso desde cero con MySQL, PostgreSQL, Backend y Docker",
+      "canal": "freeCodeCamp Español",
+      "url": "https://www.youtube.com/watch?v=6JBsoPOwPew",
+      "publicado": "2026-03-26",
+      "vistas": 50232,
+      "megusta": 2150,
+      "minutos": 255,
+      "porQue": "De marzo de 2026, en español y por capítulos: SELECT, WHERE, ORDER BY y las funciones para contar y sumar. Es el mismo curso de los puntos 2 y 3.",
+      "capitulos": [
+       {
+        "inicio": "00:03:22",
+        "fin": "00:05:46",
+        "nombre": "¿Qué es SQL?",
+        "seg": 202
+       },
+       {
+        "inicio": "01:45:20",
+        "fin": "01:47:16",
+        "nombre": "DQL - Lenguaje de Consulta de Datos",
+        "seg": 6320
+       },
+       {
+        "inicio": "01:47:16",
+        "fin": "01:48:00",
+        "nombre": "SELECT FROM table",
+        "seg": 6436
+       },
+       {
+        "inicio": "01:48:00",
+        "fin": "01:54:07",
+        "nombre": "WHERE",
+        "seg": 6480
+       },
+       {
+        "inicio": "01:54:07",
+        "fin": "01:56:24",
+        "nombre": "ORDER BY",
+        "seg": 6847
+       },
+       {
+        "inicio": "01:59:21",
+        "fin": "02:07:20",
+        "nombre": "Funciones de Agregación COUNT SUM AVG",
+        "seg": 7161
+       }
+      ]
      },
      "logro": "filtrar, ordenar, contar y sumar una tabla con una consulta.",
      "idea": {
@@ -5355,7 +5438,7 @@
        ]
       ]
      },
-     "mira": "Es un curso largo: mira «Consulta de datos: SELECT» (1:33:38), «WHERE» (1:46:23) y «ORDER BY» (1:49:51). No hace falta verlo completo.",
+     "mira": "Mira los capítulos de la lista; cada uno abre el video en su minuto. Después haz las primeras lecciones de SQLBolt.",
      "hazlo": [
       "Haz en SQLBolt las lecciones 1 a 4 (consultas, condiciones y orden). Cada una se corrige sola.",
       "Abre sqliteonline.com, pega primero la tabla de práctica y córrela; luego pega la consulta.",
@@ -5398,6 +5481,31 @@
        "Olvidar el punto y coma entre dos consultas.",
        "Sin «;» el editor cree que es una sola consulta y marca error."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "El más gustado de los recientes",
+       "titulo": "CURSO COMPLETO de SQL y BASES DE DATOS Desde Cero (8 horas)",
+       "canal": "TodoCode",
+       "url": "https://www.youtube.com/watch?v=8N4M994IDt8",
+       "publicado": "2025-07-08",
+       "vistas": 356357,
+       "megusta": 13631,
+       "minutos": 491,
+       "porQue": "De julio de 2025: 8 horas, de crear la base a consultarla. El que más me gusta tiene de los recientes que medimos (13.631)."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Curso COMPLETO de SQL y BASES DE DATOS Desde Cero para PRINCIPIANTES",
+       "canal": "MoureDev by Brais Moure",
+       "url": "https://www.youtube.com/watch?v=OuJerKzV5T0",
+       "publicado": "2024-01-12",
+       "vistas": 2198809,
+       "megusta": 85429,
+       "razon": "Era el video de esta ruta: muy visto, pero es de enero de 2024 (más de dos años)."
+      }
      ]
     },
     {
@@ -5411,13 +5519,50 @@
      "practica": "Con datos ficticios de pagos, saca el total por día, por estado y los 10 montos mayores.",
      "recurso": {
       "nombre": "SQL Tutorial",
-      "proveedor": "ThoughtSpot (en inglés)",
-      "url": "https://www.thoughtspot.com/sql-tutorial"
+      "proveedor": "ThoughtSpot",
+      "url": "https://www.thoughtspot.com/sql-tutorial",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Página modificada",
+        "14-may-2026"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Explica SQL para análisis de datos con ejemplos de preguntas de negocio."
      },
      "video": {
-      "titulo": "¿Cómo uso SQL como Data Analyst? Análisis de Datos con SQL",
-      "canal": "Eze Talamona",
-      "url": "https://www.youtube.com/watch?v=6i670_GQQGA"
+      "titulo": "Cómo Uso SQL Como Analista de Datos",
+      "canal": "Gaston Martos",
+      "url": "https://www.youtube.com/watch?v=NxlIqIu3XEc",
+      "publicado": "2025-10-18",
+      "vistas": 29527,
+      "megusta": 1533,
+      "minutos": 18,
+      "porQue": "De octubre de 2025: un analista muestra cómo usa SQL en su trabajo y cierra con su hoja de ruta. 52 me gusta por cada mil vistas.",
+      "capitulos": [
+       {
+        "inicio": "00:44",
+        "fin": "01:17",
+        "nombre": "¿Qué es SQL?",
+        "seg": 44
+       },
+       {
+        "inicio": "02:11",
+        "fin": "17:31",
+        "nombre": "¿Cómo usar SQL?",
+        "seg": 131
+       },
+       {
+        "inicio": "17:31",
+        "fin": "18:10",
+        "nombre": "Hoja de ruta del analista de datos",
+        "seg": 1051
+       }
+      ]
      },
      "logro": "convertir una pregunta de negocio en una consulta que agrupa y resume.",
      "idea": {
@@ -5450,7 +5595,7 @@
        ]
       ]
      },
-     "mira": "Mira el capítulo «SQL en mi trabajo» (4:38): un analista cuenta cómo usa SQL en su día a día.",
+     "mira": "Mira el video completo (18 min) y, para practicar GROUP BY, los dos capítulos de «Más opciones».",
      "hazlo": [
       "Escribe en el cuaderno tres preguntas: ¿cuánto entró cada día?, ¿cuánto hay por estado? y ¿cuáles son los pagos más grandes?",
       "En sqliteonline.com, pega la tabla de práctica y luego las tres consultas de abajo.",
@@ -5493,6 +5638,57 @@
        "No revisar el resultado.",
        "Suma a mano un grupo pequeño y compáralo: así sabes que la consulta dice la verdad."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Para practicar GROUP BY",
+       "titulo": "Aprende SQL - Curso desde cero con MySQL, PostgreSQL, Backend y Docker",
+       "canal": "freeCodeCamp Español",
+       "url": "https://www.youtube.com/watch?v=6JBsoPOwPew",
+       "publicado": "2026-03-26",
+       "vistas": 50232,
+       "megusta": 2150,
+       "minutos": 255,
+       "porQue": "El curso del punto 1: GROUP BY y HAVING, lo que resume como una tabla dinámica.",
+       "capitulos": [
+        {
+         "inicio": "02:43:48",
+         "fin": "02:47:05",
+         "nombre": "GROUP BY",
+         "seg": 9828
+        },
+        {
+         "inicio": "02:47:05",
+         "fin": "02:55:10",
+         "nombre": "HAVING",
+         "seg": 10025
+        }
+       ]
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Corto",
+       "titulo": "Las 6 ÚNICAS cosas de SQL que REALMENTE necesitarás para Data Analytics [te ahorrá horas]",
+       "canal": "DataScience ForBusiness",
+       "url": "https://www.youtube.com/watch?v=LsM68gEUTO8",
+       "publicado": "2025-06-24",
+       "vistas": 23570,
+       "megusta": 1504,
+       "minutos": 8,
+       "porQue": "De junio de 2025, 8 minutos: lo que más se usa de SQL en análisis de datos según su autor."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "¿Cómo uso SQL como Data Analyst? Análisis de Datos con SQL",
+       "canal": "Eze Talamona",
+       "url": "https://www.youtube.com/watch?v=6i670_GQQGA",
+       "publicado": "2023-10-13",
+       "vistas": 158564,
+       "megusta": 7112,
+       "razon": "Era el video de esta ruta: es de octubre de 2023."
+      }
      ]
     },
     {
@@ -5506,8 +5702,31 @@
      "practica": "Une una tabla de pagos con una de clientes ficticios y encuentra los pagos sin cliente.",
      "recurso": {
       "nombre": "Intro to SQL",
-      "proveedor": "Kaggle Learn (en inglés, interactivo)",
-      "url": "https://www.kaggle.com/learn/intro-to-sql"
+      "proveedor": "Kaggle Learn",
+      "url": "https://www.kaggle.com/learn/intro-to-sql",
+      "idioma": "Inglés, en cuadernos de Kaggle (pide algo de Python)",
+      "parte": "Lecciones 1 a 6 (la 6 es unir tablas)",
+      "gratis": {
+       "evidencia": [
+        "No cost, like all Kaggle Learn Courses"
+       ],
+       "comprobadoEnNavegador": "2026-11-25"
+      },
+      "datos": [
+       [
+        "Certificado",
+        "sí, al terminar"
+       ],
+       [
+        "Horas estimadas",
+        "3"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Su lección 6 enseña a unir tablas y el certificado es gratis. Sus ejercicios están en Python («Builds on Python»)."
      },
      "logro": "unir dos tablas y encontrar los registros que no cruzan.",
      "idea": {
@@ -5536,7 +5755,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la lección «Joining Data» del curso de Kaggle lo explica con dibujos de las dos tablas.",
+     "mira": "Mira los cuatro capítulos de JOIN. Después haz la lección 6 de Kaggle.",
      "hazlo": [
       "Haz en Kaggle la lección «Joining Data» del curso Intro to SQL.",
       "En sqliteonline.com, pega las dos tablas de práctica y luego las dos consultas.",
@@ -5579,6 +5798,93 @@
        "No mirar duplicados.",
        "Si un cliente está dos veces, cada pago suyo sale dos veces y los totales se inflan."
       ]
+     ],
+     "video": {
+      "titulo": "Aprende SQL - Curso desde cero con MySQL, PostgreSQL, Backend y Docker",
+      "canal": "freeCodeCamp Español",
+      "url": "https://www.youtube.com/watch?v=6JBsoPOwPew",
+      "publicado": "2026-03-26",
+      "vistas": 50232,
+      "megusta": 2150,
+      "minutos": 255,
+      "porQue": "El mismo curso del punto 1 (marzo de 2026): INNER, LEFT y RIGHT JOIN y cómo unir tres tablas.",
+      "capitulos": [
+       {
+        "inicio": "02:07:20",
+        "fin": "02:27:26",
+        "nombre": "INNER JOIN",
+        "seg": 7640
+       },
+       {
+        "inicio": "02:27:26",
+        "fin": "02:32:19",
+        "nombre": "LEFT JOIN",
+        "seg": 8846
+       },
+       {
+        "inicio": "02:32:19",
+        "fin": "02:33:32",
+        "nombre": "RIGHT JOIN",
+        "seg": 9139
+       },
+       {
+        "inicio": "02:33:32",
+        "fin": "02:36:10",
+        "nombre": "Join de 3 Tablas",
+        "seg": 9212
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Corto y reciente",
+       "titulo": "JOIN en SQL Server Explicado Fácil | INNER JOIN, LEFT JOIN, RIGHT JOIN y FULL JOIN",
+       "canal": "Programando con Kevin",
+       "url": "https://www.youtube.com/watch?v=TuPh5p2Ax50",
+       "publicado": "2026-06-06",
+       "vistas": 1852,
+       "megusta": 75,
+       "minutos": 12,
+       "porQue": "De junio de 2026, 12 minutos: los 4 JOIN en SQL Server. Tiene pocas vistas (1.852).",
+       "capitulos": [
+        {
+         "inicio": "00:41",
+         "fin": "02:57",
+         "nombre": "¿Por qué usamos JOIN en SQL?",
+         "seg": 41
+        },
+        {
+         "inicio": "02:57",
+         "fin": "06:16",
+         "nombre": "Tu primer JOIN en SQL",
+         "seg": 177
+        },
+        {
+         "inicio": "06:16",
+         "fin": "09:18",
+         "nombre": "¿Qué es el FULL JOIN?",
+         "seg": 376
+        },
+        {
+         "inicio": "09:18",
+         "fin": null,
+         "nombre": "LEFT JOIN && RIGHT JOIN",
+         "seg": 558
+        }
+       ]
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "💥 CONSULTAS SQL: INNER JOIN | CON PRÁCTICA | Bases de Datos ✅ Explicación FÁCIL #11",
+       "canal": "TodoCode",
+       "url": "https://www.youtube.com/watch?v=0BstRqp6Svg",
+       "publicado": "2021-04-26",
+       "vistas": 303575,
+       "megusta": 11257,
+       "razon": "Muy visto, pero es de abril de 2021."
+      }
      ]
     },
     {
@@ -5592,8 +5898,31 @@
      "practica": "Calcula para cada cliente ficticio su saldo acumulado por fecha.",
      "recurso": {
       "nombre": "Advanced SQL",
-      "proveedor": "Kaggle Learn (en inglés, interactivo)",
-      "url": "https://www.kaggle.com/learn/advanced-sql"
+      "proveedor": "Kaggle Learn",
+      "url": "https://www.kaggle.com/learn/advanced-sql",
+      "idioma": "Inglés, en cuadernos de Kaggle",
+      "parte": "Lección 2: «Analytic Functions»",
+      "gratis": {
+       "evidencia": [
+        "No cost, like all Kaggle Learn Courses"
+       ],
+       "comprobadoEnNavegador": "2026-11-25"
+      },
+      "datos": [
+       [
+        "Certificado",
+        "sí, al terminar"
+       ],
+       [
+        "Horas estimadas",
+        "4"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Su lección 2 son las funciones de ventana («Analytic Functions») y el certificado es gratis."
      },
      "logro": "calcular saldos acumulados y rankings sin arrastrar fórmulas.",
      "idea": {
@@ -5622,7 +5951,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la lección «Analytic Functions» del curso Advanced SQL de Kaggle trae ejemplos de acumulados.",
+     "mira": "Mira los capítulos de la lista. Después haz la lección 2 de Advanced SQL en Kaggle.",
      "hazlo": [
       "Haz en Kaggle la lección «Analytic Functions» del curso Advanced SQL.",
       "En sqliteonline.com, pega la tabla de movimientos y luego las dos consultas.",
@@ -5665,6 +5994,81 @@
        "Fechas guardadas como 2/11/2026.",
        "Ordenan mal como texto: guárdalas como 2026-11-02."
       ]
+     ],
+     "video": {
+      "titulo": "FUNDAMENTOS DE LAS FUNCIONES DE VENTANA EN SQL. Descubre el análisis avanzado de base de datos.",
+      "canal": "Menquis BI",
+      "url": "https://www.youtube.com/watch?v=ogrXs3C-iuY",
+      "publicado": "2024-06-24",
+      "vistas": 7431,
+      "megusta": 323,
+      "minutos": 53,
+      "clasico": "Es de junio de 2024 (2 años y 5 meses). Se queda porque las funciones de ventana están en SQL desde 2003 y no cambiaron, y los videos recientes en español sobre el tema tienen menos de mil vistas.",
+      "porQue": "Explica para qué sirven, la cláusula OVER y PARTITION BY, con 323 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "03:32",
+        "fin": "15:02",
+        "nombre": "Ventajas de utilizar funciones de ventana",
+        "seg": 212
+       },
+       {
+        "inicio": "15:02",
+        "fin": "21:31",
+        "nombre": "Elementos y tipos de funciones de ventana",
+        "seg": 902
+       },
+       {
+        "inicio": "21:31",
+        "fin": "30:56",
+        "nombre": "La cláusula OVER()",
+        "seg": 1291
+       },
+       {
+        "inicio": "30:56",
+        "fin": "37:58",
+        "nombre": "Introducción a PARTITION BY",
+        "seg": 1856
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Más reciente",
+       "titulo": "Funciones de Ventana en SQL Server 🚀 | ROW_NUMBER, RANK y PARTITION BY Explicado Fácil",
+       "canal": "Astrit Valdivia",
+       "url": "https://www.youtube.com/watch?v=qwI_mYmmsmU",
+       "publicado": "2026-06-29",
+       "vistas": 413,
+       "megusta": 16,
+       "minutos": 12,
+       "porQue": "De junio de 2026, 12 minutos: ROW_NUMBER, RANK y PARTITION BY en SQL Server. Tiene muy pocas vistas (413)."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "En inglés",
+       "clasico": "Es de junio de 2024 y en inglés. Se queda como opción por ser el más visto del tema que medimos.",
+       "titulo": "SQL Window Functions | Clearly Explained | PARTITION BY, ORDER BY, ROW_NUMBER, RANK, DENSE_RANK",
+       "canal": "Maven Analytics",
+       "url": "https://www.youtube.com/watch?v=rIcB4zMYMas",
+       "publicado": "2024-06-05",
+       "vistas": 443506,
+       "megusta": 14864,
+       "minutos": 8,
+       "porQue": "443.506 vistas y 14.864 me gusta, en 8 minutos."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Tutorial SQL: Funciones ROW_NUMBER, RANK() y DENSE_RANK()",
+       "canal": "Maxi Accotto | SQL Server · Fabric · Power BI",
+       "url": "https://www.youtube.com/watch?v=F0sAWP1IGLE",
+       "publicado": "2021-07-01",
+       "vistas": 11753,
+       "megusta": 373,
+       "razon": "De julio de 2021."
+      }
      ]
     },
     {
@@ -5678,7 +6082,19 @@
      "recurso": {
       "nombre": "API Endpoints",
       "proveedor": "Socrata, la plataforma de datos.gov.co (en inglés)",
-      "url": "https://dev.socrata.com/docs/endpoints.html"
+      "url": "https://dev.socrata.com/docs/endpoints.html",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la documentación oficial de la plataforma"
+       ],
+       [
+        "Reseñas",
+        "no aplica"
+       ]
+      ],
+      "porQue": "Explica cómo se arma la dirección de una consulta; SoQL es el SQL de esta plataforma."
      },
      "logro": "pedirle a una API pública solo los datos que necesitas, con una consulta en la dirección.",
      "idea": {
@@ -5707,7 +6123,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la página de Socrata (la plataforma de datos.gov.co) explica cada parámetro con ejemplos.",
+     "mira": "Mira el video (4 min). Después lee en la documentación de Socrata cómo se arma la dirección de una consulta.",
      "hazlo": [
       "Copia la dirección de abajo, pégala en el navegador y mira la respuesta.",
       "Cambia las fechas al mes anterior y vuelve a pedirla.",
@@ -5735,9 +6151,73 @@
        "Espacios en la dirección.",
        "El navegador los cambia solo por %20; en Python pásalos en params y requests lo hace por ti."
       ]
+     ],
+     "video": {
+      "titulo": "¿Cómo consumir un conjunto de datos usando API/REST?",
+      "canal": "Ministerio TIC Colombia",
+      "url": "https://www.youtube.com/watch?v=UINSp30_fuI",
+      "publicado": "2019-12-20",
+      "vistas": 4765,
+      "megusta": 50,
+      "minutos": 4,
+      "clasico": "Es de diciembre de 2019, pero lo publicó el Ministerio TIC para datos.gov.co, la misma plataforma de este punto, y la consulta de la práctica sigue funcionando (el 25-nov-2026 devolvió 14 registros).",
+      "porQue": "4 minutos: cómo pedirle un conjunto de datos a datos.gov.co por su API."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Otra API de Colombia",
+       "titulo": "¡La API de Colombia que no conoces! Datos gratis y Open Source 🚀",
+       "canal": "CodebyMauricio",
+       "url": "https://www.youtube.com/watch?v=pfRwHf9aoFs",
+       "publicado": "2026-02-05",
+       "vistas": 8345,
+       "megusta": 549,
+       "minutos": 3,
+       "porQue": "De febrero de 2026, 3 minutos: según su título, una API abierta y gratis con datos de Colombia. No tiene descripción."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "¿Cómo consumir un conjunto de datos usando API REST?",
+       "canal": "Datos Abiertos Colombia",
+       "url": "https://www.youtube.com/watch?v=zy52XgnW2hQ",
+       "publicado": "2016-10-20",
+       "vistas": 5699,
+       "megusta": 38,
+       "razon": "De octubre de 2016; el del Ministerio TIC (2019) tiene el mismo título y tema."
+      }
      ]
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Hazlos en orden: primero consultar (1) y resumir (2); después unir tablas (3), que es cruzar dos fuentes como en una conciliación; las funciones de ventana (4) y los datos públicos (5) vienen al final.",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "excel",
+      "porque": "Las consultas hacen lo que ya haces con filtros, SUMAR.SI y tablas dinámicas."
+     },
+     {
+      "ruta": "python",
+      "porque": "Los cursos de SQL de Kaggle corren en cuadernos de Python: su página dice «Builds on Python»."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "power-bi",
+      "porque": "Power BI se conecta a bases de datos y su modelo une tablas como un JOIN."
+     },
+     {
+      "ruta": "finanzas",
+      "porque": "Conciliar es cruzar dos fuentes: un LEFT JOIN muestra lo que no cruza."
+     },
+     {
+      "ruta": "apis",
+      "porque": "El punto 5 consulta datos.gov.co por su API con SoQL, el SQL de esa plataforma."
+     }
+    ]
+   }
   },
   {
    "id": "excel",
@@ -5754,16 +6234,80 @@
    "certificacion": {
     "revisado": "2026-11-25",
     "referencia": {
-     "nombre": "Microsoft Office Specialist: Excel Associate (Microsoft 365 Apps)",
-     "emisor": "Microsoft (la aplica Certiport)",
-     "url": "https://learn.microsoft.com/en-us/credentials/certifications/mos-excel-associate-m365-apps/",
-     "costo": "Examen pago, a través de Certiport."
+     "nombre": "Microsoft Office Specialist: Excel Expert (examen MO-211)",
+     "emisor": "Microsoft, a través de Certiport",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/mos-excel-expert-m365-apps/",
+     "costo": "Examen pago; el precio depende del país donde lo presentas."
     },
     "gratis": null,
     "camino": {
-     "texto": "No hay una certificación oficial de Excel gratis."
+     "texto": "Elegimos la de nivel experto porque su temario oficial incluye tablas dinámicas, BUSCARX y macros, que es lo que enseña esta ruta; la de nivel asociado (MO-210) es la de entrada. No hay una certificación oficial de Excel gratis."
     },
-    "enVacantes": "Ninguna de las 39 nombra una certificación de Excel."
+    "enVacantes": "Ninguna de las 39 nombra una certificación de Excel.",
+    "examen": {
+     "codigo": "MO-211",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/mos-excel-expert-m365-apps/",
+     "evidencia": [
+      "You will have 50 minutes to complete this assessment",
+      "Exam MO-211 skills outline",
+      "Price based on the country or region in which the exam is proctored"
+     ],
+     "temarioUrl": "https://arch-center.azureedge.net/Learning/Credentials/MO-211_OD_MOS365_ExcelExpert.pdf",
+     "temarioRevisado": "2026-11-25",
+     "datos": [
+      [
+       "Tiempo",
+       "50 min"
+      ],
+      [
+       "Se presenta en",
+       "Certiport"
+      ],
+      [
+       "Temas",
+       "4"
+      ]
+     ],
+     "temas": [
+      {
+       "n": 1,
+       "nombre": "Opciones del libro: macros, versiones y protección",
+       "pesoRango": [
+        10,
+        15
+       ],
+       "punto": "excel-4"
+      },
+      {
+       "n": 2,
+       "nombre": "Datos: relleno, formatos, validación, duplicados y formato condicional",
+       "pesoRango": [
+        30,
+        35
+       ],
+       "punto": "excel-3"
+      },
+      {
+       "n": 3,
+       "nombre": "Fórmulas avanzadas: SI.CONJUNTO, SUMAR.SI.CONJUNTO, BUSCARX, FILTRAR y macros simples",
+       "pesoRango": [
+        25,
+        30
+       ],
+       "punto": "excel-2"
+      },
+      {
+       "n": 4,
+       "nombre": "Gráficos avanzados, tablas y gráficos dinámicos",
+       "pesoRango": [
+        25,
+        30
+       ],
+       "punto": "excel-1"
+      }
+     ],
+     "nota": "Temario oficial del examen MO-211 (PDF de Microsoft, leído el 25-nov-2026). Microsoft publica cada peso como un rango."
+    }
    },
    "queEs": "La herramienta donde viven muchos procesos antes de automatizarlos: cruzar tablas, resumir y revisar datos.",
    "pasos": [
@@ -5771,20 +6315,82 @@
      "id": "excel-1",
      "titulo": "Tablas dinámicas",
      "aprender": [
-      "Crear una tabla dinámica",
-      "Filas, columnas y valores",
-      "Filtros"
+      "Convertir el rango en tabla",
+      "Crear una tabla dinámica: filas, columnas y valores",
+      "Fechas, porcentajes y agrupar",
+      "Segmentadores para filtrar"
      ],
      "practica": "Con datos ficticios de ventas, arma una tabla dinámica por mes y vendedor.",
      "recurso": {
       "nombre": "Crear una tabla dinámica para analizar datos de una hoja de cálculo",
-      "proveedor": "Soporte de Microsoft (en español)",
-      "url": "https://support.microsoft.com/es-es/excel/get-started/create-a-pivottable-to-analyze-worksheet-data"
+      "proveedor": "Soporte de Microsoft",
+      "url": "https://support.microsoft.com/es-es/excel/get-started/create-a-pivottable-to-analyze-worksheet-data",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la guía oficial de Microsoft"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La guía oficial, para repasar un paso que no te quedó claro."
      },
      "video": {
-      "titulo": "Tablas Dinámicas en Excel - Todo lo que necesitas saber 😎",
-      "canal": "A2 Capacitación: Excel",
-      "url": "https://www.youtube.com/watch?v=rpSAvYQfNeo"
+      "titulo": "Domina las TABLAS DINÁMICAS en Excel desde CERO! 😱 Curso COMPLETO y 100% GRATIS",
+      "canal": "El Tío Tech",
+      "url": "https://www.youtube.com/watch?v=tN6_ZEaqYBo",
+      "publicado": "2025-10-20",
+      "vistas": 197296,
+      "megusta": 5670,
+      "minutos": 75,
+      "porQue": "De octubre de 2025, completo y por capítulos: crear la tabla, filas, columnas y valores, fechas, porcentajes y segmentadores. Trae archivos para practicar (lo dice su capítulo 2).",
+      "capitulos": [
+       {
+        "inicio": "02:43",
+        "fin": "06:22",
+        "nombre": "Rango vs. Tabla: por qué convertir a “Formato de tabla”",
+        "seg": 163
+       },
+       {
+        "inicio": "06:22",
+        "fin": "10:22",
+        "nombre": "¿Qué es una Tabla Dinámica? Resumen, agrupación y comparación",
+        "seg": 382
+       },
+       {
+        "inicio": "10:22",
+        "fin": "11:28",
+        "nombre": "Crear la primera Tabla Dinámica (en hoja existente)",
+        "seg": 622
+       },
+       {
+        "inicio": "11:28",
+        "fin": "20:25",
+        "nombre": "Campos y áreas: Filas, Columnas, Valores y Filtros",
+        "seg": 688
+       },
+       {
+        "inicio": "20:25",
+        "fin": "33:16",
+        "nombre": "Fechas en Tablas Dinámicas: meses/días y desagrupación",
+        "seg": 1225
+       },
+       {
+        "inicio": "52:19",
+        "fin": "1:02:49",
+        "nombre": "“Mostrar valores como”: porcentajes por fila o por columna",
+        "seg": 3139
+       },
+       {
+        "inicio": "1:12:51",
+        "fin": null,
+        "nombre": "Segmentadores y escala de tiempo para dashboards",
+        "seg": 4371
+       }
+      ]
      },
      "logro": "resumir una tabla por mes y por persona en un minuto.",
      "idea": {
@@ -5856,7 +6462,7 @@
        ]
       ]
      },
-     "mira": "Repite cada paso en tu Excel mientras lo ves. Las zonas de la tabla dinámica (filas, valores, columnas y filtro) están entre 6:03 y 7:41.",
+     "mira": "Mira los capítulos de la lista con el archivo de práctica abierto. La guía de Microsoft sirve para repasar.",
      "hazlo": [
       "Copia en Excel la hoja de ejemplo (5 ventas ficticias) y conviértela en tabla con Ctrl+T.",
       "Insertar → Tabla dinámica: Mes en Filas, Vendedor en Columnas y Venta en Valores.",
@@ -5896,26 +6502,110 @@
        "Montos guardados como texto.",
        "Si un número está pegado a la izquierda de la celda es texto, y la tabla dinámica lo cuenta en vez de sumarlo."
       ]
+     ],
+     "examen": [
+      4
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "El más visto de los recientes",
+       "titulo": "🎯 Aprende a crear tablas dinámicas desde cero (Con ejemplos) 🧠🔥",
+       "canal": "Daxus Latam",
+       "url": "https://www.youtube.com/watch?v=WGH-k_vURuE",
+       "publicado": "2025-05-20",
+       "vistas": 207473,
+       "megusta": 7669,
+       "minutos": 21,
+       "porQue": "De mayo de 2025, 21 minutos con ejemplos: 207.473 vistas y 7.669 me gusta."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Tablas Dinámicas en Excel - Todo lo que necesitas saber 😎",
+       "canal": "A2 Capacitación: Excel",
+       "url": "https://www.youtube.com/watch?v=rpSAvYQfNeo",
+       "publicado": "2022-09-26",
+       "vistas": 2397545,
+       "megusta": 72305,
+       "razon": "Era el video de esta ruta: es de septiembre de 2022."
+      }
      ]
     },
     {
      "id": "excel-2",
      "titulo": "BUSCARX para cruzar tablas",
      "aprender": [
-      "Buscar en otra tabla",
+      "Buscar en otra tabla con BUSCARX",
+      "Devolver varias columnas",
       "Qué hacer si no encuentra",
-      "Diferencia con BUSCARV"
+      "Buscar con dos o más condiciones"
      ],
      "practica": "Cruza dos listas ficticias (pagos y facturas) y marca las que no aparecen en la otra.",
      "recurso": {
       "nombre": "Función BUSCARX",
-      "proveedor": "Soporte de Microsoft (en español)",
-      "url": "https://support.microsoft.com/es-es/excel/functions/xlookup-function"
+      "proveedor": "Soporte de Microsoft",
+      "url": "https://support.microsoft.com/es-es/excel/functions/xlookup-function",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Página modificada",
+        "23-ene-2026"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La referencia oficial de la función, con ejemplos para copiar."
      },
      "video": {
-      "titulo": "BuscarX - La MEJOR fórmula de Excel?",
-      "canal": "Excel para Todos",
-      "url": "https://www.youtube.com/watch?v=iPmkPviJiKo"
+      "titulo": "Cómo usar la función BUSCARX de Excel (Adios BuscarV y BuscarH)",
+      "canal": "El Tío Tech",
+      "url": "https://www.youtube.com/watch?v=xWbC3CViLUE",
+      "publicado": "2025-08-21",
+      "vistas": 58312,
+      "megusta": 1521,
+      "minutos": 33,
+      "porQue": "De agosto de 2025, con ejercicios descargables: la diferencia con BUSCARV, devolver varias columnas, comodines y qué pasa si no encuentra.",
+      "capitulos": [
+       {
+        "inicio": "00:28",
+        "fin": "01:21",
+        "nombre": "Diferencia entre BUSCARV y BUSCARX",
+        "seg": 28
+       },
+       {
+        "inicio": "05:23",
+        "fin": "07:26",
+        "nombre": "Primer ejemplo con BUSCARX",
+        "seg": 323
+       },
+       {
+        "inicio": "07:26",
+        "fin": "09:01",
+        "nombre": "Devolviendo múltiples columnas",
+        "seg": 446
+       },
+       {
+        "inicio": "10:35",
+        "fin": "13:06",
+        "nombre": "Ejercicio 1: Buscar el precio de un producto",
+        "seg": 635
+       },
+       {
+        "inicio": "18:34",
+        "fin": "23:50",
+        "nombre": "Uso de comodines con BUSCARX",
+        "seg": 1114
+       },
+       {
+        "inicio": "31:02",
+        "fin": "32:40",
+        "nombre": "Ejemplo final: qué pasa si no hay coincidencias",
+        "seg": 1862
+       }
+      ]
      },
      "logro": "cruzar pagos contra facturas y marcar los que no aparecen o no coinciden.",
      "idea": {
@@ -5978,7 +6668,7 @@
        ]
       ]
      },
-     "mira": "Es corto (6 minutos): presenta BUSCARX como reemplazo de BUSCARV. Míralo completo.",
+     "mira": "Mira los capítulos de la lista y haz los ejercicios del video.",
      "hazlo": [
       "Haz dos hojas ficticias. Pagos: F-01 100, F-02 250, F-03 80. Facturas: F-01 100, F-03 90, F-04 40.",
       "En Pagos, escribe las dos fórmulas de abajo en C2 y D2 y arrástralas hacia abajo.",
@@ -6022,6 +6712,55 @@
        "Comas entre los datos de la fórmula.",
        "Si tu Excel usa coma decimal (lo normal en Colombia), los datos se separan con punto y coma."
       ]
+     ],
+     "examen": [
+      3
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Con dos condiciones",
+       "titulo": "Buscar con DOS o VARIAS CONDICIONES en Excel usando BUSCARX (Método Potente)",
+       "canal": "El Tío Tech",
+       "url": "https://www.youtube.com/watch?v=3TV4OAKYq6E",
+       "publicado": "2025-12-02",
+       "vistas": 11306,
+       "megusta": 413,
+       "minutos": 9,
+       "porQue": "De diciembre de 2025: buscar con dos o más condiciones, lo que pide un cruce con varias llaves."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Si tu Excel no tiene BUSCARX",
+       "titulo": "No tienes BUSCARX? Usa BUSCARV en Excel así",
+       "canal": "A2 Capacitación: Excel",
+       "url": "https://www.youtube.com/watch?v=x29RANkK6MI",
+       "publicado": "2026-07-05",
+       "vistas": 5163,
+       "megusta": 316,
+       "minutos": 12,
+       "porQue": "De julio de 2026: cómo hacer lo mismo con BUSCARV en versiones viejas de Excel."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "BuscarX - La MEJOR fórmula de Excel?",
+       "canal": "Excel para Todos",
+       "url": "https://www.youtube.com/watch?v=iPmkPviJiKo",
+       "publicado": "2021-02-13",
+       "vistas": 307294,
+       "megusta": 4163,
+       "razon": "Era el video de esta ruta: es de febrero de 2021."
+      },
+      {
+       "titulo": "Cómo  USAR la función BUSCARX en Excel ✅ [ Adios  BuscarV y BuscarH 👋]",
+       "canal": "Saber Programas",
+       "url": "https://www.youtube.com/watch?v=g1urAkB1ozs",
+       "publicado": "2020-04-23",
+       "vistas": 132296,
+       "megusta": 2099,
+       "razon": "Es de abril de 2020."
+      }
      ]
     },
     {
@@ -6029,6 +6768,7 @@
      "titulo": "Prueba técnica de Excel",
      "aprender": [
       "Practicar con tiempo",
+      "Limpiar datos: espacios, duplicados y formato condicional",
       "Revisar tus errores"
      ],
      "practica": "Haz una ronda del simulador de prueba técnica de 4-RUT y anota tus 3 errores.",
@@ -6039,8 +6779,20 @@
      },
      "recurso": {
       "nombre": "Ayuda y formación de Excel",
-      "proveedor": "Soporte de Microsoft (en español)",
-      "url": "https://support.microsoft.com/es-es/excel/"
+      "proveedor": "Soporte de Microsoft",
+      "url": "https://support.microsoft.com/es-es/excel/",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la ayuda oficial de Excel"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Para buscar la función o el paso que te frenó en la prueba."
      },
      "logro": "resolver una prueba técnica de Excel con tiempo y saber en qué fallas.",
      "idea": {
@@ -6073,7 +6825,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: usa la ayuda de Microsoft cuando una función no te salga, y el simulador del Cerebro para practicar con reloj.",
+     "mira": "Mira la prueba resuelta y hazla tú con cronómetro. Para el tema 2 del examen, los capítulos de limpieza en «Más opciones».",
      "hazlo": [
       "Haz una ronda completa del simulador de prueba técnica de 4-RUT.",
       "Anota en el cuaderno tus 3 errores y la fórmula correcta de cada uno.",
@@ -6109,6 +6861,88 @@
        "Quedarse pegado en una pregunta.",
        "Sáltala y vuelve al final; el tiempo cuenta."
       ]
+     ],
+     "examen": [
+      2
+     ],
+     "video": {
+      "titulo": "EXCEL | Prueba de Excel para Entrevista de Trabajo - TABLAS DINAMICAS (Conocimiento Básico)",
+      "canal": "Datos sin Estrés",
+      "url": "https://www.youtube.com/watch?v=G97ACqVfrHM",
+      "publicado": "2025-05-11",
+      "vistas": 32875,
+      "megusta": 1082,
+      "minutos": 10,
+      "porQue": "De mayo de 2025: resuelve una prueba de Excel de entrevista con tablas dinámicas. 1.082 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Para el examen (tema 2)",
+       "titulo": "Limpieza de Datos en Excel | De Tabla Sucia a Datos Listos",
+       "canal": "Anglo Excel",
+       "url": "https://www.youtube.com/watch?v=BTDdF3L7mcs",
+       "publicado": "2026-05-08",
+       "vistas": 3686,
+       "megusta": 155,
+       "minutos": 18,
+       "porQue": "De mayo de 2026: de una tabla sucia a datos listos, con formato condicional y quitar duplicados.",
+       "capitulos": [
+        {
+         "inicio": "02:03",
+         "fin": "02:15",
+         "nombre": "TRIM → Elimina espacios sobrantes",
+         "seg": 123
+        },
+        {
+         "inicio": "06:30",
+         "fin": "07:14",
+         "nombre": "FILTER → Detecta anomalías y errores",
+         "seg": 390
+        },
+        {
+         "inicio": "13:17",
+         "fin": "16:15",
+         "nombre": "CONTROL + H → Sustitución masiva de datos",
+         "seg": 797
+        },
+        {
+         "inicio": "16:35",
+         "fin": "17:04",
+         "nombre": "CONDITIONAL FORMATTING → Resalta datos importantes",
+         "seg": 995
+        },
+        {
+         "inicio": "17:04",
+         "fin": "17:28",
+         "nombre": "REMOVE DUPLICATES → Elimina filas repetidas",
+         "seg": 1024
+        }
+       ]
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Junior a intermedio",
+       "titulo": "Prueba Técnica de Excel para Analista de Datos | Junior–Intermedio | Paso a Paso",
+       "canal": "Análisis de Datos",
+       "url": "https://www.youtube.com/watch?v=0lAbVPJOGcQ",
+       "publicado": "2026-10-09",
+       "vistas": 1022,
+       "megusta": 31,
+       "minutos": 26,
+       "porQue": "De octubre de 2026: una prueba técnica para analista de datos paso a paso. Tiene pocas vistas (1.022)."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "¿Puedes aprobar este EXAMEN de entrevista de Excel?",
+       "canal": "El Tío Tech",
+       "url": "https://www.youtube.com/watch?v=Tt-I8Vg93s4",
+       "publicado": "2023-11-14",
+       "vistas": 115111,
+       "megusta": 3423,
+       "razon": "Muy visto, pero es de noviembre de 2023."
+      }
      ]
     },
     {
@@ -6116,19 +6950,75 @@
      "titulo": "Del Excel a la automatización",
      "aprender": [
       "Qué parte se repite",
+      "Grabar una macro y guardar el libro .xlsm",
       "Python o Power Automate",
       "Qué revisa una persona"
      ],
      "practica": "Elige una hoja que actualizas a mano cada semana y describe qué parte haría Python o Power Automate.",
      "video": {
-      "titulo": "Automatiza EXCEL con Power Automate Desktop",
+      "titulo": "Power Automate + EXCEL: Guía rápida (lo básico para automatizar)",
       "canal": "Firbot Academy",
-      "url": "https://www.youtube.com/watch?v=Q7mQXPiGWp4"
+      "url": "https://www.youtube.com/watch?v=6XjiuJBrBoo",
+      "publicado": "2026-03-22",
+      "vistas": 7889,
+      "megusta": 166,
+      "minutos": 14,
+      "porQue": "De marzo de 2026, 14 minutos: crear y leer filas de Excel desde Power Automate y un caso de alerta de gastos.",
+      "capitulos": [
+       {
+        "inicio": "0:42",
+        "fin": "1:11",
+        "nombre": "Creación de un nuevo flujo",
+        "seg": 42
+       },
+       {
+        "inicio": "2:30",
+        "fin": "5:02",
+        "nombre": "Crear Nuevas Filas en Excel",
+        "seg": 150
+       },
+       {
+        "inicio": "5:45",
+        "fin": "7:16",
+        "nombre": "Obtener Filas de Excel",
+        "seg": 345
+       },
+       {
+        "inicio": "7:16",
+        "fin": "11:56",
+        "nombre": "Caso de Uso - Alerta de Gastos",
+        "seg": 436
+       },
+       {
+        "inicio": "12:17",
+        "fin": "13:27",
+        "nombre": "Run Script Excel",
+        "seg": 737
+       }
+      ]
      },
      "recurso": {
       "nombre": "Automate the Boring Stuff, capítulo 14: hojas de Excel",
-      "proveedor": "Al Sweigart (en inglés, libro gratis en línea)",
-      "url": "https://automatetheboringstuff.com/3e/chapter14.html"
+      "proveedor": "Al Sweigart · tercera edición",
+      "url": "https://automatetheboringstuff.com/3e/chapter14.html",
+      "idioma": "Inglés, libro gratis en línea",
+      "gratis": {
+       "evidencia": [
+        "Free to read under a Creative Commons license"
+       ],
+       "url": "https://automatetheboringstuff.com/"
+      },
+      "datos": [
+       [
+        "Edición",
+        "tercera, revisada por completo"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Si eliges Python para automatizar: el capítulo 14 enseña openpyxl."
      },
      "logro": "ver qué parte de una hoja que haces a mano puede hacerla una máquina.",
      "idea": {
@@ -6161,7 +7051,7 @@
        ]
       ]
      },
-     "mira": "El video muestra un flujo de Power Automate para escritorio que trabaja con Excel. Míralo pensando en tu propia hoja.",
+     "mira": "Mira los capítulos de la lista. Para el tema 1 del examen, los de macros en «Más opciones».",
      "hazlo": [
       "Elige una hoja que actualizas a mano cada semana (sin datos internos: describe solo los pasos).",
       "Escribe sus pasos, uno por línea, y cuánto tarda cada uno.",
@@ -6197,9 +7087,84 @@
        "Describir datos del trabajo.",
        "Escribe los pasos en general, sin nombres de clientes ni sistemas internos."
       ]
-     ]
+     ],
+     "examen": [
+      1
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Para el examen (tema 1)",
+       "titulo": "APRENDE VBA y MACROS en Excel Desde Cero | Guía Completa para Principiantes",
+       "canal": "El Tío Tech",
+       "url": "https://www.youtube.com/watch?v=AXSV6lorMvY",
+       "publicado": "2026-04-22",
+       "vistas": 26755,
+       "megusta": 863,
+       "minutos": 32,
+       "porQue": "De abril de 2026: activar el programador, grabar una macro y guardar el libro con macros (.xlsm).",
+       "capitulos": [
+        {
+         "inicio": "06:57",
+         "fin": "08:03",
+         "nombre": "Activar pestaña programador en Excel",
+         "seg": 417
+        },
+        {
+         "inicio": "08:03",
+         "fin": "10:00",
+         "nombre": "Grabadora de macros vs código manual",
+         "seg": 483
+        },
+        {
+         "inicio": "10:00",
+         "fin": "10:47",
+         "nombre": "Guardar archivo habilitado para macros (.xlsm)",
+         "seg": 600
+        },
+        {
+         "inicio": "17:43",
+         "fin": "19:43",
+         "nombre": "Crear macro con grabadora",
+         "seg": 1063
+        }
+       ]
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Power Automate Desktop",
+       "titulo": "Automatiza EXCEL con Power Automate Desktop",
+       "canal": "Firbot Academy",
+       "url": "https://www.youtube.com/watch?v=Q7mQXPiGWp4",
+       "publicado": "2024-12-05",
+       "vistas": 73495,
+       "megusta": 1822,
+       "minutos": 13,
+       "porQue": "De diciembre de 2024: la versión de escritorio con Excel. 73.495 vistas."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Empieza por el 1 y el 2: tablas dinámicas y BUSCARX. En el examen MO-211 sus dos temas suman entre 50 y 60 % del puntaje. Luego la prueba técnica con tiempo (3) y el paso de Excel a la automatización (4).",
+   "combina": {
+    "antes": [],
+    "abre": [
+     {
+      "ruta": "python",
+      "porque": "Python repite lo que haces en Excel: cada punto de su ruta lo compara con una fórmula."
+     },
+     {
+      "ruta": "power-bi",
+      "porque": "Las tablas dinámicas y Power Query son la puerta de entrada a Power BI."
+     },
+     {
+      "ruta": "power-automate",
+      "porque": "El punto 4 ya usa Power Automate con Excel."
+     }
+    ]
+   }
   },
   {
    "id": "power-bi",
@@ -6228,7 +7193,80 @@
     "camino": {
      "texto": "No hay una certificación oficial de Power BI gratis. Microsoft a veces regala vales de examen en campañas; al 25-nov-2026 no encontré una activa."
     },
-    "enVacantes": "1 de 39 valora «certificaciones en analítica de datos» sin nombrar una; ninguna pide PL-300."
+    "enVacantes": "1 de 39 valora «certificaciones en analítica de datos» sin nombrar una; ninguna pide PL-300.",
+    "examen": {
+     "codigo": "PL-300",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300",
+     "evidencia": [
+      "Prepare the data (25–30%)",
+      "Model the data (25–30%)",
+      "Visualize and analyze the data (25–30%)",
+      "Manage and secure Power BI (15–20%)",
+      "Skills measured as of April 20, 2026",
+      "You can renew by passing a free online assessment on Microsoft Learn"
+     ],
+     "otras": [
+      {
+       "url": "https://learn.microsoft.com/en-us/credentials/certifications/data-analyst-associate/",
+       "evidencia": [
+        "You will have 100 minutes to complete this assessment"
+       ]
+      }
+     ],
+     "datos": [
+      [
+       "Tiempo",
+       "100 min"
+      ],
+      [
+       "Temas",
+       "4"
+      ],
+      [
+       "Renovación",
+       "gratis, cada año, en línea"
+      ]
+     ],
+     "temas": [
+      {
+       "n": 1,
+       "nombre": "Preparar los datos: conectar, limpiar y transformar",
+       "pesoRango": [
+        25,
+        30
+       ],
+       "punto": "power-bi-1"
+      },
+      {
+       "n": 2,
+       "nombre": "Modelar los datos: relaciones y medidas DAX",
+       "pesoRango": [
+        25,
+        30
+       ],
+       "punto": "power-bi-2"
+      },
+      {
+       "n": 3,
+       "nombre": "Visualizar y analizar los datos",
+       "pesoRango": [
+        25,
+        30
+       ],
+       "punto": "power-bi-3"
+      },
+      {
+       "n": 4,
+       "nombre": "Administrar y proteger Power BI: áreas de trabajo y permisos",
+       "pesoRango": [
+        15,
+        20
+       ],
+       "punto": "power-bi-4"
+      }
+     ],
+     "nota": "Temario oficial de Microsoft, vigente desde el 20-abr-2026 (página revisada el 30-oct-2026). Microsoft publica cada peso como un rango."
+    }
    },
    "queEs": "Tableros que se actualizan a partir de los datos, para que un área vea sus indicadores sin pedir reportes a mano.",
    "pasos": [
@@ -6243,13 +7281,68 @@
      "practica": "Con un conjunto público de datos.gov.co, arma un reporte de una página con 3 visuales.",
      "recurso": {
       "nombre": "Introducción a la compilación con Power BI",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/training/modules/get-started-with-power-bi/"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/training/modules/get-started-with-power-bi/",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Al terminar",
+        "marca de aprobado en tu perfil de Learn (con sesión)"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "El módulo oficial de Microsoft para empezar."
      },
      "video": {
       "titulo": "Curso de Power BI desde Cero (Completo): datos, gráficos y reporte profesional",
       "canal": "datdata",
-      "url": "https://www.youtube.com/watch?v=vufMFnWpINo"
+      "url": "https://www.youtube.com/watch?v=vufMFnWpINo",
+      "publicado": "2025-05-12",
+      "vistas": 712127,
+      "megusta": 19001,
+      "minutos": 122,
+      "porQue": "De mayo de 2025 y el más visto de los recientes que medimos (712.127 vistas, 19.001 me gusta): de descargar Power BI a publicar el reporte.",
+      "capitulos": [
+       {
+        "inicio": "4:34",
+        "fin": "7:29",
+        "nombre": "Descargar Power BI Desktop",
+        "seg": 274
+       },
+       {
+        "inicio": "13:48",
+        "fin": "16:02",
+        "nombre": "Fases de Power BI",
+        "seg": 828
+       },
+       {
+        "inicio": "19:32",
+        "fin": "28:55",
+        "nombre": "Cómo Conectar y Actualizar Datos",
+        "seg": 1172
+       },
+       {
+        "inicio": "28:55",
+        "fin": "41:15",
+        "nombre": "Qué es Power Query",
+        "seg": 1735
+       },
+       {
+        "inicio": "1:12:13",
+        "fin": "1:23:14",
+        "nombre": "Cómo crear Visualizaciones",
+        "seg": 4333
+       },
+       {
+        "inicio": "1:56:16",
+        "fin": null,
+        "nombre": "Cómo Publicar y Ver Reporte en Línea",
+        "seg": 6976
+       }
+      ]
      },
      "logro": "armar un reporte de una página con datos públicos.",
      "idea": {
@@ -6282,7 +7375,7 @@
        ]
       ]
      },
-     "mira": "Es un curso largo: para esta estación mira «Cómo conectar y actualizar datos» (19:32) y «Cómo crear visualizaciones» (1:12:13).",
+     "mira": "Mira los capítulos de la lista con Power BI Desktop abierto.",
      "hazlo": [
       "Instala Power BI Desktop (es para Windows) y descarga en CSV un conjunto de datos.gov.co.",
       "Cárgalo con Obtener datos y revisa en Transformar datos que montos y fechas tengan el tipo correcto.",
@@ -6319,6 +7412,34 @@
        "No poder publicar.",
        "El servicio de Power BI pide una cuenta de trabajo o estudiante; para practicar basta Power BI Desktop."
       ]
+     ],
+     "examen": [
+      1
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Más reciente",
+       "titulo": "Curso Power BI desde cero — Dashboardprofesional en 2 horas",
+       "canal": "DATAXEL",
+       "url": "https://www.youtube.com/watch?v=J17ZF25t9SA",
+       "publicado": "2026-07-07",
+       "vistas": 9652,
+       "megusta": 192,
+       "minutos": 147,
+       "porQue": "De julio de 2026: un tablero profesional en 2 horas, con 23 capítulos."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Cómo usar Power BI (Tutorial desde cero)",
+       "canal": "datdata",
+       "url": "https://www.youtube.com/watch?v=pwJuFbyhZFE",
+       "publicado": "2020-12-08",
+       "vistas": 2981149,
+       "megusta": 86450,
+       "razon": "El más visto de los que medimos (2.981.149), pero es de diciembre de 2020; el de arriba es la versión nueva del mismo canal."
+      }
      ]
     },
     {
@@ -6332,13 +7453,72 @@
      "practica": "Crea 3 medidas: total, promedio y variación contra el mes anterior.",
      "recurso": {
       "nombre": "Información general de DAX",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/dax/dax-overview"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/dax/dax-overview",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la documentación oficial de DAX"
+       ],
+       [
+        "Página modificada",
+        "29-sep-2026"
+       ],
+       [
+        "Reseñas",
+        "no aplica"
+       ]
+      ],
+      "porQue": "La referencia oficial de DAX, para las medidas."
      },
      "video": {
-      "titulo": "Dax para Principiantes",
-      "canal": "A2 Capacitación: Excel",
-      "url": "https://www.youtube.com/watch?v=rKreQw9JGvo"
+      "titulo": "Modelado de Datos en Power BI: guía completa desde cero",
+      "canal": "datdata",
+      "url": "https://www.youtube.com/watch?v=1AT2NqWJbb8",
+      "publicado": "2026-04-27",
+      "vistas": 5098,
+      "megusta": 230,
+      "minutos": 57,
+      "porQue": "De abril de 2026: qué es un modelo, tablas de hechos y dimensiones, relaciones y el esquema estrella, con un caso práctico.",
+      "capitulos": [
+       {
+        "inicio": "03:03",
+        "fin": "07:08",
+        "nombre": "Definiciones fundamentales: Qué es un modelo y qué lo integra?",
+        "seg": 183
+       },
+       {
+        "inicio": "09:56",
+        "fin": "17:13",
+        "nombre": "Granularidad de los datos y cardinalidad de las columnas",
+        "seg": 596
+       },
+       {
+        "inicio": "17:13",
+        "fin": "22:20",
+        "nombre": "En qué se diferencian las tablas de hechos y tablas de dimensiones?",
+        "seg": 1033
+       },
+       {
+        "inicio": "22:20",
+        "fin": "30:00",
+        "nombre": "Relacionar tablas en el modelo de datos: seleccionar columnas, cardinalidad de relaciones y direccionalidad de filtro cruzado",
+        "seg": 1340
+       },
+       {
+        "inicio": "36:57",
+        "fin": "46:11",
+        "nombre": "Esquema estrella y esquema copo de nieve",
+        "seg": 2217
+       },
+       {
+        "inicio": "46:11",
+        "fin": "50:47",
+        "nombre": "Caso práctico: vista modelo en Power BI y cómo ajustar propiedades de tablas, columnas y relaciones",
+        "seg": 2771
+       }
+      ]
      },
      "logro": "crear medidas que se recalculan solas, como el total y la variación contra el mes anterior.",
      "idea": {
@@ -6371,7 +7551,7 @@
        ]
       ]
      },
-     "mira": "El video presenta DAX para principiantes. Míralo con Power BI abierto y prueba cada fórmula.",
+     "mira": "Mira los capítulos del modelo y después las medidas DAX en «Más opciones».",
      "hazlo": [
       "Crea una tabla Calendario (Modelado → Nueva tabla: Calendario = CALENDARAUTO()) y márcala como tabla de fechas.",
       "Relaciona Calendario[Date] con la fecha de tus ventas en la vista Modelo.",
@@ -6412,6 +7592,34 @@
        "Dividir con /.",
        "Si el mes anterior es 0 sale error; DIVIDE devuelve vacío."
       ]
+     ],
+     "examen": [
+      2
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "DAX desde cero",
+       "titulo": "🔴 Curso de Cálculos DAX en Power BI desde CERO (Para Principiantes)",
+       "canal": "Profesor_Danny",
+       "url": "https://www.youtube.com/watch?v=k7sGvy6Jf7s",
+       "publicado": "2026-01-13",
+       "vistas": 12597,
+       "megusta": 396,
+       "minutos": 65,
+       "porQue": "De enero de 2026, 65 minutos: las primeras medidas DAX. 12.597 vistas."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Dax para Principiantes",
+       "canal": "A2 Capacitación: Excel",
+       "url": "https://www.youtube.com/watch?v=rKreQw9JGvo",
+       "publicado": "2023-10-10",
+       "vistas": 229883,
+       "megusta": 6636,
+       "razon": "Era el video de esta ruta: es de octubre de 2023."
+      }
      ]
     },
     {
@@ -6425,8 +7633,20 @@
      "practica": "Escribe para tu reporte qué pregunta responde, quién lo usa y cada cuánto se actualiza.",
      "recurso": {
       "nombre": "Introducción al análisis de datos de Microsoft",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/training/paths/data-analytics-microsoft/"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/training/paths/data-analytics-microsoft/",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "ruta de aprendizaje oficial"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Explica qué hace un analista de datos y en qué orden."
      },
      "logro": "decidir qué pregunta responde un tablero, para quién es y cada cuánto se actualiza.",
      "idea": {
@@ -6455,7 +7675,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: el módulo de Microsoft Learn explica qué hace un analista antes de armar un tablero.",
+     "mira": "Mira los capítulos de la lista y arma el tablero con tus propios datos ficticios.",
      "hazlo": [
       "Haz el módulo de Microsoft Learn «Introducción al análisis de datos».",
       "Escribe arriba de tu reporte, en una frase, la pregunta que responde.",
@@ -6491,20 +7711,121 @@
        "Hacerlo para todos.",
        "Un tablero para todos no le sirve a nadie: elige un usuario."
       ]
-     ]
+     ],
+     "examen": [
+      3
+     ],
+     "video": {
+      "titulo": "Crea un Genial Dashboard de Estado de Resultados en Power BI",
+      "canal": "Visual Data",
+      "url": "https://www.youtube.com/watch?v=14BhMkcZPR4",
+      "publicado": "2025-11-17",
+      "vistas": 17463,
+      "megusta": 350,
+      "minutos": 62,
+      "porQue": "De noviembre de 2025: un estado de resultados en Power BI, de los datos al tablero. Es un tablero de finanzas, cercano a tu trabajo.",
+      "capitulos": [
+       {
+        "inicio": "01:05",
+        "fin": "02:46",
+        "nombre": "Base de Datos, Fondo del Panel y Requisitos del Reporte",
+        "seg": 65
+       },
+       {
+        "inicio": "03:20",
+        "fin": "08:23",
+        "nombre": "Limpiar los datos en Power Query",
+        "seg": 200
+       },
+       {
+        "inicio": "08:23",
+        "fin": "09:09",
+        "nombre": "Crear Relaciones entre las Tablas",
+        "seg": 503
+       },
+       {
+        "inicio": "11:15",
+        "fin": "25:18",
+        "nombre": "Tarjeta - Utilidad Neta, Ventas Netas, Costo Neto, Utilidad Antes de Impuesto e Impuesto",
+        "seg": 675
+       },
+       {
+        "inicio": "33:28",
+        "fin": "38:21",
+        "nombre": "Tabla - Estructura del Estado de Resultados",
+        "seg": 2008
+       },
+       {
+        "inicio": "38:21",
+        "fin": "46:52",
+        "nombre": "Gráfico de Línea - Evolución y Var. de los Costos de Venta",
+        "seg": 2301
+       },
+       {
+        "inicio": "58:35",
+        "fin": null,
+        "nombre": "Segmentador",
+        "seg": 3515
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Tu primer tablero",
+       "titulo": "Tu primer dashboard en Power BI  📊😎",
+       "canal": "A2 Capacitación: Excel",
+       "url": "https://www.youtube.com/watch?v=XIjBeghVDWg",
+       "publicado": "2026-10-05",
+       "vistas": 22787,
+       "megusta": 563,
+       "minutos": 22,
+       "porQue": "De octubre de 2026, 22 minutos. 22.787 vistas."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Prueba técnica",
+       "titulo": "Prueba Técnica POWER BI - Entrevista de Trabajo - (CALCULATE - RANKX - RELATED)",
+       "canal": "Datos sin Estrés",
+       "url": "https://www.youtube.com/watch?v=h_OqFvhmwoE",
+       "publicado": "2025-03-29",
+       "vistas": 12442,
+       "megusta": 447,
+       "minutos": 29,
+       "porQue": "De marzo de 2025: una prueba técnica de Power BI de entrevista (CALCULATE, RANKX, RELATED)."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "power-bi-4",
      "titulo": "Certificación PL-300",
      "aprender": [
-      "Qué evalúa",
+      "Qué evalúa el examen",
+      "Áreas de trabajo, permisos y seguridad (tema 4)",
       "Lo que ya dominas y lo que falta"
      ],
      "practica": "Marca en la guía de estudio lo que ya dominas y lo que te falta.",
      "recurso": {
-      "nombre": "Asociado Analista de Datos de Power BI (PL-300)",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/credentials/certifications/data-analyst-associate/"
+      "nombre": "Curso PL-300T00: Diseño y administración de soluciones de análisis mediante Power BI",
+      "proveedor": "Microsoft Learn",
+      "idioma": "Español (también en otros idiomas)",
+      "url": "https://learn.microsoft.com/es-es/training/courses/pl-300t00",
+      "datos": [
+       [
+        "Duración",
+        "3 días con instructor; también ofrece aprendizaje autodirigido"
+       ],
+       [
+        "Nivel",
+        "intermedio"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "El curso oficial de Microsoft para el PL-300."
      },
      "logro": "saber qué te falta para presentar la certificación PL-300.",
      "idea": {
@@ -6533,7 +7854,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la página de la certificación en Microsoft Learn trae la guía de estudio con cada tema.",
+     "mira": "Mira la sesión de preparación y repasa la guía de estudio oficial tema por tema.",
      "hazlo": [
       "Abre la guía de estudio de PL-300 desde la página de la certificación.",
       "Marca cada tema como «lo domino», «lo vi» o «me falta».",
@@ -6555,9 +7876,83 @@
        "Confiar en fechas o precios de memoria.",
        "Revisa en la página oficial el precio y las fechas del examen el día que decidas."
       ]
+     ],
+     "examen": [
+      4
+     ],
+     "video": {
+      "titulo": "Preparación para el Examen PL-300 Power BI Data Analyst - Sesión 01",
+      "canal": "Aprendiendo con Leandro",
+      "url": "https://www.youtube.com/watch?v=VSsEAC_o7v0",
+      "publicado": "2025-09-27",
+      "vistas": 8339,
+      "megusta": 334,
+      "minutos": 167,
+      "porQue": "De septiembre de 2025: primera sesión de preparación del PL-300, en español. 334 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Experiencia de quien aprobó",
+       "titulo": "Cómo aprobé la certificación PL-300 de Microsoft Power BI (920/1000) mi experiencia",
+       "canal": "Martinelias",
+       "url": "https://www.youtube.com/watch?v=ViFcE6L0zHQ",
+       "publicado": "2026-03-28",
+       "vistas": 3720,
+       "megusta": 196,
+       "minutos": 8,
+       "porQue": "De marzo de 2026, 8 minutos: cómo lo aprobó con 920 de 1000 (lo dice el título)."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "En vivo",
+       "titulo": "Analista de Datos de Power BI: todo sobre la Certificación PL-300 | datdata live 010",
+       "canal": "datdata",
+       "url": "https://www.youtube.com/watch?v=GyNkBrSPQz8",
+       "publicado": "2025-12-05",
+       "vistas": 1761,
+       "megusta": 104,
+       "minutos": 95,
+       "porQue": "De diciembre de 2025: todo sobre la certificación, en una transmisión de 95 minutos."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "🏆Cómo aprobé el Examen DA-100/PL-300? | Aclarando Dudas Sobre la Certificación.",
+       "canal": "Sandielly Ortega",
+       "url": "https://www.youtube.com/watch?v=a4CZCXWkIac",
+       "publicado": "2022-02-24",
+       "vistas": 26230,
+       "megusta": 1098,
+       "razon": "De febrero de 2022, cuando el examen era DA-100."
+      }
      ]
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Sigue el orden del trabajo real y del examen: cargar y limpiar los datos (1), modelarlos (2), armar el tablero que responde una pregunta (3) y repasar el examen (4). Los tres primeros temas pesan entre 25 y 30 % cada uno.",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "excel",
+      "porque": "Si dominas tablas dinámicas, el modelo y las medidas de Power BI se entienden rápido."
+     },
+     {
+      "ruta": "sql",
+      "porque": "Power BI se conecta a bases de datos y su modelo une tablas como un JOIN."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "indicadores",
+      "porque": "Un tablero existe para seguir indicadores y retorno."
+     },
+     {
+      "ruta": "finanzas",
+      "porque": "El punto 3 es un estado de resultados."
+     }
+    ]
+   }
   },
   {
    "id": "apis",

@@ -168,8 +168,18 @@ for (const r of rutas.rutas || []) {
     const e = c.examen, donde = `${r.id} › examen`;
     if (!texto(e.codigo) || !/^https:\/\//.test(e.url || '') || !Array.isArray(e.evidencia)) mal(`${donde}: incompleto`);
     else { externos.set(e.url, donde); pruebas.push({ donde, url: e.url, frases: e.evidencia }); }
-    if (!Array.isArray(e.temas) || e.temas.some((t) => !texto(t.nombre) || !r.pasos.some((p) => p.id === t.punto))) mal(`${donde}: cada tema necesita nombre y el punto de la ruta que lo cubre`);
-    else if (e.temas.reduce((s, t) => s + t.peso, 0) !== 100) mal(`${donde}: los pesos de los temas no suman 100`);
+    for (const o of e.otras || []) { externos.set(o.url, donde); pruebas.push({ donde: donde + ' (otra página)', url: o.url, frases: o.evidencia }); }
+    // Temario en PDF (Microsoft MOS): se comprueba que responde y se anota la fecha en que se leyó.
+    if (e.temarioUrl) { externos.set(e.temarioUrl, donde); if (!fecha(e.temarioRevisado)) mal(`${donde}: temario ${e.temarioUrl} sin fecha de lectura (temarioRevisado)`); }
+    if (e.temas) {
+      const pesoOk = (t) => typeof t.peso === 'number' || (Array.isArray(t.pesoRango) && t.pesoRango.length === 2);
+      if (!Array.isArray(e.temas) || e.temas.some((t) => !texto(t.nombre) || !pesoOk(t) || !r.pasos.some((p) => p.id === t.punto))) mal(`${donde}: cada tema necesita nombre, peso (o pesoRango) y el punto de la ruta que lo cubre`);
+      else if (e.temas.some((t) => t.pesoRango)) {
+        // Microsoft publica rangos («25–30 %»): la suma de los mínimos no pasa de 100 y la de los máximos llega a 100.
+        const lo = e.temas.reduce((s, t) => s + (t.pesoRango ? t.pesoRango[0] : t.peso), 0), hi = e.temas.reduce((s, t) => s + (t.pesoRango ? t.pesoRango[1] : t.peso), 0);
+        if (lo > 100 || hi < 100) mal(`${donde}: los rangos de peso (${lo}–${hi}) no pueden sumar 100`);
+      } else if (e.temas.reduce((s, t) => s + t.peso, 0) !== 100) mal(`${donde}: los pesos de los temas no suman 100`);
+    }
   }
   for (const k of c.credenciales || []) {
     const donde = `${r.id} › credencial «${k.nombre}»`;
@@ -204,7 +214,7 @@ for (const r of rutas.rutas || []) {
   }
 }
 const plano = (h) => h.replace(/<[^>]+>/g, ' ').replace(/&nbsp;|&#160;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'")
-  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&trade;/g, '™').replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n)).replace(/\s+/g, ' ').toLowerCase();
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&trade;/g, '™').replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n)).replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16))).replace(/\s+/g, ' ').toLowerCase();
 let frasesOk = 0;
 await Promise.all(pruebas.map(async (p) => {
   try {
@@ -280,7 +290,8 @@ await Promise.all(medidos.map(async ({ donde, v, medido, reciente }) => {
   if (y.megusta < v.megusta * 0.9) { ok = false; mal(`${donde}: hoy tiene ${y.megusta} me gusta, bastante menos de los ${v.megusta} que dice la ruta`); }
   if (v.minutos != null && Math.abs(y.minutos - v.minutos) > 1) { ok = false; mal(`${donde}: dura ${y.minutos} min, no ${v.minutos}`); }
   for (const k of v.capitulos || []) {
-    const linea = y.desc.split('\n').find((l) => l.replace(/^\(?/, '').startsWith(k.inicio + ' ') || l.startsWith(k.inicio + ')') || l.startsWith(k.inicio + ' '));
+    // La línea puede empezar con emoji o paréntesis: «⌨️ (02:07:20) INNER JOIN», «0:17:49 👉 …», «05:27 …».
+    const linea = y.desc.split('\n').find((l) => { const x = l.replace(/^[^\d]*/, ''); return x.startsWith(k.inicio) && /^[)\s\-–—|:]/.test(x.slice(k.inicio.length)); });
     if (!linea || !linea.includes(k.nombre)) { ok = false; mal(`${donde}: la descripción no tiene el capítulo ${k.inicio} «${k.nombre}»`); }
     else capitulosOk++;
   }
