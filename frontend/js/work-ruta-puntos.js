@@ -66,9 +66,9 @@ const WorkRutaPuntos = (function(){
             ${ref ? `<p class="rp-meta-e">${esc(ref.emisor)}. ${esc(ref.costo)}</p>` : ''}
           </div>
         </div>
-        ${e ? `<dl class="rp-meta-datos">${e.datos.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd${String(v).length > 7 ? ' class="largo"' : ''}>${esc(v)}</dd></div>`).join('')}</dl>
+        ${e ? `<dl class="rp-meta-datos">${(ref && ref.nombre.includes(e.codigo) ? e.datos : [['Examen', e.codigo], ...e.datos]).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd${String(v).length > 7 ? ' class="largo"' : ''}>${esc(v)}</dd></div>`).join('')}</dl>
         ${ts.length ? `<div class="rp-meta-temario"><p class="rp-meta-sub">Lo que pregunta el examen y en qué punto lo aprendes</p>${barra}${temas}</div>` : ''}
-        <p class="rp-pie">${esc(e.nota || '')} <a href="${esc(e.temarioUrl || e.url)}" target="_blank" rel="noopener">Ver el temario oficial${/\.pdf$/i.test(e.temarioUrl || '') ? ' (PDF)' : ''}</a></p>` : ''}
+        <p class="rp-pie">${esc(e.nota || '')} <a href="${esc(e.temarioUrl || e.url)}" target="_blank" rel="noopener">${esc(e.enlaceTexto || 'Ver el temario oficial')}${/\.pdf$/i.test(e.temarioUrl || '') ? ' (PDF)' : ''}</a></p>` : ''}
         ${c.gratis ? `<div class="rp-gratis-of"><p class="rp-meta-sub">Oficial y gratis</p><p><span class="rp-cred-ico">${svg(I.insignia, 18)}</span><span><a href="${esc(c.gratis.url)}" target="_blank" rel="noopener">${esc(c.gratis.nombre)}</a><small>${esc(c.gratis.emisor)} · ${esc(c.gratis.tipo)}${c.gratis.punto ? ` · al terminar el punto ${n(c.gratis.punto)}` : ''}</small></span></p>${c.gratis.nota ? `<p class="rp-pie">${esc(c.gratis.nota)}</p>` : ''}</div>` : ''}
         ${creds ? `<div class="rp-creds"><p class="rp-meta-sub">Credenciales gratis en el camino</p><ul>${creds}</ul></div>` : ''}
         ${c.camino ? `<p class="rp-pie">${esc(c.camino.texto)}</p>` : ''}

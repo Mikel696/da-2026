@@ -46,6 +46,17 @@ implementación de proyectos y optimización de procesos con IA. El plan está *
   comprobaciones de la vista). La simulación vieja `simular-mando.cjs` quedó desactualizada desde `cea8d84`.
 - **Lo que se comprueba a mano en su Chrome** (página que se arma en el navegador: Kaggle, NetAcad) lleva
   `comprobadoEnNavegador` con fecha; el verificador no lo vuelve a abrir.
+- **El examen (`certificacion.examen`)**: `codigo`, `url` + `evidencia` (frases que el verificador busca), `otras`
+  [{url, evidencia}] para datos de otra página (p. ej. el tiempo en la página del certificado), `datos` (casillas),
+  `nota`, y `temarioUrl` + `temarioRevisado` si el temario es un PDF (Microsoft MOS). `temas` solo si calzan uno a uno
+  con los puntos: peso exacto (`peso`) o el rango que publica Microsoft (`pesoRango: [25, 30]`); si el temario es de otra
+  herramienta (AI-900 de Azure, AB-620 de Copilot Studio, PL-200), **no se fuerza el mapeo**: va en la `nota`.
+- **Excel (25-nov):** la meta pasó de MO-210 a **MO-211 Excel Expert** porque su temario oficial (PDF) incluye tablas
+  dinámicas, BUSCARX y macros, que es lo que enseña la ruta.
+- **Clásicos:** un video de más de 24 meses va de principal o alternativa solo si en español no hay uno reciente con
+  vistas (p. ej. funciones de ventana en SQL, el tutorial de datos.gov.co del Ministerio TIC); `clasico` dice por qué.
+- **Bloque «Oficial y gratis»:** la vista muestra `certificacion.gratis` (10 rutas) con el punto donde se gana
+  (`gratis.punto`).
 
 ### `work_rutas` · avance de las rutas (P0)
 - Array de registros `{id, tipo:'ruta'|'paso'|'tarea', ruta, hecho?, empezada?, nb?, updated}`; ids `'<ruta>'`, `'<ruta>:<paso>'` y

@@ -215,10 +215,23 @@ for (const r of rutas.rutas || []) {
 }
 const plano = (h) => h.replace(/<[^>]+>/g, ' ').replace(/&nbsp;|&#160;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'")
   .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&trade;/g, '™').replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n)).replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16))).replace(/\s+/g, ' ').toLowerCase();
+// Algunas páginas contestan 202 o 429 mientras deciden si somos un robot (OutSystems, 25-nov): se reintenta con pausa.
+// Cada página se pide una sola vez: pedir la misma tres veces seguidas también dispara el 202.
+const paginasWeb = new Map();
+async function pedirWeb(u, n = 0) {
+  const r = await fetch(u, { redirect: 'follow', headers: { 'User-Agent': 'Mozilla/5.0 (compatible; da-2026-verificador/1.0)' }, signal: AbortSignal.timeout(30000) });
+  if ([202, 429, 503].includes(r.status) && n < 4) { await new Promise((ok) => setTimeout(ok, 3000 * 2 ** n)); return pedirWeb(u, n + 1); }
+  return { status: r.status, cuerpo: await r.text() };
+}
+async function traerWeb(u) {
+  if (!paginasWeb.has(u)) paginasWeb.set(u, pedirWeb(u));
+  const x = await paginasWeb.get(u);
+  return { status: x.status, text: async () => x.cuerpo };
+}
 let frasesOk = 0;
 await Promise.all(pruebas.map(async (p) => {
   try {
-    const r = await fetch(p.url, { redirect: 'follow', headers: { 'User-Agent': 'Mozilla/5.0 (compatible; da-2026-verificador/1.0)' }, signal: AbortSignal.timeout(30000) });
+    const r = await traerWeb(p.url);
     const t = plano(await r.text());
     const faltan = p.frases.filter((f) => !t.includes(f.toLowerCase().replace(/\s+/g, ' ')));
     if (faltan.length) mal(`${p.donde}: la página ya no dice «${faltan.join('», «')}» (${p.url})`); else frasesOk += p.frases.length;
@@ -250,8 +263,14 @@ await Promise.all([...videos.values()].map(async (v) => {
     let j;
     // 401 = el dueño desactivó la inserción: el video existe y su título y canal se leen de su página.
     if (r.status === 401) {
-      const h = await (await fetch(v.url + '&hl=es', { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36' }, signal: AbortSignal.timeout(30000) })).text();
-      const id = v.url.slice(-11), t = h.match(new RegExp(`"videoDetails":\\{"videoId":"${id}","title":"((?:[^"\\\\]|\\\\.)*)"`)), a = h.match(/"ownerChannelName":"((?:[^"\\]|\\.)*)"/);
+      // La página puede llegar vacía si YouTube está frenando: hasta 4 intentos con pausa creciente.
+      const id = v.url.slice(-11);
+      let t, a;
+      for (let n = 0; n < 4 && !(t && a); n++) {
+        if (n) await new Promise((ok) => setTimeout(ok, 8000 * n));
+        const h = await (await fetch(v.url + '&hl=es', { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36', Cookie: 'SOCS=CAI; CONSENT=YES+1' }, signal: AbortSignal.timeout(30000) })).text();
+        t = h.match(new RegExp(`"videoDetails":\\{"videoId":"${id}","title":"((?:[^"\\\\]|\\\\.)*)"`)); a = h.match(/"ownerChannelName":"((?:[^"\\]|\\.)*)"/);
+      }
       if (!t || !a) { mal(`${v.donde}: el video ${v.url} no tiene inserción y su página no dice título y canal`); return; }
       j = { title: JSON.parse('"' + t[1] + '"'), author_name: JSON.parse('"' + a[1] + '"') };
     } else if (r.status !== 200) { mal(`${v.donde}: el video ${v.url} respondió ${r.status}`); return; }
@@ -267,23 +286,50 @@ await Promise.all([...videos.values()].map(async (v) => {
 // queda si dice por qué (`clasico`). Cada capítulo citado está en la descripción con su minuto y su nombre.
 const UA_NAV = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36';
 const paginasYT = new Map();
+// YouTube deja de responder si se le piden muchas páginas a la vez (25-nov: 18 de 150 llegaron vacías): pocas a la vez,
+// y si la página llega sin medidas se vuelve a pedir con pausa creciente.
+const pausa = (ms) => new Promise((r) => setTimeout(r, ms));
+let enCurso = 0;
+const turno = async () => { while (enCurso >= 2) await pausa(200); enCurso++; await pausa(400); };
 const leerYT = (url) => {
   if (!paginasYT.has(url)) paginasYT.set(url, (async () => {
-    const h = await (await fetch(url + '&hl=es&gl=CO', { headers: { 'User-Agent': UA_NAV, 'Accept-Language': 'es-CO,es;q=0.9' }, signal: AbortSignal.timeout(30000) })).text();
-    const g = (re) => (h.match(re) || [])[1];
-    const d = h.match(/"shortDescription":"((?:[^"\\]|\\.)*)"/);
-    return { publicado: (g(/"publishDate":"([^"]+)"/) || '').slice(0, 10), vistas: +g(/"viewCount":"(\d+)"/) || 0, megusta: +g(/"likeCount":"(\d+)"/) || 0, minutos: Math.round((+g(/"lengthSeconds":"(\d+)"/) || 0) / 60), desc: d ? JSON.parse('"' + d[1] + '"') : '' };
+    await turno();
+    try {
+      for (let intento = 0; ; intento++) {
+        const h = await (await fetch(url + '&hl=es&gl=CO', { headers: { 'User-Agent': UA_NAV, 'Accept-Language': 'es-CO,es;q=0.9', Cookie: 'SOCS=CAI; CONSENT=YES+1' }, signal: AbortSignal.timeout(30000) })).text();
+        const g = (re) => (h.match(re) || [])[1];
+        const d = h.match(/"shortDescription":"((?:[^"\\]|\\.)*)"/);
+        const y = { publicado: (g(/"publishDate":"([^"]+)"/) || '').slice(0, 10), vistas: +g(/"viewCount":"(\d+)"/) || 0, megusta: +g(/"likeCount":"(\d+)"/) || 0, minutos: Math.round((+g(/"lengthSeconds":"(\d+)"/) || 0) / 60), desc: d ? JSON.parse('"' + d[1] + '"') : '' };
+        if ((y.publicado && y.vistas) || intento >= 4) return y;
+        await pausa(5000 * 2 ** intento);
+      }
+    } finally { enCurso--; }
   })());
   return paginasYT.get(url);
 };
 const meses = (a, b) => (new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 864e5 / 30.44;
 let medidasOk = 0, capitulosOk = 0;
-await Promise.all(medidos.map(async ({ donde, v, medido, reciente }) => {
-  if (!fecha(v.publicado) || !(v.vistas > 0) || !(v.megusta > 0)) { mal(`${donde}: al video ${v.url} le falta fecha, vistas o me gusta`); return; }
-  if (reciente && meses(v.publicado, medido) > 24 && !texto(v.clasico)) mal(`${donde}: el video es de ${v.publicado}, más de 24 meses antes del corte, y no dice por qué se queda (${v.url})`);
+const sinRespuesta = [];   // YouTube a veces bloquea un rato: segunda vuelta al final, uno por uno, tras una pausa
+const medir = async (m, segundaVuelta) => {
+  const { donde, v, medido, reciente } = m;
+  if (!segundaVuelta) {
+    if (!fecha(v.publicado) || !(v.vistas > 0) || !(v.megusta > 0)) { mal(`${donde}: al video ${v.url} le falta fecha, vistas o me gusta`); return; }
+    if (reciente && meses(v.publicado, medido) > 24 && !texto(v.clasico)) mal(`${donde}: el video es de ${v.publicado}, más de 24 meses antes del corte, y no dice por qué se queda (${v.url})`);
+  }
   let y;
-  try { y = await leerYT(v.url); } catch (e) { mal(`${donde}: no se pudo medir ${v.url} (${e.message})`); return; }
-  if (!y.publicado || !y.vistas) { mal(`${donde}: YouTube no devolvió las medidas de ${v.url}`); return; }
+  try { y = await leerYT(v.url); } catch (e) { y = { error: e.message }; }
+  if (y.error || !y.publicado || !y.vistas) {
+    if (!segundaVuelta) { sinRespuesta.push(m); return; }
+    mal(`${donde}: YouTube no devolvió las medidas de ${v.url}${y.error ? ` (${y.error})` : ''}`); return;
+  }
+  evaluar(m, y);
+};
+await Promise.all(medidos.map((m) => medir(m, false)));
+if (sinRespuesta.length) {
+  await pausa(45000);
+  for (const m of sinRespuesta) { paginasYT.delete(m.v.url); await medir(m, true); await pausa(1500); }
+}
+function evaluar({ donde, v }, y) {
   let ok = true;
   if (y.publicado !== v.publicado) { ok = false; mal(`${donde}: YouTube dice publicado el ${y.publicado}, no el ${v.publicado}`); }
   if (y.vistas < v.vistas * 0.97) { ok = false; mal(`${donde}: hoy tiene ${y.vistas} vistas, menos de las ${v.vistas} que dice la ruta`); }
@@ -296,7 +342,7 @@ await Promise.all(medidos.map(async ({ donde, v, medido, reciente }) => {
     else capitulosOk++;
   }
   if (ok) medidasOk++;
-}));
+}
 
 for (const [u, donde] of internos) {
   try { await access(resolve(raiz, u)); } catch { mal(`${donde}: el enlace interno ${u} no existe en frontend/`); }
@@ -306,7 +352,7 @@ const UA = 'Mozilla/5.0 (compatible; da-2026-verificador/1.0)';
 let ok200 = 0;
 await Promise.all([...externos].map(async ([u, donde]) => {
   try {
-    const r = await fetch(u, { redirect: 'follow', headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(30000) });
+    const r = await traerWeb(u);
     if (r.status === 200) ok200++; else mal(`${donde}: ${u} respondió ${r.status}`);
   } catch (e) { mal(`${donde}: ${u} no respondió (${e.message})`); }
 }));

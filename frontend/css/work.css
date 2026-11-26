@@ -561,7 +561,7 @@ code.rv-par-b{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:color
 .rp-meta h4 a{color:var(--rvt);text-decoration:none;border-bottom:1px solid rgba(164,147,255,.55)}
 .rp-meta h4 a:hover{border-bottom-color:#fff}
 .rp-meta-e{margin:5px 0 0;font-size:13px;line-height:1.5;color:var(--rv2)}
-.rp-meta-datos{margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.rp-meta-datos{margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px}
 .rp-meta-datos div{padding:10px 8px;border-radius:12px;text-align:center;background:rgba(164,147,255,.1);border:1px solid rgba(164,147,255,.26)}
 .rp-meta-datos dt{font-size:11.5px;color:var(--rv3)}
 .rp-meta-datos dd{margin:2px 0 0;font-family:var(--rvf);font-size:21px;font-weight:900;font-stretch:118%;color:var(--rvt);font-feature-settings:"tnum" 1}

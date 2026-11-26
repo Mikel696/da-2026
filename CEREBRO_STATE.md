@@ -52,7 +52,16 @@ arma hacia atrás desde el temario oficial del examen; «cómo se combina» medi
     pasa a **MO-211 Excel Expert**: su temario oficial en PDF incluye tablas dinámicas, BUSCARX y macros; 4 temas con
     peso en rango), Power BI (temario PL-300 vigente desde el 20-abr-2026, 4 áreas, 100 min). Verificador: 64/64
     medidas de video y 100 capítulos. Vista: pesos en rango, temario en PDF, bloque «Oficial y gratis».
-  - **Siguientes:** lote 2 IA (en curso), 3 Automatización, 4 Procesos, 5 Personas, 6 Negocio.
+  - **Lote 2 IA — EN PRODUCCIÓN (`7c05c48`, verificado en su Chrome):** IA generativa (AI-900 con nota: su temario es
+    de Azure), Agentes (AB-620 de Copilot Studio, 120 min, temario desde el 18-dic-2026), Prompts (Claude 101) y ML
+    (Google PMLE: 2 h, 200 USD). Los puntos que solo enlazaban al AI Dojo ahora traen video. Bloque «Oficial y gratis».
+  - **Lote 3 Automatización — armado, sin publicar todavía:** Power Automate (PL-200 + PL-900), RPA (UiPath 150 USD,
+    simulacros gratis), n8n/Make, Low-code (OutSystems ODC 120 min, 200 USD) y APIs. En UiPath, Automation Anywhere y
+    Postman los videos recientes en español tienen pocas vistas: la ruta lo dice.
+  - **Verificador más paciente:** YouTube devolvía páginas vacías cuando se le pedían ~170 seguidas; ahora va de a 2
+    con pausa y reintentos, y reintenta páginas que contestan 202/429 (OutSystems).
+  - **«Estación» → «punto»** en los textos de práctica de las 25 rutas (44 textos; no toca títulos, código ni evidencias).
+  - **Siguientes:** 4 Procesos, 5 Personas, 6 Negocio.
   **Preguntarle:** el centro de mando sigue con XP, rango, misiones y logros (él lo aprobó el 25-nov) y ahora dijo «no
   quiero jugar en el módulo». Su cuaderno «Ruta · Python» conserva los enlaces viejos (no se reescribe para no tocar
   sus apuntes).

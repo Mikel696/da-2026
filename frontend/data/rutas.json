@@ -1,6 +1,6 @@
 {
  "version": "2026-11-25",
- "nota": "Rutas de estudio de 14-WORK: una por cada una de las 25 habilidades del mapa. Formato didáctico (25-nov-2026): cada estación trae lo que logras, la idea comparada con algo que ya conoces (Excel o el trabajo), cómo usar el video o el recurso, qué hacer, cómo comprobarlo y los errores típicos. scripts/verificar-rutas.mjs comprueba cada enlace (HTTP 200), cada video con oEmbed de YouTube (título y canal exactos) y ejecuta cada programa de Python y SQL para confirmar la salida que promete. Videos elegidos por canal reconocido, vistas y español primero; nadie los vio completos. Sin duraciones ni «gratis» donde la fuente no lo dice. Desde el 25-nov-2026 las rutas «por puntos» (las que traen `medido`) llevan cada recurso medido en su página con fecha de corte (fecha de publicación, vistas, me gusta, duración y capítulos de cada video; inscritos, reseñas y edición de cada curso cuando su página los muestra), lo descartado con su razón y la certificación arriba como meta; el verificador vuelve a medir cada video. Los casos y montos de práctica son ficticios; nada interno del trabajo.",
+ "nota": "Rutas de estudio de 14-WORK: una por cada una de las 25 habilidades del mapa. Formato didáctico (25-nov-2026): cada punto trae lo que logras, la idea comparada con algo que ya conoces (Excel o el trabajo), cómo usar el video o el recurso, qué hacer, cómo comprobarlo y los errores típicos. scripts/verificar-rutas.mjs comprueba cada enlace (HTTP 200), cada video con oEmbed de YouTube (título y canal exactos) y ejecuta cada programa de Python y SQL para confirmar la salida que promete. Videos elegidos por canal reconocido, vistas y español primero; nadie los vio completos. Sin duraciones ni «gratis» donde la fuente no lo dice. Desde el 25-nov-2026 las rutas «por puntos» (las que traen `medido`) llevan cada recurso medido en su página con fecha de corte (fecha de publicación, vistas, me gusta, duración y capítulos de cada video; inscritos, reseñas y edición de cada curso cuando su página los muestra), lo descartado con su razón y la certificación arriba como meta; el verificador vuelve a medir cada video. Los casos y montos de práctica son ficticios; nada interno del trabajo.",
  "certificacionesNota": "En la foto del radar de 5-JOB del 24-nov-2026, 40 de 955 vacantes (4 %) mencionan alguna certificación; las descripciones vienen recortadas, así que puede ser algo más. En este mercado tu portafolio pesa más que el certificado.",
  "rutas": [
   {
@@ -1408,7 +1408,7 @@
      },
      "mira": "Mira los capítulos de la lista; cada uno abre el video en su minuto.",
      "hazlo": [
-      "Haz el módulo de Microsoft Learn de esta estación (en español).",
+      "Haz el módulo de Microsoft Learn de este punto (en español).",
       "Pregúntale a una IA la TRM de ayer y compárala con la de datos.gov.co.",
       "Escribe en el cuaderno, con tus palabras, qué es un modelo de lenguaje y por qué puede inventar."
      ],
@@ -1985,7 +1985,7 @@
      },
      "mira": "Mira los capítulos de la lista: es un proceso de facturas, como los de tu trabajo.",
      "hazlo": [
-      "Haz el módulo de Microsoft Learn de esta estación.",
+      "Haz el módulo de Microsoft Learn de este punto.",
       "Elige un proceso repetitivo ficticio y escribe sus pasos de hoy con el tiempo de cada uno.",
       "Marca dónde entra la IA y quién revisa, y calcula el antes y el después."
      ],
@@ -2452,7 +2452,7 @@
      "mira": "El video explica cómo crear historias de usuario en Scrum. La guía de Atlassian trae una plantilla.",
      "hazlo": [
       "Mira el video y lee la guía de Atlassian.",
-      "Convierte tus 5 requerimientos funcionales de la estación 1 en 5 historias.",
+      "Convierte tus 5 requerimientos funcionales del punto 1 en 5 historias.",
       "Escribe al menos 2 criterios de aceptación por historia, con la plantilla de abajo."
      ],
      "codigo": {
@@ -2601,7 +2601,35 @@
      "texto": "La credencial oficial Microsoft Applied Skills «Create and manage automated processes by using Power Automate» se gana con un laboratorio práctico. Microsoft no publica su precio en la página (25-nov-2026) y las guías no coinciden en si es gratis: compruébalo al entrar.",
      "url": "https://learn.microsoft.com/en-us/credentials/applied-skills/create-and-manage-automated-processes-with-power-automate/"
     },
-    "enVacantes": "3 de 39 mencionan certificaciones de Microsoft Power Platform, todas como deseables; ninguna nombra un código (PL-200, PL-900)."
+    "enVacantes": "3 de 39 mencionan certificaciones de Microsoft Power Platform, todas como deseables; ninguna nombra un código (PL-200, PL-900).",
+    "examen": {
+     "codigo": "PL-200",
+     "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-200",
+     "evidencia": [
+      "Create and manage logic and process automation (25–30%)",
+      "Skills measured as of December 26, 2024"
+     ],
+     "otras": [
+      {
+       "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+       "evidencia": [
+        "Demonstrate the capabilities of Power Automate (20–25%)",
+        "Skills measured as of July 24, 2026"
+       ]
+      }
+     ],
+     "datos": [
+      [
+       "Temas",
+       "4"
+      ],
+      [
+       "Temario desde",
+       "26-dic-2024"
+      ]
+     ],
+     "nota": "Sus 4 temas: Dataverse (25–30 %), Power Apps (25–30 %), lógica y automatización de procesos (25–30 %) y entornos (15–20 %). Antes conviene el PL-900 (punto 5): su temario de julio de 2026 dedica 20–25 % a Power Automate."
+    }
    },
    "queEs": "La herramienta de Microsoft para automatizar sin programar: flujos en la nube (correos, aprobaciones, archivos) y flujos de escritorio que repiten clics en el PC. La versión de escritorio funciona en Windows 10 y 11 con una cuenta Microsoft (según los requisitos que publica Microsoft).",
    "pasos": [
@@ -2615,14 +2643,69 @@
      ],
      "recurso": {
       "nombre": "Introducción a Power Automate",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/training/modules/get-started-flows/"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/training/modules/get-started-flows/",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Fecha del contenido",
+        "22-may-2026"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "El módulo oficial de Microsoft para empezar."
      },
      "practica": "Lista 5 tareas de tu semana que se repiten y marca cuáles podrían ser un flujo y por qué.",
      "video": {
-      "titulo": "Introducción a POWER AUTOMATE 🚀 (antes FLOW) | Creamos 3️⃣ Flujos!",
-      "canal": "Martín Gesualdo",
-      "url": "https://www.youtube.com/watch?v=s0uDnQmlIbs"
+      "titulo": "Power Automate desde CERO: Automatiza tu Trabajo SIN Código",
+      "canal": "Founderz AI Business School",
+      "url": "https://www.youtube.com/watch?v=yTrKVpcYHuk",
+      "publicado": "2026-05-29",
+      "vistas": 40523,
+      "megusta": 869,
+      "minutos": 37,
+      "porQue": "De mayo de 2026: los tres tipos de flujo, un recorrido por la interfaz y tres casos (adjuntos del correo, un formulario a Excel y un sistema de vacaciones). 869 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "1:30",
+        "fin": "3:30",
+        "nombre": "BLOQUE 1: Cómo \"piensa\" Power Automate — los 3 tipos de flujos que lo automatizan todo",
+        "seg": 90
+       },
+       {
+        "inicio": "3:30",
+        "fin": "5:30",
+        "nombre": "BLOQUE 2: Tour por la interfaz — dónde está cada cosa",
+        "seg": 210
+       },
+       {
+        "inicio": "5:30",
+        "fin": "8:30",
+        "nombre": "CASO 1: Guarda los adjuntos de tu email en OneDrive automáticamente",
+        "seg": 330
+       },
+       {
+        "inicio": "8:30",
+        "fin": "12:30",
+        "nombre": "CASO 2: Conecta un formulario con Excel usando Copilot (sin montar el flujo a mano)",
+        "seg": 510
+       },
+       {
+        "inicio": "12:30",
+        "fin": "16:30",
+        "nombre": "CASO 3 (LA SORPRESA): Sistema de vacaciones completo con Claude + Power Automate",
+        "seg": 750
+       },
+       {
+        "inicio": "16:30",
+        "fin": null,
+        "nombre": "Cierre: 3 buenas prácticas para automatizar sin liarla",
+        "seg": 990
+       }
+      ]
      },
      "logro": "reconocer qué tareas de tu semana pueden convertirse en un flujo.",
      "idea": {
@@ -2655,7 +2738,7 @@
        ]
       ]
      },
-     "mira": "Mira cómo arma los 3 flujos. Los tipos de flujo (programado, automatizado e instantáneo) se explican entre 1:49 y 2:47: cada uno se diferencia por lo que lo dispara.",
+     "mira": "Mira los capítulos de la lista y haz después el módulo de Microsoft Learn.",
      "hazlo": [
       "Haz el módulo «Introducción a Power Automate» de Microsoft Learn.",
       "Lista 5 tareas de tu semana que se repiten, sin datos internos.",
@@ -2691,6 +2774,31 @@
        "Automatizar un proceso con errores.",
        "El flujo repite los errores más rápido: arréglalo primero."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Qué es y cómo se usa",
+       "titulo": "¿Qué es Power Automate, y cómo se usa? Automatiza tus Procesos Fácilmente",
+       "canal": "Lean Solutions - ES",
+       "url": "https://www.youtube.com/watch?v=N6v05P9YymA",
+       "publicado": "2024-11-28",
+       "vistas": 1055,
+       "megusta": 31,
+       "minutos": 12,
+       "porQue": "De noviembre de 2024: qué es Power Automate y cómo se usa, con 10 capítulos. Tiene pocas vistas (1.055)."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Introducción a POWER AUTOMATE 🚀 (antes FLOW) | Creamos 3️⃣ Flujos!",
+       "canal": "Martín Gesualdo",
+       "url": "https://www.youtube.com/watch?v=s0uDnQmlIbs",
+       "publicado": "2020-09-18",
+       "vistas": 357469,
+       "megusta": 6571,
+       "razon": "Era el video de esta ruta: es de septiembre de 2020, cuando se llamaba Flow."
+      }
      ]
     },
     {
@@ -2703,8 +2811,20 @@
      ],
      "recurso": {
       "nombre": "Instalar Power Automate",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/install"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/install",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Fecha del contenido",
+        "16-nov-2026"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La guía oficial de instalación, actualizada este mes."
      },
      "practica": "Instálalo, abre la grabadora y graba un flujo corto cualquiera. Anota aquí qué grabaste y qué te sorprendió.",
      "logro": "tener Power Automate para escritorio funcionando y grabar un flujo corto.",
@@ -2734,14 +2854,14 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la guía de instalación de Microsoft Learn (en español) lo explica paso a paso.",
+     "mira": "Mira el video y sigue la guía oficial para instalarlo en tu PC.",
      "hazlo": [
       "Sigue la guía de instalación de Microsoft Learn. Si necesitas cuenta Microsoft, la creas tú.",
       "Crea un flujo nuevo y abre la grabadora.",
       "Graba algo corto, como abrir el Bloc de notas y escribir una línea, y anota en el cuaderno qué pasos quedaron."
      ],
      "comprueba": {
-      "texto": "La estación está hecha si al ejecutar el flujo se repite lo que grabaste:",
+      "texto": "El punto está hecho si al ejecutar el flujo se repite lo que grabaste:",
       "valores": [
        [
         "Instalado",
@@ -2770,7 +2890,52 @@
        "Mover ventanas mientras corre.",
        "El flujo hace clic donde estaban las cosas: deja la pantalla quieta."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Cómo Descargar e Instalar Power Automate Desktop GRATIS | Guía Paso a Paso 2025",
+      "canal": "Click Inteligente Studio",
+      "url": "https://www.youtube.com/watch?v=UvhyaF_tCVk",
+      "publicado": "2025-08-13",
+      "vistas": 2075,
+      "megusta": 21,
+      "minutos": 4,
+      "porQue": "De agosto de 2025, 4 minutos: descargar e instalar Power Automate para escritorio paso a paso. Tiene pocas vistas (2.075)."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "La grabadora en 5 minutos",
+       "titulo": "El RECORDER de Power Automate Desktop en 5 MINUTOS",
+       "canal": "Firbot Academy",
+       "url": "https://www.youtube.com/watch?v=T5bw0corSSQ",
+       "publicado": "2024-11-28",
+       "vistas": 10225,
+       "megusta": 308,
+       "minutos": 5,
+       "porQue": "De noviembre de 2024: dónde está la grabadora y dos ejercicios con ella.",
+       "capitulos": [
+        {
+         "inicio": "00:22",
+         "fin": "00:33",
+         "nombre": "¿Dónde encontarrlo?",
+         "seg": 22
+        },
+        {
+         "inicio": "00:33",
+         "fin": "02:15",
+         "nombre": "Ejercicio con Calculadora",
+         "seg": 33
+        },
+        {
+         "inicio": "02:15",
+         "fin": "03:43",
+         "nombre": "Ejercicio Búsqueda en Google",
+         "seg": 135
+        }
+       ]
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "power-automate-3",
@@ -2782,14 +2947,69 @@
      ],
      "recurso": {
       "nombre": "Crear flujos de escritorio",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/create-flow"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/create-flow",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Fecha del contenido",
+        "23-ago-2026"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La guía oficial para crear un flujo de escritorio."
      },
      "practica": "Haz un flujo que mueva los PDF de la carpeta Descargas a una carpeta por mes.",
      "video": {
       "titulo": "Automatiza EXCEL con Power Automate Desktop",
       "canal": "Firbot Academy",
-      "url": "https://www.youtube.com/watch?v=Q7mQXPiGWp4"
+      "url": "https://www.youtube.com/watch?v=Q7mQXPiGWp4",
+      "publicado": "2024-12-05",
+      "vistas": 73495,
+      "megusta": 1822,
+      "minutos": 13,
+      "porQue": "De diciembre de 2024: un flujo de escritorio con Excel de punta a punta (ruta dinámica, leer la tabla, varias hojas y nombrar archivos). 1.822 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "00:13",
+        "fin": "01:26",
+        "nombre": "Preparación del Ejercicio",
+        "seg": 13
+       },
+       {
+        "inicio": "01:26",
+        "fin": "02:07",
+        "nombre": "Ruta Dinámica",
+        "seg": 86
+       },
+       {
+        "inicio": "02:07",
+        "fin": "03:08",
+        "nombre": "Launch Excel",
+        "seg": 127
+       },
+       {
+        "inicio": "03:08",
+        "fin": "03:39",
+        "nombre": "Leer Tabla de Excel",
+        "seg": 188
+       },
+       {
+        "inicio": "06:42",
+        "fin": "10:07",
+        "nombre": "Actualizar cada Fila de la Tabla",
+        "seg": 402
+       },
+       {
+        "inicio": "10:07",
+        "fin": "12:14",
+        "nombre": "Nombramiento de Archivos Dinámico",
+        "seg": 607
+       }
+      ]
      },
      "logro": "hacer un flujo que ordena archivos en carpetas por mes.",
      "idea": {
@@ -2818,7 +3038,7 @@
        ]
       ]
      },
-     "mira": "El video arma un flujo de escritorio con Excel. El tuyo usa las mismas piezas (variables y un bucle), pero con archivos.",
+     "mira": "Mira los capítulos de la lista y arma el mismo flujo con un Excel ficticio.",
      "hazlo": [
       "Haz el ejercicio «Crear flujos de escritorio» de Microsoft Learn.",
       "Crea una carpeta de prueba con 3 PDF cualquiera y arma ahí el flujo de abajo.",
@@ -2858,7 +3078,22 @@
        "Mover sin filtro.",
        "Sin *.pdf movería todos los archivos de la carpeta."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "En la nube con Excel",
+       "titulo": "Power Automate + EXCEL: Guía rápida (lo básico para automatizar)",
+       "canal": "Firbot Academy",
+       "url": "https://www.youtube.com/watch?v=6XjiuJBrBoo",
+       "publicado": "2026-03-22",
+       "vistas": 7889,
+       "megusta": 166,
+       "minutos": 14,
+       "porQue": "De marzo de 2026: Power Automate en la nube con Excel, 14 minutos."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "power-automate-4",
@@ -2870,8 +3105,20 @@
      ],
      "recurso": {
       "nombre": "Crear y probar un flujo de aprobación",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/power-automate/modern-approvals"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/power-automate/modern-approvals",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Fecha del contenido",
+        "27-jun-2025"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La guía oficial de aprobaciones."
      },
      "practica": "Diseña una aprobación de gastos ficticia: quién la pide, quién aprueba, qué pasa si se rechaza y a quién se avisa.",
      "logro": "diseñar una aprobación con su camino del sí y del no.",
@@ -2901,9 +3148,9 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: el módulo de Microsoft Learn arma y prueba un flujo de aprobación completo.",
+     "mira": "Mira el video y arma una aprobación de prueba (tú pides y tú apruebas).",
      "hazlo": [
-      "Lee el módulo de Microsoft Learn de esta estación.",
+      "Lee el módulo de Microsoft Learn de este punto.",
       "Diseña una aprobación de gastos ficticia: quién pide, quién aprueba, qué pasa si se rechaza y a quién se avisa.",
       "Si tu cuenta te deja crear flujos de nube, constrúyelo; si no, déjalo dibujado en el cuaderno."
      ],
@@ -2941,7 +3188,32 @@
        "Pedir que aprueben sin datos.",
        "La tarjeta debe mostrar monto, motivo y quién lo pide."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Automatiza procesos de aprobaciones con Power Automate (sin programar)",
+      "canal": "Ivan AlsiGo",
+      "url": "https://www.youtube.com/watch?v=NCrBK1u6i_E",
+      "publicado": "2026-01-26",
+      "vistas": 7885,
+      "megusta": 231,
+      "minutos": 25,
+      "porQue": "De enero de 2026, 25 minutos: automatizar un proceso de aprobaciones sin programar. 231 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Paso a paso",
+       "titulo": "Como crear flujos de aprobación / aprobaciones en Power Automate",
+       "canal": "DaniCCardenas",
+       "url": "https://www.youtube.com/watch?v=cCz2y-RaD1Q",
+       "publicado": "2024-12-11",
+       "vistas": 12448,
+       "megusta": 168,
+       "minutos": 16,
+       "porQue": "De diciembre de 2024: crear flujos de aprobación, con 9 capítulos."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "power-automate-5",
@@ -2953,8 +3225,20 @@
      ],
      "recurso": {
       "nombre": "Aspectos básicos de Power Platform (PL-900)",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/credentials/certifications/power-platform-fundamentals/"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/credentials/certifications/power-platform-fundamentals/",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Última actualización",
+        "24-jul-2026, según la página"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La página oficial del PL-900, con su guía de estudio."
      },
      "practica": "Marca qué temas de la guía de estudio ya dominas y cuáles te faltan. Con eso decides si te presentas al examen.",
      "logro": "saber qué hace cada pieza de Power Platform y qué te falta para la certificación PL-900.",
@@ -2984,14 +3268,14 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la página de la certificación en Microsoft Learn trae la guía de estudio.",
+     "mira": "Mira los capítulos de la lista y repasa la guía de estudio del PL-900.",
      "hazlo": [
       "Abre la guía de estudio de PL-900 en Microsoft Learn.",
       "Marca cada tema: lo domino, lo vi o me falta.",
       "Con esa lista decide si te presentas al examen y anota la fecha."
      ],
      "comprueba": {
-      "texto": "La estación está hecha cuando el cuaderno tiene tus tres listas y la decisión con su fecha."
+      "texto": "El punto está hecho cuando el cuaderno tiene tus tres listas y la decisión con su fecha."
      },
      "errores": [
       [
@@ -3006,9 +3290,92 @@
        "Confiar en fechas o precios de memoria.",
        "Revisa la página oficial el día que decidas."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Fundamentals | Introducción a Power Platform Actualizado 2026!",
+      "canal": "Fer Huerta",
+      "url": "https://www.youtube.com/watch?v=akKUMRenCOE",
+      "publicado": "2026-01-25",
+      "vistas": 14115,
+      "megusta": 53,
+      "minutos": 25,
+      "porQue": "De enero de 2026: Power Platform por dentro, qué problemas resuelve, licencias para practicar y las certificaciones, con 40 capítulos.",
+      "capitulos": [
+       {
+        "inicio": "02:48",
+        "fin": "03:19",
+        "nombre": "Productos principales de Power Platform",
+        "seg": 168
+       },
+       {
+        "inicio": "04:32",
+        "fin": "05:08",
+        "nombre": "Power Apps",
+        "seg": 272
+       },
+       {
+        "inicio": "05:08",
+        "fin": "05:40",
+        "nombre": "Power Automate",
+        "seg": 308
+       },
+       {
+        "inicio": "06:24",
+        "fin": "06:55",
+        "nombre": "Qué problemas resuelve Power Platform",
+        "seg": 384
+       },
+       {
+        "inicio": "13:51",
+        "fin": "14:23",
+        "nombre": "Licenciamiento básico para comenzar",
+        "seg": 831
+       },
+       {
+        "inicio": "21:39",
+        "fin": "22:11",
+        "nombre": "PL-900 y certificaciones avanzadas",
+        "seg": 1299
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Introducción corta",
+       "titulo": "Introducción a Power Platform 📌 TODO lo que debes saber en 2025",
+       "canal": "Pablo Pérez ",
+       "url": "https://www.youtube.com/watch?v=Lx0EsQTx-Hk",
+       "publicado": "2025-03-06",
+       "vistas": 4532,
+       "megusta": 149,
+       "minutos": 11,
+       "porQue": "De marzo de 2025: lo que debes saber de Power Platform en 11 minutos. 149 me gusta."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Empieza por entender qué automatiza (1), instálalo (2) y haz tu primer flujo de escritorio (3). Luego las aprobaciones en la nube (4) y cierra con los fundamentos de Power Platform (5), que son el temario del examen PL-900.",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "excel",
+      "porque": "Muchos flujos leen o escriben un Excel: el punto 3 usa uno."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "rpa",
+      "porque": "Power Automate para escritorio también es RPA (punto 2 de esa ruta)."
+     },
+     {
+      "ruta": "low-code",
+      "porque": "Las apps de Power Apps disparan flujos de Power Automate."
+     }
+    ]
+   }
   },
   {
    "id": "rpa",
@@ -3041,7 +3408,27 @@
       "offers free, online training"
      ]
     },
-    "enVacantes": "3 de 39 mencionan una certificación de RPA: 2 de Automation Anywhere y 1 de UiPath, como deseables."
+    "enVacantes": "3 de 39 mencionan una certificación de RPA: 2 de Automation Anywhere y 1 de UiPath, como deseables.",
+    "examen": {
+     "codigo": "Automation Developer Associate",
+     "url": "https://www.uipath.com/learning/certification/faqs",
+     "evidencia": [
+      "The fee for an Associate-level exam is US$150 plus tax per attempt",
+      "Practice tests are available online and are free"
+     ],
+     "datos": [
+      [
+       "Precio",
+       "150 USD más impuestos"
+      ],
+      [
+       "Simulacros",
+       "gratis en línea"
+      ]
+     ],
+     "nota": "Datos de la página de preguntas frecuentes de UiPath.",
+     "enlaceTexto": "Ver la página oficial"
+    }
    },
    "queEs": "Robots de software que usan las aplicaciones como lo haría una persona: abren pantallas, copian, pegan y llenan formularios. Sirven cuando un sistema no tiene API. UiPath y Automation Anywhere aparecen en vacantes de la muestra.",
    "pasos": [
@@ -3055,14 +3442,63 @@
      ],
      "recurso": {
       "nombre": "UiPath Academy",
-      "proveedor": "UiPath (en inglés, cursos gratis con cuenta)",
-      "url": "https://academy.uipath.com/"
+      "proveedor": "UiPath",
+      "url": "https://academy.uipath.com/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Precio",
+        "gratis con cuenta, según su página"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La academia oficial de UiPath."
      },
      "practica": "De tu lista de tareas repetitivas, elige 2 que sean buenas para un robot y explica por qué.",
      "video": {
-      "titulo": "UiPath vs Power Automate vs Blue Prism vs Automation Anywhere",
-      "canal": "Camilo Duarte",
-      "url": "https://www.youtube.com/watch?v=eaYM9upFFJw"
+      "titulo": "RPA vs Workflows vs IA: ¿Cuál automatización necesitas?",
+      "canal": "Glasses Procesos",
+      "url": "https://www.youtube.com/watch?v=snhyX0qWjbg",
+      "publicado": "2026-06-02",
+      "vistas": 444,
+      "megusta": 30,
+      "minutos": 23,
+      "porQue": "De junio de 2026: los tres tipos de automatización (RPA, flujos e IA), una tabla comparativa y cuándo usar cada uno. Tiene pocas vistas (444).",
+      "capitulos": [
+       {
+        "inicio": "01:00",
+        "fin": "02:39",
+        "nombre": "Por qué importa distinguir los tipos de automatización",
+        "seg": 60
+       },
+       {
+        "inicio": "02:39",
+        "fin": "07:00",
+        "nombre": "Tipo 1: RPA – Automatización Robótica de Procesos",
+        "seg": 159
+       },
+       {
+        "inicio": "07:00",
+        "fin": "11:46",
+        "nombre": "Tipo 2: Workflows / Flujos de trabajo",
+        "seg": 420
+       },
+       {
+        "inicio": "11:46",
+        "fin": "18:30",
+        "nombre": "Tipo 3: Automatización con Inteligencia Artificial",
+        "seg": 706
+       },
+       {
+        "inicio": "18:30",
+        "fin": "20:16",
+        "nombre": "Tabla comparativa",
+        "seg": 1110
+       }
+      ]
      },
      "logro": "saber cuándo conviene un robot y cuándo una integración por API.",
      "idea": {
@@ -3091,10 +3527,10 @@
        ]
       ]
      },
-     "mira": "El video compara 4 herramientas de RPA, una por capítulo, y cierra con conclusiones (11:19). Fíjate en qué dice de cada una.",
+     "mira": "Mira los capítulos de la lista y anota un proceso tuyo que sea para robot y otro que sea para integración.",
      "hazlo": [
       "Mira el video.",
-      "De tus tareas repetitivas (ruta de Power Automate, estación 1), elige 2 buenas para un robot.",
+      "De tus tareas repetitivas (ruta de Power Automate, punto 1), elige 2 buenas para un robot.",
       "Explica en el cuaderno por qué: ¿hay API?, ¿la pantalla cambia poco?, ¿los pasos son siempre iguales?"
      ],
      "comprueba": {
@@ -3123,6 +3559,18 @@
        "Olvidar las excepciones.",
        "Piensa qué hace el robot cuando algo no está donde lo espera."
       ]
+     ],
+     "mas": [],
+     "descartados": [
+      {
+       "titulo": "UiPath vs Power Automate vs Blue Prism vs Automation Anywhere",
+       "canal": "Camilo Duarte",
+       "url": "https://www.youtube.com/watch?v=eaYM9upFFJw",
+       "publicado": "2023-10-09",
+       "vistas": 6155,
+       "megusta": 201,
+       "razon": "Era el video de esta ruta: es de octubre de 2023."
+      }
      ]
     },
     {
@@ -3135,8 +3583,20 @@
      ],
      "recurso": {
       "nombre": "Introducción a flujos de escritorio",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/introduction"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/introduction",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Fecha del contenido",
+        "23-ago-2026"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La introducción oficial a los flujos de escritorio."
      },
      "practica": "Graba un robot que abra un sitio público, copie un dato y lo pegue en Excel.",
      "logro": "hacer un robot que copia un dato de una página web y lo escribe en Excel.",
@@ -3166,9 +3626,9 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: el módulo de Microsoft Learn presenta los flujos de escritorio, que también son RPA.",
+     "mira": "Mira el video, graba un robot y limpia los pasos que sobran.",
      "hazlo": [
-      "Haz el módulo de Microsoft Learn de esta estación.",
+      "Haz el módulo de Microsoft Learn de este punto.",
       "Elige una página pública con un dato que cambie cada día y arma el robot que lo copia a Excel.",
       "Córrelo dos veces y comprueba que escribe el dato correcto."
      ],
@@ -3202,7 +3662,78 @@
        "Excel abierto con otro archivo.",
        "El robot puede escribir en el libro equivocado: que abra su propio archivo."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "El RECORDER de Power Automate Desktop en 5 MINUTOS",
+      "canal": "Firbot Academy",
+      "url": "https://www.youtube.com/watch?v=T5bw0corSSQ",
+      "publicado": "2024-11-28",
+      "vistas": 10225,
+      "megusta": 308,
+      "minutos": 5,
+      "porQue": "De noviembre de 2024: la grabadora de Power Automate para escritorio en 5 minutos, con dos ejercicios. 308 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "00:22",
+        "fin": "00:33",
+        "nombre": "¿Dónde encontarrlo?",
+        "seg": 22
+       },
+       {
+        "inicio": "00:33",
+        "fin": "02:15",
+        "nombre": "Ejercicio con Calculadora",
+        "seg": 33
+       },
+       {
+        "inicio": "02:15",
+        "fin": "03:43",
+        "nombre": "Ejercicio Búsqueda en Google",
+        "seg": 135
+       },
+       {
+        "inicio": "03:43",
+        "fin": "04:24",
+        "nombre": "Panel UI",
+        "seg": 223
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Leer datos de una pantalla",
+       "titulo": "Automatizacion UI en POWER AUTOMATE DESKTOP",
+       "canal": "Firbot Academy",
+       "url": "https://www.youtube.com/watch?v=-FPr2H8Bra8",
+       "publicado": "2024-12-16",
+       "vistas": 7124,
+       "megusta": 184,
+       "minutos": 12,
+       "porQue": "De diciembre de 2024: cómo el robot reconoce botones y campos de una pantalla.",
+       "capitulos": [
+        {
+         "inicio": "00:25",
+         "fin": "01:45",
+         "nombre": "Panel UI",
+         "seg": 25
+        },
+        {
+         "inicio": "01:45",
+         "fin": "02:34",
+         "nombre": "Cómo Power Automate elige los atributos",
+         "seg": 105
+        },
+        {
+         "inicio": "06:59",
+         "fin": "10:10",
+         "nombre": "Selectores Dinámicos",
+         "seg": 419
+        }
+       ]
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "rpa-3",
@@ -3214,14 +3745,31 @@
      ],
      "recurso": {
       "nombre": "UiPath Academy",
-      "proveedor": "UiPath (en inglés, cursos gratis con cuenta)",
-      "url": "https://academy.uipath.com/"
+      "proveedor": "UiPath",
+      "url": "https://academy.uipath.com/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Precio",
+        "gratis con cuenta, según su página"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La academia oficial: sus cursos preparan la certificación."
      },
      "practica": "Termina el primer curso de la ruta para principiantes de UiPath Academy y anota aquí los 3 conceptos que más te sirvieron.",
      "video": {
-      "titulo": "Curso Gratis RPA con Uipath Completo",
-      "canal": "Camilo Duarte",
-      "url": "https://www.youtube.com/watch?v=Y32U_k83Kl8"
+      "titulo": "MasterClass: Hace tu primera automatizacion con UiPath",
+      "canal": "Takyon",
+      "url": "https://www.youtube.com/watch?v=J4XZ8fUTfa4",
+      "publicado": "2025-06-25",
+      "vistas": 1128,
+      "megusta": 28,
+      "minutos": 63,
+      "porQue": "De junio de 2025: tu primera automatización con UiPath en una clase de una hora. Tiene pocas vistas (1.128)."
      },
      "logro": "reconocer las piezas de UiPath y su equivalente en lo que ya conoces.",
      "idea": {
@@ -3250,14 +3798,14 @@
        ]
       ]
      },
-     "mira": "Es un curso largo: sigue «Descargar e instalar UiPath» (2:40) y «Crea tu primer bot» (4:52). «Manejo de excepciones» (56:04) es el Try Catch de la tabla.",
+     "mira": "Mira la clase y haz el primer curso de UiPath Academy.",
      "hazlo": [
       "Crea tu cuenta en UiPath Academy (la creas tú) y empieza la ruta para principiantes.",
       "Termina el primer curso de esa ruta.",
       "Anota en el cuaderno los 3 conceptos que más te sirvieron y su equivalente en Power Automate."
      ],
      "comprueba": {
-      "texto": "La estación está hecha cuando tienes:",
+      "texto": "El punto está hecho cuando tienes:",
       "valores": [
        [
         "Curso terminado",
@@ -3286,7 +3834,23 @@
        "No manejar errores.",
        "Sin Try Catch, el primer imprevisto detiene todo el robot."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Curso completo",
+       "clasico": "Es de septiembre de 2023. Se queda porque es el curso completo de UiPath en español más visto de los que medimos.",
+       "titulo": "Curso Gratis RPA con Uipath Completo",
+       "canal": "Camilo Duarte",
+       "url": "https://www.youtube.com/watch?v=Y32U_k83Kl8",
+       "publicado": "2023-09-18",
+       "vistas": 26869,
+       "megusta": 574,
+       "minutos": 198,
+       "porQue": "26.869 vistas y 574 me gusta, en 3 horas y 18 minutos con 10 capítulos."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "rpa-4",
@@ -3297,14 +3861,36 @@
      ],
      "recurso": {
       "nombre": "Automation Anywhere University",
-      "proveedor": "Automation Anywhere (en inglés)",
-      "url": "https://pathfinder.automationanywhere.com/university"
+      "proveedor": "Automation Anywhere",
+      "url": "https://pathfinder.automationanywhere.com/university",
+      "idioma": "Inglés",
+      "gratis": {
+       "evidencia": [
+        "free, hands-on training"
+       ]
+      },
+      "datos": [
+       [
+        "Precio",
+        "formación gratis, según su página"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La universidad oficial de Automation Anywhere."
      },
      "practica": "Haz una tabla con UiPath, Automation Anywhere y Power Automate para escritorio: qué necesitas para practicar con cada uno y qué te pareció más fácil.",
      "video": {
-      "titulo": "¿Qué es Automation Anywhere?",
-      "canal": "Camilo Duarte",
-      "url": "https://www.youtube.com/watch?v=bnTeQUDNYQo"
+      "titulo": "👉 Crea tu Primer Bot en RPA con Automation Anywhere (Fácil y Rápido)",
+      "canal": "XCodeApp",
+      "url": "https://www.youtube.com/watch?v=9EJZs1WkaWw",
+      "publicado": "2025-06-19",
+      "vistas": 1258,
+      "megusta": 27,
+      "minutos": 15,
+      "porQue": "De junio de 2025, 15 minutos: tu primer bot con Automation Anywhere. Tiene pocas vistas (1.258)."
      },
      "logro": "comparar UiPath, Automation Anywhere y Power Automate con tu propia práctica.",
      "idea": {
@@ -3333,7 +3919,7 @@
        ]
       ]
      },
-     "mira": "El video presenta Automation Anywhere. Fíjate en qué cambia respecto a UiPath.",
+     "mira": "Mira el video y compara lo que ves con UiPath (punto 3).",
      "hazlo": [
       "Mira el video.",
       "Explora Automation Anywhere University y anota qué necesitas para practicar (cuenta, instalación).",
@@ -3365,6 +3951,31 @@
        "Olvidar las licencias.",
        "Anota si lo que usaste para practicar serviría en una empresa; revísalo en la página oficial."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "La interfaz",
+       "titulo": "🚀 Conoce la Interfaz de Automation Anywhere 🤖 | Guía Completa",
+       "canal": "Automatas Anywhere",
+       "url": "https://www.youtube.com/watch?v=jrrzuDK6yzw",
+       "publicado": "2026-06-03",
+       "vistas": 74,
+       "megusta": 3,
+       "minutos": 23,
+       "porQue": "De junio de 2026: un recorrido por la interfaz. Tiene muy pocas vistas (74)."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "¿Qué es Automation Anywhere?",
+       "canal": "Camilo Duarte",
+       "url": "https://www.youtube.com/watch?v=bnTeQUDNYQo",
+       "publicado": "2021-05-18",
+       "vistas": 17519,
+       "megusta": 358,
+       "razon": "Era el video de esta ruta: es de mayo de 2021."
+      }
      ]
     },
     {
@@ -3412,7 +4023,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio. Antes de construir, mira en 5-JOB qué herramientas piden las vacantes de automatización.",
+     "mira": "Mira el video y diseña tu proceso antes de grabar: pasos, tiempos y quién lo revisa.",
      "hazlo": [
       "Escribe 5 correos de prueba con montos.",
       "Arma el robot: leer los correos, sacar los montos y llenar un Excel.",
@@ -3448,9 +4059,58 @@
        "Documentar al final, de memoria.",
        "Escribe la ficha mientras construyes."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Conversaciones Azurian: Documentar, Optimizar y Automatizar Procesos: ¿Por dónde empezar?",
+      "canal": "Azurian Consulting",
+      "url": "https://www.youtube.com/watch?v=s7f-grtuigg",
+      "publicado": "2025-10-28",
+      "vistas": 83,
+      "megusta": 6,
+      "minutos": 10,
+      "porQue": "De octubre de 2025: por dónde empezar a documentar, optimizar y automatizar un proceso. Tiene muy pocas vistas (83)."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Un proceso completo",
+       "titulo": "Cómo Generar Miles de Documentos Word y PDF con Power Automate",
+       "canal": "Ivan AlsiGo",
+       "url": "https://www.youtube.com/watch?v=uw83j6Glyk0",
+       "publicado": "2026-08-27",
+       "vistas": 1732,
+       "megusta": 37,
+       "minutos": 14,
+       "porQue": "De agosto de 2026: generar miles de documentos Word y PDF con Power Automate."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Primero cuándo conviene un robot y cuándo una integración (1). Tu primer robot en tu PC con Power Automate para escritorio (2); después UiPath (3) y Automation Anywhere (4), las dos que nombran las vacantes, y un proceso de punta a punta (5).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "power-automate",
+      "porque": "El punto 2 usa Power Automate para escritorio."
+     },
+     {
+      "ruta": "mapeo-procesos",
+      "porque": "Se automatiza bien un proceso que ya está dibujado."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "documentacion",
+      "porque": "Un robot sin documentación no lo mantiene nadie (punto 5)."
+     },
+     {
+      "ruta": "mejora-procesos",
+      "porque": "Medir el antes y el después es mejora de procesos."
+     }
+    ]
+   }
   },
   {
    "id": "ingles",
@@ -3626,7 +4286,7 @@
       "Escribe una frase tuya con 5 de esas palabras."
      ],
      "comprueba": {
-      "texto": "La estación está hecha cuando tienes:",
+      "texto": "El punto está hecho cuando tienes:",
       "valores": [
        [
         "Palabras en tarjetas",
@@ -3797,7 +4457,7 @@
       "Di en voz alta tus 5 frases hasta que te salgan sin leer."
      ],
      "comprueba": {
-      "texto": "La estación está hecha cuando tienes:",
+      "texto": "El punto está hecho cuando tienes:",
       "valores": [
        [
         "Frases anotadas",
@@ -3935,7 +4595,8 @@
      "tipo": "insignias oficiales de Make",
      "evidencia": [
       "100% free"
-     ]
+     ],
+     "punto": "n8n-3"
     },
     "enVacantes": "Ninguna de las 39 nombra una certificación de n8n, Zapier o Make."
    },
@@ -3952,13 +4613,68 @@
      "practica": "Elige 3 tareas repetitivas y dibuja para cada una qué la dispara, qué pasos sigue y dónde termina.",
      "recurso": {
       "nombre": "Zapier Guides",
-      "proveedor": "Zapier (en inglés)",
-      "url": "https://zapier.com/resources/guides"
+      "proveedor": "Zapier",
+      "url": "https://zapier.com/resources/guides",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "guías oficiales de Zapier"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "Las guías oficiales de Zapier."
      },
      "video": {
-      "titulo": "¿Qué es Zapier? Descubre cómo automatizar tus tareas con esta herramienta",
-      "canal": "Sergio Calderón",
-      "url": "https://www.youtube.com/watch?v=Dwx23iPwTRI"
+      "titulo": "N8N vs Zapier vs Make: Cuál Elegir Para Tu Negocio (Guía Definitiva 2025)",
+      "canal": "Erik Taveras",
+      "url": "https://www.youtube.com/watch?v=vOJhaW8_6Xg",
+      "publicado": "2025-07-20",
+      "vistas": 5030,
+      "megusta": 295,
+      "minutos": 9,
+      "porQue": "De julio de 2025: compara Zapier, Make y n8n en facilidad, integraciones, precios e IA, y cuál elegir según tu caso. 295 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "0:41",
+        "fin": "1:03",
+        "nombre": "Zapier: la veterana “modo automático”",
+        "seg": 41
+       },
+       {
+        "inicio": "1:03",
+        "fin": "1:23",
+        "nombre": "Make: el punto medio (antes Integromat)",
+        "seg": 63
+       },
+       {
+        "inicio": "1:23",
+        "fin": "1:58",
+        "nombre": "n8n: el todoterreno open-source",
+        "seg": 83
+       },
+       {
+        "inicio": "1:58",
+        "fin": "3:04",
+        "nombre": "Facilidad de uso: mito vs realidad",
+        "seg": 118
+       },
+       {
+        "inicio": "4:00",
+        "fin": "5:25",
+        "nombre": "Precios: dónde se esconde el gasto",
+        "seg": 240
+       },
+       {
+        "inicio": "6:47",
+        "fin": "8:05",
+        "nombre": "¿Cuál elegir según tu situación?",
+        "seg": 407
+       }
+      ]
      },
      "logro": "dibujar cualquier automatización como disparador, pasos y final.",
      "idea": {
@@ -3987,7 +4703,7 @@
        ]
       ]
      },
-     "mira": "El video explica qué es Zapier y cómo conecta aplicaciones entre sí. La idea de disparador y acciones es la misma en las tres herramientas.",
+     "mira": "Mira los capítulos de la lista y anota cuál usarías para tu proceso y por qué.",
      "hazlo": [
       "Mira el video.",
       "Elige 3 tareas repetitivas.",
@@ -4023,6 +4739,31 @@
        "Pasar datos sensibles por cualquier servicio.",
        "Todo lo que conectas pasa por los servidores de esa herramienta."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Comparación 2026",
+       "titulo": "N8N vs Make vs Zapier: Cuál Elegir para Automatizar en 2026",
+       "canal": "Raiola Networks",
+       "url": "https://www.youtube.com/watch?v=CNEH7AboFUg",
+       "publicado": "2026-02-26",
+       "vistas": 1990,
+       "megusta": 65,
+       "minutos": 24,
+       "porQue": "De febrero de 2026: la misma comparación, con 11 capítulos."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "¿Qué es Zapier? Descubre cómo automatizar tus tareas con esta herramienta",
+       "canal": "Sergio Calderón",
+       "url": "https://www.youtube.com/watch?v=Dwx23iPwTRI",
+       "publicado": "2023-05-11",
+       "vistas": 43573,
+       "megusta": 568,
+       "razon": "Era el video de esta ruta: es de mayo de 2023."
+      }
      ]
     },
     {
@@ -4036,13 +4777,30 @@
      "practica": "Haz un flujo que cada mañana traiga la TRM del día desde la API de datos.gov.co y la guarde en una hoja de cálculo.",
      "recurso": {
       "nombre": "Build your first workflow",
-      "proveedor": "Documentación de n8n (en inglés)",
-      "url": "https://docs.n8n.io/build-your-first-workflow"
+      "proveedor": "Documentación de n8n",
+      "url": "https://docs.n8n.io/build-your-first-workflow",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Última actualización",
+        "hace 23 días al 25-nov-2026, según la página"
+       ],
+       [
+        "Reseñas",
+        "no aplica"
+       ]
+      ],
+      "porQue": "El tutorial oficial del primer flujo."
      },
      "video": {
       "titulo": "Introducción a N8N, automatiza tus flujos de trabajo",
       "canal": "midudev",
-      "url": "https://www.youtube.com/watch?v=yP0PM-fpnXo"
+      "url": "https://www.youtube.com/watch?v=yP0PM-fpnXo",
+      "publicado": "2025-11-26",
+      "vistas": 208444,
+      "megusta": 12522,
+      "minutos": 24,
+      "porQue": "De noviembre de 2025: la introducción a n8n de midudev. 12.522 me gusta, 60 por cada mil vistas."
      },
      "logro": "hacer en n8n un flujo que trae la TRM cada mañana a una hoja.",
      "idea": {
@@ -4071,7 +4829,7 @@
        ]
       ]
      },
-     "mira": "Mira «Creando el primer flujo» (5:00) y «Obtención de datos (HTTP Request)» (6:59): son los nodos que vas a usar. La parte del servidor VPS sobra si usas n8n en la nube.",
+     "mira": "Mira el video y haz el tutorial oficial con un caso ficticio.",
      "hazlo": [
       "Sigue la guía «Build your first workflow» de n8n (la cuenta la creas tú).",
       "Arma los 4 nodos de la tabla; en HTTP Request usa la dirección de abajo.",
@@ -4099,7 +4857,34 @@
        "Olvidar activarlo.",
        "Un flujo guardado pero inactivo no corre a las 8."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Curso completo",
+       "titulo": "Curso de N8N desde CERO (completo)",
+       "canal": "Soy Dalto",
+       "url": "https://www.youtube.com/watch?v=4eRPQmzO_Nw",
+       "publicado": "2026-03-10",
+       "vistas": 336335,
+       "megusta": 13221,
+       "minutos": 108,
+       "porQue": "De marzo de 2026: n8n desde cero en 1 hora y 48 minutos, con 17 capítulos. 13.221 me gusta."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Curso con 35 capítulos",
+       "titulo": "Curso completo de N8N, aprende N8N ahora!",
+       "canal": "HolaMundo",
+       "url": "https://www.youtube.com/watch?v=8A8PyJeQhlo",
+       "publicado": "2026-03-24",
+       "vistas": 66078,
+       "megusta": 2295,
+       "minutos": 109,
+       "porQue": "De marzo de 2026, 1 hora y 49 minutos."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "n8n-3",
@@ -4112,13 +4897,73 @@
      "practica": "Repite el flujo del paso 2 en Make y anota qué te resultó más fácil en cada herramienta.",
      "recurso": {
       "nombre": "Make Academy",
-      "proveedor": "Make (en inglés)",
-      "url": "https://academy.make.com/"
+      "proveedor": "Make",
+      "url": "https://academy.make.com/",
+      "idioma": "Inglés",
+      "gratis": {
+       "evidencia": [
+        "Your free online path to mastering Make"
+       ]
+      },
+      "datos": [
+       [
+        "Precio",
+        "gratis, según su página"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La academia oficial de Make, donde se ganan sus insignias gratis."
      },
      "video": {
-      "titulo": "Aprende a utilizar MAKE para AUTOMATIZAR PROCESOS con IA [Curso express]",
-      "canal": "Juan Echeverria",
-      "url": "https://www.youtube.com/watch?v=Mnfzklo2CVw"
+      "titulo": "Cómo pasar de 0 a 100 en Make.com y AUTOMATIZAR desde CERO en 15 MINUTOS",
+      "canal": "CenteIA Education",
+      "url": "https://www.youtube.com/watch?v=g6u28CpxXoQ",
+      "publicado": "2025-05-18",
+      "vistas": 124273,
+      "megusta": 3931,
+      "minutos": 22,
+      "porQue": "De mayo de 2025: qué es un escenario, disparadores y un caso práctico de punta a punta en Make. 3.931 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "00:17",
+        "fin": "01:00",
+        "nombre": "¿Qué es Make.com y cómo funciona un escenario?",
+        "seg": 17
+       },
+       {
+        "inicio": "01:00",
+        "fin": "02:37",
+        "nombre": "Qué es un disparador y para qué sirve en Make",
+        "seg": 60
+       },
+       {
+        "inicio": "02:40",
+        "fin": "03:12",
+        "nombre": "Cómo funciona un enroutador en Make.com",
+        "seg": 160
+       },
+       {
+        "inicio": "03:12",
+        "fin": "05:38",
+        "nombre": "Creamos un escenario desde cero paso a paso",
+        "seg": 192
+       },
+       {
+        "inicio": "05:38",
+        "fin": "19:48",
+        "nombre": "Caso práctico: automatización sencilla con design thinking",
+        "seg": 338
+       },
+       {
+        "inicio": "19:48",
+        "fin": "20:57",
+        "nombre": "Ejecutamos el escenario y comprobamos resultados",
+        "seg": 1188
+       }
+      ]
      },
      "logro": "hacer el mismo flujo en Make y comparar las dos herramientas.",
      "idea": {
@@ -4147,14 +4992,14 @@
        ]
       ]
      },
-     "mira": "Mira «Conceptos básicos de Make» (3:50) y «Tipos de escenarios» (10:35). Lo de OpenAI puede esperar.",
+     "mira": "Mira los capítulos de la lista y arma en Make el mismo flujo del punto 2.",
      "hazlo": [
       "Haz el primer curso de Make Academy (la cuenta la creas tú).",
-      "Repite en Make el flujo de la estación 2: programación, petición HTTP y hoja de cálculo.",
+      "Repite en Make el flujo del punto 2: programación, petición HTTP y hoja de cálculo.",
       "Anota en el cuaderno qué te resultó más fácil en cada herramienta."
      ],
      "comprueba": {
-      "texto": "La estación está hecha si:",
+      "texto": "El punto está hecho si:",
       "valores": [
        [
         "Escenario",
@@ -4183,6 +5028,31 @@
        "Copiar sin entender.",
        "Explica cada módulo con tus palabras en el cuaderno."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Más reciente",
+       "titulo": "Tutorial de Make.com para Principiantes (2026) – Guía Completa",
+       "canal": "Metics Media | Español",
+       "url": "https://www.youtube.com/watch?v=SF4_gbjsWTI",
+       "publicado": "2026-01-22",
+       "vistas": 13814,
+       "megusta": 226,
+       "minutos": 20,
+       "porQue": "De enero de 2026: Make para principiantes, con 12 capítulos."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Aprende a utilizar MAKE para AUTOMATIZAR PROCESOS con IA [Curso express]",
+       "canal": "Juan Echeverria",
+       "url": "https://www.youtube.com/watch?v=Mnfzklo2CVw",
+       "publicado": "2024-09-06",
+       "vistas": 145595,
+       "megusta": 4670,
+       "razon": "Era el video de esta ruta: es de septiembre de 2024 (más de dos años)."
+      }
      ]
     },
     {
@@ -4200,9 +5070,46 @@
       "texto": "AI Dojo · cinturón Azul: «Un flujo con red»"
      },
      "video": {
-      "titulo": "Curso de N8N desde CERO (completo)",
-      "canal": "Soy Dalto",
-      "url": "https://www.youtube.com/watch?v=4eRPQmzO_Nw"
+      "titulo": "¡Cómo gestionar ERRORES en n8n y evitar que tus flujos fallen en producción! ⚠️",
+      "canal": "Julio Arciniega | N8N | IA y Automatizaciones",
+      "url": "https://www.youtube.com/watch?v=2rqe8mrfXrY",
+      "publicado": "2026-01-11",
+      "vistas": 1713,
+      "megusta": 98,
+      "minutos": 19,
+      "porQue": "De enero de 2026: el flujo de errores, reintentar si falla, seguir aunque falle y un plan B para la IA. 98 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "00:35",
+        "fin": "02:38",
+        "nombre": "Introducción – Importancia de la gestión de errores",
+        "seg": 35
+       },
+       {
+        "inicio": "02:38",
+        "fin": "11:16",
+        "nombre": "Error Trigger y workflow de errores",
+        "seg": 158
+       },
+       {
+        "inicio": "11:16",
+        "fin": "15:08",
+        "nombre": "Retry on Failure",
+        "seg": 676
+       },
+       {
+        "inicio": "15:08",
+        "fin": "16:13",
+        "nombre": "Fallback system en IA",
+        "seg": 908
+       },
+       {
+        "inicio": "16:13",
+        "fin": "17:51",
+        "nombre": "Continue on Error",
+        "seg": 973
+       }
+      ]
      },
      "logro": "preparar un flujo para cuando algo falla y saber qué datos pasan por el servicio.",
      "idea": {
@@ -4231,7 +5138,7 @@
        ]
       ]
      },
-     "mira": "Es un curso largo: mira la parte «Debug» (1:25:50). La misión del AI Dojo «Un flujo con red» practica justo los avisos de error.",
+     "mira": "Mira los capítulos de la lista y agrega a tu flujo un aviso de error y un reintento.",
      "hazlo": [
       "Haz en el AI Dojo la misión «Un flujo con red».",
       "En tu flujo de la TRM, activa los reintentos en HTTP Request y crea un flujo de error que te mande un correo.",
@@ -4267,9 +5174,56 @@
        "No saber dónde quedan tus datos.",
        "Anota qué pasa por la nube del servicio y qué no debería."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Avisos de error",
+       "titulo": "Activa tus Notificaciones de Errores EN N8N YA! | Automatización IA",
+       "canal": "Santiago Munoz",
+       "url": "https://www.youtube.com/watch?v=RQMvQ6Fbr-U",
+       "publicado": "2025-11-05",
+       "vistas": 2787,
+       "megusta": 122,
+       "minutos": 10,
+       "porQue": "De noviembre de 2025: cómo activar avisos cuando un flujo falla. 122 me gusta."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Curso completo",
+       "titulo": "Curso de N8N desde CERO (completo)",
+       "canal": "Soy Dalto",
+       "url": "https://www.youtube.com/watch?v=4eRPQmzO_Nw",
+       "publicado": "2026-03-10",
+       "vistas": 336335,
+       "megusta": 13221,
+       "minutos": 108,
+       "porQue": "De marzo de 2026: era el video de este punto; es el curso completo de n8n de Soy Dalto."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Primero en qué se parecen n8n, Zapier y Make (1). Tu primer flujo en n8n (2) y el mismo trabajo en Make (3). Al final, lo que separa un flujo de prueba de uno de trabajo: errores, reintentos y datos sensibles (4).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "apis",
+      "porque": "Cada nodo de n8n se conecta con una API."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "agentes",
+      "porque": "El punto 3 de agentes construye un agente en n8n."
+     },
+     {
+      "ruta": "ia-generativa",
+      "porque": "Meter la IA en un proceso (su punto 5) se hace con flujos como estos."
+     }
+    ]
+   }
   },
   {
    "id": "low-code",
@@ -4299,7 +5253,31 @@
      "texto": "La credencial oficial Microsoft Applied Skills «Create and manage canvas apps with Power Apps» se gana con un laboratorio práctico. Microsoft no publica su precio en la página (25-nov-2026): compruébalo al entrar.",
      "url": "https://learn.microsoft.com/en-us/credentials/applied-skills/create-manage-canvas-apps-power-apps/"
     },
-    "enVacantes": "3 de 39 mencionan certificaciones de Power Platform (Power Apps, Power Automate) y 1 de Appian, como deseables."
+    "enVacantes": "3 de 39 mencionan certificaciones de Power Platform (Power Apps, Power Automate) y 1 de Appian, como deseables.",
+    "examen": {
+     "codigo": "Associate Developer (ODC)",
+     "url": "https://www.outsystems.com/certifications/",
+     "evidencia": [
+      "Associate Developer (ODC) 120 minutes",
+      "$200 US"
+     ],
+     "datos": [
+      [
+       "Tiempo",
+       "120 min"
+      ],
+      [
+       "Idiomas",
+       "incluye español"
+      ],
+      [
+       "Precio",
+       "200 USD"
+      ]
+     ],
+     "nota": "Datos de la página de certificaciones de OutSystems.",
+     "enlaceTexto": "Ver la página oficial"
+    }
    },
    "queEs": "Construir aplicaciones sencillas (formularios, registros, aprobaciones) con piezas visuales y poco o nada de código, para que un área resuelva un proceso sin un desarrollo largo.",
    "pasos": [
@@ -4314,13 +5292,62 @@
      "practica": "Escribe 3 procesos de un área ficticia que hoy viven en Excel y correo, y qué app sencilla resolvería cada uno.",
      "recurso": {
       "nombre": "Demostrar las capacidades de Microsoft Power Apps",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/training/paths/demonstrate-capabilities-power-apps/"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/training/paths/demonstrate-capabilities-power-apps/",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Fecha del contenido",
+        "18-jun-2025"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La ruta oficial de Microsoft sobre Power Apps."
      },
      "video": {
       "titulo": "¿Qué es el No-Code o Low-Code?",
       "canal": "Datademia",
-      "url": "https://www.youtube.com/watch?v=njSMiQ8r5ic"
+      "url": "https://www.youtube.com/watch?v=njSMiQ8r5ic",
+      "publicado": "2025-01-30",
+      "vistas": 7011,
+      "megusta": 145,
+      "minutos": 4,
+      "porQue": "De enero de 2025, 4 minutos: qué es el no-code, en qué se diferencia del low-code y cómo aplicarlo en un negocio.",
+      "capitulos": [
+       {
+        "inicio": "0:20",
+        "fin": "0:34",
+        "nombre": "Cómo funcionan las herramientas No Code (arrastrar y soltar)",
+        "seg": 20
+       },
+       {
+        "inicio": "1:00",
+        "fin": "1:30",
+        "nombre": "Diferencia entre No Code y Low Code",
+        "seg": 60
+       },
+       {
+        "inicio": "2:00",
+        "fin": "2:20",
+        "nombre": "Introducción a Make: Automatiza tareas sin programar",
+        "seg": 120
+       },
+       {
+        "inicio": "2:20",
+        "fin": "3:00",
+        "nombre": "Beneficios del No Code: Ahorro de tiempo y escalabilidad",
+        "seg": 140
+       },
+       {
+        "inicio": "3:00",
+        "fin": null,
+        "nombre": "Cómo aplicar No Code en tu negocio",
+        "seg": 180
+       }
+      ]
      },
      "logro": "reconocer qué procesos de un área se resuelven con una app sencilla y cuáles no.",
      "idea": {
@@ -4349,7 +5376,7 @@
        ]
       ]
      },
-     "mira": "El video explica qué es el no-code y el low-code. El módulo de Microsoft Learn muestra lo que se puede hacer con Power Apps.",
+     "mira": "Mira los capítulos de la lista y anota un problema de tu trabajo que se resuelva con una app sencilla.",
      "hazlo": [
       "Mira el video y el módulo de Microsoft Learn.",
       "Escribe 3 procesos de un área ficticia que hoy viven en Excel y correo.",
@@ -4385,7 +5412,22 @@
        "Olvidar quién la cuida.",
        "Toda app necesita un responsable cuando algo cambia."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "El debate",
+       "titulo": "¿La IA está destruyendo el Low-Code/No-Code?",
+       "canal": "Fazt",
+       "url": "https://www.youtube.com/watch?v=bSeWjlUnv0g",
+       "publicado": "2025-10-20",
+       "vistas": 14746,
+       "megusta": 601,
+       "minutos": 8,
+       "porQue": "De octubre de 2025: si la IA está reemplazando al low-code, según su título. 601 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "low-code-2",
@@ -4398,13 +5440,74 @@
      "practica": "Haz una app de registro de gastos ficticios sobre una tabla de Excel.",
      "recurso": {
       "nombre": "Crear una aplicación de lienzo basada en datos de Excel",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/power-apps/maker/canvas-apps/get-started-create-from-blank"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/power-apps/maker/canvas-apps/get-started-create-from-blank",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Fecha del contenido",
+        "19-may-2026"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La guía oficial para crear una app desde un Excel."
      },
      "video": {
-      "titulo": "Microsoft Power Apps tutorial - Tu primera aplicación usando Excel como base de datos",
-      "canal": "Sergio Alejandro Campos - EXCELeINFO",
-      "url": "https://www.youtube.com/watch?v=C13-V32oLQo"
+      "titulo": "Crea tu primera APP profesional: Power Apps (para no técnicos 2026)",
+      "canal": "Founderz AI Business School",
+      "url": "https://www.youtube.com/watch?v=JFFoCAWQi-0",
+      "publicado": "2026-06-21",
+      "vistas": 6026,
+      "megusta": 106,
+      "minutos": 36,
+      "porQue": "De junio de 2026, para no técnicos: la base de datos, la app paso a paso, un formulario y una lista filtrada, hasta publicarla.",
+      "capitulos": [
+       {
+        "inicio": "1:30",
+        "fin": "3:30",
+        "nombre": "Qué es Power Apps y por qué importa (Dataverse)",
+        "seg": 90
+       },
+       {
+        "inicio": "3:30",
+        "fin": "7:00",
+        "nombre": "Crear la base de datos de la app en Dataverse",
+        "seg": 210
+       },
+       {
+        "inicio": "8:00",
+        "fin": "10:00",
+        "nombre": "Crear la Canvas App y conectar los datos",
+        "seg": 480
+       },
+       {
+        "inicio": "10:00",
+        "fin": "12:00",
+        "nombre": "Estructura de pantalla y lista de recursos",
+        "seg": 600
+       },
+       {
+        "inicio": "12:00",
+        "fin": "14:00",
+        "nombre": "Formulario de nueva reserva y botón guardar",
+        "seg": 720
+       },
+       {
+        "inicio": "14:00",
+        "fin": "15:00",
+        "nombre": "Lista filtrada con Filter + Sort",
+        "seg": 840
+       },
+       {
+        "inicio": "15:00",
+        "fin": null,
+        "nombre": "Probar la app en directo, publicar y buenas prácticas",
+        "seg": 900
+       }
+      ]
      },
      "logro": "hacer una app de registro de gastos sobre una tabla de Excel.",
      "idea": {
@@ -4433,7 +5536,7 @@
        ]
       ]
      },
-     "mira": "El video hace una app usando Excel como base de datos. Síguelo con tu propia tabla de gastos.",
+     "mira": "Mira los capítulos de la lista y arma la app con un Excel ficticio.",
      "hazlo": [
       "Crea en Excel una tabla Gastos con Fecha, Categoria y Monto (datos ficticios) y guárdala en OneDrive.",
       "Sigue el módulo de Microsoft Learn para crear la app desde esa tabla.",
@@ -4469,6 +5572,31 @@
        "No te deja entrar.",
        "Power Apps depende de tu tipo de cuenta: anota el mensaje y haz la app como diseño en el cuaderno."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Curso desde cero",
+       "titulo": "Domina PowerApps en el 2025 - Curso desde CERO!",
+       "canal": "Profesor_Danny",
+       "url": "https://www.youtube.com/watch?v=Tk8zJHDw4OM",
+       "publicado": "2025-01-07",
+       "vistas": 45152,
+       "megusta": 1049,
+       "minutos": 60,
+       "porQue": "De enero de 2025: Power Apps en una hora. 1.049 me gusta."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "Microsoft Power Apps tutorial - Tu primera aplicación usando Excel como base de datos",
+       "canal": "Sergio Alejandro Campos - EXCELeINFO",
+       "url": "https://www.youtube.com/watch?v=C13-V32oLQo",
+       "publicado": "2021-03-10",
+       "vistas": 373601,
+       "megusta": 7147,
+       "razon": "Era el video de esta ruta: muy visto, pero es de marzo de 2021."
+      }
      ]
     },
     {
@@ -4482,8 +5610,20 @@
      "practica": "Diseña que un gasto mayor a cierto monto dispare una aprobación. Si tu cuenta no permite construirlo, déjalo dibujado en esta página.",
      "recurso": {
       "nombre": "Introducción a Power Automate",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/training/modules/get-started-flows/"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/training/modules/get-started-flows/",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Fecha del contenido",
+        "22-may-2026"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "El módulo oficial de Power Automate."
      },
      "logro": "hacer que un gasto grande dispare una aprobación y uno pequeño pase directo.",
      "idea": {
@@ -4512,7 +5652,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: repasa el módulo de Power Automate y la estación 4 de esa ruta (aprobaciones).",
+     "mira": "Mira la primera hora y conecta un botón de tu app con un flujo que envíe un aviso.",
      "hazlo": [
       "Agrega a tu tabla la columna Estado.",
       "Arma el flujo de abajo, que arranca cuando se crea un gasto.",
@@ -4548,7 +5688,32 @@
        "Un aprobador con nombre propio.",
        "Si sale de vacaciones, todo se detiene: usa un rol y un suplente."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "[PARTE 1] Curso 10 horas Power Platform - Power Apps y Power Automate",
+      "canal": "CepaCode",
+      "url": "https://www.youtube.com/watch?v=0c9DAqzvCEg",
+      "publicado": "2026-01-08",
+      "vistas": 24166,
+      "megusta": 645,
+      "minutos": 90,
+      "porQue": "De enero de 2026: primera parte de un curso de 10 horas de Power Apps y Power Automate juntos. 645 me gusta."
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Integrando las tres",
+       "titulo": "Taller Power Platform - Integrando Power BI, Power Apps y Power Automate 📊💻🤖",
+       "canal": "Ing. Morales Rubio",
+       "url": "https://www.youtube.com/watch?v=uctogAcWEew",
+       "publicado": "2024-12-24",
+       "vistas": 3405,
+       "megusta": 75,
+       "minutos": 84,
+       "porQue": "De diciembre de 2024: un taller que une Power BI, Power Apps y Power Automate, con 10 capítulos."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "low-code-4",
@@ -4561,8 +5726,20 @@
      "practica": "Escribe la ficha de tu app: quién la usa, quién la mantiene, qué datos guarda y qué pasa si deja de funcionar.",
      "recurso": {
       "nombre": "Aspectos básicos de Power Platform (PL-900)",
-      "proveedor": "Microsoft Learn (en español)",
-      "url": "https://learn.microsoft.com/es-es/credentials/certifications/power-platform-fundamentals/"
+      "proveedor": "Microsoft Learn",
+      "url": "https://learn.microsoft.com/es-es/credentials/certifications/power-platform-fundamentals/",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Última actualización",
+        "24-jul-2026, según la página"
+       ],
+       [
+        "Reseñas",
+        "la página no las muestra"
+       ]
+      ],
+      "porQue": "La página oficial del PL-900, que incluye administrar entornos."
      },
      "logro": "escribir la ficha que deja a otra persona mantener tu app.",
      "idea": {
@@ -4595,7 +5772,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: en la guía de Power Platform lee la parte de seguridad y permisos.",
+     "mira": "Mira los capítulos de la lista y escribe quién mantiene tu app y qué pasa si falla.",
      "hazlo": [
       "Lee la parte de seguridad y permisos de la guía de Power Platform.",
       "Escribe la ficha de tu app respondiendo las 5 preguntas.",
@@ -4631,9 +5808,86 @@
        "Permisos para todos.",
        "Quien solo consulta no debería poder borrar."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Gobernanza Power Platform | Introducción al Centro de Excelencia CoE",
+      "canal": "Fer Huerta",
+      "url": "https://www.youtube.com/watch?v=wRqCVeBibW8",
+      "publicado": "2026-03-01",
+      "vistas": 9498,
+      "megusta": 33,
+      "minutos": 40,
+      "porQue": "De marzo de 2026: el Centro de Excelencia de Power Platform, apps y flujos huérfanos, cumplimiento y limpieza por inactividad, con 40 capítulos.",
+      "capitulos": [
+       {
+        "inicio": "01:40",
+        "fin": "02:22",
+        "nombre": "Qué es el Centro de Excelencia CoE",
+        "seg": 100
+       },
+       {
+        "inicio": "02:22",
+        "fin": "03:05",
+        "nombre": "Gobernar, supervisar y adoptar Power Platform",
+        "seg": 142
+       },
+       {
+        "inicio": "04:17",
+        "fin": "05:19",
+        "nombre": "Apps, flujos huérfanos y conectores premium",
+        "seg": 257
+       },
+       {
+        "inicio": "11:42",
+        "fin": "13:21",
+        "nombre": "Compliance y justificación de negocio",
+        "seg": 702
+       },
+       {
+        "inicio": "21:17",
+        "fin": "23:38",
+        "nombre": "Proceso de limpieza por inactividad",
+        "seg": 1277
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Gobierno en 8 minutos",
+       "titulo": "Gobierno de Power Platform: cómo controlar lo que crean los usuarios",
+       "canal": "Andrés Biarge |Microsoft Power Platform",
+       "url": "https://www.youtube.com/watch?v=g52DCPQ7I08",
+       "publicado": "2026-10-15",
+       "vistas": 261,
+       "megusta": 9,
+       "minutos": 8,
+       "porQue": "De octubre de 2026: cómo controlar lo que crean los usuarios."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Primero qué es y cuándo conviene (1); tu primera app desde un Excel (2); únela con un flujo (3) y define quién la mantiene (4) antes de que la usen otros.",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "excel",
+      "porque": "La primera app nace de un Excel (punto 2)."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "power-automate",
+      "porque": "El punto 3 une la app con un flujo."
+     },
+     {
+      "ruta": "cambio",
+      "porque": "Una app nueva necesita que la gente la adopte."
+     }
+    ]
+   }
   },
   {
    "id": "agentes",
@@ -5252,7 +6506,7 @@
      "mira": "Mira el video. Después marca en el AI Dojo dónde debe decidir una persona en tu proceso.",
      "hazlo": [
       "Haz en el AI Dojo las misiones «Auditoría de privacidad» y «El punto de aprobación».",
-      "Dibuja tu agente de la estación 3 y marca dónde aprueba una persona.",
+      "Dibuja tu agente del punto 3 y marca dónde aprueba una persona.",
       "Escribe la lista de datos que no debe recibir: documentos de identidad, números de cuenta, contraseñas…"
      ],
      "comprueba": {
@@ -5477,7 +6731,7 @@
       "Pega en el cuaderno el antes y el después de cada uno, con su resultado."
      ],
      "comprueba": {
-      "texto": "La estación está hecha cuando tienes:",
+      "texto": "El punto está hecho cuando tienes:",
       "valores": [
        [
         "Encargos reescritos",
@@ -5567,7 +6821,7 @@
       "Guarda tu mejor plantilla en el cuaderno."
      ],
      "comprueba": {
-      "texto": "La estación está hecha cuando tienes:",
+      "texto": "El punto está hecho cuando tienes:",
       "valores": [
        [
         "Misiones",
@@ -5885,7 +7139,7 @@
      },
      "mira": "Mira el video y guarda tus mejores encargos en el Prompt Lab (8-PRO).",
      "hazlo": [
-      "Elige tus 5 mejores encargos de las estaciones anteriores.",
+      "Elige tus 5 mejores encargos de los puntos anteriores.",
       "Guárdalos en el Prompt Lab, cada uno con un ejemplo de buen resultado.",
       "Ponles nombre de tarea, no de herramienta: «Resumen para gerente», no «Prompt 3»."
      ],
@@ -6046,7 +7300,8 @@
        "inglés y japonés"
       ]
      ],
-     "nota": "Es una certificación profesional, para quien ya trabaja con modelos: no es un primer paso."
+     "nota": "Es una certificación profesional, para quien ya trabaja con modelos: no es un primer paso.",
+     "enlaceTexto": "Ver la página oficial"
     }
    },
    "queEs": "Que un programa aprenda patrones a partir de datos para predecir o clasificar, por ejemplo qué transacción parece sospechosa. En la muestra lo pide 1 de las 39 vacantes.",
@@ -8181,7 +9436,7 @@
       "Repite la ronda otro día y compara tu tiempo."
      ],
      "comprueba": {
-      "texto": "La estación está hecha cuando tienes en el cuaderno:",
+      "texto": "El punto está hecho cuando tienes en el cuaderno:",
       "valores": [
        [
         "Rondas",
@@ -9187,15 +10442,15 @@
       "filas": [
        [
         "Preparar los datos (Power Query)",
-        "Estación 1"
+        "Punto 1"
        ],
        [
         "Modelar: relaciones y DAX",
-        "Estación 2"
+        "Punto 2"
        ],
        [
         "Visualizar y analizar",
-        "Estaciones 1 y 3"
+        "Puntos 1 y 3"
        ],
        [
         "Publicar y compartir de forma segura",
@@ -9210,7 +10465,7 @@
       "Pon una fecha a cada «me falta» y decide si te presentas al examen."
      ],
      "comprueba": {
-      "texto": "La estación está hecha cuando tu cuaderno tiene las tres listas (domino, vi, me falta) y una fecha para cada pendiente."
+      "texto": "El punto está hecho cuando tu cuaderno tiene las tres listas (domino, vi, me falta) y una fecha para cada pendiente."
      },
      "errores": [
       [
@@ -9337,7 +10592,8 @@
      "evidencia": [
       "are free"
      ],
-     "nota": "Lo dice un artículo de Workato de 2020: comprueba que siga gratis al registrarte."
+     "nota": "Lo dice un artículo de Workato de 2020: comprueba que siga gratis al registrarte.",
+     "punto": "apis-4"
     },
     "enVacantes": "1 de 39 prefiere «una certificación profesional de nube» sin decir cuál; ninguna nombra una de APIs."
    },
@@ -9354,13 +10610,62 @@
      "practica": "Explica con un ejemplo (sin datos internos) qué sistemas se pasan información y cómo.",
      "recurso": {
       "nombre": "Generalidades del protocolo HTTP",
-      "proveedor": "MDN (en español)",
-      "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Guides/Overview"
+      "proveedor": "MDN",
+      "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Guides/Overview",
+      "idioma": "Español",
+      "datos": [
+       [
+        "Qué es",
+        "la referencia de HTTP de Mozilla"
+       ],
+       [
+        "Reseñas",
+        "no aplica"
+       ]
+      ],
+      "porQue": "La referencia de cómo viaja una petición."
      },
      "video": {
-      "titulo": "¿Qué es una API? - La mejor explicación en español",
-      "canal": "EDteam",
-      "url": "https://www.youtube.com/watch?v=u2Ms34GE14U"
+      "titulo": "TODOS los conceptos y  componentes de una API REST EXPLICADOS (Parte 1)",
+      "canal": "Leo Códigos",
+      "url": "https://www.youtube.com/watch?v=GeAvqKqClsw",
+      "publicado": "2025-03-19",
+      "vistas": 40818,
+      "megusta": 1834,
+      "minutos": 14,
+      "porQue": "De marzo de 2025: qué es una API, REST, JSON y las rutas, con 15 capítulos. 1.834 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "00:24",
+        "fin": "01:20",
+        "nombre": "Qué son las API y tipos de API",
+        "seg": 24
+       },
+       {
+        "inicio": "01:20",
+        "fin": "01:45",
+        "nombre": "API REST",
+        "seg": 80
+       },
+       {
+        "inicio": "01:45",
+        "fin": "02:15",
+        "nombre": "JSON",
+        "seg": 105
+       },
+       {
+        "inicio": "02:15",
+        "fin": "03:34",
+        "nombre": "Rutas y Enpoints",
+        "seg": 135
+       },
+       {
+        "inicio": "05:56",
+        "fin": "06:17",
+        "nombre": "Componentes principales de las API REST",
+        "seg": 356
+       }
+      ]
      },
      "logro": "explicar qué es una petición, una respuesta y un código de estado.",
      "idea": {
@@ -9397,7 +10702,7 @@
        ]
       ]
      },
-     "mira": "El video de EDteam explica qué es una API. Después, lee en MDN la parte de peticiones y respuestas.",
+     "mira": "Mira los capítulos de la lista. No hace falta lo de GraphQL y gRPC.",
      "hazlo": [
       "Mira el video y lee las generalidades de HTTP en MDN.",
       "Pega en el navegador la dirección de abajo y mira la respuesta.",
@@ -9433,7 +10738,35 @@
        "Ignorar el código de estado.",
        "Antes de leer la respuesta, mira si fue 200."
       ]
-     ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Sin código",
+       "titulo": "Qué son las APIs y Cómo Funcionan | Explicado para Humanos (Sin Código)",
+       "canal": "Código Espinoza - Automatiza tu Vida",
+       "url": "https://www.youtube.com/watch?v=F15ezDu8lus",
+       "publicado": "2026-01-15",
+       "vistas": 1864,
+       "megusta": 120,
+       "minutos": 9,
+       "porQue": "De enero de 2026: qué son las APIs explicado para gente sin código. 120 me gusta."
+      },
+      {
+       "tipo": "video",
+       "etiqueta": "Clásico",
+       "clasico": "Es de 2019, pero explica en 12 minutos qué es una API y esa idea no cambió.",
+       "titulo": "¿Qué es una API? - La mejor explicación en español",
+       "canal": "EDteam",
+       "url": "https://www.youtube.com/watch?v=u2Ms34GE14U",
+       "publicado": "2019-04-04",
+       "vistas": 1850235,
+       "megusta": 62209,
+       "minutos": 12,
+       "porQue": "1,85 millones de vistas y 62.209 me gusta."
+      }
+     ],
+     "descartados": []
     },
     {
      "id": "apis-2",
@@ -9446,13 +10779,30 @@
      "practica": "Haz en Postman una consulta a la API de la TRM de datos.gov.co y guarda la respuesta.",
      "recurso": {
       "nombre": "Get started in Postman",
-      "proveedor": "Documentación de Postman (en inglés)",
-      "url": "https://learning.postman.com/docs/getting-started/overview/"
+      "proveedor": "Documentación de Postman",
+      "url": "https://learning.postman.com/docs/getting-started/overview/",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la guía oficial para empezar"
+       ],
+       [
+        "Reseñas",
+        "no aplica"
+       ]
+      ],
+      "porQue": "La guía oficial."
      },
      "video": {
-      "titulo": "\"Postman en Español: ¡El tutorial definitivo para el éxito en las pruebas API!",
-      "canal": "Domini Code",
-      "url": "https://www.youtube.com/watch?v=qsejysrhJiU"
+      "titulo": "Cómo usar Postman para APIs",
+      "canal": "Alejandro Parrado",
+      "url": "https://www.youtube.com/watch?v=6Ok3oBU_b_s",
+      "publicado": "2026-03-10",
+      "vistas": 1008,
+      "megusta": 23,
+      "minutos": 25,
+      "porQue": "De marzo de 2026, 25 minutos: cómo usar Postman para probar APIs. Tiene pocas vistas (1.008)."
      },
      "logro": "armar una petición en Postman, leer su respuesta y guardarla.",
      "idea": {
@@ -9481,7 +10831,7 @@
        ]
       ]
      },
-     "mira": "El tutorial recorre Postman en español. Úsalo para ubicarte en la pantalla antes de armar tu petición.",
+     "mira": "Mira el video y arma en Postman una petición a la API de la TRM.",
      "hazlo": [
       "Instala Postman o usa su versión web (la cuenta la creas tú).",
       "Haz un GET a https://www.datos.gov.co/resource/32sa-8pi3.json con los parámetros $order = vigenciadesde DESC y $limit = 1.",
@@ -9519,6 +10869,31 @@
        "Compartir claves en una colección.",
        "Las claves de una API son como contraseñas: no las compartas."
       ]
+     ],
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Instalarlo",
+       "titulo": "¿CÓMO DESCARGAR E INSTALAR POSTMAN 2026? | Fácil 👉 PASO A PASO",
+       "canal": "Roelcode",
+       "url": "https://www.youtube.com/watch?v=YZpDSZ5Jais",
+       "publicado": "2026-03-20",
+       "vistas": 3739,
+       "megusta": 79,
+       "minutos": 5,
+       "porQue": "De marzo de 2026: descargar e instalar Postman paso a paso, 5 minutos."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "\"Postman en Español: ¡El tutorial definitivo para el éxito en las pruebas API!",
+       "canal": "Domini Code",
+       "url": "https://www.youtube.com/watch?v=qsejysrhJiU",
+       "publicado": "2018-09-13",
+       "vistas": 321841,
+       "megusta": 4536,
+       "razon": "Era el video de esta ruta: muy visto, pero es de septiembre de 2018."
+      }
      ]
     },
     {
@@ -9532,7 +10907,19 @@
      "recurso": {
       "nombre": "API Endpoints",
       "proveedor": "Socrata, la plataforma de datos.gov.co (en inglés)",
-      "url": "https://dev.socrata.com/docs/endpoints.html"
+      "url": "https://dev.socrata.com/docs/endpoints.html",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Qué es",
+        "la documentación oficial de la plataforma de datos.gov.co"
+       ],
+       [
+        "Reseñas",
+        "no aplica"
+       ]
+      ],
+      "porQue": "Explica cómo filtrar y ordenar desde la dirección de la consulta."
      },
      "logro": "pedirle a la API solo las columnas, las filas y el orden que necesitas.",
      "idea": {
@@ -9561,9 +10948,9 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la página de Socrata (la plataforma de datos.gov.co) explica cada parámetro con ejemplos.",
+     "mira": "Mira los dos capítulos y filtra la TRM por fecha desde la dirección.",
      "hazlo": [
-      "En Postman, duplica tu petición de la estación 2.",
+      "En Postman, duplica tu petición del punto 2.",
       "Cambia sus parámetros por los 3 de abajo (uno por fila en Params).",
       "Envíala y comprueba que solo llegan fecha y valor, del mes, en orden."
      ],
@@ -9602,6 +10989,55 @@
        "Olvidar que hay un máximo.",
        "Sin $limit, la API devuelve hasta 1.000 filas por petición."
       ]
+     ],
+     "video": {
+      "titulo": "👉 Headers, Query Params y Body en Postman | Aprende a enviar parámetros en HTTP #4",
+      "canal": "Dani Code",
+      "url": "https://www.youtube.com/watch?v=-3u7wjVCIeo",
+      "publicado": "2025-09-21",
+      "vistas": 306,
+      "megusta": 15,
+      "minutos": 44,
+      "porQue": "De septiembre de 2025: cómo mandar parámetros en la petición (query params) y los métodos GET, POST, PUT y DELETE en Postman. Tiene pocas vistas (306).",
+      "capitulos": [
+       {
+        "inicio": "0:40",
+        "fin": "01:57",
+        "nombre": "Query Params",
+        "seg": 40
+       },
+       {
+        "inicio": "01:57",
+        "fin": "14:16",
+        "nombre": "Método GET con parámetros",
+        "seg": 117
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Query params",
+       "titulo": "Parámetros de Query (Query Params)",
+       "canal": "Carlos Alejandro Martinez Ruiz",
+       "url": "https://www.youtube.com/watch?v=2YSWV5f1d7g",
+       "publicado": "2026-02-22",
+       "vistas": 798,
+       "megusta": 21,
+       "minutos": 18,
+       "porQue": "De febrero de 2026: los parámetros de la dirección, 18 minutos."
+      }
+     ],
+     "descartados": [
+      {
+       "titulo": "CLASE#8: 🔑PARÁMETROS DE QUERY y PATH - 🦇CÓMO HACER UN REQUEST?🦇  | CURSO: API AL GRANO🎯",
+       "canal": "Saitest",
+       "url": "https://www.youtube.com/watch?v=62aWDEEPqjs",
+       "publicado": "2022-04-19",
+       "vistas": 13941,
+       "megusta": 268,
+       "razon": "Es de abril de 2022."
+      }
      ]
     },
     {
@@ -9614,8 +11050,20 @@
      "practica": "Conecta la API de la TRM con una hoja de cálculo usando n8n, o con Python (ruta de Python, paso 5).",
      "recurso": {
       "nombre": "Build your first workflow",
-      "proveedor": "Documentación de n8n (en inglés)",
-      "url": "https://docs.n8n.io/build-your-first-workflow"
+      "proveedor": "Documentación de n8n",
+      "url": "https://docs.n8n.io/build-your-first-workflow",
+      "idioma": "Inglés",
+      "datos": [
+       [
+        "Última actualización",
+        "hace 23 días al 25-nov-2026, según la página"
+       ],
+       [
+        "Reseñas",
+        "no aplica"
+       ]
+      ],
+      "porQue": "El tutorial oficial de n8n."
      },
      "logro": "conectar la API con una hoja que se llena sola cada día.",
      "idea": {
@@ -9627,24 +11075,24 @@
       "codigo": false,
       "filas": [
        [
-        "La petición en Postman (estación 2)",
+        "La petición en Postman (punto 2)",
         "Es la misma que va en el nodo HTTP Request"
        ],
        [
-        "Los filtros (estación 3)",
+        "Los filtros (punto 3)",
         "Traer solo lo que la hoja necesita"
        ],
        [
-        "El flujo de n8n (ruta n8n, estación 2)",
+        "El flujo de n8n (ruta n8n, punto 2)",
         "El esqueleto: programación → petición → hoja"
        ],
        [
-        "El programa de Python (ruta Python, estación 5)",
+        "El programa de Python (ruta Python, punto 5)",
         "La otra forma de hacerlo, con código"
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: la guía «Build your first workflow» de n8n arma un flujo parecido.",
+     "mira": "Mira los capítulos de la lista y conecta la API de la TRM con una hoja.",
      "hazlo": [
       "Elige el camino: n8n (sin código) o Python (con código).",
       "Conecta la API de la TRM con una hoja que se llene cada día a la misma hora.",
@@ -9678,11 +11126,92 @@
       ],
       [
        "Nadie se entera si falla.",
-       "Agrega el aviso de error de la ruta n8n, estación 4."
+       "Agrega el aviso de error de la ruta n8n, punto 4."
       ]
-     ]
+     ],
+     "video": {
+      "titulo": "Después de este vídeo, sabrás conectar CUALQUIER API con n8n (sin saber programar)",
+      "canal": "Jordi Martín",
+      "url": "https://www.youtube.com/watch?v=-WbL3FE4bBk",
+      "publicado": "2025-10-24",
+      "vistas": 4476,
+      "megusta": 110,
+      "minutos": 10,
+      "porQue": "De octubre de 2025: conectar cualquier API con n8n sin programar, con el nodo HTTP Request, y los 3 errores más comunes. 110 me gusta.",
+      "capitulos": [
+       {
+        "inicio": "00:25",
+        "fin": "01:31",
+        "nombre": "¿Que es un nodo HTTP Request?",
+        "seg": 25
+       },
+       {
+        "inicio": "01:31",
+        "fin": "02:05",
+        "nombre": "Los 4 Métodos más comunes",
+        "seg": 91
+       },
+       {
+        "inicio": "02:05",
+        "fin": "05:16",
+        "nombre": "Configuración del HTTP Request",
+        "seg": 125
+       },
+       {
+        "inicio": "05:16",
+        "fin": "06:40",
+        "nombre": "Curl",
+        "seg": 316
+       },
+       {
+        "inicio": "08:15",
+        "fin": "09:30",
+        "nombre": "Los 3 Errores más comunes",
+        "seg": 495
+       }
+      ]
+     },
+     "mas": [
+      {
+       "tipo": "video",
+       "etiqueta": "Con Google Sheets",
+       "titulo": "Importa datos desde un API a Google Sheets (¡Explicado Paso a paso!)",
+       "canal": "Testing con Pablo Herrera",
+       "url": "https://www.youtube.com/watch?v=TjVLjiMef20",
+       "publicado": "2025-05-30",
+       "vistas": 2758,
+       "megusta": 33,
+       "minutos": 10,
+       "porQue": "De mayo de 2025: importar datos de una API a Google Sheets paso a paso."
+      }
+     ],
+     "descartados": []
     }
-   ]
+   ],
+   "medido": "2026-11-25",
+   "orden": "Primero qué es una API (1) y pruébala con Postman (2). Después filtra en la propia petición (3) e intégrala sin programar con n8n (4).",
+   "combina": {
+    "antes": [
+     {
+      "ruta": "python",
+      "porque": "El punto 5 de Python ya llama una API con requests."
+     }
+    ],
+    "abre": [
+     {
+      "ruta": "n8n",
+      "porque": "El punto 4 integra una API sin programar, con n8n."
+     },
+     {
+      "ruta": "agentes",
+      "porque": "Las herramientas de un agente casi siempre son APIs."
+     },
+     {
+      "ruta": "sql",
+      "porque": "datos.gov.co se consulta con SoQL, el SQL de su API (punto 3)."
+     }
+    ]
+   }
   },
   {
    "id": "mapeo-procesos",
@@ -9878,7 +11407,7 @@
         "marcados"
        ]
       ],
-      "nota": "Suma los minutos: ese total es tu punto de partida para la estación 3."
+      "nota": "Suma los minutos: ese total es tu punto de partida para el punto 3."
      },
      "errores": [
       [
@@ -10213,7 +11742,7 @@
        ],
        [
         "Analizar",
-        "La causa raíz (estación 3)"
+        "La causa raíz (punto 3)"
        ],
        [
         "Mejorar",
@@ -10389,7 +11918,7 @@
      "mira": "Este paso no tiene video propio: la misión «Mide lo que ahorras» del AI Dojo practica la medición del antes y el después.",
      "hazlo": [
       "Haz en el AI Dojo la misión «Mide lo que ahorras».",
-      "Para tu proyecto DMAIC (estación 2), define qué medirás, cada cuánto y de dónde sale el dato.",
+      "Para tu proyecto DMAIC (punto 2), define qué medirás, cada cuánto y de dónde sale el dato.",
       "Calcula con números ficticios el antes y el después, como en la tabla."
      ],
      "comprueba": {
@@ -10768,10 +12297,10 @@
      "hazlo": [
       "Lee la guía de Atlassian.",
       "Define 2 métricas para un proyecto ficticio de automatización, con cómo se calculan.",
-      "Calcula una con los datos de tu tablero Kanban de la estación 3."
+      "Calcula una con los datos de tu tablero Kanban del punto 3."
      ],
      "comprueba": {
-      "texto": "La estación está hecha cuando tienes:",
+      "texto": "El punto está hecho cuando tienes:",
       "valores": [
        [
         "Métricas",
@@ -10980,7 +12509,7 @@
       "Define la primera victoria rápida: qué, cuándo y cómo la vas a mostrar."
      ],
      "comprueba": {
-      "texto": "La estación está hecha cuando tienes:",
+      "texto": "El punto está hecho cuando tienes:",
       "valores": [
        [
         "Mensaje de urgencia",
@@ -11188,7 +12717,7 @@
     "referenciaNota": "No encontré una certificación de documentación que pidan estas vacantes.",
     "gratis": null,
     "camino": {
-     "texto": "El curso Technical Writing de Google (en la estación 3) es gratis."
+     "texto": "El curso Technical Writing de Google (en el punto 3) es gratis."
     },
     "enVacantes": "Ninguna de las 39 nombra una certificación de documentación."
    },
@@ -11409,7 +12938,7 @@
      "mira": "Este paso no tiene video propio: el curso Technical Writing de Google (en inglés) trae ejercicios cortos.",
      "hazlo": [
       "Haz la primera parte del curso Technical Writing de Google.",
-      "Reescribe tu procedimiento de la estación 1 con frases cortas y voz activa.",
+      "Reescribe tu procedimiento del punto 1 con frases cortas y voz activa.",
       "Cuenta las palabras antes y después."
      ],
      "comprueba": {
@@ -12201,7 +13730,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: repasa la estación 1 de la ruta de Power BI y el módulo de Microsoft Learn.",
+     "mira": "Este paso no tiene video propio: repasa el punto 1 de la ruta de Power BI y el módulo de Microsoft Learn.",
      "hazlo": [
       "Pon tus 3 indicadores en un tablero de Excel o de Power BI, cada uno con su meta.",
       "Agrega la fecha del dato.",
@@ -12397,7 +13926,7 @@
        ]
       ]
      },
-     "mira": "Mira hasta el capítulo «Módulos» (9:25 a 23:12): cómo crear la cuenta y activar los módulos. El recorrido de la compra lo haces tú con los pasos de esta estación.",
+     "mira": "Mira hasta el capítulo «Módulos» (9:25 a 23:12): cómo crear la cuenta y activar los módulos. El recorrido de la compra lo haces tú con los pasos de este punto.",
      "hazlo": [
       "Crea una prueba de Odoo (la cuenta la creas tú) con los módulos de Compras y Contabilidad.",
       "Haz una compra ficticia de punta a punta: pedido, recepción y factura.",
@@ -12563,7 +14092,7 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: repasa en MDN las generalidades de HTTP (ruta de APIs, estación 1).",
+     "mira": "Este paso no tiene video propio: repasa en MDN las generalidades de HTTP (ruta de APIs, punto 1).",
      "hazlo": [
       "Repasa las generalidades de HTTP en MDN.",
       "Responde las 5 preguntas para un ERP ficticio que manda datos a un sistema de conciliación.",
@@ -12860,7 +14389,7 @@
       "Anota en el cuaderno en qué se parece y en qué no a HubSpot."
      ],
      "comprueba": {
-      "texto": "La estación está hecha cuando tienes:",
+      "texto": "El punto está hecho cuando tienes:",
       "valores": [
        [
         "Módulo",
@@ -13311,7 +14840,7 @@
      "mira": "Este paso no tiene video propio: la lección «Renaming and Combining» del curso Pandas de Kaggle (en inglés) explica cómo unir tablas.",
      "hazlo": [
       "Repasa en Kaggle la lección «Renaming and Combining» del curso Pandas.",
-      "Corre el código de abajo con las mismas partidas de la estación 2 y compáralo con tu Excel.",
+      "Corre el código de abajo con las mismas partidas del punto 2 y compáralo con tu Excel.",
       "Cronometra cuánto tardas con cada método y anota los dos tiempos."
      ],
      "codigo": {
@@ -13319,7 +14848,7 @@
       "texto": "import pandas as pd\n\nlibros = pd.DataFrame({\n    \"ref\": [\"P-01\", \"P-02\", \"P-03\"],\n    \"valor\": [120000, 80000, 200000],\n})\nbanco = pd.DataFrame({\n    \"ref\": [\"P-01\", \"P-03\", \"B-09\"],\n    \"valor\": [120000, 200000, 15000],\n})\n\ncruce = libros.merge(banco, on=[\"ref\", \"valor\"], how=\"outer\", indicator=True)\ncruce[\"estado\"] = cruce[\"_merge\"].astype(str).map({\n    \"both\": \"conciliada\",\n    \"left_only\": \"solo en libros\",\n    \"right_only\": \"solo en banco\",\n})\nprint(cruce[[\"ref\", \"valor\", \"estado\"]])\nprint(cruce.groupby(\"estado\")[\"valor\"].sum())"
      },
      "comprueba": {
-      "texto": "El resultado debe coincidir con tu Excel de la estación 2:",
+      "texto": "El resultado debe coincidir con tu Excel del punto 2:",
       "valores": [
        [
         "Conciliadas",
@@ -13485,7 +15014,7 @@
      "mira": "Este paso no tiene video propio. Antes de escribir, mira en 5-JOB qué piden las vacantes de conciliación.",
      "hazlo": [
       "Escribe el caso con las 5 partes, en una página.",
-      "Agrega el código de la estación 3 y una tabla con el antes y el después.",
+      "Agrega el código del punto 3 y una tabla con el antes y el después.",
       "Mira en 5-JOB 2 vacantes que pidan conciliaciones y comprueba que tu caso responde a lo que piden."
      ],
      "comprueba": {
