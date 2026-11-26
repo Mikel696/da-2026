@@ -39,6 +39,9 @@ sea necesario, no puedes quitar funciones, solo la parte visual»**.
 - **Pruebas:** `simular-puntos.cjs` (notas de la sesión) 265 comprobaciones, entre ellas que no falte nada de lo de
   antes; `prueba-sync-carrera.mjs` 28/28. En la vista previa: 700 px y 375 px sin desbordes, dentro de la portada,
   marcar y desmarcar una tarea, Escuchar interceptado sin sonido, 0 errores.
+- **Publicado y verificado (6c059d4):** en su Chrome, solo mirando: portada y work.html con 25 habilidades, «Continuar»
+  abre Python en el mismo lugar con un solo paso abierto, «Volver» regresa, 0 errores, `work_rutas` idéntico.
+  **Miguel lo aprobó el 26-nov: «Sí, así está bien».** Sin probar en producción: Escuchar y «Abrir mi cuaderno».
 
 ---
 
