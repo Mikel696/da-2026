@@ -24,6 +24,10 @@
   Misil con G/X (en el mando también clic/RT), batería automática o manual con M/Select, elegir pista con R/Tab/cruceta.
   Corredor: la panorámica salta al foco al elegirla (`cam.enPano`).
 - **Medido:** piloto con y sin misiles cae en la oleada 10 (antes 9-10); dibujo 209-360 llamadas y 0,8-1,1 M triángulos.
+- **Verificado en producción** (su Chrome, solo código, `6729731`): carga, oleadas con aviones, panel de mando y avión visible en el
+  marco de seguimiento (exposición propia 0,42 en esa vista; contra el sol se quemaba a blanco). Sin récords de prueba.
+- **Despliegue (`65a5805`):** tres despliegues de Pages fallaron con «No artifacts named github-pages were found» con la subida
+  correcta y GitHub en verde; `deploy.yml` ahora reintenta una vez a los 45 s.
 - **Sin verificar:** fps con el panel a la vista (estuvo oculto) y cómo se juega con su mando. Soldados realistas: no hay un
   modelo CC0 confirmado; la vía limpia es MakeHuman (cuerpo exportado CC0), pendiente de su permiso para descargarlo.
 
