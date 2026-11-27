@@ -44,3 +44,6 @@ porque three.js 0.186.1 solo se distribuye así (vendorizado sin modificar en `j
    larga (`jue_co_mision`). Al cambiar la caja o el agarre, `prueba-fisica.mjs` en verde.
 12. **Dificultad por nivel** (`co-nivel.js`, `jue_co_nivel`): `escalar(MIS, nivel)` sobre los datos. Toda regla nueva de
    dificultad se prueba con el piloto en los niveles 1, 3 y 5 (el 3, al menos 2 de 3) y las minas extra siempre dejan hueco.
+13. **Atalaya: la defensa aérea son datos** (`TIPOS_AEREOS`, `SAM`, `AM`, `planAereo`). Todo cambio de balance se mide con
+   `__at.auto` con y sin misiles (`auto.equipo`): hoy cae en la oleada 10. Las capturas con el panel oculto se fuerzan con
+   `__at.simular(s)` + `__at.dibujar()`. Lo que está a más de 200 m del puesto no tiene suelo: ninguna cámara baja ahí.

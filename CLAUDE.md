@@ -145,7 +145,7 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 | `16-APA` | `apa.html` | APA Document Studio (Student Paper APA 7 + multi-page preview + Word toolbar) |
 | `17-IA` | `pages/ai-dojo.html` | 🟢 **AI Dojo** — el taller: proyectos multi-IA, misiones, criterio — **PRODUCCIÓN** |
 | `17-IA.b` | `pages/ai-engine.html` | 📚 AI Engine — la biblioteca de consulta (términos, catálogo, prompts) |
-| `19-JUE` | `juegos.html` | 🎮 Sala de juegos: **Corredor** (vehículo táctico con suministros por un camino báltico: **misión completa** de 6,3 km con bases, 5 puestos, minas, drones (también FPV de fibra), lanzacohetes, heridos, reparación, erizos, trincheras, restos quemados y túneles de red antidrones; misiones de tarde, noche y lluvia), **Atalaya** (shooter: defensa de un puesto desde la torreta contra oleadas de drones y lanzacohetes, `atalaya.js`) y arcade en camino |
+| `19-JUE` | `juegos.html` | 🎮 Sala de juegos: **Corredor** (vehículo táctico con suministros por un camino báltico: **misión completa** de 6,3 km con bases, 5 puestos, minas, drones (también FPV de fibra), lanzacohetes, heridos, reparación, erizos, trincheras, restos quemados y túneles de red antidrones; misiones de tarde, noche y lluvia), **Atalaya** (shooter de defensa de un puesto: torreta contra drones y lanzacohetes, misiles de alto alcance contra aviones y misiles de crucero, antimisil automático, puesto de mando con mesa táctica 3D del radar; `atalaya.js`, `at-aereo.js`, `at-mando.js`) y arcade en camino |
 | `18-MUS` | `music.html` | 🟢 **Cerebro Musical** — teoría que suena, ADN de 10 géneros, fábrica idea→canción, arsenal, legal y negocio — **PRODUCCIÓN** |
 | `99-TAC` | `SistemaDA2026_Tactico.html` | Sistema Táctico DA-2026 (legacy) |
 

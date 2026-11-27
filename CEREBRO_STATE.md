@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-26 (14-WORK: interfaz limpia: inicio con «Comienza aquí», ruta por pasos en el mismo lugar, lo demás plegado)
+- **Última actualización:** 2026-11-27 (19-JUE: Atalaya con defensa aérea completa y mesa táctica 3D; cámara panorámica de Corredor sin recorrido)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,24 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🛡 19-JUE · Atalaya con defensa aérea completa — viernes 27-nov
+
+- **Pedido:** «no solo una torreta: caza drones, caza misiles, aviones de combate, lanzamisiles de alto alcance, interceptores,
+  sala de mandos con radares, manejar completamente las defensas» · «más diseño, nada de 2D» · y arreglar la cámara libre de
+  Corredor («hace el recorrido completo hasta donde estoy»).
+- **Hecho (`75c71d3`):** `at-aereo.js` (aviones alto y rasante con bengalas, misiles de crucero que el radar ve a 4,5 km,
+  misiles; misil propio de 8 km y antimisil de 1,7 km con probabilidad de derribo 85 % y 72 %; lanzador con radar y mástil de
+  sensores de 30 m, tras sacos) y `at-mando.js` (mesa táctica holográfica 3D: terreno real en escala de alcance comprimida,
+  anillos 0,3/1/3/10 km, cúpulas de alcance, barrido, pistas con altura y rumbo). Vistas con C/Y: torreta, **puesto de mando**
+  (seguimiento electroóptico con zoom + mesa grande + panel de sistemas) y **libre**; fuera de la torreta dispara el artillero.
+  Misil con G/X (en el mando también clic/RT), batería automática o manual con M/Select, elegir pista con R/Tab/cruceta.
+  Corredor: la panorámica salta al foco al elegirla (`cam.enPano`).
+- **Medido:** piloto con y sin misiles cae en la oleada 10 (antes 9-10); dibujo 209-360 llamadas y 0,8-1,1 M triángulos.
+- **Sin verificar:** fps con el panel a la vista (estuvo oculto) y cómo se juega con su mando. Soldados realistas: no hay un
+  modelo CC0 confirmado; la vía limpia es MakeHuman (cuerpo exportado CC0), pendiente de su permiso para descargarlo.
 
 ---
 

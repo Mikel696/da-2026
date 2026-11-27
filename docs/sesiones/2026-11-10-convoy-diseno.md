@@ -194,6 +194,13 @@ lo que ya vio.
   Oleadas por tiempo (`recorridoFijo` de co-drones), abanico de llegada que se abre con la oleada (`cb.lugar`), lanzacohetes
   rearmados por oleada (`rearmar`). Curva medida con el piloto (`__at.auto.error` imita puntería humana): cae en la oleada 9-10.
 - Pendiente: Vaivén (arcade de inclinar el mundo); probar Atalaya con su mando y ratón.
+- **Defensa aérea (27-nov, `at-aereo.js` + `at-mando.js`):** `planAereo(n)`: crucero desde la oleada 2, aviones desde la 3
+  (alto y rasante alternados). Misil propio 8 km (8, +4 por respiro), antimisil 1,7 km (10, +5). Probabilidad de derribo por
+  tiro y bengalas (45 % de morder el señuelo) para que importe tirar de a uno o de a dos. La mesa usa `aRadio(d)`
+  logarítmico (300 m) para que el dron a 200 m y el avión a 10 km quepan juntos. Seguimiento electroóptico desde 30 m: a 6 m
+  los árboles lo tapaban. Cámara libre con tope de 34 m de altura y foco a menos de 200 m del puesto: más allá se acaba el mundo.
+- Siguiente en Atalaya: soldados de cuerpo real (MakeHuman, con permiso), sonido de avión que pasa (grabación CC0, con
+  permiso) y campaña de defensa con mapa de varios puestos.
 
 ## Siguiente (sin empezar) · partida aún más completa
 «Quiero que la partida sea más larga, completa» (11-nov): la ruta ya pasó de 2,4 a 6,3 km (paso 6b, ~10,6 min con el piloto).
