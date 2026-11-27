@@ -1,17 +1,20 @@
-/* 19-JUE · Sala de juegos. Asfalto de noche, papel cálido para el texto y un color por juego. */
+/* 19-JUE · Sala de juegos. Colores del mundo de los juegos: pizarra de la noche báltica, hueso para el texto, ámbar de señal
+   para actuar, fósforo de visión nocturna para la mira y rojo solo para la amenaza. */
 :root {
-  --asfalto: #1a2030;
-  --asfalto-2: #222a3d;
-  --asfalto-3: #2d374e;
-  --raya: #3a4762;
-  --papel: #efe9dc;
-  --papel-2: #a9b3c7;
-  --papel-3: #75809a;
-  --neon: #ff9a3c;
+  --asfalto: #0e1417;
+  --asfalto-2: #172126;
+  --asfalto-3: #22303a;
+  --raya: #2f3f47;
+  --papel: #e9e4d6;
+  --papel-2: #a9b4ae;
+  --papel-3: #74827d;
+  --neon: #f2a23a;
+  --fosforo: #9fd08a;
+  --oliva: #6b7a4b;
   --atalaya: #58e1ff;
   --vaiven: #c08bff;
-  --bien: #7be0a3;
-  --mal: #ff6b6b;
+  --bien: #9fd08a;
+  --mal: #e5533d;
   --acento: var(--neon);
   --titulo: 'Saira Extra Condensed', 'Arial Narrow', 'Roboto Condensed', sans-serif;
   --texto: 'Saira', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -171,3 +174,87 @@ body.juego canvas.lienzo { position: fixed; inset: 0; width: 100vw; height: 100v
 .medidor { position: fixed; right: 10px; bottom: 8px; z-index: 30; font: 12px/1.2 var(--texto); color: #b9f5c8; background: rgba(0, 0, 0, 0.55); padding: 3px 8px; border-radius: 4px; }
 .medidor[hidden] { display: none; }
 @media (prefers-reduced-motion: reduce) { .cartel, .menu button::before, #aviso { transition: none; } }
+
+/* ---------- Portada: transmisión en vivo del puesto ---------- */
+.feed { position: relative; min-height: 100svh; display: grid; grid-template-rows: auto 1fr auto auto; overflow: hidden; isolation: isolate;
+  background: radial-gradient(120% 80% at 70% 30%, #2a3a3a 0%, #142024 45%, var(--asfalto) 100%); }
+.feed .escena { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: -2; opacity: 0; transition: opacity 1.2s ease; }
+.feed.en-vivo .escena { opacity: 1; }
+.feed .velo { position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(14, 20, 23, 0.7) 0%, rgba(14, 20, 23, 0) 22%, rgba(14, 20, 23, 0) 48%, rgba(14, 20, 23, 0.88) 86%, var(--asfalto) 100%),
+    repeating-linear-gradient(to bottom, rgba(159, 208, 138, 0.035) 0 1px, transparent 1px 3px); }
+.feed .barra { position: relative; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px clamp(16px, 3vw, 40px); border: 0; }
+.feed .barra > a { text-decoration: none; color: var(--papel-2); font-size: 15px; }
+.feed .barra > a:hover { color: var(--papel); }
+
+/* Mira que sigue al ratón y marcas sobre los drones (solo con la vista en vivo). */
+.reticula { position: absolute; left: 0; top: 0; z-index: 1; width: 0; height: 0; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
+.feed.en-vivo.apunta .reticula { opacity: 1; }
+.reticula::before { content: ''; position: absolute; width: 46px; height: 46px; left: -23px; top: -23px; border-radius: 50%; border: 1.5px solid rgba(159, 208, 138, 0.6); }
+.reticula::after { content: ''; position: absolute; width: 76px; height: 76px; left: -38px; top: -38px;
+  background: linear-gradient(var(--fosforo), var(--fosforo)) 50% 0 / 1.5px 18px no-repeat, linear-gradient(var(--fosforo), var(--fosforo)) 50% 100% / 1.5px 18px no-repeat,
+    linear-gradient(var(--fosforo), var(--fosforo)) 0 50% / 18px 1.5px no-repeat, linear-gradient(var(--fosforo), var(--fosforo)) 100% 50% / 18px 1.5px no-repeat; }
+.reticula i { position: absolute; width: 4px; height: 4px; left: -2px; top: -2px; border-radius: 50%; background: var(--fosforo); }
+.marcas { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.marca { position: absolute; left: 0; top: 0; color: var(--fosforo); font-size: 12px; line-height: 1; white-space: nowrap; opacity: 0.85; }
+.marca i { position: absolute; width: 22px; height: 22px; left: -11px; top: -11px; transition: transform 0.15s;
+  background: linear-gradient(currentColor, currentColor) 0 0 / 7px 1.5px no-repeat, linear-gradient(currentColor, currentColor) 0 0 / 1.5px 7px no-repeat,
+    linear-gradient(currentColor, currentColor) 100% 100% / 7px 1.5px no-repeat, linear-gradient(currentColor, currentColor) 100% 100% / 1.5px 7px no-repeat; }
+.marca span { position: absolute; left: 16px; top: -4px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); }
+.marca.fijo, .marca.cerca { color: var(--mal); opacity: 1; }
+.marca.cerca i { transform: scale(1.4); }
+
+/* Título y tarjetas sobre la transmisión. */
+.titular { align-self: end; position: relative; z-index: 2; padding: 0 clamp(16px, 3vw, 40px) 22px; max-width: 900px; }
+.titular h1 { font-family: var(--titulo); font-weight: 800; font-size: clamp(64px, 11vw, 168px); line-height: 0.8; margin: 0 0 14px; letter-spacing: -0.01em; color: var(--papel);
+  text-shadow: 0 2px 30px rgba(14, 20, 23, 0.6); }
+.titular .bajada { margin: 0; max-width: 52ch; color: var(--papel); font-size: 17px; text-shadow: 0 1px 8px rgba(14, 20, 23, 0.9); }
+.enlace { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 14px; color: var(--fosforo); }
+.enlace::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--papel-3); }
+.feed.en-vivo .enlace::before { background: var(--mal); box-shadow: 0 0 10px var(--mal); animation: latido 1.6s ease-in-out infinite; }
+@keyframes latido { 50% { opacity: 0.35; } }
+
+.feed .juegos { position: relative; z-index: 2; margin: 0; padding: 0 clamp(16px, 3vw, 40px) 32px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.feed .cartel { min-height: 0; display: flex; flex-direction: column; align-items: flex-start; text-align: left; padding: 16px 18px 18px; border: 0; border-left: 3px solid var(--c);
+  border-radius: 2px 10px 10px 2px; background: rgba(14, 20, 23, 0.74); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: var(--papel); cursor: pointer;
+  transition: transform 0.25s ease, background 0.25s ease; position: relative; overflow: visible; }
+.feed .cartel::before, .feed .cartel::after { content: ''; position: absolute; width: 18px; height: 18px; border: 0 solid var(--fosforo); opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
+.feed .cartel::before { top: -6px; right: -6px; border-width: 2px 2px 0 0; transform: translate(-6px, 6px); }
+.feed .cartel::after { bottom: -6px; right: -6px; border-width: 0 2px 2px 0; transform: translate(-6px, -6px); }
+.feed .cartel:hover, .feed .cartel:focus-visible { transform: translateY(-4px); background: rgba(14, 20, 23, 0.9); outline: none; border-color: var(--c); }
+.feed .cartel:hover::before, .feed .cartel:hover::after, .feed .cartel:focus-visible::before, .feed .cartel:focus-visible::after { opacity: 1; transform: none; }
+.feed .cartel .gen { font-size: 13px; color: var(--papel-2); }
+.feed .cartel h2 { font-family: var(--titulo); font-weight: 800; font-size: clamp(40px, 4.4vw, 60px); line-height: 0.88; margin: 2px 0 6px; color: var(--c); }
+.feed .cartel p { margin: 0 0 10px; font-size: 14.5px; color: var(--papel); max-width: 40ch; }
+.feed .cartel .rec { font-size: 13.5px; color: var(--papel-2); }
+.feed .cartel .rec b { color: var(--papel); font-variant-numeric: tabular-nums; }
+.feed .cartel .ir { margin-top: 12px; padding: 7px 16px; border-radius: 999px; background: var(--neon); color: #1d1204; font-weight: 600; font-size: 15px; }
+.feed .cartel[aria-disabled='true'] { cursor: default; }
+.feed .cartel[aria-disabled='true'] h2 { opacity: 0.5; }
+
+/* Ajustes: un botón que despliega todo lo del control, el sonido y la calidad. */
+.ajustes-menu { position: relative; }
+.ajustes-menu summary { list-style: none; display: inline-flex; align-items: center; gap: 9px; padding: 8px 16px; border: 1px solid rgba(233, 228, 214, 0.35); border-radius: 999px;
+  background: rgba(14, 20, 23, 0.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); cursor: pointer; font-weight: 600; }
+.ajustes-menu summary::-webkit-details-marker { display: none; }
+.ajustes-menu summary::after { content: ''; width: 7px; height: 7px; border: solid var(--papel-2); border-width: 0 2px 2px 0; transform: translateY(-2px) rotate(45deg); transition: transform 0.2s; }
+.ajustes-menu[open] summary { border-color: var(--neon); }
+.ajustes-menu[open] summary::after { transform: translateY(2px) rotate(-135deg); }
+.luz-mini { width: 9px; height: 9px; border-radius: 50%; background: var(--papel-3); }
+.ajustes-menu:has(.estado.ok) .luz-mini { background: var(--bien); box-shadow: 0 0 8px var(--bien); }
+.ajustes-menu .panel { position: absolute; right: 0; top: calc(100% + 10px); width: min(560px, calc(100vw - 32px)); max-height: min(78svh, 760px); overflow: auto; padding: 16px 18px;
+  background: rgba(14, 20, 23, 0.96); border: 1px solid var(--raya); border-top: 2px solid var(--neon); border-radius: 4px 4px 12px 12px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
+.ajustes-menu .panel .estado { margin-top: 0; }
+.ajustes-menu .panel .mando { max-width: 360px; margin: 14px auto 0; }
+
+@media (max-width: 860px) {
+  .feed { min-height: auto; }
+  .feed .escena { height: 62svh; }
+  .titular { padding-top: 34svh; }
+  .feed .juegos { grid-template-columns: 1fr; }
+  .reticula, .marcas { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed .escena, .feed .cartel, .feed .cartel::before, .feed .cartel::after, .reticula, .marca i { transition: none; }
+  .feed.en-vivo .enlace::before { animation: none; }
+}

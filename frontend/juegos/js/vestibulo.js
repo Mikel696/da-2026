@@ -18,9 +18,8 @@ function pintarCarteles() {
     const listo = j.listo !== false;
     const m = records.mejor(j.id, j.tabla);
     return `<button class="cartel" type="button" data-nav data-juego="${j.id}" style="--c:${j.color}" ${listo ? '' : 'aria-disabled="true"'}>
-      <div class="arte arte-${j.id}" aria-hidden="true"></div>
-      <div class="info"><span class="gen">${esc(j.genero)}</span><h2>${esc(j.nombre)}</h2><p>${esc(j.lema)}</p>
-      ${listo ? `<span class="rec">${m ? `Tu mejor marca: <b>${formato(j, m.v)}</b>` : 'Aún sin récord'}</span>` : '<span class="pronto">Próximamente</span>'}</div></button>`;
+      <span class="gen">${esc(j.genero)}</span><h2>${esc(j.nombre)}</h2><p>${esc(j.lema)}</p>
+      ${listo ? `<span class="rec">${m ? `Tu mejor marca: <b>${formato(j, m.v)}</b>` : 'Aún sin récord'}</span><span class="ir">Jugar</span>` : '<span class="pronto">Próximamente</span>'}</button>`;
   }).join('');
 }
 $('juegos').addEventListener('click', (e) => {
@@ -207,3 +206,34 @@ function bucle(t) {
 
 pintarCarteles(); pintarControles(); pintarRecords();
 requestAnimationFrame(bucle);
+
+// ---------- Portada: transmisión en vivo del puesto (sala.js) ----------
+// La escena 3D se carga aparte: si este navegador no dibuja 3D, la sala sigue entera, solo sin la vista en vivo.
+{
+  const feed = $('feed'), ret = $('reticula'), capa = $('marcas'), enlace = $('enlace');
+  const tags = Array.from({ length: 6 }, () => { const el = document.createElement('div'); el.className = 'marca'; el.hidden = true; el.innerHTML = '<i></i><span></span>'; capa.appendChild(el); return el; });
+  let rx = -999, ry = -999, sala = null;
+  feed.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    const r = feed.getBoundingClientRect(); rx = e.clientX - r.left; ry = e.clientY - r.top;
+    ret.style.transform = `translate(${rx}px, ${ry}px)`; feed.classList.add('apunta');
+    if (sala) sala.mirar((rx / r.width) * 2 - 1, (ry / r.height) * 2 - 1);
+  });
+  feed.addEventListener('pointerleave', () => { feed.classList.remove('apunta'); rx = ry = -999; if (sala) sala.mirar(0, 0); });
+  const marcas = (lista) => {
+    tags.forEach((el, k) => {
+      const d = lista[k]; if (!d) { el.hidden = true; return; }
+      el.hidden = false; el.style.transform = `translate(${d.x}px, ${d.y}px)`; el.lastChild.textContent = `${d.nombre} ${d.d} m`;
+      el.classList.toggle('fijo', d.fijo); el.classList.toggle('cerca', Math.hypot(d.x - rx, d.y - ry) < 46);
+    });
+  };
+  // Cada tarjeta lleva la cámara al plano de su juego.
+  const enfocar = (e) => { const b = e.target.closest && e.target.closest('.cartel'); if (sala) sala.enfocar(b ? b.dataset.juego : 'general'); };
+  $('juegos').addEventListener('pointerover', enfocar); $('juegos').addEventListener('focusin', enfocar);
+  $('juegos').addEventListener('pointerleave', () => sala && sala.enfocar('general'));
+  $('ajustesMenu').addEventListener('toggle', (e) => { if (sala) sala.pausar(e.target.open && innerWidth < 860); });
+  import('./sala.js')
+    .then(({ crearSala }) => crearSala($('escena'), { progreso: (p) => { enlace.textContent = `Enlazando con el puesto… ${Math.round(p * 100)} %`; }, marcas }))
+    .then((s) => { sala = s; feed.classList.add('en-vivo'); enlace.textContent = 'En vivo desde el puesto del camino báltico'; })
+    .catch((err) => { console.warn('Sala sin vista en vivo:', err); feed.classList.add('sin-3d'); enlace.textContent = 'Sin vista en vivo: este navegador no dibuja 3D.'; });
+}

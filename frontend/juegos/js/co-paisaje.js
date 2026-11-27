@@ -148,19 +148,22 @@ export function crearPaisaje(scene, P, { tex, mod, evitar, msaa, densidad = 1 })
     }
   }
 
-  const vHelecho = ['fern_02_a', 'fern_02_b', 'fern_02_c', 'fern_02_d'].map((n) => piezas(mod.helecho, n));
-  const vRocas = [1, 2, 3, 4, 5, 6].map((n) => piezas(mod.rocas, 'rock_moss_set_01_rock0' + n));
-  const vTocon = [piezas(mod.tocon)], vTronco = [piezas(mod.tronco)];
+  // Sin `mod` (la portada de la sala): solo el bosque horneado, el pasto y los abetos jóvenes en foto; nada de modelos pesados.
+  const vHelecho = mod ? ['fern_02_a', 'fern_02_b', 'fern_02_c', 'fern_02_d'].map((n) => piezas(mod.helecho, n)) : null;
+  const vRocas = mod ? [1, 2, 3, 4, 5, 6].map((n) => piezas(mod.rocas, 'rock_moss_set_01_rock0' + n)) : null;
+  const vTocon = mod ? [piezas(mod.tocon)] : null, vTronco = mod ? [piezas(mod.tronco)] : null;
   for (const t of trozos) {
     const g = new THREE.Group(); scene.add(g); t.grupo = g;
     if (t.abeto.n) g.add(dosPasadas(t.abeto, pAbeto, cAbeto));
     if (t.pino.n) g.add(dosPasadas(t.pino, pPino, cPino));
     t.cerca = t.pasto.n ? dosPasadas(t.pasto, pPasto, cPasto) : new THREE.Group(); scene.add(t.cerca);
     t.piso = new THREE.Group(); scene.add(t.piso);
-    t.piso.add(repartirVariantes(vHelecho, t.suelo.helecho, rnd, { sombra: false, hojas: true }));
-    t.piso.add(repartirVariantes(vTocon, t.suelo.tocon, rnd, { sombra: false }));
-    t.piso.add(repartirVariantes(vRocas, t.suelo.rocas, rnd));
-    t.piso.add(repartirVariantes(vTronco, t.suelo.tronco, rnd, { sombra: false }));
+    if (mod) {
+      t.piso.add(repartirVariantes(vHelecho, t.suelo.helecho, rnd, { sombra: false, hojas: true }));
+      t.piso.add(repartirVariantes(vTocon, t.suelo.tocon, rnd, { sombra: false }));
+      t.piso.add(repartirVariantes(vRocas, t.suelo.rocas, rnd));
+      t.piso.add(repartirVariantes(vTronco, t.suelo.tronco, rnd, { sombra: false }));
+    }
     t.abeto = t.pino = t.pasto = t.suelo = null;
   }
 
@@ -176,10 +179,10 @@ export function crearPaisaje(scene, P, { tex, mod, evitar, msaa, densidad = 1 })
   }
 
   // ── Abetos jóvenes: modelo real cerca, foto lejos. Se reasignan cada pocos cuadros según la distancia a la cámara.
-  const vJoven = ['fir_sapling_a', 'fir_sapling_b', 'fir_sapling_c'].map((n) => piezas(mod.joven, n));
+  const vJoven = mod ? ['fir_sapling_a', 'fir_sapling_b', 'fir_sapling_c'].map((n) => piezas(mod.joven, n)) : [];
   // Sin sombra y como mucho 3 por variante: cada uno son ~145 000 triángulos y se dibujan dos veces (imagen y oclusión ambiental).
   const CAP = 3, reales = vJoven.map((pz) => pz.map((p) => { const im = new THREE.InstancedMesh(p.geo, p.mat, CAP); im.count = 0; im.castShadow = false; im.receiveShadow = true; im.frustumCulled = false; scene.add(im); return { im, p }; }));
-  const gFoto = vJoven.map((_, v) => { const a = vacio(); plantar(a, IMP.joven, 0, 0, 0, 1, 0, v, [1, 1, 1]); return geometria(a); });
+  const gFoto = [0, 1, 2].map((v) => { const a = vacio(); plantar(a, IMP.joven, 0, 0, 0, 1, 0, v, [1, 1, 1]); return geometria(a); });
   const fotos = gFoto.map((g) => { const im = new THREE.InstancedMesh(g, mJoven, jovenes.length || 1); im.count = 0; im.frustumCulled = false; im.receiveShadow = true; scene.add(im); return im; });
   for (const j of jovenes) j.M = new THREE.Matrix4().compose(new THREE.Vector3(j.x, j.y, j.z), new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), j.giro), new THREE.Vector3(j.e, j.e * j.k, j.e));
   const MT = new THREE.Matrix4(), tinte = new THREE.Color();
@@ -188,7 +191,7 @@ export function crearPaisaje(scene, P, { tex, mod, evitar, msaa, densidad = 1 })
     const nR = [0, 0, 0], nF = [0, 0, 0];
     for (const j of jovenes) {
       const d2 = (j.x - cam.x) ** 2 + (j.z - cam.z) ** 2, lim = j.real ? (CERCA + 3) ** 2 : (CERCA - 3) ** 2;   // histéresis: no parpadea en el límite
-      j.real = d2 < lim && nR[j.v] < CAP;
+      j.real = reales.length > 0 && d2 < lim && nR[j.v] < CAP;
       if (j.real) { for (const r of reales[j.v]) r.im.setMatrixAt(nR[j.v], MT.multiplyMatrices(j.M, r.p.m)); nR[j.v]++; }
       else { fotos[j.v].setMatrixAt(nF[j.v], j.M); fotos[j.v].setColorAt(nF[j.v], tinte.setRGB(j.k, j.k, j.k * 0.95)); nF[j.v]++; }
     }

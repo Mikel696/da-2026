@@ -11,6 +11,21 @@
 
 ---
 
+## 🛰 19-JUE · Sala de juegos rediseñada: «Puesto de mando» en vivo — viernes 27-nov
+
+- **Pedido:** ajustes en un botón desplegable y una portada con el mejor diseño: interactiva, futurista y con soldados.
+- **Hecho:** la portada es una transmisión en vivo del mundo de los juegos (`juegos/js/sala.js`): el puesto del camino báltico al
+  atardecer, el blindado, cuatro soldados de guardia (sin insignias), trinchera con sacos, erizos, un resto quemado, el bosque
+  horneado, drones en vuelo con sus marcas de distancia y la torreta que les tira ráfagas con trazadora. Mira que sigue al ratón;
+  cada tarjeta lleva la cámara al plano de su juego (Atalaya: sobre el hombro de la torreta, con los drones marcados). Se pausa
+  fuera de la vista. Ajustes (control, calidad, sonido, vibración, mando) en un panel desplegable, con todas sus funciones.
+  Paleta nueva de la sala (pizarra, hueso, ámbar, fósforo, oliva). Modo ligero del paisaje (`mod: null`), `modelos` de drones
+  exportados y `co-cielo.js` compartido. Probada en 1440×860 y en celular (375 px, sin desborde).
+- **Sin verificar:** cómo se ve en su pantalla; los soldados son las figuras hechas en código de los juegos (para soldados
+  escaneados de verdad haría falta descargar un modelo CC0, con su permiso).
+
+---
+
 ## 🎯 19-JUE · Atalaya, el segundo juego — viernes 27-nov
 
 - **Pedido:** «trabaja en el desarrollo de los otros dos juegos… ejecución, nada de bosquejos». Se hizo **Atalaya** (shooter), que

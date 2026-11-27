@@ -47,7 +47,8 @@ function brazos(n, largo, grueso, motor, alto = 0) {
   }
   return { p, h };
 }
-function modelos() {
+/** Modelos de los drones (los usa también la portada de la sala). */
+export function modelos() {
   const fpv = brazos(4, 0.16, 0.022, 0.02);
   fpv.p.push(caja(0.07, 0.04, 0.19, 0, 0, 0, 'carbono'), caja(0.05, 0.032, 0.1, 0, 0.036, -0.01, 'bateria'), caja(0.028, 0.026, 0.02, 0, 0.012, 0.1, 'carbono'),
     cil(0.032, 0.032, 0.22, 0, -0.04, 0.06, 'oliva', 'z'), cil(0, 0.032, 0.09, 0, -0.04, 0.215, 'oliva', 'z'), cil(0.004, 0.004, 0.1, 0, 0.06, -0.1, 'metal'));
