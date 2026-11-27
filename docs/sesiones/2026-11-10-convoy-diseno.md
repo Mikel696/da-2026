@@ -189,6 +189,12 @@ lo que ya vio.
   altavoces: 4 % de energía bajo 300 Hz, 11-17 % sobre 3,2 kHz, sin golpes al entrar ni salir. No se pudo comprobar de oído
   que ningún idioma se entienda.
 
+## Juego 2 · Atalaya (27-nov)
+- Shooter en primera persona que reutiliza este mundo: torreta de un blindado de guardia en un puesto del camino (`atalaya.js`).
+  Oleadas por tiempo (`recorridoFijo` de co-drones), abanico de llegada que se abre con la oleada (`cb.lugar`), lanzacohetes
+  rearmados por oleada (`rearmar`). Curva medida con el piloto (`__at.auto.error` imita puntería humana): cae en la oleada 9-10.
+- Pendiente: Vaivén (arcade de inclinar el mundo); probar Atalaya con su mando y ratón.
+
 ## Siguiente (sin empezar) · partida aún más completa
 «Quiero que la partida sea más larga, completa» (11-nov): la ruta ya pasó de 2,4 a 6,3 km (paso 6b, ~10,6 min con el piloto).
 Lo que queda propuesto, en orden de valor:
