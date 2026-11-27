@@ -11,6 +11,22 @@
 
 ---
 
+## 🎯 19-JUE · Atalaya, el segundo juego — viernes 27-nov
+
+- **Pedido:** «trabaja en el desarrollo de los otros dos juegos… ejecución, nada de bosquejos». Se hizo **Atalaya** (shooter), que
+  reutiliza el mundo de Corredor; Vaivén (arcade) sigue sin empezar.
+- **El juego** (`juegos/atalaya.html` + `js/atalaya.js`): desde la torreta de un blindado de guardia en un puesto del camino
+  báltico, en primera persona con mira de aumento, aguantas oleadas de drones que crecen (`planOleada`) y llegan desde un
+  abanico que se abre hasta rodear el puesto (oleada 12), más lanzacohetes en la linde (`rearmar`). Inhibidor, interceptores,
+  kits; entre oleadas, respiro de 9 s y +15 de blindaje. Radio y frente. Récord `atalaya/puntos`. Sala: tarjeta activa.
+- **Probado con el piloto:** encontró dos fallos (sin radar los drones nunca quedaban detectados y el de reconocimiento giraba
+  para siempre; un lanzacohetes fuera de alcance trababa la oleada). Curva medida: el piloto cae entre las oleadas 9 y 10
+  (5-6 min) con o sin error de puntería. 164 llamadas y 0,8 M triángulos. Corredor intacto (misión completa 34/34, 14/14, 15/15).
+- **Cambios compartidos:** `co-drones` acepta `recorridoFijo` y `cb.lugar`; `co-cohetes` tiene `rearmar(n)`.
+- **Sin verificar:** cómo se siente con su mando y su ratón; los fps con la ventana a la vista.
+
+---
+
 ## 🧹 14-WORK · Interfaz limpia (26-nov)
 
 Crítica de Miguel al ver las 25 rutas dentro de la portada (`index.html#work`): «todo confuso, mucho texto, no cuadra

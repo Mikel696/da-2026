@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atalaya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@600;700;800&family=Saira:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/juegos.css">
+<style>
+  /* Paleta de campaña: arena del arcén, verde oliva de la chapa, ámbar de señal, rojo solo para el peligro. */
+  body { --arena: #d9c9a3; --oliva: #7d8a55; --ambar: #f2b33d; --alerta: #e2452f; --acento: var(--ambar); }
+  body.corriendo { cursor: none; }
+  .pantalla { background: linear-gradient(90deg, rgba(14, 15, 11, 0.84) 0%, rgba(14, 15, 11, 0.52) 42%, rgba(14, 15, 11, 0) 72%); }
+  .pantalla .logo { color: var(--arena); text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6); }
+  .pantalla .clave { font-family: var(--texto); font-size: 15px; font-weight: 600; color: var(--ambar); margin: 0 0 4px 3px; }
+  .rec-titulo { font-family: var(--titulo); font-size: 24px; font-weight: 700; color: var(--ambar); margin: -14px 0 20px; }
+  .hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; font-family: var(--titulo); color: #f3efe4; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7); font-variant-numeric: tabular-nums; }
+  .tablero { position: absolute; right: 2.4vw; bottom: 3vh; display: grid; grid-template-columns: auto auto; column-gap: 14px; align-items: end; padding: 10px 18px 12px; background: rgba(14, 15, 11, 0.46); border-left: 3px solid var(--ambar); }
+  .tablero .kmh { font-size: 96px; font-weight: 800; line-height: 0.82; min-width: 2.1ch; text-align: right; }
+  .tablero .lado { padding-bottom: 4px; }
+  .tablero .lado b { display: block; font-size: 40px; font-weight: 700; line-height: 1; color: var(--ambar); }
+  .tablero .lado span { font-family: var(--texto); font-size: 14px; color: var(--papel-2); }
+  .tablero .rpm { grid-column: 1 / -1; height: 6px; margin-top: 10px; background: rgba(255, 255, 255, 0.16); }
+  .tablero .rpm i { display: block; height: 100%; width: 0; background: var(--arena); }
+  .tablero .rpm i.alto { background: var(--alerta); }
+  .mision { position: absolute; left: 2.4vw; top: 3vh; width: min(300px, 44vw); padding: 9px 14px 11px; background: rgba(14, 15, 11, 0.46); border-left: 3px solid var(--oliva); }
+  .mision > b { display: block; font-size: 25px; font-weight: 700; line-height: 1.05; }
+  .mision small { display: block; font-family: var(--texto); font-size: 14px; color: var(--papel-2); margin: 3px 0 8px; }
+  .mision > i { display: block; height: 4px; background: rgba(255, 255, 255, 0.16); }
+  .mision > i u { display: block; height: 100%; width: 0; background: var(--ambar); }
+  /* Estado de la camioneta: dos barras que solo se ponen rojas cuando hay que preocuparse. */
+  .estado-cam { display: grid; grid-template-columns: auto 1fr auto; gap: 6px 10px; align-items: center; margin-top: 12px; font-family: var(--texto); font-size: 13px; color: var(--papel-2); }
+  .estado-cam i { display: block; height: 6px; background: rgba(255, 255, 255, 0.16); }
+  .estado-cam i u { display: block; height: 100%; width: 100%; background: var(--arena); transition: width 300ms; }
+  .estado-cam i u.bajo { background: var(--alerta); }
+  .estado-cam em { grid-column: 2 / -1; font-style: normal; font-weight: 600; color: #f3efe4; }
+  .estado-cam i u.activo { background: #8fd0ff; }
+  .estado-cam b { font-weight: 600; color: #f3efe4; min-width: 4ch; text-align: right; }
+  .radar { position: absolute; left: 2.2vw; bottom: 3vh; }
+  .radar canvas { display: block; width: 220px; height: 220px; }
+  .radar small { display: block; margin-top: 4px; text-align: center; font-family: var(--texto); font-size: 13px; color: var(--papel-2); }
+  .msg { position: absolute; left: 50%; top: 20vh; transform: translateX(-50%); padding: 8px 22px; background: rgba(14, 15, 11, 0.55); font-size: 36px; font-weight: 700; white-space: nowrap; opacity: 0; transition: opacity 200ms; }
+  .msg.ver { opacity: 1; }
+  .msg.alerta { border-left: 4px solid var(--alerta); }
+  .radio { position: absolute; left: 50%; bottom: 13vh; transform: translateX(-50%); max-width: min(760px, 86vw); padding: 7px 16px 7px 40px; background: rgba(10, 14, 10, 0.62); border-left: 3px solid #8fd18a; color: #d8f0d2; font: 600 19px/1.3 Saira, sans-serif; opacity: 0; transition: opacity 180ms; }
+  .radio::before { content: '📻'; position: absolute; left: 11px; top: 6px; }
+  .radio.ver { opacity: 1; }
+  /* Retícula: círculo con punto; se pone roja al fijar un dron y destella al acertar. La marca ámbar es el cañón real. */
+  .mira { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border: 2px solid rgba(243, 239, 228, 0.85); border-radius: 50%; box-shadow: 0 0 4px rgba(0, 0, 0, 0.7); transition: transform 120ms, border-color 120ms; }
+  .mira::after { content: ''; position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; margin: -2px 0 0 -2px; border-radius: 50%; background: #f3efe4; }
+  .mira.fija { border-color: var(--alerta); transform: scale(0.8); }
+  .mira.acierto { border-color: #fff; transform: scale(1.25); }
+  .canon { position: absolute; left: 0; top: 0; width: 12px; height: 12px; margin: -6px 0 0 -6px; border: 2px solid var(--ambar); border-radius: 50%; }
+  /* Drones marcados por el radar: dos esquinas y la distancia; fuera de pantalla, una flecha en el borde. */
+  .blanco { position: absolute; left: 0; top: 0; width: 34px; height: 34px; margin: -17px 0 0 -17px; color: var(--ambar); }
+  .blanco::before, .blanco::after { content: ''; position: absolute; width: 10px; height: 10px; border: 2px solid currentColor; }
+  .blanco::before { left: 0; top: 0; border-right: 0; border-bottom: 0; }
+  .blanco::after { right: 0; bottom: 0; border-left: 0; border-top: 0; }
+  .blanco b { display: none; position: absolute; left: 50%; top: 50%; margin: -10px 0 0 -8px; font-size: 18px; line-height: 20px; }
+  .blanco span { position: absolute; left: 50%; top: 38px; transform: translateX(-50%); white-space: nowrap; font-family: var(--texto); font-size: 12px; font-weight: 600; }
+  .blanco.fuera::before, .blanco.fuera::after { display: none; }
+  .blanco.fuera b { display: block; }
+  .blanco.peligro { color: var(--alerta); }
+  .blanco.herido { color: var(--bien); }
+  .blanco.cegado { color: #8fd0ff; }
+  .blanco.propio { color: #5fb4ff; }
+  .blanco.propio::before, .blanco.propio::after { width: 6px; height: 6px; }
+  .blanco.fijo::before, .blanco.fijo::after { width: 14px; height: 14px; }
+  .tablero .arma { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; margin-top: 8px; font-family: var(--texto); font-size: 12px; color: var(--papel-2); }
+  .tablero .arma i { flex: 1; height: 4px; background: rgba(255, 255, 255, 0.16); }
+  .tablero .arma u { display: block; height: 100%; width: 0; background: var(--arena); }
+  .tablero .arma u.trabada { background: var(--alerta); }
+  .pie { position: absolute; left: 50%; bottom: 1.4vh; transform: translateX(-50%); font-family: var(--texto); font-size: 13px; color: rgba(243, 239, 228, 0.7); white-space: nowrap; }
+  @media (max-width: 760px) { .tablero .kmh { font-size: 60px; } .pie { display: none; } .msg { font-size: 22px; } .radar canvas { width: 150px; height: 150px; } }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three/build/three.module.js", "three/addons/": "./vendor/three/addons/" } }</script>
+</head>
+<body class="juego">
+<canvas class="lienzo" id="lienzo"></canvas>
+<div class="cargando" id="cargando">Cargando la atalaya…</div>
+
+<div class="hud" id="hud" hidden>
+  <div class="mision">
+    <b>Defensa del puesto</b><small id="hOleada"></small><i><u id="hAvance"></u></i>
+    <div class="estado-cam">
+      <span>Blindaje</span><i><u id="hBlindaje"></u></i><b id="hBlindajeN">100 %</b>
+      <span>Inhibidor</span><i><u id="hInh"></u></i><b id="hInhN">listo</b>
+      <span>Interceptores</span><em id="hIntN">4 listos</em>
+      <span>Reparación</span><em id="hRepN">2 kits</em>
+      <span>Derribados</span><em id="hDerN">0</em>
+    </div>
+  </div>
+  <div id="hBlancos"></div>
+  <div class="mira" id="hMira"></div>
+  <div class="canon" id="hCanon" hidden></div>
+  <div class="tablero">
+    <div class="kmh" id="hPuntos">0</div>
+    <div class="lado"><b id="hNum">1</b><span>oleada</span></div>
+    <div class="arma"><span id="hArmaT">Cañón</span><i><u id="hCalor"></u></i></div>
+  </div>
+  <div class="msg" id="hMsg"></div>
+  <div class="radio" id="hRadio"></div>
+  <div class="pie">Apuntar: stick derecho o ratón · Disparar: RT o clic · Mira: LT o clic derecho · Inhibidor: LB o Q · Interceptor: B o E · Reparar: A o T · Pausa: Start o Esc</div>
+</div>
+
+<section class="pantalla" id="pTitulo" hidden>
+  <p class="clave">19-JUE · Shooter</p>
+  <div class="logo">Atalaya</div>
+  <p class="sub" id="tSub">Un blindado de guardia en un puesto del camino báltico. Desde la torreta aguantas oleadas de drones que cada vez son más, y lanzacohetes que se asoman en la linde del bosque. Entre oleada y oleada, un respiro para reparar.</p>
+  <p class="rec-titulo" id="tRecord"></p>
+  <div class="menu">
+    <button type="button" data-nav id="mJugar">Tomar la torreta</button>
+    <button type="button" id="mCal"></button>
+    <button type="button" id="mSonido"></button>
+    <button type="button" data-nav id="mCtl">Controles</button>
+    <button type="button" data-nav id="mSalir">Salir a la sala de juegos</button>
+  </div>
+  <div class="ayuda-menu">Con el mando: cruceta o stick para moverte, A para elegir, B para volver. Cambiar la calidad recarga el juego.</div>
+  <div class="ayuda-menu" id="tSonido" hidden>El sonido está encendido, pero el navegador espera una tecla o un clic para dejarlo sonar: un botón del mando no le basta.</div>
+</section>
+
+<section class="pantalla" id="pPausa" hidden>
+  <h2>Pausa</h2>
+  <div class="menu">
+    <button type="button" data-nav data-atras id="pSeguir">Seguir</button>
+    <button type="button" data-nav id="pReiniciar">Empezar de nuevo</button>
+    <button type="button" id="pSonido"></button>
+    <button type="button" data-nav id="pCtl">Controles</button>
+    <button type="button" data-nav id="pMenu">Menú principal</button>
+  </div>
+</section>
+
+<section class="pantalla" id="pControles" hidden>
+  <h2>Controles</h2>
+  <table class="tabla-fin" id="tablaCtl"></table>
+  <div class="menu"><button type="button" data-nav data-atras id="cVolver">Volver</button></div>
+</section>
+
+<section class="pantalla" id="pFin" hidden>
+  <h2 id="fTitulo">El puesto cayó</h2>
+  <p class="sub" id="fSub"></p>
+  <table class="tabla-fin" id="fTabla"></table>
+  <div class="menu">
+    <button type="button" data-nav id="fOtra">Intentar de nuevo</button>
+    <button type="button" data-nav id="fMenu">Menú principal</button>
+  </div>
+</section>
+
+<script type="module" src="js/atalaya.js"></script>
+</body>
+</html>

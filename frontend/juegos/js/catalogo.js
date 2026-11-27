@@ -27,10 +27,13 @@ export const JUEGOS = [
     ],
   },
   {
-    id: 'atalaya', nombre: 'Atalaya', genero: 'Shooter', archivo: 'juegos/atalaya.html', color: '#58e1ff', listo: false,
-    lema: 'Arena en primera persona. Aguanta oleadas de drones.',
+    id: 'atalaya', nombre: 'Atalaya', genero: 'Shooter', archivo: 'juegos/atalaya.html', color: '#9fd08a', listo: true,
+    lema: 'Desde la torreta de un blindado de guardia, aguanta oleadas de drones cada vez más grandes y lanzacohetes en la linde del bosque.',
     tabla: 'puntos', menorEsMejor: false, formato: 'puntos',
-    controles: [],
+    controles: [
+      ['Apuntar', 'Ratón · I J K L · WASD', 'Stick der.'], ['Disparar', 'Clic · F', 'RT · RB'], ['Mira de aumento', 'Clic der.', 'LT'], ['Centrar la torreta', 'V', 'Clic stick der.'],
+      ['Inhibidor de señal', 'Q', 'LB'], ['Dron interceptor', 'E', 'B'], ['Reparar (kit)', 'T', 'A'], ['Pausa', 'Esc · P', 'Start'],
+    ],
   },
   {
     id: 'vaiven', nombre: 'Vaivén', genero: 'Arcade', archivo: 'juegos/vaiven.html', color: '#c08bff', listo: false,

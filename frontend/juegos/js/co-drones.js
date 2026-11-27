@@ -118,7 +118,8 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
     let i = 0; while (i < P.n - 1 && P.dist[i] < dObj) i++;
     const extra = Math.max(0, dObj - P.dist[i]);
     const lado = n > 1 ? (k % 2 ? 1 : -1) : (rnd() < 0.5 ? -1 : 1), l = lado * (30 + rnd() * 45);
-    const x = P.px[i] + P.tx[i] * extra + P.rx[i] * l, z = P.pz[i] + P.tz[i] * extra + P.rz[i] * l;
+    let x = P.px[i] + P.tx[i] * extra + P.rx[i] * l, z = P.pz[i] + P.tz[i] * extra + P.rz[i] * l;
+    if (cb.lugar && !detras) { const p = cb.lugar(tipo, k, n); x = p.x; z = p.z; }   // Atalaya: desde un abanico que se abre con las oleadas
     return nuevo(tipo, x, suelo(x, z) + def.alto[0] + rnd() * (def.alto[1] - def.alto[0]), z);
   }
 
@@ -169,9 +170,10 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
       }
       return n;
     },
-    actualizar(dt, veh, activa, t, oculto = false) {
+    /** recorrido: metros de la oleada ya alcanzados; un puesto fijo (Atalaya) los pasa por tiempo en vez de por distancia. */
+    actualizar(dt, veh, activa, t, oculto = false, recorridoFijo = null) {
       if (activa) {
-        const recorrido = veh.sup.dist - P.dist[inicio];
+        const recorrido = recorridoFijo ?? (veh.sup.dist - P.dist[inicio]);
         while (sig < oleadas.length && recorrido >= oleadas[sig][0]) { const [, tipo, n] = oleadas[sig++]; let d = null; for (let k = 0; k < n; k++) d = nacer(tipo, veh, k, n); if (cb.oleada && d) cb.oleada(tipo, n, d); }
       }
       const sp = Math.sin(veh.psi), cp = Math.cos(veh.psi);

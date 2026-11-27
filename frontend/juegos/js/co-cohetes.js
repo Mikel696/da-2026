@@ -85,6 +85,11 @@ export function crearEmboscadas(scene, P, inicio, emboscadas, cb, opc = {}) {
   return {
     lista, cohetes,
     total: () => lista.length,
+    /** Atalaya: rearma solo los primeros n tiradores, cada uno con una espera al azar antes de asomarse; los demás quedan fuera. */
+    rearmar(n, espera = [3, 14]) {
+      this.reiniciar();
+      lista.forEach((t, k) => { if (k >= n) { t.viva = false; t.obj.visible = false; } else { t.obj.visible = true; t.estado = 'recarga'; t.t = espera[0] + rnd() * (espera[1] - espera[0]); } });
+    },
     reiniciar() {
       for (const t of lista) { Object.assign(t, { viva: true, detectada: false, peligro: false, vida: 2, estado: 'oculto', t: 0, tiros: 0, caer: 0, radio: 0.3 }); t.cuerpo.position.y = AGACHADO; t.cuerpo.rotation.set(0, 0, 0); }
       for (const c of cohetes) scene.remove(c.m); cohetes.length = 0;
