@@ -18,7 +18,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment2.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -33,6 +33,18 @@ jobs:
           # Deploy the whole repo root so /frontend/ is accessible
           path: './'
 
+      # 27-nov-2026: tres despliegues fallaron con «No artifacts named github-pages were found» aunque la subida salió bien
+      # (el paquete tarda en aparecer). Se reintenta una vez tras 45 s en vez de dejar el sitio sin publicar.
       - name: Deploy to GitHub Pages
         id: deployment
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Esperar antes de reintentar
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 45
+
+      - name: Deploy to GitHub Pages (reintento)
+        id: deployment2
+        if: steps.deployment.outcome == 'failure'
         uses: actions/deploy-pages@v4
