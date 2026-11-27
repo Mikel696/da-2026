@@ -434,7 +434,7 @@ async function iniciar() {
   }
 
   // ───────────── Cámara: torreta, mando (seguimiento electroóptico + mesa táctica) y libre ─────────────
-  const vc = { yaw: 0, pitch: 0.42, mesaYaw: 0, mesaPitch: 0.95, foco: new THREE.Vector3(), eo: new THREE.Vector3(0, 0.1, 1), fov: 50, enLibre: false };
+  const vc = { yaw: 0, pitch: 0.42, mesaYaw: 0, mesaPitch: 0.95, foco: new THREE.Vector3(), eo: new THREE.Vector3(0, 0.1, 1), fov: 50, enLibre: false, eoX: innerWidth * 0.75, eoY: innerHeight * 0.3 };
   const F = new THREE.Vector3();
   function ponerVista(v) {
     est.vista = v; const mando = v === 'mando';
@@ -475,7 +475,9 @@ async function iniciar() {
       else V2.set(Math.sin(veh.psi), 0.1, Math.cos(veh.psi)).normalize();
       vc.eo.lerp(V2, Math.min(1, dt * 12)).normalize(); vc.fov = amort(vc.fov, fov * (inp.p('mirar') ? 0.5 : 1), 6, dt);
       camara.lookAt(V.copy(camara.position).add(vc.eo)); camara.fov = vc.fov;
-      camara.aspect = 1.56 * innerWidth / innerHeight; camara.setViewOffset(1.56 * innerWidth, innerHeight, 0, 0, innerWidth, innerHeight);
+      // El eje óptico cae en (vc.eoX, vc.eoY), el hueco entre la mesa y el panel: se agranda el cuadro virtual y se recorta.
+      const W = innerWidth, H = innerHeight, fw = 2 * Math.max(vc.eoX, W - vc.eoX), fh = 2 * Math.max(vc.eoY, H - vc.eoY);
+      camara.aspect = fw / fh; camara.setViewOffset(fw, fh, fw / 2 - vc.eoX, fh / 2 - vc.eoY, W, H);
     } else if (est.vista === 'libre') {
       const abre = focoPelea(); if (!vc.enLibre || vc.foco.distanceTo(F) > 400) vc.foco.copy(F); vc.enLibre = true;   // al entrar, salta: sin recorrido
       vc.foco.lerp(F, 1 - Math.exp(-2.2 * dt));
@@ -503,7 +505,7 @@ async function iniciar() {
   }
   // Mesa táctica: en la torreta y en la libre, chica abajo a la izquierda; en el mando, grande, con rótulos de las pistas.
   const pistas = [], rotulos = Array.from({ length: 7 }, () => { const el = document.createElement('div'); el.className = 'pista'; el.hidden = true; $('hPistas').appendChild(el); return el; });
-  let mesaRect = null; const PX = { x: 0, y: 0 };
+  let mesaRect = null; const PX = { x: 0, y: 0 }, hEo = document.querySelector('.eo');
   function pistasMesa() {
     pistas.length = 0;
     for (const e of aereo.lista) if (e.detectada) { e.glifo = e.tipo === 'caza' ? 'caza' : 'misil'; e.clase = e.peligro ? 'peligro' : 'amenaza'; pistas.push(e); }
@@ -515,7 +517,13 @@ async function iniciar() {
   }
   function pintarMesa(dt) {
     const mando = est.vista === 'mando';
-    if (mando) { const h = innerHeight * 0.84; mesaRect = { x: innerWidth * 0.012, y: innerHeight * 0.08, w: Math.min(innerWidth * 0.6, h * 1.3), h }; }
+    if (mando) {
+      const h = innerHeight * 0.84; mesaRect = { x: innerWidth * 0.012, y: innerHeight * 0.08, w: Math.min(innerWidth * 0.6, h * 1.3), h };
+      // Cámara de seguimiento: en el hueco a la derecha de la mesa, por encima del panel de mando (que va abajo a la derecha).
+      const panel = $('hMando').getBoundingClientRect(), der = mesaRect.x + mesaRect.w;
+      vc.eoX = der + (innerWidth - der) / 2; vc.eoY = Math.max(90, Math.min(innerHeight * 0.32, (panel.top || innerHeight * 0.6) / 2));
+      hEo.style.left = vc.eoX + 'px'; hEo.style.top = vc.eoY + 'px';
+    }
     else { const s = Math.min(290, innerWidth * 0.26); mesaRect = { x: 10, y: innerHeight - s * 0.86 - 44, w: s, h: s * 0.86 }; }
     const lejosMesa = 3.1 * Math.max(1, 1.2 / (mesaRect.w / mesaRect.h));   // que el disco entero quepa en el rectángulo
     mesa.actualizar(dt, pistasMesa(), sel, mando ? { yaw: vc.mesaYaw, pitch: vc.mesaPitch, dist: lejosMesa } : { yaw: est.vista === 'libre' ? vc.yaw : veh.psi + mira.yaw, pitch: 1.0, dist: lejosMesa });
@@ -529,7 +537,7 @@ async function iniciar() {
     for (; k < rotulos.length; k++) rotulos[k].hidden = true;
   }
   function pintarMando() {
-    $('mOla').textContent = $('hOleada').textContent; $('mBli').textContent = `${est.integ} %`; $('mBli').classList.toggle('bajo', est.integ < 40);
+    $('mOla').textContent = `${est.puntos.toLocaleString('es-CO')} puntos · ${$('hOleada').textContent}`; $('mBli').textContent = `${est.integ} %`; $('mBli').classList.toggle('bajo', est.integ < 40);
     $('mSam').textContent = `${est.sam} de ${SAM_MAX} · ${est.samAuto ? 'automático, de a dos' : 'manual'}`; $('mAm').textContent = `${est.am} de ${AM_MAX} · automático`;
     $('mInt').textContent = `${est.intN} listos · ${propios.lista.length} en el aire`; $('mInh').textContent = est.inhCarga >= 1 ? 'listo' : `cargando ${Math.round(est.inhCarga * 100)} %`;
     $('mTor').textContent = torreta.trabada ? 'artillero · cañón caliente' : 'artillero en el cañón';
