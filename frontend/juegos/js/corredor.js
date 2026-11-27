@@ -880,7 +880,11 @@ async function iniciar() {
       const yaw = cam.yaw + mira.yaw, cpch = Math.cos(mira.pitch);
       camDir.set(Math.sin(yaw) * cpch, Math.sin(mira.pitch), Math.cos(yaw) * cpch);
       if (m.panoramica) {
-        const abre = focoPelea(); foco.x = amort(foco.x, F.x, 2.2, dt); foco.y = amort(foco.y, F.y, 2.2, dt); foco.z = amort(foco.z, F.z, 2.2, dt);
+        const abre = focoPelea();
+        // Al entrar en la panorámica (o tras reaparecer o empezar otra partida) el foco salta a la pelea: antes se arrastraba
+        // desde donde quedó la última vez y la cámara recorría toda la vía hasta llegar.
+        if (!cam.enPano || foco.distanceTo(F) > 90) foco.copy(F);
+        foco.x = amort(foco.x, F.x, 2.2, dt); foco.y = amort(foco.y, F.y, 2.2, dt); foco.z = amort(foco.z, F.z, 2.2, dt);
         const dist = clamp(30 + abre * 0.9, 30, 75), baja = clamp(0.5 + mira.pitch * 0.6, 0.18, 1.1), yaw = cam.yaw + mira.yaw;
         const px = foco.x - Math.sin(yaw) * Math.cos(baja) * dist, pz = foco.z - Math.cos(yaw) * Math.cos(baja) * dist;
         camara.position.set(px, Math.max(Math.min(foco.y + Math.sin(baja) * dist, veh.y + 34), P.terreno(px, pz) + 3), pz);
@@ -896,6 +900,7 @@ async function iniciar() {
       if (veh.arcen && vel > 4) sacudida.sumar(0.5 * dt * 60 * 0.02);
       sacudida.aplicar(camara, dt);
     }
+    cam.enPano = est.fase !== 'titulo' && !!MODOS[cam.modo].panoramica;
     camion.verTorreta(est.fase !== 'titulo' && !!MODOS[cam.modo].torreta);
     cam.fov = amort(cam.fov, fov, 4, dt);
     if (Math.abs(camara.fov - cam.fov) > 0.04) { camara.fov = cam.fov; camara.updateProjectionMatrix(); }

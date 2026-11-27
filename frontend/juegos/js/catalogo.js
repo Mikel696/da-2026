@@ -28,11 +28,13 @@ export const JUEGOS = [
   },
   {
     id: 'atalaya', nombre: 'Atalaya', genero: 'Shooter', archivo: 'juegos/atalaya.html', color: '#9fd08a', listo: true,
-    lema: 'Desde la torreta de un blindado de guardia, aguanta oleadas de drones cada vez más grandes y lanzacohetes en la linde del bosque.',
+    lema: 'Defiende el puesto: torreta contra drones, misiles de alto alcance contra aviones de combate y antimisil contra lo que se cuela, todo desde la mesa táctica del radar.',
     tabla: 'puntos', menorEsMejor: false, formato: 'puntos',
     controles: [
       ['Apuntar', 'Ratón · I J K L · WASD', 'Stick der.'], ['Disparar', 'Clic · F', 'RT · RB'], ['Mira de aumento', 'Clic der.', 'LT'], ['Centrar la torreta', 'V', 'Clic stick der.'],
-      ['Inhibidor de señal', 'Q', 'LB'], ['Dron interceptor', 'E', 'B'], ['Reparar (kit)', 'T', 'A'], ['Pausa', 'Esc · P', 'Start'],
+      ['Inhibidor de señal', 'Q', 'LB'], ['Dron interceptor', 'E', 'B'], ['Reparar (kit)', 'T', 'A'],
+      ['Misil de alto alcance', 'G (en el mando, también clic)', 'X (en el mando, también RT)'], ['Vista: torreta, mando o libre', 'C', 'Y'],
+      ['Elegir pista en la mesa táctica', 'R · Tab · Z', 'Cruceta ← →'], ['Batería automática o manual', 'M', 'Select'], ['Pausa', 'Esc · P', 'Start'],
     ],
   },
   {
