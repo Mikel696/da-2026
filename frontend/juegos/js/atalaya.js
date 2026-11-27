@@ -438,6 +438,8 @@ async function iniciar() {
   const F = new THREE.Vector3();
   function ponerVista(v) {
     est.vista = v; const mando = v === 'mando';
+    // La cámara de seguimiento mira cielo casi siempre: como una real, cierra la exposición para no quemarse contra el sol.
+    renderer.toneMappingExposure = mando ? 0.42 : 1;
     camara.near = mando ? 0.5 : 0.2; camara.far = v === 'torreta' ? 2500 : 16000; scene.fog.density = v === 'torreta' ? 0.0017 : mando ? 0.0001 : 0.0008;
     if (mando) { vc.mesaYaw = veh.psi + mira.yaw; vc.eo.copy(camDir); vc.fov = 50; }
     else { camara.clearViewOffset(); camara.aspect = innerWidth / innerHeight; }
@@ -525,7 +527,7 @@ async function iniciar() {
       hEo.style.left = vc.eoX + 'px'; hEo.style.top = vc.eoY + 'px';
     }
     else { const s = Math.min(290, innerWidth * 0.26); mesaRect = { x: 10, y: innerHeight - s * 0.86 - 44, w: s, h: s * 0.86 }; }
-    const lejosMesa = 3.1 * Math.max(1, 1.2 / (mesaRect.w / mesaRect.h));   // que el disco entero quepa en el rectángulo
+    const lejosMesa = 3.45 * Math.max(1, 1.25 / (mesaRect.w / mesaRect.h));   // que el disco entero quepa en el rectángulo
     mesa.actualizar(dt, pistasMesa(), sel, mando ? { yaw: vc.mesaYaw, pitch: vc.mesaPitch, dist: lejosMesa } : { yaw: est.vista === 'libre' ? vc.yaw : veh.psi + mira.yaw, pitch: 1.0, dist: lejosMesa });
     let k = 0;
     if (mando) {
